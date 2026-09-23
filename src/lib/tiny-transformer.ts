@@ -5,7 +5,7 @@ export const MAX_ARCS = 12;
 export const ARC_STRIDE = 4;
 export const CANDIDATE_COUNT = 5;
 export const STAGES = 5;
-export const STAGE_NODES = 12;
+export const STAGE_NODES = 6;
 export const EDGES_PER_GAP = 36;
 
 const D_MODEL = 32;
@@ -16,8 +16,8 @@ const D_FFN = 64;
 const LOCALITY = 0.6;
 const LOCALITY_SPAN = 2.5;
 
-const NODE_DIMS: ReadonlyArray<number> = [0, 2, 5, 8, 10, 13, 16, 18, 21, 24, 26, 29];
-const LOGIT_DIMS: ReadonlyArray<number> = [0, 3, 7, 10, 14, 17, 21, 24, 28, 31, 35, 38];
+const NODE_DIMS: ReadonlyArray<number> = [0, 6, 12, 18, 24, 30];
+const LOGIT_DIMS: ReadonlyArray<number> = [0, 9, 17, 26, 34, 43];
 
 type Matrix = Float32Array<ArrayBuffer>;
 type Vector = Float32Array<ArrayBuffer>;
@@ -246,14 +246,8 @@ export function edgeMatrix(model: TinyModel): Matrix {
       }
     }
     for (let i = 0; i < STAGE_NODES; i += 1) {
-      const order: Array<number> = [];
       for (let j = 0; j < STAGE_NODES; j += 1) {
-        order.push(j);
-      }
-      order.sort((a, b) => scores[i * STAGE_NODES + b] - scores[i * STAGE_NODES + a]);
-      for (let k = 0; k < 3; k += 1) {
-        const j = order[k];
-        const slot = (g * EDGES_PER_GAP + i * 3 + k) * 4;
+        const slot = (g * EDGES_PER_GAP + i * STAGE_NODES + j) * 4;
         out[slot] = i;
         out[slot + 1] = j;
         out[slot + 2] = scores[i * STAGE_NODES + j] / max;

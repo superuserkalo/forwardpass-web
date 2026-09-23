@@ -16,6 +16,11 @@ import {
 const PROMPTS = ["THE FORWARD PASS", "WHATS CHANGING", "AI ENGINEERING", "ONE ISSUE A DAY"];
 const PASS_EVERY = 3.4;
 const MODEL = createModel(11);
+const LAYER_LABELS = [
+  { label: "input", left: "58%" },
+  { label: "hidden", left: "76%" },
+  { label: "output", left: "93%" },
+];
 
 const SHADER = /* wgsl */ `
 struct Params {
@@ -37,15 +42,11 @@ fn hash(p: vec2f) -> f32 {
 }
 
 fn stageX(s: f32) -> f32 {
-  return mix(-0.34 * params.aspect, 0.52 * params.aspect, s / 4.0);
+  return (0.08 + 0.36 * s / 4.0) * params.aspect;
 }
 
 fn nodePos(s: f32, i: f32) -> vec2f {
-  let jitter = vec2f(
-    (hash(vec2f(s * 7.1 + 3.0, i * 3.3)) - 0.5) * 0.03,
-    (hash(vec2f(s * 5.7, i * 9.1 + 1.0)) - 0.5) * 0.05
-  );
-  return vec2f(stageX(s), (i / 11.0 - 0.5) * 0.62 - 0.02) + jitter;
+  return vec2f(stageX(s), (i / 5.0 - 0.5) * 0.52);
 }
 
 fn segDist(p: vec2f, a: vec2f, b: vec2f) -> f32 {
@@ -76,9 +77,9 @@ fn fs_main(@location(0) uv: vec2f) -> @location(0) vec4f {
   let x1 = stageX(4.0);
   let span = x1 - x0;
   let elapsed = params.time - params.passTime;
-  let live = step(elapsed, 1.6);
-  let progress = clamp(elapsed / 1.6, 0.0, 1.0);
-  let frontX = x0 - 0.05 + progress * (span + 0.1);
+  let live = step(elapsed, 1.8);
+  let progress = clamp(elapsed / 1.8, 0.0, 1.0);
+  let frontX = x0 - 0.06 + progress * (span + 0.12);
 
   let gap = clamp(floor((c.x - x0) / (span * 0.25)), 0.0, 3.0);
   for (var j = 0; j < 36; j = j + 1) {
@@ -93,29 +94,31 @@ fn fs_main(@location(0) uv: vec2f) -> @location(0) vec4f {
     let b = nodePos(gap + 1.0, toI);
     let d = segDist(c, a, b);
     let mid = (a.x + b.x) * 0.5;
-    let dx = (mid - frontX) * 8.0;
+    let dx = (mid - frontX) * 7.0;
     let front = exp(-dx * dx) * live;
-    let lw = 0.0016 + 0.0022 * w;
-    alpha = alpha + exp(-(d * d) / (lw * lw)) * (0.04 + 0.16 * w + 0.5 * front * w);
+    let lw = 0.0018 + 0.0022 * w;
+    alpha = alpha + exp(-(d * d) / (lw * lw)) * (0.16 + 0.3 * w + 0.55 * front);
   }
 
   for (var s = 0; s < 5; s = s + 1) {
-    for (var i = 0; i < 12; i = i + 1) {
+    for (var i = 0; i < 6; i = i + 1) {
       let pos = nodePos(f32(s), f32(i));
-      let delta = c - pos;
-      let d2 = dot(delta, delta);
-      if (d2 > 0.004) {
+      let d = length(c - pos);
+      if (d > 0.05) {
         continue;
       }
-      let act = acts[s * 12 + i];
-      let nx = (pos.x - frontX) * 8.0;
+      let act = acts[s * 6 + i];
+      let nx = (pos.x - frontX) * 7.0;
       let surge = exp(-nx * nx) * live;
-      let lum = 0.22 + 0.5 * act + 0.6 * surge;
-      alpha = alpha + exp(-d2 / 0.00004) * lum + exp(-d2 / 0.0015) * 0.08 * lum;
+      let t = (d - 0.021) / 0.0045;
+      let ring = exp(-t * t);
+      let fill = 1.0 - smoothstep(0.014, 0.02, d);
+      let lum = 0.4 + 0.4 * act + 0.5 * surge;
+      alpha = alpha + ring * lum + fill * (0.1 + 0.25 * act + 0.3 * surge);
     }
   }
 
-  alpha = min(alpha, 0.85);
+  alpha = min(alpha, 0.92);
   return vec4f(vec3f(0.93) * alpha, alpha);
 }
 `;
@@ -267,15 +270,26 @@ export function ForwardPassField() {
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-0 size-full transition-opacity duration-1000"
-      style={{
-        opacity: active ? 1 : 0,
-        maskImage: "radial-gradient(135% 115% at 62% 50%, black 32%, transparent 88%)",
-        WebkitMaskImage: "radial-gradient(135% 115% at 62% 50%, black 32%, transparent 88%)",
-      }}
-    />
+    <>
+      <canvas
+        ref={canvasRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 size-full transition-opacity duration-1000"
+        style={{
+          opacity: active ? 1 : 0,
+          maskImage: "radial-gradient(135% 115% at 62% 50%, black 32%, transparent 88%)",
+          WebkitMaskImage: "radial-gradient(135% 115% at 62% 50%, black 32%, transparent 88%)",
+        }}
+      />
+      {LAYER_LABELS.map(({ label, left }) => (
+        <span
+          key={label}
+          className="pointer-events-none absolute -translate-x-1/2 font-mono text-[10px] uppercase tracking-widest text-muted-foreground"
+          style={{ left, top: "84%" }}
+        >
+          {label}
+        </span>
+      ))}
+    </>
   );
 }
