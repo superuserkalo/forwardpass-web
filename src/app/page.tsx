@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { AdvertisingForm, NewsletterForm } from "@/components/forward-pass-forms";
 import { Hero } from "@/components/hero";
 import { Sigil } from "@/components/sigil";
+import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
   title: "The Forward Pass: What's changing in AI engineering",
@@ -18,25 +18,19 @@ export const metadata: Metadata = {
   },
 };
 
-const COVERAGE: Array<[string, string]> = [
-  ["Models", "Releases, benchmarks, capability shifts."],
-  ["Agents", "Frameworks, harnesses, coding agents."],
-  ["Research", "Papers worth your evening."],
-  ["Infrastructure", "Serving, inference, cost, scale."],
-  ["Tools", "What builders actually adopt."],
-  ["Open Source", "Weights, repos, licences."],
+const COVERAGE: Array<{ name: string; leaves: Array<string> }> = [
+  { name: "models", leaves: ["releases", "benchmarks", "capability_shifts"] },
+  { name: "agents", leaves: ["frameworks", "harnesses", "coding_agents"] },
+  { name: "research", leaves: ["papers_worth_your_evening"] },
+  { name: "infrastructure", leaves: ["serving", "inference", "cost", "scale"] },
+  { name: "tools", leaves: ["what_builders_adopt"] },
+  { name: "open_source", leaves: ["weights", "repos", "licences"] },
 ];
 
 export default function Home() {
   return (
     <main>
-      <header className="mx-auto flex max-w-7xl items-center justify-between px-5 py-7 md:px-10 md:py-9">
-        <a href="#top" className="flex items-center gap-3" aria-label="The Forward Pass home">
-          <Image src="/logo.png" alt="The Forward Pass logo" width={28} height={28} className="size-7" priority />
-          <span className="wordmark">THE FORWARD PASS</span>
-        </a>
-        <Link href="#advertise" className="text-sm underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground">Collaborate</Link>
-      </header>
+      <SiteHeader />
 
       <section id="top" className="relative isolate overflow-hidden">
         <Hero />
@@ -51,24 +45,29 @@ export default function Home() {
       </section>
 
       <section className="border-y border-border">
-        <div className="mx-auto grid max-w-7xl gap-14 px-5 py-28 md:px-10 md:py-36 lg:grid-cols-12 lg:gap-x-16">
-          <div className="lg:sticky lg:top-16 lg:col-span-5 lg:self-start">
-            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">What you’ll get</p>
-            <h2 className="font-display mt-6 text-4xl leading-[1.05] font-medium tracking-[-0.02em] sm:text-5xl xl:text-6xl">
-              Important developments, why they matter, and primary sources.
-            </h2>
-          </div>
-          <ul className="grid gap-10 sm:gap-12 lg:col-span-7">
-            {COVERAGE.map(([item, note], index) => (
-              <li key={item} className="flex gap-6 sm:gap-10">
-                <span className="pt-3 font-mono text-xs text-muted-foreground sm:pt-4">{String(index + 1).padStart(2, "0")}</span>
-                <div>
-                  <p className="font-display text-3xl leading-tight sm:text-4xl">{item}</p>
-                  <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">{note}</p>
+        <div className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-24">
+          <h2 className="font-display text-center text-4xl font-medium tracking-[-0.02em] sm:text-5xl">What you’ll get</h2>
+          <p className="mx-auto mt-4 max-w-xl text-center text-sm leading-relaxed text-muted-foreground sm:text-base">
+            Important developments, why they matter, and primary sources.
+          </p>
+          <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {COVERAGE.map(({ name, leaves }) => (
+              <div key={name} className="min-h-[11rem] border border-border bg-card p-5">
+                <div className="flex items-baseline justify-between gap-3">
+                  <h3 className="font-mono text-sm font-semibold tracking-wide">{name}</h3>
+                  <span className="font-mono text-xs text-muted-foreground">{leaves.length}</span>
                 </div>
-              </li>
+                <ul className="mt-4 space-y-1.5">
+                  {leaves.map((leaf, index) => (
+                    <li key={leaf} className="flex gap-2 font-mono text-xs text-muted-foreground">
+                      <span className="text-border">{index === leaves.length - 1 ? "└──" : "├──"}</span>
+                      <span>{leaf}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       </section>
 
