@@ -4,6 +4,9 @@ export const TRACE_ROWS = 8;
 export const MAX_ARCS = 12;
 export const ARC_STRIDE = 4;
 export const CANDIDATE_COUNT = 5;
+export const STAGES = 5;
+export const STAGE_NODES = 12;
+export const EDGES_PER_GAP = 36;
 
 const D_MODEL = 32;
 const LAYERS = 3;
@@ -12,6 +15,9 @@ const D_HEAD = 8;
 const D_FFN = 64;
 const LOCALITY = 0.6;
 const LOCALITY_SPAN = 2.5;
+
+const NODE_DIMS: ReadonlyArray<number> = [0, 2, 5, 8, 10, 13, 16, 18, 21, 24, 26, 29];
+const LOGIT_DIMS: ReadonlyArray<number> = [0, 3, 7, 10, 14, 17, 21, 24, 28, 31, 35, 38];
 
 type Matrix = Float32Array<ArrayBuffer>;
 type Vector = Float32Array<ArrayBuffer>;
@@ -40,6 +46,7 @@ export type ForwardTrace = {
   readonly arcs: Matrix;
   readonly arcCount: number;
   readonly candidates: Matrix;
+  readonly stages: Matrix;
 };
 
 export function createRng(seed: number): () => number {
@@ -194,8 +201,73 @@ function recordNorms(target: Matrix, row: number, hidden: Matrix, count: number)
   }
 }
 
-export function forward(model: TinyModel, tokens: Uint32Array<ArrayBuffer>): ForwardTrace {
+function sampleStage(
+  target: Matrix,
+  stage: number,
+  vector: Matrix,
+  dims: ReadonlyArray<number>,
+  offset: number,
+): void {
+  for (let i = 0; i < STAGE_NODES; i += 1) {
+    target[stage * STAGE_NODES + i] = Math.abs(vector[offset + dims[i]]);
+  }
+}
+
+function normalizeStage(target: Matrix, stage: number): void {
+  let min = Infinity;
+  let max = -Infinity;
+  for (let i = 0; i < STAGE_NODES; i += 1) {
+    const value = target[stage * STAGE_NODES + i];
+    if (value < min) min = value;
+    if (value > max) max = value;
+  }
+  const span = Math.max(max - min, 1e-6);
+  for (let i = 0; i < STAGE_NODES; i += 1) {
+    target[stage * STAGE_NODES + i] = Math.min(
+      1,
+      Math.max(0, (target[stage * STAGE_NODES + i] - min) / span),
+    );
+  }
+}
+
+export function edgeMatrix(model: TinyModel): Matrix {
+  const out = new Float32Array((STAGES - 1) * EDGES_PER_GAP * 4);
+  for (let g = 0; g < STAGES - 1; g += 1) {
+    const weight = g < LAYERS ? model.layers[g].wo : model.unembed;
+    const outDimTotal = g < LAYERS ? D_MODEL : VOCAB.length;
+    const outDims = g < LAYERS ? NODE_DIMS : LOGIT_DIMS;
+    const scores = new Float32Array(STAGE_NODES * STAGE_NODES);
+    let max = 1e-6;
+    for (let i = 0; i < STAGE_NODES; i += 1) {
+      for (let j = 0; j < STAGE_NODES; j += 1) {
+        const value = Math.abs(weight[NODE_DIMS[i] * outDimTotal + outDims[j]]);
+        scores[i * STAGE_NODES + j] = value;
+        if (value > max) max = value;
+      }
+    }
+    for (let i = 0; i < STAGE_NODES; i += 1) {
+      const order: Array<number> = [];
+      for (let j = 0; j < STAGE_NODES; j += 1) {
+        order.push(j);
+      }
+      order.sort((a, b) => scores[i * STAGE_NODES + b] - scores[i * STAGE_NODES + a]);
+      for (let k = 0; k < 3; k += 1) {
+        const j = order[k];
+        const slot = (g * EDGES_PER_GAP + i * 3 + k) * 4;
+        out[slot] = i;
+        out[slot + 1] = j;
+        out[slot + 2] = scores[i * STAGE_NODES + j] / max;
+        out[slot + 3] = g;
+      }
+    }
+  }
+  return out;
+}
+
+export function forward(model: TinyModel, tokens: Uint32Array<ArrayBuffer>, position = -1): ForwardTrace {
   const count = tokens.length;
+  const at = position >= 0 ? Math.min(position, count - 1) : count - 1;
+  const stages = new Float32Array(STAGES * STAGE_NODES);
   const hidden = new Float32Array(count * D_MODEL);
   for (let t = 0; t < count; t += 1) {
     for (let i = 0; i < D_MODEL; i += 1) {
@@ -205,6 +277,7 @@ export function forward(model: TinyModel, tokens: Uint32Array<ArrayBuffer>): For
 
   const norms = new Float32Array(TRACE_ROWS * MAX_TOKENS);
   recordNorms(norms, 0, hidden, count);
+  sampleStage(stages, 0, hidden, NODE_DIMS, at * D_MODEL);
 
   const arcs = new Float32Array(MAX_ARCS * ARC_STRIDE);
   let arcCount = 0;
@@ -286,6 +359,9 @@ export function forward(model: TinyModel, tokens: Uint32Array<ArrayBuffer>): For
       hidden[i] += projected[i];
     }
     recordNorms(norms, 2 + 2 * l, hidden, count);
+    if (l < 3) {
+      sampleStage(stages, 1 + l, hidden, NODE_DIMS, at * D_MODEL);
+    }
   }
 
   layernorm(hidden, count, D_MODEL, model.lnFinalGain, normed);
@@ -302,6 +378,10 @@ export function forward(model: TinyModel, tokens: Uint32Array<ArrayBuffer>): For
   }
   const probs = new Float32Array(VOCAB.length);
   softmax(probs, logits, VOCAB.length);
+  sampleStage(stages, 4, probs, LOGIT_DIMS, 0);
+  for (let s = 0; s < STAGES; s += 1) {
+    normalizeStage(stages, s);
+  }
 
   const order: Array<number> = [];
   for (let i = 0; i < VOCAB.length; i += 1) {
@@ -319,7 +399,7 @@ export function forward(model: TinyModel, tokens: Uint32Array<ArrayBuffer>): For
     candidates[i * 2 + 1] = probs[order[i]] / Math.max(total, 1e-6);
   }
 
-  return { tokens, norms, arcs, arcCount, candidates };
+  return { tokens, norms, arcs, arcCount, candidates, stages };
 }
 
 export function sampleToken(candidates: Matrix, rng: () => number): number {
