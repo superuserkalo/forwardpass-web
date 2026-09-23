@@ -152,9 +152,9 @@ function buildCells(grid: Grid): Uint32Array<ArrayBuffer> {
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
   if (!ctx) return cells;
 
-  const launch = { x: 0.42 * width, y: 0.95 * height };
-  const land = { x: 1.05 * width, y: 0.55 * height };
-  const apex = { x: 0.68 * width, y: 0.12 * height };
+  const launch = { x: 0.3 * width, y: 0.92 * height };
+  const land = { x: 0.96 * width, y: 0.22 * height };
+  const apex = { x: 0.6 * width, y: 0.42 * height };
   const ctrl = {
     x: (4 * apex.x - launch.x - land.x) / 2,
     y: (4 * apex.y - launch.y - land.y) / 2,
@@ -175,61 +175,79 @@ function buildCells(grid: Grid): Uint32Array<ArrayBuffer> {
     return { x: -ty / len, y: tx / len };
   };
 
-  const turns = 3.0;
-  const amp = 0.075 * height;
-  const envelope = (u: number) => Math.pow(Math.sin(Math.PI * u), 0.75);
-  const strandOffset = (u: number, phase: number) =>
-    Math.sin(u * turns * 2 * Math.PI + phase) * amp * envelope(u);
+  const bodyStart = 0.62;
+  const seams = 11;
+  const radius = 0.12 * height;
+
+  const bodyRadius = (u: number) => {
+    const s = Math.min(Math.max((u - bodyStart) / (1 - bodyStart), 0), 1);
+    return radius * Math.pow(Math.sin(Math.PI * s), 0.7);
+  };
+
+  const edgePoint = (u: number, side: number) => {
+    const p = point(u);
+    const n = normal(u);
+    const r = bodyRadius(u);
+    return { x: p.x + n.x * r * side, y: p.y + n.y * r * side };
+  };
 
   ctx.strokeStyle = "#fff";
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
-  ctx.lineWidth = Math.max(3, 0.004 * height);
 
-  for (const phase of [0, Math.PI]) {
-    ctx.beginPath();
-    for (let i = 0; i <= 160; i += 1) {
-      const u = i / 160;
-      const p = point(u);
-      const n = normal(u);
-      const off = strandOffset(u, phase);
-      const x = p.x + n.x * off;
-      const y = p.y + n.y * off;
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
-  }
-
-  const rungs = 26;
-  ctx.lineWidth = Math.max(2.5, 0.0032 * height);
-  for (let j = 0; j <= rungs; j += 1) {
-    const u = 0.02 + (j / rungs) * 0.96;
-    const p = point(u);
-    const n = normal(u);
-    const a = strandOffset(u, 0);
-    const b = strandOffset(u, Math.PI);
-    ctx.beginPath();
-    ctx.moveTo(p.x + n.x * a, p.y + n.y * a);
-    ctx.lineTo(p.x + n.x * b, p.y + n.y * b);
-    ctx.stroke();
-  }
-
-  const stitches = 34;
+  const streaks = 5;
   ctx.lineWidth = Math.max(2, 0.0028 * height);
-  for (const phase of [0, Math.PI]) {
-    for (let j = 0; j < stitches; j += 1) {
-      const u = 0.05 + (j / stitches) * 0.9;
-      const p = point(u);
-      const n = normal(u);
-      const off = strandOffset(u, phase);
-      const tickLength = 0.008 * height;
+  for (let k = 0; k < streaks; k += 1) {
+    const offset = (k - (streaks - 1) / 2) * 0.024 * height;
+    for (let i = 0; i < 48; i += 1) {
+      const u0 = 0.03 + (i / 48) * 0.56;
+      const u1 = 0.03 + ((i + 1) / 48) * 0.56;
+      const from = point(u0);
+      const to = point(u1);
+      const n0 = normal(u0);
+      const n1 = normal(u1);
+      ctx.globalAlpha = 0.5 * Math.pow(u0 / 0.6, 1.7);
       ctx.beginPath();
-      ctx.moveTo(p.x + n.x * (off - tickLength), p.y + n.y * (off - tickLength));
-      ctx.lineTo(p.x + n.x * (off + tickLength), p.y + n.y * (off + tickLength));
+      ctx.moveTo(from.x + n0.x * offset, from.y + n0.y * offset);
+      ctx.lineTo(to.x + n1.x * offset, to.y + n1.y * offset);
       ctx.stroke();
     }
   }
+
+  ctx.lineWidth = Math.max(2.5, 0.0035 * height);
+  for (const side of [1, -1]) {
+    ctx.globalAlpha = side > 0 ? 0.55 : 0.26;
+    ctx.beginPath();
+    for (let i = 0; i <= 60; i += 1) {
+      const u = bodyStart + (i / 60) * (1 - bodyStart);
+      const e = edgePoint(u, side);
+      if (i === 0) ctx.moveTo(e.x, e.y);
+      else ctx.lineTo(e.x, e.y);
+    }
+    ctx.stroke();
+  }
+
+  ctx.globalAlpha = 0.85;
+  ctx.lineWidth = Math.max(3, 0.0045 * height);
+  const lead = ((1 - bodyStart) / seams) * 0.8;
+  for (let j = 0; j < seams; j += 1) {
+    const u = bodyStart + ((j + 0.5) / seams) * (1 - bodyStart);
+    const a = edgePoint(u + lead * 0.5, 1);
+    const b = edgePoint(u - lead * 0.5, -1);
+    const pm = point(u);
+    const nm = normal(u);
+    const mid = {
+      x: pm.x + nm.y * lead * 0.85,
+      y: pm.y - nm.x * lead * 0.85,
+    };
+    const cx = 2 * mid.x - (a.x + b.x) / 2;
+    const cy = 2 * mid.y - (a.y + b.y) / 2;
+    ctx.beginPath();
+    ctx.moveTo(a.x, a.y);
+    ctx.quadraticCurveTo(cx, cy, b.x, b.y);
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
 
   const image = ctx.getImageData(0, 0, width, height).data;
   const blockW = grid.cellW * QUALITY;
