@@ -48,7 +48,7 @@ export function NewsletterForm() {
       <div className="flex flex-col gap-2 sm:flex-row">
         <input name="email" type="email" autoComplete="email" placeholder="Email address" required className={inputClass()} />
         <button type="submit" disabled={isPending} className={buttonClass()}>
-          {isPending ? "Joining…" : "Join the Forward Pass"}
+          {isPending ? "Joining…" : "Join"}
           <ArrowRight aria-hidden="true" className="size-4" />
         </button>
       </div>
@@ -132,7 +132,7 @@ export function AdvertisingForm() {
 
   if (status === "success") {
     return (
-      <div className="mt-12 flex min-h-36 items-center gap-3 border-y border-border text-sm" role="status">
+      <div className="mt-8 flex min-h-36 items-center gap-3 border-y border-border text-sm" role="status">
         <Check className="size-4" aria-hidden="true" />
         Thanks. We’ll be in touch.
       </div>
@@ -140,9 +140,9 @@ export function AdvertisingForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="mt-12 grid gap-5 md:grid-cols-2" aria-label="Advertising inquiry">
+    <form onSubmit={onSubmit} className="mt-8 grid gap-5 md:grid-cols-2" aria-label="Advertising inquiry">
       <Field label="Name"><input name="name" autoComplete="name" required className={inputClass()} /></Field>
-      <Field label="Work email"><input name="email" type="email" autoComplete="email" required className={inputClass()} /></Field>
+      <Field label="Email"><input name="email" type="email" autoComplete="email" required className={inputClass()} /></Field>
       <Field label="Company"><input name="company" autoComplete="organization" required className={inputClass()} /></Field>
       <Field label="Company website"><input name="website" type="url" inputMode="url" placeholder="https://" required className={inputClass()} /></Field>
       <Field label="What do you want to promote?" wide><textarea name="inquiry" required rows={5} className={`${inputClass()} min-h-28`} /></Field>

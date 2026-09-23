@@ -53,10 +53,7 @@ export default function Home() {
           <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {COVERAGE.map(({ name, leaves }) => (
               <div key={name} className="min-h-[11rem] border border-border bg-card p-5">
-                <div className="flex items-baseline justify-between gap-3">
-                  <h3 className="font-mono text-sm font-semibold tracking-wide">{name}</h3>
-                  <span className="font-mono text-xs text-muted-foreground">{leaves.length}</span>
-                </div>
+                <h3 className="font-mono text-sm font-semibold tracking-wide">{name}</h3>
                 <ul className="mt-4 space-y-1.5">
                   {leaves.map((leaf, index) => (
                     <li key={leaf} className="flex gap-2 font-mono text-xs text-muted-foreground">

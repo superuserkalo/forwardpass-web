@@ -21,7 +21,7 @@ export function CollaboratePanel({ children }: { children: ReactNode }) {
       role="dialog"
       aria-modal="true"
       aria-label="Collaborate with The Forward Pass"
-      className="relative w-full border border-border bg-secondary/50 p-6 md:p-10"
+      className="relative w-full border border-border bg-secondary/50 p-5 md:p-8"
     >
       <Link
         href="/"
