@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AdvertisingForm, NewsletterForm } from "@/components/forward-pass-forms";
-import { Hero } from "@/components/hero";
+import { ForwardPass } from "@/components/forward-pass";
 import { Sigil } from "@/components/sigil";
 import { SiteHeader } from "@/components/site-header";
 
@@ -32,9 +32,8 @@ export default function Home() {
     <main>
       <SiteHeader />
 
-      <section id="top" className="relative isolate overflow-hidden">
-        <Hero />
-        <div className="relative mx-auto flex min-h-[75vh] max-w-7xl flex-col justify-center px-5 py-20 md:px-10 md:py-28">
+      <section id="top" className="relative">
+        <div className="relative mx-auto flex min-h-[58vh] max-w-7xl flex-col justify-center px-5 py-20 md:min-h-[64vh] md:px-10 md:py-28">
           <p className="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">Daily intelligence for AI builders</p>
           <h1 className="font-display max-w-5xl text-5xl leading-none font-medium tracking-[-0.02em] sm:text-7xl lg:text-8xl">What’s changing in AI engineering.</h1>
           <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -42,6 +41,7 @@ export default function Home() {
           </p>
           <NewsletterForm />
         </div>
+        <ForwardPass />
       </section>
 
       <section className="border-y border-border">
