@@ -51,17 +51,21 @@ export default function Home() {
       </section>
 
       <section className="border-y border-border">
-        <div className="mx-auto max-w-7xl px-5 py-24 md:px-10 md:py-32">
-          <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">What you’ll get</p>
-          <h2 className="font-display mt-6 max-w-3xl text-4xl leading-[1.05] font-medium tracking-[-0.02em] sm:text-6xl">
-            Important developments, why they matter, and primary sources.
-          </h2>
-          <ul className="mt-16 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-7xl gap-14 px-5 py-28 md:px-10 md:py-36 lg:grid-cols-12 lg:gap-x-16">
+          <div className="lg:sticky lg:top-16 lg:col-span-5 lg:self-start">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">What you’ll get</p>
+            <h2 className="font-display mt-6 text-4xl leading-[1.05] font-medium tracking-[-0.02em] sm:text-5xl xl:text-6xl">
+              Important developments, why they matter, and primary sources.
+            </h2>
+          </div>
+          <ul className="grid gap-10 sm:gap-12 lg:col-span-7">
             {COVERAGE.map(([item, note], index) => (
-              <li key={item}>
-                <span className="font-mono text-xs text-muted-foreground">{String(index + 1).padStart(2, "0")}</span>
-                <p className="font-display mt-3 text-2xl">{item}</p>
-                <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">{note}</p>
+              <li key={item} className="flex gap-6 sm:gap-10">
+                <span className="pt-3 font-mono text-xs text-muted-foreground sm:pt-4">{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <p className="font-display text-3xl leading-tight sm:text-4xl">{item}</p>
+                  <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">{note}</p>
+                </div>
               </li>
             ))}
           </ul>
