@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Imprint — The Forward Pass",
+  title: "The Forward Pass: Imprint",
   description: "Publisher information for The Forward Pass.",
   openGraph: {
-    title: "Imprint — The Forward Pass",
+    title: "The Forward Pass: Imprint",
     description: "Publisher information for The Forward Pass.",
     type: "website",
   },
@@ -35,7 +35,6 @@ export default function Imprint() {
           <br />
           Vienna, Austria
         </p>
-        <p>Sole proprietorship.</p>
       </article>
     </main>
   );

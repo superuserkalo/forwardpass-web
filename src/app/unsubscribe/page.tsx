@@ -3,10 +3,10 @@ import Link from "next/link";
 import { UnsubscribeForm } from "@/components/forward-pass-forms";
 
 export const metadata: Metadata = {
-  title: "Unsubscribe — The Forward Pass",
+  title: "The Forward Pass: Unsubscribe",
   description: "Stop receiving The Forward Pass newsletter.",
   openGraph: {
-    title: "Unsubscribe — The Forward Pass",
+    title: "The Forward Pass: Unsubscribe",
     description: "Stop receiving The Forward Pass newsletter.",
     type: "website",
   },

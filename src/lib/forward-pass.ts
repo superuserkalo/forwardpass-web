@@ -92,9 +92,9 @@ function welcomeEmailHtml(email: string) {
   <div style="max-width:520px;margin:0 auto;padding:0 24px;color:#f5f5f5;">
     <p style="margin:0 0 32px;font-family:'Courier New',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#a3a3a3;">The Forward Pass</p>
     <h1 style="margin:0 0 20px;font-size:26px;line-height:1.2;font-weight:normal;color:#f5f5f5;">You're on the list.</h1>
-    <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#d4d4d4;">You'll get one issue a day on what's changing in AI engineering — the important models, agents, research, infrastructure and tools, with primary sources.</p>
+    <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#d4d4d4;">You'll get one issue a day on what's changing in AI engineering, covering the important models, agents, research, infrastructure and tools, with primary sources.</p>
     <p style="margin:0 0 32px;font-size:15px;line-height:1.6;color:#d4d4d4;">No noise. One issue a day. We promise :)</p>
-    <p style="margin:0 0 8px;font-family:'Courier New',monospace;font-size:12px;color:#737373;">— Kaloyan, The Forward Pass</p>
+    <p style="margin:0 0 8px;font-family:'Courier New',monospace;font-size:12px;color:#737373;">Kaloyan, The Forward Pass</p>
     <p style="margin:32px 0 0;font-family:'Courier New',monospace;font-size:11px;color:#737373;">Didn't sign up? <a href="${escapeHtml(unsubscribeUrl)}" style="color:#a3a3a3;">Unsubscribe</a></p>
   </div>
 </div>`;
@@ -110,9 +110,9 @@ export async function subscribeAction(email: string) {
         from: "The Forward Pass <hello@withradian.com>",
         to: [data.email],
         replyTo: "hello@withradian.com",
-        subject: "You're on the list — The Forward Pass",
+        subject: "The Forward Pass: You're on the list",
         html: welcomeEmailHtml(data.email),
-        text: `You're on the list.\n\nYou'll get one issue a day on what's changing in AI engineering — the important models, agents, research, infrastructure and tools, with primary sources.\n\nNo noise. One issue a day. We promise :)\n\n— Kaloyan, The Forward Pass\n\nDidn't sign up? Unsubscribe: ${SITE_URL}/unsubscribe?email=${encodeURIComponent(data.email)}`,
+        text: `You're on the list.\n\nYou'll get one issue a day on what's changing in AI engineering, covering the important models, agents, research, infrastructure and tools, with primary sources.\n\nNo noise. One issue a day. We promise :)\n\nKaloyan, The Forward Pass\n\nDidn't sign up? Unsubscribe: ${SITE_URL}/unsubscribe?email=${encodeURIComponent(data.email)}`,
       });
     } catch (error) {
       console.error("Welcome email failed", error);
@@ -168,7 +168,7 @@ export async function advertisingInquiryAction(input: {
     from: "The Forward Pass <hello@withradian.com>",
     to: ["hello@withradian.com"],
     replyTo: data.email,
-    subject: `Advertising inquiry — ${data.company}`,
+    subject: `Advertising inquiry from ${data.company}`,
     html: `<h1>New advertising inquiry</h1>${rows
       .map(([label, value]) => `<p><strong>${escapeHtml(label)}</strong><br>${escapeHtml(value)}</p>`)
       .join("")}`,

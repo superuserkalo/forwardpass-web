@@ -3,8 +3,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: var(--font-editorial);
+  --font-sans: var(--font-ui);
   --font-mono: var(--font-technical);
+  --font-display: var(--font-editorial);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -35,8 +36,9 @@
 }
 
 :root {
-  --font-editorial: Arial, Helvetica, sans-serif;
-  --font-technical: "Courier New", monospace;
+  --font-editorial: var(--font-newsreader), Georgia, serif;
+  --font-ui: var(--font-geist), system-ui, sans-serif;
+  --font-technical: var(--font-geist-mono), ui-monospace, monospace;
   --radius: 0;
   --background: oklch(0.13 0 0);
   --foreground: oklch(0.94 0.008 90);
@@ -67,7 +69,7 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-editorial);
+    font-family: var(--font-ui);
     letter-spacing: 0;
     text-rendering: optimizeLegibility;
   }
@@ -80,10 +82,10 @@
 @layer components {
   .wordmark { font-family: var(--font-technical); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; }
   .legal-copy { margin-top: 8rem; max-width: 42rem; }
-  .legal-copy h1 { margin-bottom: 3rem; font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 500; line-height: 1; }
+  .legal-copy h1 { margin-bottom: 3rem; font-family: var(--font-editorial); font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 500; line-height: 1; }
   .legal-copy p { margin-top: 1.5rem; color: var(--color-muted-foreground); line-height: 1.75; }
   .legal-copy a { color: var(--color-foreground); text-decoration: underline; text-underline-offset: 0.25rem; }
-  .legal-copy h2 { margin-top: 3.5rem; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; }
+  .legal-copy h2 { margin-top: 3.5rem; font-family: var(--font-technical); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; }
   .legal-copy ul { margin-top: 1.5rem; }
   .legal-copy li { border-top: 1px solid var(--color-border); padding: 0.875rem 0; color: var(--color-muted-foreground); line-height: 1.6; }
 }

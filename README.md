@@ -1,4 +1,4 @@
-# The Forward Pass — Website
+# The Forward Pass Website
 
 The public site for [The Forward Pass](https://forwardpass.news): a daily intelligence newsletter for people who build with AI.
 

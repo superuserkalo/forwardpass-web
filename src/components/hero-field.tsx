@@ -105,7 +105,7 @@ export function HeroField() {
           gpu.dispose();
         };
       } catch {
-        // No adapter, or the device was refused — the hero simply stays flat.
+        // No adapter, or the device was refused, so the hero simply stays flat.
       }
     })();
 

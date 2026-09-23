@@ -146,7 +146,7 @@ export function AdvertisingForm() {
       <Field label="Company"><input name="company" autoComplete="organization" required className={inputClass()} /></Field>
       <Field label="Company website"><input name="website" type="url" inputMode="url" placeholder="https://" required className={inputClass()} /></Field>
       <Field label="What do you want to promote?" wide><textarea name="inquiry" required rows={5} className={`${inputClass()} min-h-28`} /></Field>
-      <Field label="Approximate budget — optional" wide><input name="budget" className={inputClass()} /></Field>
+      <Field label="Approximate budget (optional)" wide><input name="budget" className={inputClass()} /></Field>
       <div className="flex items-center gap-4 md:col-span-2">
         <button type="submit" disabled={isPending} className={buttonClass()}>
           {isPending ? "Sending…" : "Get in touch"}

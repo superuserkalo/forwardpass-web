@@ -1,8 +1,27 @@
 import type { Metadata } from "next";
+import { Geist, Geist_Mono, Newsreader } from "next/font/google";
 import "./globals.css";
 
+const editorial = Newsreader({
+  variable: "--font-newsreader",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const ui = Geist({
+  variable: "--font-geist",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const technical = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "The Forward Pass — What's changing in AI engineering",
+  title: "The Forward Pass: What's changing in AI engineering",
   description: "A daily intelligence newsletter for people who build with AI.",
   openGraph: {
     title: "The Forward Pass",
@@ -24,7 +43,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${editorial.variable} ${ui.variable} ${technical.variable}`}
+    >
       <body>{children}</body>
     </html>
   );

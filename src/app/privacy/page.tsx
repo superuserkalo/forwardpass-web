@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Privacy — The Forward Pass",
+  title: "The Forward Pass: Privacy",
   description: "How The Forward Pass handles your data.",
   openGraph: {
-    title: "Privacy — The Forward Pass",
+    title: "The Forward Pass: Privacy",
     description: "How The Forward Pass handles your data.",
     type: "website",
   },
@@ -51,7 +51,7 @@ export default function Privacy() {
           <li>To answer your advertising or sponsorship inquiry.</li>
           <li>
             To contact you about The Forward Pass and about related Radian products and services that
-            are relevant to people building with AI — including sponsorship, partnership and product
+            are relevant to people building with AI. These include sponsorship, partnership and product
             offers. In other words, subscribers and inquiries may be used as business leads for Radian.
           </li>
           <li>To produce aggregate statistics about the audience, such as total subscribers.</li>
