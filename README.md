@@ -1,34 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# The Forward Pass — Website
 
-## Getting Started
+The public site for [The Forward Pass](https://forwardpass.news): a daily intelligence newsletter for people who build with AI.
 
-First, run the development server:
+Next.js (App Router) + Tailwind CSS v4 + Resend. Deploys to Vercel; every push to `main` deploys to production via the Vercel GitHub integration.
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local  # add RESEND_API_KEY
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment
 
-## Learn More
+| Variable         | Purpose                                    |
+| ---------------- | ------------------------------------------ |
+| `RESEND_API_KEY` | Newsletter signup, unsubscribe, inquiries  |
 
-To learn more about Next.js, take a look at the following resources:
+Segment IDs and sender addresses live in `src/lib/forward-pass.ts`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Routes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Route          | Purpose                          |
+| -------------- | -------------------------------- |
+| `/`            | Landing page + newsletter signup + advertiser form |
+| `/privacy`     | Privacy policy                   |
+| `/imprint`     | Publisher information            |
+| `/unsubscribe` | Self-serve unsubscribe (`?email=` pre-fills) |
 
-## Deploy on Vercel
+## Deploy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Connect the GitHub repo to Vercel, set `RESEND_API_KEY` in the project environment, and push to `main`.

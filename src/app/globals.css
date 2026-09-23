@@ -1,1 +1,89 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-editorial);
+  --font-mono: var(--font-technical);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+}
+
+:root {
+  --font-editorial: Arial, Helvetica, sans-serif;
+  --font-technical: "Courier New", monospace;
+  --radius: 0;
+  --background: oklch(0.13 0 0);
+  --foreground: oklch(0.94 0.008 90);
+  --card: oklch(0.13 0 0);
+  --card-foreground: oklch(0.94 0.008 90);
+  --popover: oklch(0.13 0 0);
+  --popover-foreground: oklch(0.94 0.008 90);
+  --primary: oklch(0.94 0.008 90);
+  --primary-foreground: oklch(0.13 0 0);
+  --secondary: oklch(0.2 0 0);
+  --secondary-foreground: oklch(0.94 0.008 90);
+  --muted: oklch(0.2 0 0);
+  --muted-foreground: oklch(0.66 0.006 90);
+  --accent: oklch(0.24 0 0);
+  --accent-foreground: oklch(0.94 0.008 90);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(0.31 0 0);
+  --input: oklch(0.36 0 0);
+  --ring: oklch(0.8 0.006 90);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-editorial);
+    letter-spacing: 0;
+    text-rendering: optimizeLegibility;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  ::selection { background: var(--color-foreground); color: var(--color-background); }
+}
+
+@layer components {
+  .wordmark { font-family: var(--font-technical); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; }
+  .legal-copy { margin-top: 8rem; max-width: 42rem; }
+  .legal-copy h1 { margin-bottom: 3rem; font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 500; line-height: 1; }
+  .legal-copy p { margin-top: 1.5rem; color: var(--color-muted-foreground); line-height: 1.75; }
+  .legal-copy a { color: var(--color-foreground); text-decoration: underline; text-underline-offset: 0.25rem; }
+  .legal-copy h2 { margin-top: 3.5rem; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; }
+  .legal-copy ul { margin-top: 1.5rem; }
+  .legal-copy li { border-top: 1px solid var(--color-border); padding: 0.875rem 0; color: var(--color-muted-foreground); line-height: 1.6; }
+}
