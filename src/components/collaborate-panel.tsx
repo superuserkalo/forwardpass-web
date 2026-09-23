@@ -27,13 +27,13 @@ export function CollaboratePanel() {
         type="button"
         aria-label="Close dialog"
         onClick={close}
-        className="absolute inset-0 bg-black/10 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-black/15 backdrop-blur-[2px]"
       />
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Collaborate with The Forward Pass"
-        className="relative max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-white/15 bg-white/[0.08] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_40px_90px_-30px_rgba(0,0,0,0.8)] backdrop-blur-2xl md:p-8"
+        className="relative max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-white/15 bg-background/75 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_40px_90px_-30px_rgba(0,0,0,0.8)] backdrop-blur-2xl md:p-8"
       >
         <button
           type="button"
