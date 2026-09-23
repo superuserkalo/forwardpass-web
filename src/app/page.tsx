@@ -34,6 +34,14 @@ export default function Home() {
 
       <section id="top" className="relative isolate overflow-hidden">
         <Hero />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(90deg, var(--background) 0%, color-mix(in srgb, var(--background) 65%, transparent) 38%, transparent 72%)",
+          }}
+        />
         <div className="relative mx-auto flex min-h-[75vh] max-w-7xl flex-col justify-center px-5 py-20 md:px-10 md:py-28">
           <p className="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">Daily intelligence for AI builders</p>
           <h1 className="font-display max-w-5xl text-5xl leading-none font-medium tracking-[-0.02em] sm:text-7xl lg:text-8xl">What’s changing in AI engineering.</h1>
