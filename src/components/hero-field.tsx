@@ -45,80 +45,62 @@ fn bezierTangent(p0: vec2f, p1: vec2f, p2: vec2f, u: f32) -> vec2f {
   return 2.0 * (1.0 - u) * (p1 - p0) + 2.0 * u * (p2 - p1);
 }
 
+fn vortex(p: vec2f, c: vec2f, gamma: f32, core: f32) -> f32 {
+  let d2 = dot(p - c, p - c);
+  return 0.5 * gamma * log(d2 + core * core);
+}
+
 @fragment
 fn fs_main(@location(0) uv: vec2f) -> @location(0) vec4f {
   let centered = vec2f((uv.x - 0.5) * params.aspect, uv.y - 0.5);
-  let p = centered * 2.6;
   let t = params.time * 0.05;
 
-  let haze = 1.0 - smoothstep(0.25, 1.15, length(centered));
-  let cycle = params.time * 0.085;
+  let warp = vec2f(
+    fbm(centered * 1.5 + vec2f(t, t * 0.4)),
+    fbm(centered * 1.5 + vec2f(-t * 0.6, t) + vec2f(5.2, 1.3))
+  );
+  let base = centered.y + (warp.x + warp.y) * 0.08;
+  var psi = base;
+
+  let cycleTime = 12.0;
+  let flight = 4.6;
+  let cycle = params.time / cycleTime;
   let passIndex = floor(cycle);
-  let phase = fract(cycle);
-  let vary = hash(vec2f(passIndex, 7.0));
-  let trailLen = 0.35;
-  let lead = min(phase / 0.45, 1.0 + trailLen);
+  let tc = fract(cycle) * cycleTime;
+  let front = clamp(tc / flight, 0.0, 1.0);
+  let spin = params.time * 0.32;
+  let vary = hash(vec2f(passIndex, 3.0));
 
-  let arc0 = vec2f(-0.45 * params.aspect, 0.42);
-  let arc2 = vec2f(0.52 * params.aspect, 0.12);
-  let arc1 = vec2f(0.05 * params.aspect + (vary - 0.5) * 0.18, -0.75 - 0.2 * vary);
+  let a = params.aspect;
+  let p0 = vec2f(-0.55 * a, 0.32);
+  let p2 = vec2f(0.55 * a, 0.02);
+  let p1 = vec2f(0.02 * a + (vary - 0.5) * 0.12, -0.5 - 0.15 * vary);
 
-  var stir = vec2f(0.0);
-  var wake = 0.0;
-  var chalk = 0.0;
-
-  if (haze > 0.002) {
-    let startU = clamp(lead - trailLen, 0.0, 1.0);
-    let endU = min(lead, 1.0);
-    var bestD = 1000.0;
-    var bestU = 0.0;
-    if (endU > startU + 0.0005) {
-      let steps = 48u;
-      var prevU = startU;
-      var prevQ = bezier(arc0, arc1, arc2, startU);
-      for (var i = 1u; i <= steps; i = i + 1u) {
-        let u = mix(startU, endU, f32(i) / f32(steps));
-        let q = bezier(arc0, arc1, arc2, u);
-        let ab = q - prevQ;
-        let s = clamp(dot(centered - prevQ, ab) / max(dot(ab, ab), 0.000001), 0.0, 1.0);
-        let closest = prevQ + ab * s;
-        let d = length(centered - closest);
-        if (d < bestD) {
-          bestD = d;
-          bestU = mix(prevU, u, s);
-        }
-        prevU = u;
-        prevQ = q;
-      }
+  for (var k = 0; k < 16; k = k + 1) {
+    let uk = (f32(k) + 0.5) / 16.0;
+    if (uk <= front) {
+      let age = max(0.0, tc - uk * flight);
+      let fadeK = exp(-age / 5.0);
+      let jitter = hash(vec2f(f32(k), passIndex));
+      let coil = cos(uk * 22.0 - spin + jitter * 0.9);
+      let q = bezier(p0, p1, p2, uk);
+      let tg = bezierTangent(p0, p1, p2, uk);
+      let normal = vec2f(-tg.y, tg.x) / max(length(tg), 0.000001);
+      let c = q + normal * 0.055 * coil + vec2f(0.05, -0.008) * age;
+      psi = psi + vortex(centered, c, 0.045 * fadeK * (0.8 + 0.4 * jitter), 0.02);
     }
-
-    let age = clamp((lead - bestU) / trailLen, 0.0, 1.0);
-    let along = (1.0 - age) * (1.0 - age);
-    let tangent = bezierTangent(arc0, arc1, arc2, bestU);
-    let normal = vec2f(-tangent.y, tangent.x) / max(length(tangent), 0.000001);
-    let helix = sin(bestU * 110.0);
-
-    wake = exp(-(bestD * bestD) / 0.00028) * along * haze;
-    let core = exp(-(bestD * bestD) / (0.00005 * (1.0 + age * 2.0)));
-    chalk = core * along * (0.6 + 0.4 * helix) * haze * 0.24;
-    stir = normal * helix * wake * 0.6;
   }
 
-  let warp = vec2f(
-    fbm(p + vec2f(t, t * 0.4)),
-    fbm(p + vec2f(-t * 0.6, t) + vec2f(5.2, 1.3))
-  );
-  let field = fbm(p * 1.4 + warp * 1.6 + stir);
+  let activity = clamp(abs(psi - base) * 7.0, 0.0, 1.0);
 
-  // Topographic contour lines from the scalar field.
-  let band = abs(fract(field * 10.0) - 0.5) * 2.0;
+  let band = abs(fract(psi * 30.0) - 0.5) * 2.0;
   let width = 0.34 + 0.18 * sin(params.time * 0.15);
   var line = 1.0 - smoothstep(0.0, width, band);
   line = pow(line, 1.6);
 
   let fade = smoothstep(0.85, 0.05, length(centered));
-  var alpha = line * 0.3 * fade * (1.0 + 1.2 * wake) + chalk;
-  alpha = min(alpha, 0.45);
+  var alpha = line * 0.3 * fade * (1.0 + 0.9 * activity);
+  alpha = min(alpha, 0.42);
   return vec4f(vec3f(0.93) * alpha, alpha);
 }
 `;

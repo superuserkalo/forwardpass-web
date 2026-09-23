@@ -20,14 +20,6 @@ type Grid = {
   cellH: number;
 };
 
-type LogoCrop = {
-  image: HTMLImageElement;
-  sx: number;
-  sy: number;
-  sw: number;
-  sh: number;
-};
-
 const SHADER = /* wgsl */ `
 struct Params {
   time: f32,
@@ -160,46 +152,7 @@ function buildGlyphBits(family: string): Uint32Array<ArrayBuffer> {
   return bits;
 }
 
-async function loadLogo(): Promise<LogoCrop | null> {
-  try {
-    const image = new Image();
-    image.src = "/logo.png";
-    await image.decode();
-    const width = image.naturalWidth;
-    const height = image.naturalHeight;
-    const probe = document.createElement("canvas");
-    probe.width = width;
-    probe.height = height;
-    const ctx = probe.getContext("2d", { willReadFrequently: true });
-    const full: LogoCrop = { image, sx: 0, sy: 0, sw: width, sh: height };
-    if (!ctx) return full;
-
-    ctx.drawImage(image, 0, 0);
-    const data = ctx.getImageData(0, 0, width, height).data;
-    let minX = width;
-    let minY = height;
-    let maxX = 0;
-    let maxY = 0;
-    for (let y = 0; y < height; y += 1) {
-      for (let x = 0; x < width; x += 1) {
-        const i = (y * width + x) * 4;
-        const lum = (data[i] + data[i + 1] + data[i + 2]) / 3;
-        if (lum > 40 && data[i + 3] > 40) {
-          minX = Math.min(minX, x);
-          minY = Math.min(minY, y);
-          maxX = Math.max(maxX, x);
-          maxY = Math.max(maxY, y);
-        }
-      }
-    }
-    if (minX > maxX || minY > maxY) return full;
-    return { image, sx: minX, sy: minY, sw: maxX - minX + 1, sh: maxY - minY + 1 };
-  } catch {
-    return null;
-  }
-}
-
-function buildCells(grid: Grid, family: string, logo: LogoCrop | null): Uint32Array<ArrayBuffer> {
+function buildCells(grid: Grid, family: string): Uint32Array<ArrayBuffer> {
   const cells = new Uint32Array(MAX_COLS * MAX_ROWS);
   const width = Math.round(grid.cols * grid.cellW * QUALITY);
   const height = Math.round(grid.rows * grid.cellH * QUALITY);
@@ -224,39 +177,19 @@ function buildCells(grid: Grid, family: string, logo: LogoCrop | null): Uint32Ar
   const capProbe = ctx.measureText("H");
   const capEm = (capProbe.actualBoundingBoxAscent || 70) / 100;
   const textEm = advance / 100;
-  const markEm = logo ? capEm * 1.08 * (logo.sw / logo.sh) : capEm;
-  const gapEm = logo ? 0.3 : 0;
-  const totalEm = markEm + gapEm + textEm;
-  const byWidth = (width * WIDTH_BUDGET) / totalEm;
-  const byHeight = (height * 0.62) / markEm;
+  const byWidth = (width * WIDTH_BUDGET) / textEm;
+  const byHeight = (height * 0.62) / capEm;
   const size = Math.min(byWidth, byHeight);
 
   const cap = capEm * size;
-  const markWidth = markEm * size;
-  const markHeight = logo ? cap * 1.08 : 0;
-  const gap = gapEm * size;
-  const totalWidth = markWidth + gap + textEm * size;
-  const startX = (width - totalWidth) / 2;
+  const startX = (width - textEm * size) / 2;
   const baseline = height / 2 + cap / 2;
 
   ctx.fillStyle = "#fff";
   ctx.textAlign = "left";
   ctx.textBaseline = "alphabetic";
-  if (logo) {
-    ctx.drawImage(
-      logo.image,
-      logo.sx,
-      logo.sy,
-      logo.sw,
-      logo.sh,
-      startX,
-      height / 2 - markHeight / 2,
-      markWidth,
-      markHeight,
-    );
-  }
   ctx.font = `500 ${size}px ${family}`;
-  let x = startX + markWidth + gap;
+  let x = startX;
   for (let i = 0; i < text.length; i += 1) {
     ctx.fillText(text[i], x, baseline);
     x += (advances[i] / 100) * size + (tracking / 100) * size;
@@ -338,7 +271,6 @@ export function SigilField({ bandRef }: SigilFieldProps) {
           document.fonts.load(`500 64px ${displayFamily}`),
           document.fonts.load(`600 64px ${glyphFamily}`),
         ]);
-        const logo = await loadLogo();
         if (disposed) {
           gpu.dispose();
           return;
@@ -355,7 +287,7 @@ export function SigilField({ bandRef }: SigilFieldProps) {
         const cells = storage(gpu, MAX_COLS * MAX_ROWS * 4, "read");
 
         let grid = measureGrid(band);
-        cells.write(buildCells(grid, displayFamily, logo));
+        cells.write(buildCells(grid, displayFamily));
 
         const sigil = effect(gpu, SHADER, {
           blend: "premultiplied",
@@ -376,7 +308,7 @@ export function SigilField({ bandRef }: SigilFieldProps) {
 
         canvasSurface.onResize(() => {
           grid = measureGrid(band);
-          cells.write(buildCells(grid, displayFamily, logo));
+          cells.write(buildCells(grid, displayFamily));
           sigil.set({ params: { cols: grid.cols, rows: grid.rows } });
         });
 
