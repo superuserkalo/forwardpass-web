@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { HeroField } from "@/components/hero-field";
 import { AdvertisingForm, NewsletterForm } from "@/components/forward-pass-forms";
+import { Hero } from "@/components/hero";
 
 export const metadata: Metadata = {
   title: "The Forward Pass — What's changing in AI engineering",
@@ -17,19 +17,28 @@ export const metadata: Metadata = {
   },
 };
 
+const COVERAGE: Array<[string, string]> = [
+  ["Models", "Releases, benchmarks, capability shifts."],
+  ["Agents", "Frameworks, harnesses, coding agents."],
+  ["Research", "Papers worth your evening."],
+  ["Infrastructure", "Serving, inference, cost, scale."],
+  ["Tools", "What builders actually adopt."],
+  ["Open Source", "Weights, repos, licences."],
+];
+
 export default function Home() {
   return (
     <main>
       <header className="mx-auto flex max-w-7xl items-center justify-between px-5 py-7 md:px-10 md:py-9">
         <a href="#top" className="flex items-center gap-3" aria-label="The Forward Pass home">
-          <Image src="/logo.png" alt="" width={28} height={28} className="size-7" />
+          <Image src="/logo.png" alt="The Forward Pass logo" width={28} height={28} className="size-7" priority />
           <span className="wordmark">THE FORWARD PASS</span>
         </a>
         <Link href="#advertise" className="text-sm underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground">Collaborate</Link>
       </header>
 
       <section id="top" className="relative isolate overflow-hidden">
-        <HeroField />
+        <Hero />
         <div className="relative mx-auto flex min-h-[75vh] max-w-7xl flex-col justify-center px-5 py-20 md:px-10 md:py-28">
           <p className="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">Daily intelligence for AI builders</p>
           <h1 className="max-w-5xl text-5xl leading-none font-medium sm:text-7xl lg:text-8xl">What’s changing in AI engineering.</h1>
@@ -44,14 +53,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
           <h2 className="text-sm font-medium uppercase tracking-widest">What you’ll get</h2>
           <ul className="mt-12 border-t border-border">
-            {[
-              ['Models', 'Releases, benchmarks, capability shifts.'],
-              ['Agents', 'Frameworks, harnesses, coding agents.'],
-              ['Research', 'Papers worth your evening.'],
-              ['Infrastructure', 'Serving, inference, cost, scale.'],
-              ['Tools', 'What builders actually adopt.'],
-              ['Open Source', 'Weights, repos, licences.'],
-            ].map(([item, note]) => (
+            {COVERAGE.map(([item, note]) => (
               <li key={item} className="flex flex-col gap-1 border-b border-border py-5 sm:flex-row sm:items-baseline sm:gap-8">
                 <span className="w-56 shrink-0 text-xl sm:text-2xl">{item}</span>
                 <span className="text-sm text-muted-foreground">{note}</span>

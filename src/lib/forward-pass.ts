@@ -1,5 +1,6 @@
 "use server";
 
+import { after } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
 
@@ -18,14 +19,6 @@ const inquirySchema = z.object({
   inquiry: z.string().trim().min(10).max(3000),
   budget: z.string().trim().max(120).optional(),
 });
-
-type Contact = {
-  email: string;
-  first_name?: string;
-  last_name?: string;
-  properties?: Record<string, string>;
-  unsubscribed?: boolean;
-};
 
 function getResend() {
   const key = process.env.RESEND_API_KEY;
@@ -90,7 +83,8 @@ const escapeHtml = (value: string) =>
     return entities[character] ?? character;
   });
 
-const SITE_URL = "https://forwardpass.lovable.app";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://forwardpass.lovable.app";
 
 function welcomeEmailHtml(email: string) {
   const unsubscribeUrl = `${SITE_URL}/unsubscribe?email=${encodeURIComponent(email)}`;
@@ -110,18 +104,20 @@ export async function subscribeAction(email: string) {
   const data = newsletterSchema.parse({ email });
   await upsertContact({ email: data.email }, NEWSLETTER_SEGMENT);
 
-  try {
-    await getResend().emails.send({
-      from: "The Forward Pass <hello@withradian.com>",
-      to: [data.email],
-      replyTo: "hello@withradian.com",
-      subject: "You're on the list — The Forward Pass",
-      html: welcomeEmailHtml(data.email),
-      text: `You're on the list.\n\nYou'll get one issue a day on what's changing in AI engineering — the important models, agents, research, infrastructure and tools, with primary sources.\n\nNo noise. One issue a day. We promise :)\n\n— Kaloyan, The Forward Pass\n\nDidn't sign up? Unsubscribe: ${SITE_URL}/unsubscribe?email=${encodeURIComponent(data.email)}`,
-    });
-  } catch (error) {
-    console.error("Welcome email failed", error);
-  }
+  after(async () => {
+    try {
+      await getResend().emails.send({
+        from: "The Forward Pass <hello@withradian.com>",
+        to: [data.email],
+        replyTo: "hello@withradian.com",
+        subject: "You're on the list — The Forward Pass",
+        html: welcomeEmailHtml(data.email),
+        text: `You're on the list.\n\nYou'll get one issue a day on what's changing in AI engineering — the important models, agents, research, infrastructure and tools, with primary sources.\n\nNo noise. One issue a day. We promise :)\n\n— Kaloyan, The Forward Pass\n\nDidn't sign up? Unsubscribe: ${SITE_URL}/unsubscribe?email=${encodeURIComponent(data.email)}`,
+      });
+    } catch (error) {
+      console.error("Welcome email failed", error);
+    }
+  });
 
   return { success: true };
 }

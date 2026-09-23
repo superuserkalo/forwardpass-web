@@ -1,14 +1,12 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, useTransition, type FormEvent } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import {
   advertisingInquiryAction,
   subscribeAction,
   unsubscribeAction,
 } from "@/lib/forward-pass";
-
-type Status = "idle" | "loading" | "success" | "error";
 
 function inputClass() {
   return "flex h-14 w-full border border-input bg-transparent px-4 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-ring disabled:cursor-not-allowed disabled:opacity-50";
@@ -19,19 +17,21 @@ function buttonClass() {
 }
 
 export function NewsletterForm() {
-  const [status, setStatus] = useState<Status>("idle");
+  const [status, setStatus] = useState<"success" | "error" | null>(null);
+  const [isPending, startTransition] = useTransition();
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (status === "loading") return;
     const form = new FormData(event.currentTarget);
-    setStatus("loading");
-    try {
-      await subscribeAction(String(form.get("email")));
-      setStatus("success");
-    } catch {
-      setStatus("error");
-    }
+    setStatus(null);
+    startTransition(async () => {
+      try {
+        await subscribeAction(String(form.get("email")));
+        setStatus("success");
+      } catch {
+        setStatus("error");
+      }
+    });
   }
 
   if (status === "success") {
@@ -47,33 +47,35 @@ export function NewsletterForm() {
     <form onSubmit={onSubmit} className="mt-10 max-w-2xl" aria-label="Newsletter signup">
       <div className="flex flex-col gap-2 sm:flex-row">
         <input name="email" type="email" autoComplete="email" placeholder="Email address" required className={inputClass()} />
-        <button type="submit" disabled={status === "loading"} className={buttonClass()}>
-          {status === "loading" ? "Joining…" : "Join the Forward Pass"}
+        <button type="submit" disabled={isPending} className={buttonClass()}>
+          {isPending ? "Joining…" : "Join the Forward Pass"}
           <ArrowRight aria-hidden="true" className="size-4" />
         </button>
       </div>
       <div className="mt-3 flex justify-between gap-4 text-xs text-muted-foreground">
         <span>No noise. One issue a day. We promise :)</span>
-        {status === "error" && <span role="alert">Couldn’t subscribe. Please try again.</span>}
+        {status === "error" ? <span role="alert">Couldn’t subscribe. Please try again.</span> : null}
       </div>
     </form>
   );
 }
 
 export function UnsubscribeForm({ initialEmail }: { initialEmail?: string }) {
-  const [status, setStatus] = useState<Status>("idle");
+  const [status, setStatus] = useState<"success" | "error" | null>(null);
+  const [isPending, startTransition] = useTransition();
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (status === "loading") return;
     const form = new FormData(event.currentTarget);
-    setStatus("loading");
-    try {
-      await unsubscribeAction(String(form.get("email")));
-      setStatus("success");
-    } catch {
-      setStatus("error");
-    }
+    setStatus(null);
+    startTransition(async () => {
+      try {
+        await unsubscribeAction(String(form.get("email")));
+        setStatus("success");
+      } catch {
+        setStatus("error");
+      }
+    });
   }
 
   if (status === "success") {
@@ -89,41 +91,43 @@ export function UnsubscribeForm({ initialEmail }: { initialEmail?: string }) {
     <form onSubmit={onSubmit} className="mt-10" aria-label="Unsubscribe">
       <div className="flex flex-col gap-2 sm:flex-row">
         <input name="email" type="email" autoComplete="email" placeholder="Email address" defaultValue={initialEmail ?? ""} required className={inputClass()} />
-        <button type="submit" disabled={status === "loading"} className={buttonClass()}>
-          {status === "loading" ? "Removing…" : "Unsubscribe"}
+        <button type="submit" disabled={isPending} className={buttonClass()}>
+          {isPending ? "Removing…" : "Unsubscribe"}
           <ArrowRight aria-hidden="true" className="size-4" />
         </button>
       </div>
-      {status === "error" && (
+      {status === "error" ? (
         <p className="mt-3 text-xs" role="alert">Couldn’t unsubscribe. Please email hello@withradian.com.</p>
-      )}
+      ) : null}
     </form>
   );
 }
 
 export function AdvertisingForm() {
-  const [status, setStatus] = useState<Status>("idle");
+  const [status, setStatus] = useState<"success" | "error" | null>(null);
+  const [isPending, startTransition] = useTransition();
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (status === "loading") return;
     const target = event.currentTarget;
     const form = new FormData(target);
-    setStatus("loading");
-    try {
-      await advertisingInquiryAction({
-        name: String(form.get("name")),
-        email: String(form.get("email")),
-        company: String(form.get("company")),
-        website: String(form.get("website")),
-        inquiry: String(form.get("inquiry")),
-        budget: String(form.get("budget") ?? ""),
-      });
-      target.reset();
-      setStatus("success");
-    } catch {
-      setStatus("error");
-    }
+    setStatus(null);
+    startTransition(async () => {
+      try {
+        await advertisingInquiryAction({
+          name: String(form.get("name")),
+          email: String(form.get("email")),
+          company: String(form.get("company")),
+          website: String(form.get("website")),
+          inquiry: String(form.get("inquiry")),
+          budget: String(form.get("budget") ?? ""),
+        });
+        target.reset();
+        setStatus("success");
+      } catch {
+        setStatus("error");
+      }
+    });
   }
 
   if (status === "success") {
@@ -144,11 +148,11 @@ export function AdvertisingForm() {
       <Field label="What do you want to promote?" wide><textarea name="inquiry" required rows={5} className={`${inputClass()} min-h-28`} /></Field>
       <Field label="Approximate budget — optional" wide><input name="budget" className={inputClass()} /></Field>
       <div className="flex items-center gap-4 md:col-span-2">
-        <button type="submit" disabled={status === "loading"} className={buttonClass()}>
-          {status === "loading" ? "Sending…" : "Get in touch"}
+        <button type="submit" disabled={isPending} className={buttonClass()}>
+          {isPending ? "Sending…" : "Get in touch"}
           <ArrowRight aria-hidden="true" className="size-4" />
         </button>
-        {status === "error" && <span className="text-xs text-muted-foreground" role="alert">Couldn’t send. Please try again.</span>}
+        {status === "error" ? <span className="text-xs text-muted-foreground" role="alert">Couldn’t send. Please try again.</span> : null}
       </div>
     </form>
   );
