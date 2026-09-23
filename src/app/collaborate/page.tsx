@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Home from "@/app/page";
-import { CollaboratePanel } from "@/components/collaborate-panel";
 
 export const metadata: Metadata = {
   title: "The Forward Pass: Collaborate",
@@ -16,10 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function Collaborate() {
-  return (
-    <>
-      <Home />
-      <CollaboratePanel />
-    </>
-  );
+  return <Home />;
 }

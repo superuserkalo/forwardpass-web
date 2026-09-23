@@ -74,7 +74,7 @@
     text-rendering: optimizeLegibility;
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; color-scheme: light; }
 
   ::selection { background: var(--color-foreground); color: var(--color-background); }
 }
