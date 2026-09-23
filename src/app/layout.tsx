@@ -36,6 +36,9 @@ export const metadata: Metadata = {
     card: "summary",
     site: "@forwardpassnews",
   },
+  other: {
+    "darkreader-lock": "",
+  },
   icons: {
     icon: "/favicon.png",
   },

@@ -102,8 +102,8 @@ export function HeroField() {
           clearColor: [0, 0, 0, 0],
         });
         const aspect = () => canvasSurface.size[0] / Math.max(1, canvasSurface.size[1]);
-        const ditherX = () => Math.max(1, Math.round(canvas.clientWidth / 5));
-        const ditherY = () => Math.max(1, Math.round(canvas.clientHeight / 5));
+        const ditherX = () => Math.max(1, Math.round(canvas.clientWidth / 3.5));
+        const ditherY = () => Math.max(1, Math.round(canvas.clientHeight / 3.5));
         const field = effect(gpu, SHADER, {
           blend: "premultiplied",
           set: { params: { time: 0, aspect: aspect(), ditherX: ditherX(), ditherY: ditherY() } },
