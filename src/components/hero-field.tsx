@@ -6,6 +6,8 @@ const SHADER = /* wgsl */ `
 struct Params {
   time: f32,
   aspect: f32,
+  ditherX: f32,
+  ditherY: f32,
 }
 @group(0) @binding(0) var<uniform> params: Params;
 
@@ -36,6 +38,17 @@ fn fbm(p: vec2f) -> f32 {
   return sum;
 }
 
+const BAYER: array<f32, 16> = array<f32, 16>(
+  0.0, 8.0, 2.0, 10.0,
+  12.0, 4.0, 14.0, 6.0,
+  3.0, 11.0, 1.0, 9.0,
+  15.0, 7.0, 13.0, 5.0,
+);
+
+fn bayer4(x: u32, y: u32) -> f32 {
+  return (BAYER[(y % 4u) * 4u + (x % 4u)] + 0.5) / 16.0;
+}
+
 @fragment
 fn fs_main(@location(0) uv: vec2f) -> @location(0) vec4f {
   let centered = vec2f((uv.x - 0.5) * params.aspect, uv.y - 0.5);
@@ -54,8 +67,10 @@ fn fs_main(@location(0) uv: vec2f) -> @location(0) vec4f {
   var line = 1.0 - smoothstep(0.0, width, band);
   line = pow(line, 1.6);
 
-  let fade = smoothstep(0.85, 0.05, length(centered));
-  let a = line * 0.3 * fade;
+  let fade = 1.0 - 0.45 * smoothstep(0.45, 1.3, length(centered));
+  let cell = floor(uv * vec2f(params.ditherX, params.ditherY));
+  let threshold = bayer4(u32(cell.x), u32(cell.y));
+  let a = step(threshold, line * fade) * 0.32;
   return vec4f(vec3f(0.93) * a, a);
 }
 `;
@@ -87,11 +102,15 @@ export function HeroField() {
           clearColor: [0, 0, 0, 0],
         });
         const aspect = () => canvasSurface.size[0] / Math.max(1, canvasSurface.size[1]);
+        const ditherX = () => Math.max(1, Math.round(canvas.clientWidth / 3));
+        const ditherY = () => Math.max(1, Math.round(canvas.clientHeight / 3));
         const field = effect(gpu, SHADER, {
           blend: "premultiplied",
-          set: { params: { time: 0, aspect: aspect() } },
+          set: { params: { time: 0, aspect: aspect(), ditherX: ditherX(), ditherY: ditherY() } },
         });
-        canvasSurface.onResize(() => field.set({ params: { aspect: aspect() } }));
+        canvasSurface.onResize(() =>
+          field.set({ params: { aspect: aspect(), ditherX: ditherX(), ditherY: ditherY() } }),
+        );
 
         const time = clock(gpu);
         const loop = frameLoop(gpu, (frame) => {
@@ -122,8 +141,8 @@ export function HeroField() {
       className="pointer-events-none absolute inset-0 size-full transition-opacity duration-1000"
       style={{
         opacity: active ? 1 : 0,
-        maskImage: "radial-gradient(120% 90% at 70% 45%, black 20%, transparent 78%)",
-        WebkitMaskImage: "radial-gradient(120% 90% at 70% 45%, black 20%, transparent 78%)",
+        maskImage: "radial-gradient(150% 130% at 60% 50%, black 45%, transparent 95%)",
+        WebkitMaskImage: "radial-gradient(150% 130% at 60% 50%, black 45%, transparent 95%)",
       }}
     />
   );
