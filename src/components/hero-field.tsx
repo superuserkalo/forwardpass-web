@@ -7,7 +7,6 @@ const BIT_W = 6;
 const BIT_H = 8;
 const MAX_COLS = 768;
 const MAX_ROWS = 160;
-const QUALITY = 2;
 
 type Grid = {
   cols: number;
@@ -19,17 +18,85 @@ type Grid = {
 const SHADER = /* wgsl */ `
 struct Params {
   time: f32,
+  aspect: f32,
   cols: f32,
   rows: f32,
   glyphs: f32,
 }
 
+struct Shot {
+  pos: vec2f,
+  tilt: f32,
+  spin: f32,
+  tt: f32,
+}
+
 @group(0) @binding(0) var<uniform> params: Params;
 @group(0) @binding(1) var<storage, read> glyphBits: array<u32>;
-@group(0) @binding(2) var<storage, read> cells: array<u32>;
 
 fn hash(p: vec2f) -> f32 {
   return fract(sin(dot(p, vec2f(127.1, 311.7))) * 43758.5453123);
+}
+
+fn shotAt(t: f32) -> Shot {
+  let release = vec2f(-0.56 * params.aspect, 0.44);
+  let catchPos = vec2f(0.52 * params.aspect, -0.14);
+  let flightTime = 3.6;
+  let tt = t / flightTime;
+  let arc = 0.42;
+  let pos = mix(release, catchPos, tt) + vec2f(0.0, -arc * 4.0 * tt * (1.0 - tt));
+  let vel = (catchPos - release) / flightTime + vec2f(0.0, -arc * 4.0 * (1.0 - 2.0 * tt) / flightTime);
+  let tilt = atan2(vel.y, vel.x) + 0.05 * sin(t * 3.1);
+  let spin = t * 4.8 + 0.35 * sin(t * 2.3);
+  return Shot(pos, tilt, spin, tt);
+}
+
+fn ballLayer(c: vec2f, t: f32, ghost: f32) -> vec4f {
+  let s = shotAt(t);
+  if (s.tt <= 0.0 || s.tt >= 1.0) {
+    return vec4f(0.0);
+  }
+  let life = smoothstep(0.0, 0.03, s.tt) * (1.0 - smoothstep(0.86, 1.0, s.tt));
+  let scale = 1.0 + 0.12 * s.tt;
+  let major = 0.11 * scale;
+  let minor = 0.05 * scale;
+  let rel = c - s.pos;
+  let ct = cos(-s.tilt);
+  let st = sin(-s.tilt);
+  let local = vec2f(rel.x * ct - rel.y * st, rel.x * st + rel.y * ct);
+  let q = vec2f(local.x / major, local.y / minor);
+  let r2 = dot(q, q);
+
+  if (r2 >= 1.0) {
+    let d = sqrt(r2);
+    let halo = exp(-(d - 1.0) * 7.0) * 0.04 * life * ghost;
+    return vec4f(vec3f(0.93) * halo, halo);
+  }
+
+  let z = sqrt(1.0 - r2);
+  let cs = cos(s.spin);
+  let sn = sin(s.spin);
+  let oy = q.y * cs - z * sn;
+  let oz = q.y * sn + z * cs;
+  let angle = atan2(oz, oy);
+
+  let ridge = 0.5 + 0.5 * sin(angle * 2.0 + q.x * 7.85);
+  let seam = pow(ridge, 18.0);
+
+  let laceZone = smoothstep(0.88, 0.97, cos(angle)) * (1.0 - smoothstep(0.36, 0.46, abs(q.x)));
+  let laceBars = 1.0 - smoothstep(0.08, 0.18, abs(fract(q.x * 11.0) - 0.5));
+  let lace = laceZone * (0.55 + 0.45 * laceBars);
+
+  let nrm = normalize(vec3f(q, z));
+  let key = 0.5 + 0.5 * dot(nrm, normalize(vec3f(-0.5, -0.7, 0.6)));
+  let rim = pow(1.0 - z, 3.0);
+
+  var lum = 0.05 + 0.06 * key + 0.26 * rim;
+  lum = lum + seam * 0.42 + lace * 0.5;
+
+  let edge = 1.0 - smoothstep(0.94, 1.0, r2);
+  let alpha = min(lum, 1.0) * edge * life * ghost;
+  return vec4f(vec3f(0.93) * alpha, alpha);
 }
 
 @fragment
@@ -37,48 +104,33 @@ fn fs_main(@location(0) uv: vec2f) -> @location(0) vec4f {
   let grid = vec2f(params.cols, params.rows);
   let cellPos = floor(uv * grid);
   let local = uv * grid - cellPos;
-  let id = u32(cellPos.y) * u32(params.cols) + u32(cellPos.x);
-  if (id >= arrayLength(&cells)) {
-    return vec4f(0.0);
-  }
-
-  let data = cells[id];
-  let coverage = f32((data >> 24u) & 255u) / 255.0;
-  let along = f32((data >> 16u) & 255u) / 255.0;
-  let seed = f32(data & 65535u);
   let px = min(u32(local.x * 6.0), 5u);
   let py = min(u32(local.y * 8.0), 7u);
 
-  let slow = floor(params.time * 0.5);
+  let seed = hash(cellPos);
   let fast = floor(params.time * 2.2);
-
-  let tc = fract(params.time / 8.0) * 8.0;
-  let flight = 2.4;
-  let front = tc / flight;
-
-  var tick = fast;
-  var lum = 0.0;
-  if (coverage > 0.04) {
-    tick = slow;
-    let gate = step(hash(vec2f(seed, slow + 5.0)), coverage * 1.1);
-    let lit = step(along, front);
-    let age = max(0.0, tc - along * flight);
-    let settle = exp(-age / 4.5);
-    let offset = (along - front) * 5.0;
-    let pulse = exp(-offset * offset) * step(front, 1.0);
-    let shimmer = 0.8 + 0.2 * sin(params.time * 1.3 + seed * 0.4);
-    lum = gate * lit * shimmer * (0.18 + 0.45 * settle + 0.6 * pulse);
-  } else {
-    let flick = 0.35 + 0.65 * hash(vec2f(seed, fast + 31.0));
-    lum = 0.03 + 0.045 * flick;
-  }
-
+  let flick = 0.35 + 0.65 * hash(vec2f(seed * 91.7, fast + 31.0));
   let glyphCount = max(u32(params.glyphs), 1u);
-  let glyph = u32(hash(vec2f(seed, tick)) * f32(glyphCount)) % glyphCount;
+  let glyph = u32(hash(vec2f(seed, fast)) * f32(glyphCount)) % glyphCount;
   let rowBits = glyphBits[glyph * 8u + py];
   let shade = f32((rowBits >> (5u - px)) & 1u);
-  let alpha = min(shade * lum, 0.95);
-  return vec4f(vec3f(0.93) * alpha, alpha);
+  let fieldAlpha = shade * (0.028 + 0.042 * flick);
+
+  var acc = vec4f(vec3f(0.93) * fieldAlpha, fieldAlpha);
+
+  let c = vec2f((uv.x - 0.5) * params.aspect, uv.y - 0.5);
+  let tc = fract(params.time / 9.0) * 9.0;
+
+  let g1 = ballLayer(c, tc - 0.1, 0.22);
+  acc = g1 + acc * (1.0 - g1.a);
+  let g2 = ballLayer(c, tc - 0.2, 0.14);
+  acc = g2 + acc * (1.0 - g2.a);
+  let g3 = ballLayer(c, tc - 0.3, 0.08);
+  acc = g3 + acc * (1.0 - g3.a);
+  let ball = ballLayer(c, tc, 1.0);
+  acc = ball + acc * (1.0 - ball.a);
+
+  return acc;
 }
 `;
 
@@ -142,154 +194,6 @@ function buildGlyphBits(family: string): Uint32Array<ArrayBuffer> {
   return bits;
 }
 
-function buildCells(grid: Grid): Uint32Array<ArrayBuffer> {
-  const cells = new Uint32Array(MAX_COLS * MAX_ROWS);
-  const width = Math.round(grid.cols * grid.cellW * QUALITY);
-  const height = Math.round(grid.rows * grid.cellH * QUALITY);
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d", { willReadFrequently: true });
-  if (!ctx) return cells;
-
-  const launch = { x: 0.3 * width, y: 0.92 * height };
-  const land = { x: 0.96 * width, y: 0.22 * height };
-  const apex = { x: 0.6 * width, y: 0.42 * height };
-  const ctrl = {
-    x: (4 * apex.x - launch.x - land.x) / 2,
-    y: (4 * apex.y - launch.y - land.y) / 2,
-  };
-
-  const point = (u: number) => {
-    const k = 1 - u;
-    return {
-      x: k * k * launch.x + 2 * k * u * ctrl.x + u * u * land.x,
-      y: k * k * launch.y + 2 * k * u * ctrl.y + u * u * land.y,
-    };
-  };
-  const normal = (u: number) => {
-    const k = 1 - u;
-    const tx = 2 * k * (ctrl.x - launch.x) + 2 * u * (land.x - ctrl.x);
-    const ty = 2 * k * (ctrl.y - launch.y) + 2 * u * (land.y - ctrl.y);
-    const len = Math.max(Math.hypot(tx, ty), 0.000001);
-    return { x: -ty / len, y: tx / len };
-  };
-
-  const bodyStart = 0.62;
-  const seams = 11;
-  const radius = 0.12 * height;
-
-  const bodyRadius = (u: number) => {
-    const s = Math.min(Math.max((u - bodyStart) / (1 - bodyStart), 0), 1);
-    return radius * Math.pow(Math.sin(Math.PI * s), 0.7);
-  };
-
-  const edgePoint = (u: number, side: number) => {
-    const p = point(u);
-    const n = normal(u);
-    const r = bodyRadius(u);
-    return { x: p.x + n.x * r * side, y: p.y + n.y * r * side };
-  };
-
-  ctx.strokeStyle = "#fff";
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
-
-  const streaks = 5;
-  ctx.lineWidth = Math.max(2, 0.0028 * height);
-  for (let k = 0; k < streaks; k += 1) {
-    const offset = (k - (streaks - 1) / 2) * 0.024 * height;
-    for (let i = 0; i < 48; i += 1) {
-      const u0 = 0.03 + (i / 48) * 0.56;
-      const u1 = 0.03 + ((i + 1) / 48) * 0.56;
-      const from = point(u0);
-      const to = point(u1);
-      const n0 = normal(u0);
-      const n1 = normal(u1);
-      ctx.globalAlpha = 0.5 * Math.pow(u0 / 0.6, 1.7);
-      ctx.beginPath();
-      ctx.moveTo(from.x + n0.x * offset, from.y + n0.y * offset);
-      ctx.lineTo(to.x + n1.x * offset, to.y + n1.y * offset);
-      ctx.stroke();
-    }
-  }
-
-  ctx.lineWidth = Math.max(2.5, 0.0035 * height);
-  for (const side of [1, -1]) {
-    ctx.globalAlpha = side > 0 ? 0.55 : 0.26;
-    ctx.beginPath();
-    for (let i = 0; i <= 60; i += 1) {
-      const u = bodyStart + (i / 60) * (1 - bodyStart);
-      const e = edgePoint(u, side);
-      if (i === 0) ctx.moveTo(e.x, e.y);
-      else ctx.lineTo(e.x, e.y);
-    }
-    ctx.stroke();
-  }
-
-  ctx.globalAlpha = 0.85;
-  ctx.lineWidth = Math.max(3, 0.0045 * height);
-  const lead = ((1 - bodyStart) / seams) * 0.8;
-  for (let j = 0; j < seams; j += 1) {
-    const u = bodyStart + ((j + 0.5) / seams) * (1 - bodyStart);
-    const a = edgePoint(u + lead * 0.5, 1);
-    const b = edgePoint(u - lead * 0.5, -1);
-    const pm = point(u);
-    const nm = normal(u);
-    const mid = {
-      x: pm.x + nm.y * lead * 0.85,
-      y: pm.y - nm.x * lead * 0.85,
-    };
-    const cx = 2 * mid.x - (a.x + b.x) / 2;
-    const cy = 2 * mid.y - (a.y + b.y) / 2;
-    ctx.beginPath();
-    ctx.moveTo(a.x, a.y);
-    ctx.quadraticCurveTo(cx, cy, b.x, b.y);
-    ctx.stroke();
-  }
-  ctx.globalAlpha = 1;
-
-  const image = ctx.getImageData(0, 0, width, height).data;
-  const blockW = grid.cellW * QUALITY;
-  const blockH = grid.cellH * QUALITY;
-  for (let row = 0; row < grid.rows; row += 1) {
-    for (let col = 0; col < grid.cols; col += 1) {
-      let sum = 0;
-      for (let y = 0; y < blockH; y += 1) {
-        const py = Math.min(Math.floor(row * blockH + y), height - 1);
-        for (let x = 0; x < blockW; x += 1) {
-          const px = Math.min(Math.floor(col * blockW + x), width - 1);
-          const i = (py * width + px) * 4;
-          sum += (image[i + 3] / 255) * ((image[i] + image[i + 1] + image[i + 2]) / 765);
-        }
-      }
-      const coverage = sum / (blockW * blockH);
-      const cov = coverage < 0.05 ? 0 : Math.min(255, Math.round(coverage * 255));
-
-      const cx = (col + 0.5) * blockW;
-      const cy = (row + 0.5) * blockH;
-      let bestU = 0;
-      let bestD = Number.POSITIVE_INFINITY;
-      for (let s = 0; s < 96; s += 1) {
-        const u = s / 95;
-        const p = point(u);
-        const dx = p.x - cx;
-        const dy = p.y - cy;
-        const d = dx * dx + dy * dy;
-        if (d < bestD) {
-          bestD = d;
-          bestU = u;
-        }
-      }
-
-      const along = Math.round(bestU * 255);
-      const seed = Math.floor(Math.random() * 65535);
-      cells[row * grid.cols + col] = (((cov << 24) | (along << 16) | seed) >>> 0);
-    }
-  }
-  return cells;
-}
-
 export function HeroField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [active, setActive] = useState(false);
@@ -333,29 +237,28 @@ export function HeroField() {
 
         const glyphBits = storage(gpu, GLYPHS.length * BIT_H * 4, "read");
         glyphBits.write(buildGlyphBits(glyphFamily));
-        const cells = storage(gpu, MAX_COLS * MAX_ROWS * 4, "read");
 
         let grid = measureGrid(canvas);
-        cells.write(buildCells(grid));
-
+        const aspect = () => canvas.clientWidth / Math.max(1, canvas.clientHeight);
         const field = effect(gpu, SHADER, {
           blend: "premultiplied",
           set: {
             params: {
               time: 0,
+              aspect: aspect(),
               cols: grid.cols,
               rows: grid.rows,
               glyphs: GLYPHS.length,
             },
             glyphBits,
-            cells,
           },
         });
 
         canvasSurface.onResize(() => {
           grid = measureGrid(canvas);
-          cells.write(buildCells(grid));
-          field.set({ params: { cols: grid.cols, rows: grid.rows } });
+          field.set({
+            params: { aspect: aspect(), cols: grid.cols, rows: grid.rows },
+          });
         });
 
         const time = clock(gpu);
