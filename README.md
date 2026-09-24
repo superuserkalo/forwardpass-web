@@ -72,6 +72,7 @@ Verification:
 
 ```bash
 node --experimental-strip-types --test scripts/onboarding.test.mjs
+node --experimental-strip-types --test scripts/pricing.test.mjs
 npm run lint
 npm run build
 ```
