@@ -32,6 +32,7 @@ const brand = Barlow_Condensed({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://theforwardpass.net"),
   title: "The Forward Pass: What's changing in AI engineering",
   description: "A daily intelligence newsletter for people who build with AI.",
   openGraph: {
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     site: "@forwardpassnews",
   },
   other: {

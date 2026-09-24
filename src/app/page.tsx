@@ -8,13 +8,17 @@ import { SiteHeader } from "@/components/site-header";
 export const metadata: Metadata = {
   title: "The Forward Pass: What's changing in AI engineering",
   description: "A daily intelligence newsletter for people who build with AI.",
+  alternates: { canonical: "/" },
   openGraph: {
+    url: "/",
+    siteName: "The Forward Pass",
     title: "The Forward Pass",
     description: "What's changing in AI engineering.",
     type: "website",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
+    site: "@forwardpassnews",
   },
 };
 
