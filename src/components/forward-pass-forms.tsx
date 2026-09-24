@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useTransition, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowRight, Check } from "lucide-react";
+import styles from "./newsletter-form.module.css";
 import {
   advertisingInquiryAction,
   subscribeAction,
@@ -17,7 +19,8 @@ function buttonClass() {
 }
 
 export function NewsletterForm() {
-  const [status, setStatus] = useState<"success" | "error" | null>(null);
+  const router = useRouter();
+  const [status, setStatus] = useState<"success" | "error" | "already_registered" | null>(null);
   const [isPending, startTransition] = useTransition();
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -26,7 +29,12 @@ export function NewsletterForm() {
     setStatus(null);
     startTransition(async () => {
       try {
-        await subscribeAction(String(form.get("email")));
+        const result = await subscribeAction(String(form.get("email")));
+        if (result.alreadyRegistered) {
+          setStatus("already_registered");
+          return;
+        }
+        if (result.canOnboard) { router.push("/welcome"); return; }
         setStatus("success");
       } catch {
         setStatus("error");
@@ -36,7 +44,7 @@ export function NewsletterForm() {
 
   if (status === "success") {
     return (
-      <div className="flex min-h-14 items-center gap-3 border-y border-border py-4 text-sm" role="status">
+      <div className="flex min-h-14 items-center gap-3 border-y border-border py-4 font-mono text-sm" role="status">
         <Check className="size-4" aria-hidden="true" />
         You’re on the list.
       </div>
@@ -45,9 +53,10 @@ export function NewsletterForm() {
 
   return (
     <form onSubmit={onSubmit} className="mt-10 max-w-2xl" aria-label="Newsletter signup">
-      <div className="flex flex-col gap-2 sm:flex-row">
-        <input name="email" type="email" autoComplete="email" placeholder="Email address" required className={inputClass()} />
-        <button type="submit" disabled={isPending} className={buttonClass()}>
+      <div className={styles.frame}>
+        <span aria-hidden="true" className={styles.shine} />
+        <input name="email" type="email" autoComplete="email" aria-label="Email address" placeholder="Email address" required className={styles.input} />
+        <button type="submit" disabled={isPending} className={styles.button}>
           {isPending ? "Joining…" : "Join"}
           <ArrowRight aria-hidden="true" className="size-4" />
         </button>
@@ -55,6 +64,7 @@ export function NewsletterForm() {
       <div className="mt-3 flex justify-between gap-4 text-xs text-muted-foreground">
         <span>No noise. One issue a day. We promise :)</span>
         {status === "error" ? <span role="alert">Couldn’t subscribe. Please try again.</span> : null}
+        {status === "already_registered" ? <span role="alert">This email is already registered.</span> : null}
       </div>
     </form>
   );

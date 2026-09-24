@@ -2,13 +2,14 @@
 
 import { headers } from "next/headers";
 import { z } from "zod";
-import { createSubscriptionCheckout, type Plan } from "./polar";
+import { createSubscriptionCheckout } from "./polar";
 import { setInterests, upsertSubscriber } from "./subscribers";
 
 const checkoutSchema = z.object({
   email: z.string().trim().email().max(254),
   interests: z.string().trim().min(10).max(500),
   plan: z.enum(["personal", "professional"]),
+  billingPeriod: z.enum(["monthly", "yearly"]),
 });
 
 const interestsSchema = z.object({
@@ -20,6 +21,7 @@ export async function startCheckoutAction(input: {
   email: string;
   interests: string;
   plan: string;
+  billingPeriod: string;
 }): Promise<{ url: string }> {
   const data = checkoutSchema.parse(input);
   const requestHeaders = await headers();
@@ -30,7 +32,7 @@ export async function startCheckoutAction(input: {
   await upsertSubscriber({
     email: data.email,
     interests: data.interests,
-    plan: data.plan as Plan,
+    plan: data.plan,
     status: "pending",
   });
 
@@ -38,6 +40,7 @@ export async function startCheckoutAction(input: {
     email: data.email,
     interests: data.interests,
     plan: data.plan,
+    billingPeriod: data.billingPeriod,
     customerIpAddress,
   });
 

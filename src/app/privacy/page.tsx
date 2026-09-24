@@ -34,7 +34,7 @@ export default function Privacy() {
 
         <h2>What we collect</h2>
         <ul>
-          <li>Newsletter: your email address, plus the date you subscribed.</li>
+          <li>Newsletter: your email address and signup date. If you complete onboarding, we also store your name, role, optional seniority and company, topics, preferred content and format, reading brief, and Personal trial dates to personalize your edition.</li>
           <li>
             Advertising inquiries: your name, work email, company, company website, what you want to
             promote, and your approximate budget if you share it.

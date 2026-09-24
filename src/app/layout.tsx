@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Newsreader } from "next/font/google";
+import { Barlow_Condensed, Geist, Geist_Mono, Newsreader } from "next/font/google";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -20,6 +20,13 @@ const ui = Geist({
 
 const technical = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const brand = Barlow_Condensed({
+  variable: "--font-barlow-condensed",
+  weight: "600",
   subsets: ["latin"],
   display: "swap",
 });
@@ -54,7 +61,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${editorial.variable} ${ui.variable} ${technical.variable}`}
+      className={`${editorial.variable} ${ui.variable} ${technical.variable} ${brand.variable}`}
     >
       <body>
         {children}

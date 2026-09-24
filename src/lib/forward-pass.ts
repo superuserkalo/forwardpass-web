@@ -3,12 +3,13 @@
 import { after } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
+import { createOnboardingSession, onboardingEmail } from "./onboarding-session";
 
 const NEWSLETTER_SEGMENT = "2ec79559-e5f2-4a84-887b-5cee315656a3";
 const ADVERTISER_SEGMENT = "bc122c83-9999-492c-b4e3-135972d0c130";
 
 const newsletterSchema = z.object({
-  email: z.string().trim().email().max(254),
+  email: z.string().trim().email().max(254).toLowerCase(),
 });
 
 const inquirySchema = z.object({
@@ -35,7 +36,8 @@ async function upsertContact(
     email: contact.email,
   });
 
-  if (getError || !existing) {
+  if (getError && getError.name !== "not_found") throw new Error("Could not check contact");
+  if (!existing) {
     const { error: createError } = await resend.contacts.create({
       email: contact.email,
       firstName: contact.firstName,
@@ -47,7 +49,11 @@ async function upsertContact(
       console.error(`Resend contact create failed: ${createError.message}`);
       throw new Error("Resend contact create failed");
     }
-    return;
+    return "created";
+  }
+
+  if (segmentId === NEWSLETTER_SEGMENT && !existing.unsubscribed) {
+    return "already_registered";
   }
 
   const { error: updateError } = await resend.contacts.update({
@@ -69,6 +75,7 @@ async function upsertContact(
     console.error(`Resend segment update failed: ${segmentError.message}`);
     throw new Error("Resend segment update failed");
   }
+  return "updated";
 }
 
 const escapeHtml = (value: string) =>
@@ -84,7 +91,7 @@ const escapeHtml = (value: string) =>
   });
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://forwardpass.lovable.app";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://theforwardpass.net";
 
 function welcomeEmailHtml(email: string) {
   const unsubscribeUrl = `${SITE_URL}/unsubscribe?email=${encodeURIComponent(email)}`;
@@ -102,7 +109,14 @@ function welcomeEmailHtml(email: string) {
 
 export async function subscribeAction(email: string) {
   const data = newsletterSchema.parse({ email });
-  await upsertContact({ email: data.email }, NEWSLETTER_SEGMENT);
+  const result = await upsertContact({ email: data.email }, NEWSLETTER_SEGMENT);
+  if (result === "already_registered") {
+    return { success: false, alreadyRegistered: true, canOnboard: false };
+  }
+  const created = result === "created";
+  if (created) await createOnboardingSession(data.email);
+  const canOnboard = created || (await onboardingEmail()) === data.email;
+  if (!created) return { success: true, canOnboard };
 
   after(async () => {
     try {
@@ -119,7 +133,7 @@ export async function subscribeAction(email: string) {
     }
   });
 
-  return { success: true };
+  return { success: true, canOnboard };
 }
 
 export async function unsubscribeAction(email: string) {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { PersonalSignup } from "@/components/personal-signup";
+import { PRICE_OPTIONS } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Pricing — The Forward Pass",
@@ -28,14 +29,16 @@ const TIERS = [
       "Curated AI-engineering sources",
       "Sponsored",
     ],
-    cta: { label: "Join free", href: "/#top" },
+    cta: { label: "Join free", href: "/welcome" },
   },
   {
     id: "personal",
     name: "Personal",
     blurb: "An issue written to your interests.",
-    price: "$4.99",
-    cadence: "/mo · $49/yr",
+    price: PRICE_OPTIONS.personal.monthly.usd,
+    cadence: "/mo",
+    localPrice: `${PRICE_OPTIONS.personal.monthly.eur}/mo`,
+    annualPrice: `${PRICE_OPTIONS.personal.yearly.usd}/yr · ${PRICE_OPTIONS.personal.yearly.eur}/yr`,
     recommended: true,
     features: [
       "Everything in Free",
@@ -43,20 +46,22 @@ const TIERS = [
       "Ad-free",
       "Links-only mode on request",
     ],
-    cta: { label: "Start my personal issue", href: "#signup" },
+    cta: { label: "Try Personal free for 14 days", href: "/welcome" },
   },
   {
     id: "professional",
     name: "Professional",
     blurb: "Plus weekly deep research on your niche.",
-    price: "$9.99",
-    cadence: "/mo · $99/yr",
+    price: PRICE_OPTIONS.professional.monthly.usd,
+    cadence: "/mo",
+    localPrice: `${PRICE_OPTIONS.professional.monthly.eur}/mo`,
+    annualPrice: `${PRICE_OPTIONS.professional.yearly.usd}/yr · ${PRICE_OPTIONS.professional.yearly.eur}/yr`,
     features: [
       "Everything in Personal",
       "Weekly deep research on your brief",
       "Priority support",
     ],
-    cta: { label: "Start with Professional", href: "#signup" },
+    cta: { label: "Start with Professional", href: "/pricing?plan=professional#signup" },
   },
 ];
 
@@ -70,7 +75,12 @@ const COMPARE: Array<[string, string, string, string]> = [
   ["Archive", "Last 6 months", "Last 12 months", "Last 24 months"],
 ];
 
-export default function Pricing() {
+export default async function Pricing({
+  searchParams,
+}: {
+  searchParams: Promise<{ plan?: string }>;
+}) {
+  const initialPlan = (await searchParams).plan === "professional" ? "professional" : "personal";
   return (
     <main>
       <SiteHeader />
@@ -83,8 +93,8 @@ export default function Pricing() {
           One issue for everyone. One written for you.
         </h1>
         <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          The daily issue stays free and general. For a personal edition, describe
-          what you want in plain language — like a system prompt for your inbox.
+          The daily issue stays free and general. Try Personal for 14 days on us,
+          with an edition shaped by your interests. No credit card. No automatic charge.
         </p>
       </section>
 
@@ -110,6 +120,11 @@ export default function Pricing() {
                   {tier.cadence}
                 </span>
               </p>
+              {"localPrice" in tier ? (
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {tier.localPrice} · {tier.annualPrice}
+                </p>
+              ) : null}
               <ul className="mt-8 flex-1 space-y-3 text-sm">
                 {tier.features.map((feature) => (
                   <li key={feature} className="text-muted-foreground">
@@ -121,7 +136,7 @@ export default function Pricing() {
               <Link
                 href={tier.cta.href}
                 className={`mt-10 inline-flex h-14 items-center justify-center px-6 text-sm font-medium transition-colors ${
-                  tier.cta.href === "#signup"
+                  tier.id !== "free"
                     ? "bg-primary text-primary-foreground hover:opacity-90"
                     : "border border-border hover:bg-accent"
                 }`}
@@ -140,7 +155,7 @@ export default function Pricing() {
         <div className="mx-auto grid max-w-7xl gap-16 px-5 py-24 md:grid-cols-2 md:px-10 md:py-32">
           <div>
             <p className="mb-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-              Personal
+              Paid plans
             </p>
             <h2 className="max-w-xl text-4xl leading-tight font-medium sm:text-5xl">
               Describe your ideal issue.
@@ -167,7 +182,8 @@ export default function Pricing() {
             </ul>
           </div>
           <div className="border border-border bg-background p-8">
-            <PersonalSignup />
+            <p className="mb-5 text-sm leading-6 text-muted-foreground">New here? <Link href="/welcome" className="text-foreground underline underline-offset-4">Start with 14 days of Personal on us</Link>. Ready for a paid plan? Choose below.</p>
+            <PersonalSignup key={initialPlan} initialPlan={initialPlan} />
           </div>
         </div>
       </section>
@@ -209,9 +225,10 @@ export default function Pricing() {
           </table>
         </div>
         <p className="mt-10 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Prices in USD. Billing handled by{" "}
+          US prices in USD; euro-area prices in EUR. Billing handled by{" "}
           <span className="text-foreground">Polar</span>, which also manages VAT
-          and sales tax. Every plan can be cancelled from the billing portal.
+          and sales tax. Your final price is shown at checkout. Every plan can be
+          cancelled from the billing portal.
         </p>
       </section>
 

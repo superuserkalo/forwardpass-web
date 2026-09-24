@@ -3,6 +3,7 @@
 import { useState, useTransition, type FormEvent } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { startCheckoutAction, updateInterestsAction } from "@/lib/personal-actions";
+import { PRICE_OPTIONS, type BillingPeriod, type Plan } from "@/lib/pricing";
 
 const inputClass =
   "flex h-14 w-full border border-input bg-transparent px-4 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-ring disabled:cursor-not-allowed disabled:opacity-50";
@@ -10,9 +11,16 @@ const inputClass =
 const buttonClass =
   "inline-flex h-14 items-center justify-center gap-2 bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50";
 
-export function PersonalSignup({ compact = false }: { compact?: boolean }) {
+export function PersonalSignup({
+  compact = false,
+  initialPlan = "personal",
+}: {
+  compact?: boolean;
+  initialPlan?: Plan;
+}) {
   const [status, setStatus] = useState<"success" | "error" | null>(null);
-  const [plan, setPlan] = useState<"personal" | "professional">("personal");
+  const [plan, setPlan] = useState<Plan>(initialPlan);
+  const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>("monthly");
   const [isPending, startTransition] = useTransition();
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -25,6 +33,7 @@ export function PersonalSignup({ compact = false }: { compact?: boolean }) {
           email: String(form.get("email")),
           interests: String(form.get("interests")),
           plan,
+          billingPeriod,
         });
         window.location.href = url;
       } catch {
@@ -42,8 +51,8 @@ export function PersonalSignup({ compact = false }: { compact?: boolean }) {
         <div className="grid grid-cols-2 gap-px border border-border bg-border">
           {(
             [
-              ["personal", "Personal · $4.99/mo"],
-              ["professional", "Professional · $9.99/mo"],
+              ["personal", "Personal"],
+              ["professional", "Professional"],
             ] as const
           ).map(([id, label]) => (
             <button
@@ -61,6 +70,35 @@ export function PersonalSignup({ compact = false }: { compact?: boolean }) {
             </button>
           ))}
         </div>
+      </fieldset>
+      <fieldset className="mb-3">
+        <legend className="mb-2 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+          Billing
+        </legend>
+        <div className="grid grid-cols-2 gap-px border border-border bg-border">
+          {(["monthly", "yearly"] as const).map((period) => {
+            const price = PRICE_OPTIONS[plan][period];
+            return (
+              <button
+                key={period}
+                type="button"
+                onClick={() => setBillingPeriod(period)}
+                aria-pressed={billingPeriod === period}
+                className={`px-4 py-3 text-left text-xs transition-colors ${
+                  billingPeriod === period
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-background text-muted-foreground hover:bg-accent"
+                }`}
+              >
+                <span className="block font-medium capitalize">{period}</span>
+                <span className="mt-1 block">{price.usd} / {price.eur}</span>
+              </button>
+            );
+          })}
+        </div>
+        <p className="mt-2 text-xs text-muted-foreground">
+          Polar shows the applicable currency and final total at checkout.
+        </p>
       </fieldset>
       <div className="grid gap-3">
         <input
@@ -81,7 +119,7 @@ export function PersonalSignup({ compact = false }: { compact?: boolean }) {
           className={`${inputClass} min-h-24 resize-y py-3 leading-relaxed`}
         />
         <button type="submit" disabled={isPending} className={buttonClass}>
-          {isPending ? "Redirecting…" : "Start my personal issue"}
+          {isPending ? "Redirecting…" : "Continue to paid checkout"}
           <ArrowRight aria-hidden="true" className="size-4" />
         </button>
       </div>
