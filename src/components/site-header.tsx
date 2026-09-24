@@ -29,10 +29,10 @@ export function SiteHeader() {
         }`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-10 md:py-5">
-          <a href="#top" className="flex items-center gap-3" aria-label="The Forward Pass home">
+          <Link href="/" className="flex items-center gap-3" aria-label="The Forward Pass home">
             <Image src="/logo.png" alt="The Forward Pass logo" width={28} height={28} className="size-7" priority />
             <span className="wordmark">THE FORWARD PASS</span>
-          </a>
+          </Link>
           <Link
             href="/collaborate"
             className="bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-90 active:scale-[0.98]"
