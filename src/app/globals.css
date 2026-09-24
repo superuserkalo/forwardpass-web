@@ -101,24 +101,12 @@
   .onboarding-eyebrow { margin-bottom: 1rem; font-family: var(--font-technical); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted-foreground); }
   .onboarding-title { font-family: var(--font-ui); font-size: clamp(1.375rem, 3vw, 1.75rem); font-weight: 500; line-height: 1.35; letter-spacing: -.015em; outline: none; }
   .onboarding-enter { animation: onboarding-enter .2s ease-out both; }
-  .onboarding-source { animation: onboarding-source 2.8s ease-in-out infinite; }
-  .onboarding-line { transform-origin: left; animation: onboarding-line 2.8s cubic-bezier(.3,.7,.3,1) infinite; }
   .onboarding-cursor { animation: onboarding-blink 1s step-end infinite; }
-  .onboarding-flow { animation: onboarding-flow 2.8s ease-in-out infinite; }
-  .onboarding-edition { animation: onboarding-edition 2.8s ease-in-out infinite; }
 }
 @keyframes onboarding-enter { from { opacity: 0; } to { opacity: 1; } }
-@keyframes onboarding-source { 0%, 100% { color: var(--muted-foreground); background: transparent; transform: translateX(0); } 18%, 46% { color: var(--foreground); background: #ffffff0a; transform: translateX(2px); } }
-@keyframes onboarding-line { 0%, 12% { transform: scaleX(.12); opacity: .35; } 42%, 82% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(.12); opacity: .35; } }
-@media (min-width: 640px) {
-  .onboarding-flow { animation-name: onboarding-flow-x; }
-}
-@keyframes onboarding-flow { 0%, 100% { transform: translateY(0); opacity: .55; } 50% { transform: translateY(4px); opacity: 1; } }
-@keyframes onboarding-flow-x { 0%, 100% { transform: translateX(0); opacity: .55; } 50% { transform: translateX(4px); opacity: 1; } }
-@keyframes onboarding-edition { 0%, 100% { border-color: var(--border); box-shadow: 0 0 0 0 transparent; } 50% { border-color: var(--foreground); box-shadow: 0 0 0 1px var(--foreground); } }
 @keyframes onboarding-blink { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) {
-  .onboarding-enter, .onboarding-source, .onboarding-line, .onboarding-cursor, .onboarding-flow, .onboarding-edition { animation: none; }
+  .onboarding-enter, .onboarding-cursor { animation: none; }
 }
 
 @layer components {
