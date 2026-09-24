@@ -8,6 +8,7 @@ export type ParsedBlock = {
 export type ParsedEdition = {
   title: string | null;
   lead: string | null;
+  preamble: string;
   blocks: ParsedBlock[];
   firstImage: string | null;
   wordCount: number;
@@ -182,18 +183,17 @@ export function parseEdition(markdown: string): ParsedEdition {
   const titleMatch = /^#\s+(.+)$/m.exec(text);
   const title = titleMatch?.[1] ? stripInlineMarkdown(titleMatch[1]) : null;
   const body = titleMatch ? text.replace(titleMatch[0], "").trim() : text;
-  const blocks =
-    splitAtHeading(body, /^##\s+(.+)$/) ??
-    splitAtHeading(body, /^###\s+(.+)$/) ??
-    splitAtRules(body) ??
-    splitAtBoldLeads(body) ??
-    [{ heading: title ?? "", body }];
+  const headingBlocks = splitAtHeading(body, /^##\s+(.+)$/) ?? splitAtHeading(body, /^###\s+(.+)$/);
+  const blocks = headingBlocks ?? splitAtRules(body) ?? splitAtBoldLeads(body) ?? [{ heading: title ?? "", body }];
+  const firstHeading = headingBlocks ? /^#{2,3}\s+.+$/m.exec(body) : null;
+  const preamble = firstHeading ? body.slice(0, firstHeading.index).trim() : "";
   const firstImage = findImages(text)[0] ?? null;
   const wordCount = text.split(/\s+/).filter(Boolean).length;
-  const leadSource = blocks[0] ? blocks[0].body : body;
+  const leadSource = preamble || (blocks[0] ? blocks[0].body : body);
   return {
     title,
     lead: summarize(leadSource) || null,
+    preamble,
     blocks,
     firstImage,
     wordCount,

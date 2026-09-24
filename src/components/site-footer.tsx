@@ -7,8 +7,8 @@ const COLUMNS: Array<{ label: string; links: Array<{ label: string; href: string
     label: "Read",
     links: [
       { label: "The archive", href: "/archive" },
-      { label: "Weekly research", href: "/archive#weekly" },
-      { label: "Editorial", href: "/archive#editorial" },
+      { label: "Weekly deep dive", href: "/archive?section=weekly" },
+      { label: "Editorial", href: "/archive?section=editorial" },
       { label: "Reading brief", href: "/preferences" },
     ],
   },

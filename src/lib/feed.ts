@@ -43,6 +43,8 @@ export type EditorialPiece = {
   publishedAt: string;
   href: string;
   topics: FeedTopic[];
+  upvotes: number;
+  viewerHasUpvoted: boolean;
 };
 
 export type RemoteVote = {
@@ -85,6 +87,8 @@ const remoteEditorialSchema = z.object({
       published_at: z.string(),
       href: z.string().nullish(),
       topics: z.array(z.string()).catch([]),
+      upvotes: z.number().int().catch(0),
+      viewer_has_upvoted: z.boolean().catch(false),
     }),
   ),
 });
@@ -152,6 +156,8 @@ export async function remoteEditorialPieces(): Promise<EditorialPiece[] | null> 
     publishedAt: piece.published_at,
     href: piece.href ?? "/archive",
     topics: toFeedTopics(piece.topics),
+    upvotes: piece.upvotes,
+    viewerHasUpvoted: piece.viewer_has_upvoted,
   }));
 }
 
@@ -241,14 +247,23 @@ export async function loadEditorial(): Promise<{ pieces: EditorialPiece[]; sourc
   return { pieces: [], source: "editions" };
 }
 
-export function rankForYou(stories: Story[], readerTopics: FeedTopic[]): Story[] {
-  if (readerTopics.length === 0) return stories;
-  const wanted = new Set(readerTopics.map((topic) => topic.toLowerCase()));
-  return [...stories].sort((a, b) => score(b, wanted) - score(a, wanted));
-}
-
-function score(story: Story, wanted: Set<string>): number {
-  return story.topics.reduce((total, topic) => total + (wanted.has(topic.toLowerCase()) ? 1 : 0), 0);
+export function editorialAsStory(piece: EditorialPiece): Story {
+  return {
+    id: piece.id,
+    type: "editorial",
+    title: piece.title,
+    dek: piece.dek,
+    sourceName: "THE FORWARD PASS",
+    sourceUrl: null,
+    topics: piece.topics,
+    image: piece.image,
+    publishedAt: piece.publishedAt,
+    upvotes: piece.upvotes,
+    viewerHasUpvoted: piece.viewerHasUpvoted,
+    href: piece.href,
+    author: piece.author,
+    section: "daily",
+  };
 }
 
 export function storyReadMinutes(story: Story): number {
@@ -258,6 +273,7 @@ export function storyReadMinutes(story: Story): number {
 export type EditionOutline = {
   title: string;
   lead: string | null;
+  preamble: string;
   heroImage: string | null;
   readMinutes: number;
   takeaways: string[];
@@ -266,20 +282,29 @@ export type EditionOutline = {
   sections: Array<{ id: string; heading: string; body: string }>;
 };
 
+function bulletLines(markdown: string): string[] {
+  return markdown
+    .split(/\n/)
+    .filter((line) => /^\s*[-*]\s+/.test(line))
+    .map((line) => stripInlineMarkdown(line.replace(/^\s*[-*]\s+/, "")))
+    .filter(Boolean);
+}
+
 export function outlineEdition(kind: ArchiveKind, date: string, markdown: string): EditionOutline {
   const parsed = parseEdition(markdown);
   const links = findLinks(markdown);
   const sourceUrl = links.find((link) => !link.includes("theforwardpass.net")) ?? null;
-  const firstBody = parsed.blocks[0]?.body ?? "";
-  const takeaways = firstBody
+  const preambleBullets = bulletLines(parsed.preamble);
+  const takeaways = (preambleBullets.length > 0 ? preambleBullets : bulletLines(parsed.blocks[0]?.body ?? "")).slice(0, 6);
+  const preamble = parsed.preamble
     .split(/\n/)
-    .filter((line) => /^\s*[-*]\s+/.test(line))
-    .slice(0, 6)
-    .map((line) => stripInlineMarkdown(line.replace(/^\s*[-*]\s+/, "")))
-    .filter(Boolean);
+    .filter((line) => !/^\s*[-*]\s+/.test(line))
+    .join("\n")
+    .trim();
   return {
     title: parsed.title ?? (kind === "weekly" ? "This week in depth." : "Today’s forward pass."),
     lead: parsed.lead,
+    preamble,
     heroImage: parsed.firstImage,
     readMinutes: editionReadMinutes(parsed.wordCount),
     takeaways,
