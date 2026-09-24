@@ -112,3 +112,18 @@
 @media (prefers-reduced-motion: reduce) {
   .onboarding-enter, .onboarding-source, .onboarding-line, .onboarding-cursor { animation: none; }
 }
+
+@layer components {
+  .archive-copy { font-size: .96rem; line-height: 1.85; color: var(--color-foreground); }
+  .archive-copy h1 { margin: 0 0 2.5rem; font-family: var(--font-editorial); font-size: clamp(2.5rem, 7vw, 4rem); line-height: 1.1; }
+  .archive-copy h2 { margin: 3.5rem 0 1.25rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem; font-family: var(--font-editorial); font-size: 2rem; line-height: 1.2; }
+  .archive-copy h3 { margin: 2.5rem 0 1rem; font-size: 1.1rem; font-weight: 600; }
+  .archive-copy p, .archive-copy ul, .archive-copy ol, .archive-copy blockquote { margin: 0 0 1.5rem; }
+  .archive-copy ul { list-style: disc; padding-left: 1.5rem; }
+  .archive-copy ol { list-style: decimal; padding-left: 1.5rem; }
+  .archive-copy li { margin: .5rem 0; }
+  .archive-copy a { text-decoration: underline; text-underline-offset: .25rem; }
+  .archive-copy blockquote { border-left: 2px solid var(--color-border); padding-left: 1.25rem; color: var(--color-muted-foreground); }
+  .archive-copy code { font-family: var(--font-technical); font-size: .85em; }
+  .archive-copy pre { overflow-x: auto; border: 1px solid var(--color-border); padding: 1rem; }
+}

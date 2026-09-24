@@ -21,4 +21,12 @@ export function verifyPreferencesToken(token: string, now = Date.now()): { email
   }
 }
 
+export function createPreferencesToken(email: string, now = Date.now()): string {
+  const secret = process.env.PREFERENCES_SIGNING_SECRET;
+  if (!secret || secret.length < 32) throw new Error("PREFERENCES_SIGNING_SECRET is not configured.");
+  const payload = Buffer.from(JSON.stringify({ email: z.email().parse(email), expires: now + 86_400_000 })).toString("base64url");
+  const signature = createHmac("sha256", secret).update(`preferences:${payload}`).digest("base64url");
+  return `${payload}.${signature}`;
+}
+
 export const preferencesCookieName = COOKIE;

@@ -33,12 +33,15 @@ export function SiteHeader() {
             <Image src="/logo.png" alt="The Forward Pass logo" width={28} height={28} className="size-7" priority />
             <span className="wordmark">THE FORWARD PASS</span>
           </Link>
-          <Link
-            href="/collaborate"
-            className="bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-90 active:scale-[0.98]"
-          >
-            Collaborate
-          </Link>
+          <div className="flex items-center gap-5">
+            <Link href="/archive" className="text-sm text-muted-foreground transition-colors hover:text-foreground">Archive</Link>
+            <Link
+              href="/collaborate"
+              className="bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-90 active:scale-[0.98]"
+            >
+              Collaborate
+            </Link>
+          </div>
         </div>
       </header>
     </>

@@ -18,7 +18,7 @@ export async function POST(request: Request): Promise<Response> {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    path: "/preferences",
+    path: "/",
     maxAge: Math.max(1, Math.floor((verified.expires - Date.now()) / 1000)),
   });
   return response;

@@ -5,7 +5,7 @@ import { createRequire } from "node:module";
 import { test } from "node:test";
 import { runInNewContext } from "node:vm";
 import ts from "typescript";
-import { verifyPreferencesToken } from "../src/lib/preferences-token.ts";
+import { createPreferencesToken, verifyPreferencesToken } from "../src/lib/preferences-token.ts";
 
 const require = createRequire(import.meta.url);
 
@@ -18,6 +18,19 @@ test("signed edit links expire and reject tampering", () => {
     assert.equal(verifyPreferencesToken(`${payload}.${signature}`, 1000)?.email, "reader@example.com");
     assert.equal(verifyPreferencesToken(`${payload}.${signature}`, 2000), null);
     assert.equal(verifyPreferencesToken(`${payload}.${signature}x`, 1000), null);
+  } finally {
+    if (oldSecret === undefined) delete process.env.PREFERENCES_SIGNING_SECRET;
+    else process.env.PREFERENCES_SIGNING_SECRET = oldSecret;
+  }
+});
+
+test("a signed onboarding session can obtain a short archive token", () => {
+  const oldSecret = process.env.PREFERENCES_SIGNING_SECRET;
+  process.env.PREFERENCES_SIGNING_SECRET = "a".repeat(32);
+  try {
+    const token = createPreferencesToken("reader@example.com", 1000);
+    assert.equal(verifyPreferencesToken(token, 1001)?.email, "reader@example.com");
+    assert.equal(verifyPreferencesToken(token, 86_401_000), null);
   } finally {
     if (oldSecret === undefined) delete process.env.PREFERENCES_SIGNING_SECRET;
     else process.env.PREFERENCES_SIGNING_SECRET = oldSecret;
