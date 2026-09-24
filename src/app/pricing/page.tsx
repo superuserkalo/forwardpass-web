@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { PersonalSignup } from "@/components/personal-signup";
+import { PRICE_OPTIONS } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Pricing — The Forward Pass",
@@ -34,8 +35,10 @@ const TIERS = [
     id: "personal",
     name: "Personal",
     blurb: "An issue written to your interests.",
-    price: "$4.99",
-    cadence: "/mo · $49/yr",
+    price: PRICE_OPTIONS.personal.monthly.usd,
+    cadence: "/mo",
+    localPrice: `${PRICE_OPTIONS.personal.monthly.eur}/mo`,
+    annualPrice: `${PRICE_OPTIONS.personal.yearly.usd}/yr · ${PRICE_OPTIONS.personal.yearly.eur}/yr`,
     recommended: true,
     features: [
       "Everything in Free",
@@ -49,8 +52,10 @@ const TIERS = [
     id: "professional",
     name: "Professional",
     blurb: "Plus weekly deep research on your niche.",
-    price: "$9.99",
-    cadence: "/mo · $99/yr",
+    price: PRICE_OPTIONS.professional.monthly.usd,
+    cadence: "/mo",
+    localPrice: `${PRICE_OPTIONS.professional.monthly.eur}/mo`,
+    annualPrice: `${PRICE_OPTIONS.professional.yearly.usd}/yr · ${PRICE_OPTIONS.professional.yearly.eur}/yr`,
     features: [
       "Everything in Personal",
       "Weekly deep research on your brief",
@@ -110,6 +115,11 @@ export default function Pricing() {
                   {tier.cadence}
                 </span>
               </p>
+              {"localPrice" in tier ? (
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {tier.localPrice} · {tier.annualPrice}
+                </p>
+              ) : null}
               <ul className="mt-8 flex-1 space-y-3 text-sm">
                 {tier.features.map((feature) => (
                   <li key={feature} className="text-muted-foreground">
@@ -209,9 +219,10 @@ export default function Pricing() {
           </table>
         </div>
         <p className="mt-10 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Prices in USD. Billing handled by{" "}
+          US prices in USD; euro-area prices in EUR. Billing handled by{" "}
           <span className="text-foreground">Polar</span>, which also manages VAT
-          and sales tax. Every plan can be cancelled from the billing portal.
+          and sales tax. Your final price is shown at checkout. Every plan can be
+          cancelled from the billing portal.
         </p>
       </section>
 

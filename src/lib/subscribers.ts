@@ -1,7 +1,9 @@
 import { Resend } from "resend";
+import { paidStatusChange } from "./polar-status";
 
 export type PersonalPlan = "personal" | "professional";
-export type SubscriberStatus = "pending" | "active" | "canceled";
+export type SubscriberStatus =
+  "pending" | "active" | "canceled" | "trial" | "free";
 
 export interface Subscriber {
   email: string;
@@ -28,7 +30,10 @@ export async function upsertSubscriber(subscriber: Subscriber): Promise<void> {
     email: subscriber.email,
   });
 
-  if (getError || !existing) {
+  if (getError && getError.name !== "not_found") {
+    throw new Error("Could not check subscriber status.");
+  }
+  if (!existing) {
     const { error } = await resend.contacts.create({
       email: subscriber.email,
       unsubscribed: false,
@@ -41,31 +46,44 @@ export async function upsertSubscriber(subscriber: Subscriber): Promise<void> {
     return;
   }
 
-  const { error } = await resend.contacts.update({
-    id: existing.id,
-    properties,
-  });
-  if (error) {
-    console.error(`Subscriber update failed: ${error.message}`);
-    throw new Error("Subscriber update failed");
-  }
+  // Checkout is unauthenticated. A submitted email alone must not edit an
+  // existing contact; the billing webhook updates its entitlement after payment.
 }
 
-export async function setSubscriberStatus(
+export async function syncPaidSubscriber(
   email: string,
-  status: SubscriberStatus,
-  plan?: PersonalPlan,
+  plan: PersonalPlan | null,
 ): Promise<void> {
   const resend = getResend();
   const { data: existing, error: getError } = await resend.contacts.get({
     email,
   });
-  if (getError || !existing) return;
+  if (getError && getError.name !== "not_found") {
+    throw new Error("Could not check subscriber for Polar event.");
+  }
+  if (!existing) {
+    if (!plan) return;
+    const { error } = await resend.contacts.create({
+      email,
+      unsubscribed: false,
+      properties: { interests: "", personal_plan: plan, personal_status: "active" },
+    });
+    if (error) throw new Error("Could not create subscriber for Polar event.");
+    return;
+  }
 
-  const properties: Record<string, string> = { personal_status: status };
-  if (plan) properties.personal_plan = plan;
+  const change = paidStatusChange(
+    String(existing.properties.personal_status?.value ?? ""),
+    String(existing.properties.personal_plan?.value ?? ""),
+    plan,
+  );
+  if (!change) return;
 
-  await resend.contacts.update({ id: existing.id, properties });
+  const properties: Record<string, string> = { personal_status: change.status };
+  if (change.plan) properties.personal_plan = change.plan;
+
+  const { error } = await resend.contacts.update({ id: existing.id, properties });
+  if (error) throw new Error("Could not update subscriber for Polar event.");
 }
 
 export async function setInterests(
