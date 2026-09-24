@@ -4,6 +4,7 @@ import { AdvertisingForm, NewsletterForm } from "@/components/forward-pass-forms
 import { Hero } from "@/components/hero";
 import { Sigil } from "@/components/sigil";
 import { SiteHeader } from "@/components/site-header";
+import { SocialLinks } from "@/components/social-links";
 
 export const metadata: Metadata = {
   title: "The Forward Pass: What's changing in AI engineering",
@@ -93,7 +94,7 @@ export default function Home() {
       <footer className="border-t border-border">
         <Sigil />
         <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-10 text-sm sm:flex-row sm:items-end sm:justify-between md:px-10">
-          <div><div className="wordmark">THE FORWARD PASS</div><a className="mt-2 block text-muted-foreground hover:text-foreground" href="https://x.com/forwardpassnews" target="_blank" rel="noreferrer">@forwardpassnews</a></div>
+          <div><div className="wordmark">THE FORWARD PASS</div><p className="mt-2 text-muted-foreground">@forwardpassnews</p><SocialLinks /></div>
           <nav className="flex gap-6 text-muted-foreground" aria-label="Legal"><Link className="hover:text-foreground" href="/privacy">Privacy</Link><Link className="hover:text-foreground" href="/imprint">Imprint</Link><Link className="hover:text-foreground" href="/unsubscribe">Unsubscribe</Link></nav>
         </div>
       </footer>

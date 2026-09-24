@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
+import { SocialLinks } from "@/components/social-links";
 import { PersonalSignup } from "@/components/personal-signup";
 import { PRICE_OPTIONS } from "@/lib/pricing";
 
@@ -236,9 +237,11 @@ export default async function Pricing({
         <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-10 text-sm sm:flex-row sm:items-end sm:justify-between md:px-10">
           <div>
             <div className="wordmark">THE FORWARD PASS</div>
+            <p className="mt-2 text-muted-foreground">@forwardpassnews</p>
+            <SocialLinks />
             <Link
               href="/"
-              className="mt-2 block text-muted-foreground hover:text-foreground"
+              className="mt-4 block text-muted-foreground hover:text-foreground"
             >
               Back to the free issue
             </Link>
