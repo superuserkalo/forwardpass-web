@@ -6,11 +6,11 @@ import { PersonalSignup } from "@/components/personal-signup";
 import { PRICE_OPTIONS } from "@/lib/pricing";
 
 export const metadata: Metadata = {
-  title: "Pricing — The Forward Pass",
+  title: "Pricing | The Forward Pass",
   description:
     "A free daily issue for everyone. A personal issue written to your interests from $4.99/month.",
   openGraph: {
-    title: "Pricing — The Forward Pass",
+    title: "Pricing | The Forward Pass",
     description:
       "A free daily issue for everyone. A personal issue written to your interests from $4.99/month.",
     type: "website",
