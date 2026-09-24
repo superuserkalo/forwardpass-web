@@ -8,7 +8,7 @@ Next.js (App Router) + Tailwind CSS v4 + Resend. Deploys to Vercel; every push t
 
 ```bash
 npm install
-cp .env.example .env.local  # add RESEND_API_KEY
+cp .env.example .env.local  # add server-side credentials
 npm run dev
 ```
 
@@ -16,9 +16,12 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Environment
 
-| Variable         | Purpose                                    |
-| ---------------- | ------------------------------------------ |
-| `RESEND_API_KEY` | Newsletter signup, unsubscribe, inquiries  |
+| Variable | Purpose |
+| --- | --- |
+| `RESEND_API_KEY` | Newsletter signup, contact state, and inquiries |
+| `POLAR_ACCESS_TOKEN`, `POLAR_WEBHOOK_SECRET` | Checkout and verified billing events |
+| `POLAR_PRODUCT_*` | Four Personal/Professional monthly/yearly products |
+| `PREFERENCES_SIGNING_SECRET` | Verify signed reading-brief links from the agent; use the same value in both projects |
 
 Segment IDs and sender addresses live in `src/lib/forward-pass.ts`.
 
@@ -30,6 +33,7 @@ Segment IDs and sender addresses live in `src/lib/forward-pass.ts`.
 | `/privacy`     | Privacy policy                   |
 | `/imprint`     | Publisher information            |
 | `/unsubscribe` | Self-serve unsubscribe (`?email=` pre-fills) |
+| `/preferences` | Signed reading-brief editing and billing portal link |
 
 ## Deploy
 
@@ -57,22 +61,23 @@ expires after 24 hours; it is only issued when creating a new contact. An existi
 email address by itself does not authorize profile edits or a second trial.
 Draft preferences stay in the current tab's session storage until completion.
 
-**Delivery integration:** this repository stores the reading brief and trial
-entitlement. It does not schedule personal issues. The adjacent `forwardpass`
-repository currently generates personal issues on demand and drafts general
-broadcasts. Before offering trials in production, its delivery job must fetch
-contact properties, exclude unsubscribed contacts, and grant Personal only when
-`personal_status` is `active`, or it is `trial` and `personal_trial_ends_at` is in
-the future. `personalAccess` in `src/lib/onboarding.ts` implements this rule.
-Expired trials receive the general issue; no cancellation job or billing charge
-is required. `interests` stays within the personal generator's 500-character
-limit. Do not send both the personal and general issue to the same reader.
+**Delivery integration:** the adjacent `forwardpass` agent now stages a daily
+delivery manifest from the same Resend contact properties. It excludes
+unsubscribed contacts and grants Personal only for an active subscription or
+an unexpired trial. Expired trials receive Free. Every staged recipient has
+exactly one daily edition, and delivery requires a separate human approval.
+The agent is not deployed yet, so no scheduled delivery is live. Its emails
+contain 30-day signed links to `/preferences/open`. The browser exchanges the
+fragment for an HTTP-only cookie, then redirects to `/preferences`; the token
+stays out of server URL logs. A submitted email address alone cannot change
+another reader's brief.
 
 Verification:
 
 ```bash
 node --experimental-strip-types --test scripts/onboarding.test.mjs
 node --experimental-strip-types --test scripts/pricing.test.mjs
+node --experimental-strip-types --test scripts/preferences.test.mjs
 npm run lint
 npm run build
 ```
@@ -100,3 +105,6 @@ updating their Resend contact. This preserves access during a paid cancellation
 period, handles duplicate deliveries, and gives Professional priority when a
 customer holds both plans. A subscription with no active Polar entitlement
 removes paid access; an existing free or app-managed trial stays unchanged.
+On the first confirmed paid transition, the buyer's checkout reading brief is
+copied from the active subscription metadata to the Resend contact. Readers
+manage their subscription through [Polar's portal](https://polar.sh/the-forward-pass/portal).

@@ -53,6 +53,7 @@ export async function upsertSubscriber(subscriber: Subscriber): Promise<void> {
 export async function syncPaidSubscriber(
   email: string,
   plan: PersonalPlan | null,
+  interests: string | null = null,
 ): Promise<void> {
   const resend = getResend();
   const { data: existing, error: getError } = await resend.contacts.get({
@@ -66,7 +67,7 @@ export async function syncPaidSubscriber(
     const { error } = await resend.contacts.create({
       email,
       unsubscribed: false,
-      properties: { interests: "", personal_plan: plan, personal_status: "active" },
+      properties: { interests: interests ?? "", personal_plan: plan, personal_status: "active" },
     });
     if (error) throw new Error("Could not create subscriber for Polar event.");
     return;
@@ -81,6 +82,7 @@ export async function syncPaidSubscriber(
 
   const properties: Record<string, string> = { personal_status: change.status };
   if (change.plan) properties.personal_plan = change.plan;
+  if (change.status === "active" && interests) properties.interests = interests;
 
   const { error } = await resend.contacts.update({ id: existing.id, properties });
   if (error) throw new Error("Could not update subscriber for Polar event.");
@@ -97,8 +99,9 @@ export async function setInterests(
   if (getError || !existing) {
     throw new Error("No subscriber found for that address.");
   }
-  await resend.contacts.update({
+  const { error } = await resend.contacts.update({
     id: existing.id,
     properties: { interests },
   });
+  if (error) throw new Error("Could not update your reading brief.");
 }

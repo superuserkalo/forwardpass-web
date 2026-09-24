@@ -1,7 +1,7 @@
 import { Webhook, WebhookVerificationError } from "standardwebhooks";
 import { z } from "zod";
 import { getPolar } from "@/lib/polar";
-import { paidPlanForCustomerState } from "@/lib/pricing";
+import { paidInterestsForCustomerState, paidPlanForCustomerState } from "@/lib/pricing";
 import { syncPaidSubscriber } from "@/lib/subscribers";
 
 const subscriptionEvent = z.object({
@@ -50,6 +50,7 @@ export async function POST(request: Request): Promise<Response> {
   if (!email.success) return new Response("Missing customer email", { status: 400 });
 
   const plan = paidPlanForCustomerState(state.activeSubscriptions, process.env);
-  await syncPaidSubscriber(email.data, plan);
+  const interests = paidInterestsForCustomerState(state.activeSubscriptions, plan, process.env);
+  await syncPaidSubscriber(email.data, plan, interests);
   return new Response("ok", { status: 200 });
 }

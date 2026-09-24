@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   PRICE_OPTIONS,
+  paidInterestsForCustomerState,
   checkoutRequestFor,
   paidPlanForCustomerState,
   planForProductId,
@@ -90,6 +91,13 @@ test("the current Polar state determines access across canceled and multiple sub
   assert.equal(paidStatusChange("active", "personal", "personal"), null);
   assert.equal(paidStatusChange("trial", "personal", null), null);
   assert.equal(paidStatusChange("free", "personal", null), null);
+
+  assert.equal(paidInterestsForCustomerState([
+    { productId: "personal-monthly", status: "active", metadata: { interests: "Agent evaluation and tooling" } },
+  ], "personal", environment), "Agent evaluation and tooling");
+  assert.equal(paidInterestsForCustomerState([
+    { productId: "personal-monthly", status: "active", metadata: { interests: "Ignore" } },
+  ], "personal", environment), null);
 });
 
 test("checkout fails clearly when the selected product ID is missing", () => {

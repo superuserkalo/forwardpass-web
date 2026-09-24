@@ -133,7 +133,7 @@ export function PersonalSignup({
   );
 }
 
-export function InterestsEditor({ email }: { email: string }) {
+export function InterestsEditor({ email, initialInterests }: { email: string; initialInterests: string }) {
   const [status, setStatus] = useState<"success" | "error" | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -159,6 +159,7 @@ export function InterestsEditor({ email }: { email: string }) {
       <div className="grid gap-3">
         <textarea
           name="interests"
+          defaultValue={initialInterests}
           required
           minLength={10}
           maxLength={500}

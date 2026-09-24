@@ -68,6 +68,20 @@ export function paidPlanForCustomerState(
   return null;
 }
 
+export function paidInterestsForCustomerState(
+  subscriptions: ReadonlyArray<{ productId: string; status: string; metadata?: Record<string, unknown> }>,
+  plan: Plan | null,
+  environment: Record<string, string | undefined>,
+): string | null {
+  if (!plan) return null;
+  for (const subscription of subscriptions) {
+    if (subscription.status !== "active" || planForProductId(subscription.productId, environment) !== plan) continue;
+    const value = subscription.metadata?.interests;
+    if (typeof value === "string" && value.trim().length >= 10 && value.trim().length <= 500) return value.trim();
+  }
+  return null;
+}
+
 export function checkoutRequestFor(
   input: {
     email: string;
