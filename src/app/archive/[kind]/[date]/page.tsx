@@ -11,7 +11,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import type { ArchiveKind } from "@/lib/archive-client";
 import { loadArchiveIndex, loadEditionText } from "@/lib/archive-viewer";
-import { outlineEdition, type EditionOutline } from "@/lib/feed";
+import { loadEditorialArticle, loadFeed, outlineEdition, type EditionOutline, type EditorialArticle } from "@/lib/feed";
 import { prettyDate, stripInlineMarkdown } from "@/lib/story-parse";
 import { cn } from "@/lib/utils";
 
@@ -43,8 +43,15 @@ const markdownComponents: Components = {
 
 export default async function EditionPage({ params }: { params: Params }) {
   const { kind, date } = await params;
+  if (kind === "editorial") return <EditorialArticlePage slug={date} />;
   if (kind !== "daily" && kind !== "weekly") notFound();
-  const edition = await loadEditionText(kind, date);
+  const [edition, feed] = await Promise.all([
+    loadEditionText(kind, date),
+    kind === "daily" ? loadFeed(200) : Promise.resolve(null),
+  ]);
+  const votes = new Map(
+    (feed?.stories ?? []).map((story) => [story.id, { upvotes: story.upvotes, viewerHasUpvoted: story.viewerHasUpvoted }]),
+  );
   if (edition?.status === 404 || edition?.status === 400) notFound();
 
   return (
@@ -55,7 +62,7 @@ export default async function EditionPage({ params }: { params: Params }) {
           <ArrowLeft className="size-3.5" strokeWidth={1.5} /> Archive
         </Link>
         {edition?.status === 200 ? (
-          <Edition kind={kind} date={date} outline={outlineEdition(kind, date, edition.text)} />
+          <Edition kind={kind} date={date} outline={outlineEdition(kind, date, edition.text)} votes={votes} />
         ) : edition?.status === 403 ? (
           <Notice title="Outside your archive access.">
             Open the link in your latest email to restore your reading session, or see the{" "}
@@ -73,6 +80,74 @@ export default async function EditionPage({ params }: { params: Params }) {
   );
 }
 
+/** 1-based story number, or null for labelled sections such as Quick signals. */
+function storyNumber(outline: EditionOutline, id: string): number | null {
+  const stories = outline.sections.filter((section) => !section.label);
+  const position = stories.findIndex((section) => section.id === id);
+  return position === -1 ? null : position + 1;
+}
+
+async function EditorialArticlePage({ slug }: { slug: string }) {
+  const article = await loadEditorialArticle(slug);
+  if (!article) notFound();
+  return (
+    <main className="min-h-screen">
+      <SiteHeader />
+      <div className="mx-auto max-w-7xl px-5 pt-28 pb-24 md:px-10 md:pt-32">
+        <Link href="/archive?section=editorial" className={cn(labelClass, "inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground")}>
+          <ArrowLeft className="size-3.5" strokeWidth={1.5} /> Editorial
+        </Link>
+        <EditorialArticleView article={article} />
+      </div>
+      <SiteFooter />
+    </main>
+  );
+}
+
+const KIND_LABELS: Record<EditorialArticle["kind"], string> = { "deep-dive": "Deep dive", tutorial: "Tutorial", opinion: "Opinion" };
+const longDate = new Intl.DateTimeFormat("en", { timeZone: "UTC", month: "long", day: "numeric", year: "numeric" });
+
+function EditorialArticleView({ article }: { article: EditorialArticle }) {
+  const facts: Array<[string, string]> = [
+    ["Kind", KIND_LABELS[article.kind]],
+    ["By", article.author],
+    ["Published", longDate.format(new Date(article.publishedAt))],
+    ["Read time", `${Math.max(1, Math.round(article.markdown.split(/\s+/).length / 220))} min`],
+  ];
+  return (
+    <article>
+      <header className="mx-auto mt-14 max-w-4xl text-center">
+        <p className={cn(labelClass, "text-[10px] text-muted-foreground")}>
+          {KIND_LABELS[article.kind]} <span aria-hidden="true">·</span> {article.author}
+        </p>
+        <h1 className="mt-6 font-display text-5xl leading-[1.02] tracking-tight text-balance md:text-7xl">{article.title}</h1>
+        {article.dek && <p className="mx-auto mt-7 max-w-2xl text-lg leading-8 text-muted-foreground text-pretty">{article.dek}</p>}
+      </header>
+      <StoryThumb seed={article.id} image={article.image} className="mx-auto mt-14 aspect-[21/9] max-w-6xl" />
+      <dl className="mx-auto grid max-w-6xl grid-cols-2 border-x border-b border-border md:grid-cols-4">
+        {facts.map(([label, value], index) => (
+          <div key={label} className={cn("px-5 py-4", index % 2 === 1 && "border-l border-border", index >= 2 && "border-t border-border md:border-t-0", index === 2 && "md:border-l")}>
+            <dt className={cn(labelClass, "text-[10px] text-muted-foreground")}>{label}</dt>
+            <dd className="mt-1.5 text-sm">{value}</dd>
+          </div>
+        ))}
+      </dl>
+      <div className="mx-auto mt-16 grid max-w-6xl gap-12 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-16">
+        <aside className="lg:sticky lg:top-28 lg:self-start">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-4 lg:flex-col lg:items-start">
+            <UpvoteButton id={article.id} upvotes={article.upvotes} viewerHasUpvoted={article.viewerHasUpvoted} layout="inline" />
+            <BookmarkButton id={article.id} title={article.title} />
+            <ShareButton />
+          </div>
+        </aside>
+        <div className="archive-copy min-w-0 max-w-2xl">
+          <ReactMarkdown components={markdownComponents}>{article.markdown}</ReactMarkdown>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 function Notice({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mx-auto max-w-2xl py-28 text-center">
@@ -82,7 +157,19 @@ function Notice({ title, children }: { title: string; children: React.ReactNode 
   );
 }
 
-function Edition({ kind, date, outline }: { kind: ArchiveKind; date: string; outline: EditionOutline }) {
+type VoteState = { upvotes: number; viewerHasUpvoted: boolean };
+
+function Edition({
+  kind,
+  date,
+  outline,
+  votes,
+}: {
+  kind: ArchiveKind;
+  date: string;
+  outline: EditionOutline;
+  votes: Map<string, VoteState>;
+}) {
   const [introLead = "", ...introRest] = outline.preamble.split(/\n\s*\n/);
   const dek = stripInlineMarkdown(introLead) || outline.lead;
   const editionId = `${kind}:${date}`;
@@ -90,7 +177,7 @@ function Edition({ kind, date, outline }: { kind: ArchiveKind; date: string; out
     ["Edition", kind === "weekly" ? "Weekly research" : "Daily"],
     ["Published", prettyDate(date)],
     ["Read time", `${outline.readMinutes} min`],
-    ["Stories", String(outline.sections.length)],
+    ["Stories", String(outline.sections.filter((section) => !section.label).length)],
   ];
 
   return (
@@ -129,14 +216,17 @@ function Edition({ kind, date, outline }: { kind: ArchiveKind; date: string; out
             <nav aria-label="In this issue">
               <p className={cn(labelClass, "text-[10px] text-muted-foreground")}>In this issue</p>
               <ol className="mt-4 space-y-3 border-l border-border">
-                {outline.sections.map((section, index) => (
-                  <li key={section.id}>
-                    <a href={`#${section.id}`} className="-ml-px flex gap-3 border-l border-transparent pl-4 text-sm leading-snug text-muted-foreground transition-colors hover:border-foreground hover:text-foreground">
-                      <span className="font-mono text-[11px] tabular-nums">{String(index + 1).padStart(2, "0")}</span>
-                      <span>{section.heading || `Story ${index + 1}`}</span>
-                    </a>
-                  </li>
-                ))}
+                {outline.sections.map((section, index) => {
+                  const number = storyNumber(outline, section.id);
+                  return (
+                    <li key={section.id}>
+                      <a href={`#${section.id}`} className="-ml-px flex gap-3 border-l border-transparent pl-4 text-sm leading-snug text-muted-foreground transition-colors hover:border-foreground hover:text-foreground">
+                        <span className="w-5 shrink-0 font-mono text-[11px] tabular-nums">{number ? String(number).padStart(2, "0") : "·"}</span>
+                        <span>{section.heading || `Story ${index + 1}`}</span>
+                      </a>
+                    </li>
+                  );
+                })}
               </ol>
             </nav>
           )}
@@ -168,22 +258,34 @@ function Edition({ kind, date, outline }: { kind: ArchiveKind; date: string; out
               </ol>
             </section>
           )}
-          {outline.sections.map((section, index) => (
+          {outline.sections.map((section) => {
+            const number = storyNumber(outline, section.id);
+            return (
             <section key={section.id} id={section.id} className="scroll-mt-28 border-t border-border py-12 first-of-type:border-t-0 first-of-type:pt-0">
               {section.heading && (
                 <div className="mb-6 flex items-start justify-between gap-6">
                   <div>
-                    <p className="font-mono text-[11px] text-muted-foreground tabular-nums">{String(index + 1).padStart(2, "0")}</p>
+                    <p className={cn("text-muted-foreground", number ? "font-mono text-[11px] tabular-nums" : labelClass + " text-[10px]")}>
+                      {number ? String(number).padStart(2, "0") : "Also in this issue"}
+                    </p>
                     <h2 className="mt-2 font-display text-3xl leading-tight text-balance md:text-[2.125rem]">{section.heading}</h2>
                   </div>
-                  <UpvoteButton id={`${kind}:${date}:${index}`} upvotes={0} viewerHasUpvoted={false} className="mt-6 shrink-0" />
+                  {number && kind === "daily" && (
+                    <UpvoteButton
+                      id={`${kind}:${date}:${number - 1}`}
+                      upvotes={votes.get(`${kind}:${date}:${number - 1}`)?.upvotes ?? 0}
+                      viewerHasUpvoted={votes.get(`${kind}:${date}:${number - 1}`)?.viewerHasUpvoted ?? false}
+                      className="mt-6 shrink-0"
+                    />
+                  )}
                 </div>
               )}
               <div className="archive-copy">
                 <ReactMarkdown components={markdownComponents}>{section.body}</ReactMarkdown>
               </div>
             </section>
-          ))}
+            );
+          })}
         </div>
       </div>
     </article>

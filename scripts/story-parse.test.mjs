@@ -41,3 +41,17 @@ test("story metadata is inferred from text", () => {
   assert.ok(matchTopics("An agent harness with MCP tools").includes("Agents"));
   assert.equal(formatTimeAgo("2026-09-24T10:00:00Z", Date.parse("2026-09-24T12:30:00Z")), "2 hrs ago");
 });
+
+test("the delivered plain-text edition splits into numbered stories and labelled sections", async () => {
+  const { readFileSync } = await import("node:fs");
+  const edition = readFileSync(new URL("./fixtures/daily-edition.md", import.meta.url), "utf8");
+  const parsed = parseEdition(edition);
+  assert.equal(parsed.title, "NeMo Helix v0.6.0 adds sandboxed Gym evaluation and retrieval workflows");
+  assert.match(parsed.lead ?? "", /^NVIDIA’s v0\.6\.0 release adds/);
+  assert.deepEqual(
+    parsed.blocks.map((block) => [block.id, block.label ?? false]),
+    [["story-0", false], ["worth-watching", true], ["quick-signals", true], ["worth-reading", true]],
+  );
+  assert.match(parsed.blocks[0].body, /^#### What happened\n/m);
+  assert.match(parsed.blocks[2].body, /^- \[Claude Opus 5\.5 released\]\(https:\/\/www\.anthropic\.com\/news\/claude-opus-5-5\)$/m);
+});

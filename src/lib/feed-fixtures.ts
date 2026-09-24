@@ -284,8 +284,39 @@ export function demoEditorial(): EditorialPiece[] {
     image: null,
     viewerHasUpvoted: false,
     publishedAt: new Date(Date.now() - piece.daysAgo * 86_400_000).toISOString(),
-    href: `/archive/daily/${new Date(Date.now() - piece.daysAgo * 86_400_000).toISOString().slice(0, 10)}`,
+    href: `/archive/editorial/demo-piece-${index}`,
   }));
+}
+
+export function demoArticle(slug: string): (EditorialPiece & { markdown: string }) | null {
+  const index = Number(/^demo-piece-(\d+)$/.exec(slug)?.[1] ?? Number.NaN);
+  const piece = demoEditorial()[index];
+  if (!piece) return null;
+  return {
+    ...piece,
+    markdown: `${piece.dek}
+
+## The short version
+
+Most of the gain comes from three decisions made before the first prompt. Pick the right file size for your memory, pick an engine that streams tokens without stalls, and pick a harness that keeps the project on disk.
+
+> Measure the finished task, not the tokens per second.
+
+## Step by step
+
+1. Download the quantized weights that fit in your RAM with room to spare.
+2. Start the engine with a context window you can afford.
+3. Point your harness at the local endpoint and run the same three tasks you use to judge hosted models.
+
+\`\`\`bash
+llama-server -m qwen3.8-27b-q4.gguf -c 32768 --port 8080
+\`\`\`
+
+## What to watch
+
+Tool-calling reliability drops first when memory is tight. If a harness starts repeating calls, shrink the context before you blame the model.
+`,
+  };
 }
 
 export function demoWeeklyDates(): string[] {

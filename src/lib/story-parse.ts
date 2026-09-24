@@ -3,6 +3,10 @@ export type StoryType = "news" | "papers" | "models" | "repos" | "editorial";
 export type ParsedBlock = {
   heading: string;
   body: string;
+  /** Anchor id. Numbered stories use `story-<n>`, labelled sections (quick signals) a slug. */
+  id?: string;
+  /** True for labelled sections such as Quick signals, which are not stories. */
+  label?: boolean;
 };
 
 export type ParsedEdition = {
@@ -178,7 +182,86 @@ function splitAtBoldLeads(text: string): ParsedBlock[] | null {
   return kept.length >= 2 ? kept : null;
 }
 
+const NUMBERED_STORY = /^(\d{1,2})\s+[—–-]\s+(.+)$/;
+const SECTION_LABEL = /^[A-Z][A-Z ]{3,}$/;
+const MASTHEAD = new Set(["THE FORWARD PASS"]);
+const FIELD_LABELS = new Set(["What happened", "Why it matters"]);
+
+function isNumberedHeading(line: string): boolean {
+  const match = NUMBERED_STORY.exec(line.trim());
+  return Boolean(match?.[2] && !/https?:\/\//.test(match[2]));
+}
+
+function sentenceCase(label: string): string {
+  const lower = label.toLowerCase();
+  return lower.charAt(0).toUpperCase() + lower.slice(1);
+}
+
+function plainBody(lines: string[]): string {
+  return lines
+    .map((line) => {
+      const trimmed = line.trim();
+      if (FIELD_LABELS.has(trimmed)) return `#### ${trimmed}`;
+      const signal = /^•\s+(.+?)\s+[—–-]\s+(https?:\/\/\S+)$/.exec(trimmed);
+      if (signal) return `- [${signal[1]}](${signal[2]})`;
+      if (trimmed.startsWith("• ")) return `- ${trimmed.slice(2)}`;
+      return line;
+    })
+    .join("\n")
+    .trim();
+}
+
+/** The delivered newsletter format: `01 — Headline` stories and uppercase section labels, no markdown headings. */
+function parseNumberedEdition(text: string): ParsedBlock[] | null {
+  if (!text.split("\n").some(isNumberedHeading)) return null;
+  const blocks: ParsedBlock[] = [];
+  let current: { block: ParsedBlock; lines: string[] } | null = null;
+  let stories = 0;
+  const flush = () => {
+    if (current) blocks.push({ ...current.block, body: plainBody(current.lines) });
+    current = null;
+  };
+  for (const line of text.split("\n")) {
+    const trimmed = line.trim();
+    const numbered = isNumberedHeading(trimmed) ? NUMBERED_STORY.exec(trimmed) : null;
+    if (numbered?.[2]) {
+      flush();
+      current = { block: { heading: stripInlineMarkdown(numbered[2]), body: "", id: `story-${stories}` }, lines: [] };
+      stories += 1;
+    } else if (SECTION_LABEL.test(trimmed) && !MASTHEAD.has(trimmed)) {
+      flush();
+      const heading = sentenceCase(trimmed);
+      current = { block: { heading, body: "", id: heading.toLowerCase().replace(/\s+/g, "-"), label: true }, lines: [] };
+    } else if (current) {
+      current.lines.push(line);
+    }
+  }
+  flush();
+  return blocks.filter((block) => block.body || !block.label);
+}
+
 export function parseEdition(markdown: string): ParsedEdition {
+  const plain = markdown.replace(/\r\n/g, "\n").trim();
+  const numbered = parseNumberedEdition(plain);
+  if (numbered) {
+    const leadBlock = numbered.find((block) => !block.label);
+    const leadSource = (leadBlock?.body ?? "")
+      .split("\n")
+      .filter((line) => !line.startsWith("#"))
+      .join("\n");
+    return {
+      title: leadBlock?.heading ?? null,
+      lead: summarize(leadSource) || null,
+      preamble: "",
+      blocks: numbered,
+      firstImage: findImages(plain)[0] ?? null,
+      wordCount: plain.split(/\s+/).filter(Boolean).length,
+    };
+  }
+  return parseMarkdownEdition(plain);
+}
+
+function parseMarkdownEdition(markdown: string): ParsedEdition {
   const text = markdown.replace(/\r\n/g, "\n").trim();
   const titleMatch = /^#\s+(.+)$/m.exec(text);
   const title = titleMatch?.[1] ? stripInlineMarkdown(titleMatch[1]) : null;

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { archiveEntry, archiveIndex, archiveRequest, type ArchiveKind } from "./archive-client";
-import { demoFeed, demoEditorial, demoFixturesEnabled } from "./feed-fixtures";
+import { demoArticle, demoFeed, demoEditorial, demoFixturesEnabled } from "./feed-fixtures";
 import {
   FEED_TOPICS,
   editionReadMinutes,
@@ -130,7 +130,7 @@ export async function remoteFeedStories(limit: number): Promise<Story[] | null> 
     dek: story.dek,
     sourceName: story.source?.name ?? (story.source?.url ? sourceNameFromUrl(story.source.url) : null),
     sourceUrl: story.source?.url ?? null,
-    topics: toFeedTopics(story.topics),
+    topics: story.topics.length > 0 ? toFeedTopics(story.topics) : matchTopics(`${story.title}\n${story.dek}`),
     image: story.image ?? null,
     publishedAt: story.published_at,
     upvotes: story.upvotes,
@@ -218,9 +218,11 @@ async function storiesFromEditions(limit: number): Promise<Story[]> {
   for (const edition of editions) {
     if (!edition) continue;
     const parsed = parseEdition(edition.text);
-    parsed.blocks.forEach((block, position) => {
-      stories.push(storyFromBlock("daily", edition.date, position, block.heading, block.body));
-    });
+    parsed.blocks
+      .filter((block) => !block.label)
+      .forEach((block, position) => {
+        stories.push(storyFromBlock("daily", edition.date, position, block.heading, block.body));
+      });
     if (stories.length >= limit) break;
   }
   return stories.slice(0, limit);
@@ -245,6 +247,36 @@ export async function loadEditorial(): Promise<{ pieces: EditorialPiece[]; sourc
   if (remote && remote.length > 0) return { pieces: remote, source: "api" };
   if (demoFixturesEnabled()) return { pieces: demoEditorial(), source: "fixtures" };
   return { pieces: [], source: "editions" };
+}
+
+export type EditorialArticle = EditorialPiece & { markdown: string };
+
+const remoteArticleSchema = remoteEditorialSchema.shape.pieces.element.extend({ markdown: z.string() });
+
+export async function loadEditorialArticle(slug: string): Promise<EditorialArticle | null> {
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) return null;
+  const response = await archiveRequest(`/editorial/${slug}`);
+  if (response?.ok) {
+    const parsed = remoteArticleSchema.safeParse(await readJson(response));
+    if (!parsed.success) return null;
+    const piece = parsed.data;
+    return {
+      id: piece.id,
+      title: piece.title,
+      dek: piece.dek,
+      author: piece.author,
+      kind: piece.kind,
+      image: piece.image ?? null,
+      publishedAt: piece.published_at,
+      href: piece.href ?? `/archive/editorial/${slug}`,
+      topics: toFeedTopics(piece.topics),
+      upvotes: piece.upvotes,
+      viewerHasUpvoted: piece.viewer_has_upvoted,
+      markdown: piece.markdown,
+    };
+  }
+  if (response || !demoFixturesEnabled()) return null;
+  return demoArticle(slug);
 }
 
 export function editorialAsStory(piece: EditorialPiece): Story {
@@ -279,7 +311,7 @@ export type EditionOutline = {
   takeaways: string[];
   topics: FeedTopic[];
   type: StoryType;
-  sections: Array<{ id: string; heading: string; body: string }>;
+  sections: Array<{ id: string; heading: string; body: string; label: boolean }>;
 };
 
 function bulletLines(markdown: string): string[] {
@@ -311,9 +343,10 @@ export function outlineEdition(kind: ArchiveKind, date: string, markdown: string
     topics: matchTopics(markdown),
     type: inferStoryType(markdown, sourceUrl),
     sections: parsed.blocks.map((block, index) => ({
-      id: `story-${index}`,
+      id: block.id ?? `story-${index}`,
       heading: block.heading,
       body: block.body,
+      label: block.label ?? false,
     })),
   };
 }
