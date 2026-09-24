@@ -6,6 +6,7 @@ import { z } from "zod";
 import { createOnboardingSession, onboardingEmail } from "./onboarding-session";
 
 const NEWSLETTER_SEGMENT = "2ec79559-e5f2-4a84-887b-5cee315656a3";
+const NEWSLETTER_TOPIC = "418f8071-0c80-4e3f-a076-b21ccfd40318";
 const ADVERTISER_SEGMENT = "bc122c83-9999-492c-b4e3-135972d0c130";
 
 const newsletterSchema = z.object({
@@ -44,6 +45,9 @@ async function upsertContact(
       lastName: contact.lastName,
       unsubscribed: false,
       segments: [{ id: segmentId }],
+      ...(segmentId === NEWSLETTER_SEGMENT
+        ? { topics: [{ id: NEWSLETTER_TOPIC, subscription: "opt_in" as const }] }
+        : {}),
     });
     if (createError) {
       console.error(`Resend contact create failed: ${createError.message}`);
@@ -52,20 +56,44 @@ async function upsertContact(
     return "created";
   }
 
-  if (segmentId === NEWSLETTER_SEGMENT && !existing.unsubscribed) {
-    return "already_registered";
+  if (segmentId === NEWSLETTER_SEGMENT) {
+    const [segments, topics] = await Promise.all([
+      resend.contacts.segments.list({ contactId: existing.id }),
+      resend.contacts.topics.list({ email: contact.email }),
+    ]);
+    if (segments.error || topics.error || !segments.data || !topics.data) {
+      throw new Error("Could not check newsletter subscription");
+    }
+    const isMember = segments.data.data.some((segment) => segment.id === NEWSLETTER_SEGMENT);
+    const isOptedIn = topics.data.data.some(
+      (topic) => topic.id === NEWSLETTER_TOPIC && topic.subscription === "opt_in",
+    );
+    if (isMember && isOptedIn && !existing.unsubscribed) return "already_registered";
+    const { error: topicError } = await resend.contacts.topics.update({
+      email: contact.email,
+      topics: [{ id: NEWSLETTER_TOPIC, subscription: "opt_in" }],
+    });
+    if (topicError) throw new Error("Could not subscribe to newsletter topic");
+    if (!isMember) {
+      const { error: segmentError } = await resend.contacts.segments.add({
+        contactId: existing.id,
+        segmentId,
+      });
+      if (segmentError) throw new Error("Could not join newsletter segment");
+    }
+    if (existing.unsubscribed) {
+      const { error: updateError } = await resend.contacts.update({ id: existing.id, unsubscribed: false });
+      if (updateError) throw new Error("Could not restore contact subscription");
+    }
+    return isMember ? "rejoined" : "joined";
   }
 
   const { error: updateError } = await resend.contacts.update({
     id: existing.id,
-    unsubscribed: false,
     firstName: contact.firstName,
     lastName: contact.lastName,
   });
-  if (updateError) {
-    console.error(`Resend contact update failed: ${updateError.message}`);
-    throw new Error("Resend contact update failed");
-  }
+  if (updateError) throw new Error("Resend contact update failed");
 
   const { error: segmentError } = await resend.contacts.segments.add({
     contactId: existing.id,
@@ -113,10 +141,10 @@ export async function subscribeAction(email: string) {
   if (result === "already_registered") {
     return { success: false, alreadyRegistered: true, canOnboard: false };
   }
-  const created = result === "created";
-  if (created) await createOnboardingSession(data.email);
-  const canOnboard = created || (await onboardingEmail()) === data.email;
-  if (!created) return { success: true, canOnboard };
+  const firstSignup = result === "created" || result === "joined";
+  if (firstSignup) await createOnboardingSession(data.email);
+  const canOnboard = firstSignup || (await onboardingEmail()) === data.email;
+  if (!firstSignup) return { success: true, canOnboard };
 
   after(async () => {
     try {
@@ -138,19 +166,28 @@ export async function subscribeAction(email: string) {
 
 export async function unsubscribeAction(email: string) {
   const data = newsletterSchema.parse({ email });
-  const { data: existing, error: getError } = await getResend().contacts.get({
+  const resend = getResend();
+  const { data: existing, error: getError } = await resend.contacts.get({
     email: data.email,
   });
-  if (getError || !existing) {
-    return { success: true };
-  }
-  const { error } = await getResend().contacts.update({
-    id: existing.id,
-    unsubscribed: true,
+  if (getError && getError.name !== "not_found") throw new Error("Could not check contact");
+  if (!existing) return { success: true };
+  const { error } = await resend.contacts.topics.update({
+    email: data.email,
+    topics: [{ id: NEWSLETTER_TOPIC, subscription: "opt_out" }],
   });
   if (error) {
     console.error(`Resend unsubscribe failed: ${error.message}`);
     throw new Error("Resend unsubscribe failed");
+  }
+  const segments = await resend.contacts.segments.list({ contactId: existing.id });
+  if (segments.error || !segments.data) throw new Error("Could not check newsletter segment");
+  if (segments.data.data.some((segment) => segment.id === NEWSLETTER_SEGMENT)) {
+    const removed = await resend.contacts.segments.remove({
+      contactId: existing.id,
+      segmentId: NEWSLETTER_SEGMENT,
+    });
+    if (removed.error) throw new Error("Could not leave newsletter segment");
   }
   return { success: true };
 }
