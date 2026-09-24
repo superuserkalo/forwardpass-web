@@ -135,3 +135,23 @@
   .archive-copy code { font-family: var(--font-technical); font-size: .85em; }
   .archive-copy pre { overflow-x: auto; border: 1px solid var(--color-border); padding: 1rem; }
 }
+
+@layer components {
+  .skeleton-shimmer {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(90deg, oklch(0.24 0 0) 0%, oklch(0.18 0 0) 45%, oklch(0.16 0 0) 100%);
+  }
+  .skeleton-shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, oklch(1 0 0 / 0.05), transparent);
+    animation: skeleton-sweep 1.6s ease-in-out infinite;
+  }
+}
+@keyframes skeleton-sweep { to { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer::after { animation: none; }
+}
