@@ -34,17 +34,27 @@ export const TOPICS = [
 ] as const;
 export const CONTENT = ["News", "Papers", "Models", "Repos"] as const;
 export const SENIORITY = [
-  "Individual contributor",
+  "Employee",
+  "Junior",
+  "Mid-level",
+  "Senior",
+  "Lead",
   "Manager",
   "Director",
   "VP",
   "Executive",
+  "CEO",
+  "Founder",
+  "Indie hacker",
 ] as const;
+const legacySeniority = z
+  .enum(["Individual contributor"])
+  .transform(() => "Employee" as const);
 export const onboardingSchema = z.object({
   firstName: z.string().trim().min(1).max(80),
   lastName: z.string().trim().max(80),
   role: z.enum(ROLES),
-  seniority: z.union([z.enum(SENIORITY), z.literal("")]),
+  seniority: z.union([z.enum(SENIORITY), legacySeniority, z.literal("")]),
   company: z.string().trim().max(100),
   topics: z.array(z.enum(TOPICS)).min(1).max(TOPICS.length),
   content: z.array(z.enum(CONTENT)).min(1).max(CONTENT.length),

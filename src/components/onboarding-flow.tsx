@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import {
   useCallback,
@@ -10,7 +11,7 @@ import {
   type FormEvent,
   type ReactNode,
 } from "react";
-import { ArrowLeft, ArrowRight, Check, Mail } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ChevronDown, Mail } from "lucide-react";
 import { OnboardingBuild } from "./onboarding-build";
 import { completeOnboardingAction } from "@/lib/onboarding-actions";
 import {
@@ -34,13 +35,8 @@ const initialProfile: ReadingProfile = {
   format: "Briefing",
   notes: "",
 };
-const labels = [
-  "About you",
-  "Your topics",
-  "Your edition",
-  "How it works",
-  "Your first 14 days",
-];
+const labels = ["About you", "Your topics", "Your edition", "How it works"];
+const TOTAL_STEPS = 4;
 const inputClass =
   "h-13 w-full border border-input bg-background px-4 text-sm outline-none transition-colors focus:border-foreground";
 const buttonClass =
@@ -84,12 +80,16 @@ function OnboardingForm({ email, saved }: OnboardingProps) {
     }
     return initialProfile;
   });
-  const [step, setStep] = useState(saved ? 4 : 0);
+  const [step, setStep] = useState(saved ? 3 : 0);
   const [saving, setSaving] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<Result | null>(saved?.result ?? null);
   const heading = useRef<HTMLHeadingElement>(null);
-  const finishBuild = useCallback(() => setSaving(false), []);
+  const finishBuild = useCallback(() => {
+    setSaving(false);
+    if (!result) setConfirming(true);
+  }, [result]);
   useEffect(() => {
     if (result) return;
     try {
@@ -100,7 +100,7 @@ function OnboardingForm({ email, saved }: OnboardingProps) {
   }, [key, profile, result]);
   useEffect(() => {
     heading.current?.focus();
-  }, [step, result, saving]);
+  }, [step, result, saving, confirming]);
 
   function update<K extends keyof ReadingProfile>(
     field: K,
@@ -115,16 +115,23 @@ function OnboardingForm({ email, saved }: OnboardingProps) {
       setError("Choose at least one topic and one content type.");
       return;
     }
+    if (step === TOTAL_STEPS - 1) {
+      setConfirming(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
     setStep((current) => current + 1);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
-  async function finish(choice: "trial" | "free") {
+  async function confirm(choice: "trial" | "free") {
     setError("");
     setSaving(true);
+    setConfirming(false);
     window.scrollTo({ top: 0, behavior: "instant" });
     try {
       const saved = await completeOnboardingAction(profile, choice);
       setResult(saved);
+      setSaving(false);
       try {
         sessionStorage.removeItem(key);
       } catch {
@@ -135,46 +142,57 @@ function OnboardingForm({ email, saved }: OnboardingProps) {
         "We couldn't save your edition. Your selections are still here. Please try again.",
       );
       setSaving(false);
+      setConfirming(true);
     }
   }
 
   return (
     <div className="min-h-screen bg-background [color-scheme:dark]">
       <header className="border-b border-border">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-5 px-5 py-6 md:px-10">
-          <Link href="/" className="wordmark">
-            THE FORWARD PASS
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-5 px-5 py-4 md:px-10">
+          <Link href="/" className="flex items-center gap-3" aria-label="The Forward Pass home">
+            <Image src="/logo.png" alt="The Forward Pass logo" width={24} height={24} className="size-6" priority />
+            <span className="wordmark">THE FORWARD PASS</span>
           </Link>
         </div>
       </header>
-      <main className="mx-auto max-w-4xl px-5 pb-16 pt-9 md:pt-14">
-        <div className="mb-9 md:mb-12">
+      <main className="mx-auto max-w-2xl px-5 pb-12 pt-7 md:pt-10">
+        <div className="mb-7 md:mb-9">
           <div className="mb-4 flex justify-between font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-            <span>{result && !saving ? "You're all set" : `Step ${step + 1} of 5`}</span>
-            <span>{labels[step]}</span>
+            <span>{result && !saving ? "You're all set" : confirming ? `Step 5 of 5` : `Step ${step + 1} of 5`}</span>
+            <span>{result ? labels[labels.length - 1] : confirming ? "Your first 14 days" : labels[step]}</span>
           </div>
           <div
             role="progressbar"
             aria-label="Onboarding progress"
             aria-valuemin={0}
             aria-valuemax={5}
-            aria-valuenow={result ? 5 : step + 1}
+            aria-valuenow={result ? 5 : confirming ? 5 : step + 1}
             className="grid grid-cols-5 gap-2"
           >
-            {labels.map((label, index) => (
+            {["About you", "Your topics", "Your edition", "How it works", "Your first 14 days"].map((label, index) => (
               <div
                 key={label}
-                className={`h-[2px] transition-colors duration-500 ${index <= step ? "bg-foreground" : "bg-border"}`}
+                className={`h-[2px] transition-colors duration-500 ${index <= (result ? 4 : confirming ? 4 : step) ? "bg-foreground" : "bg-border"}`}
               />
             ))}
           </div>
         </div>
-        <section className="border border-border bg-card p-6 sm:p-10 md:p-12">
+        <section className="border border-border bg-card p-5 sm:p-7 md:p-8">
           {saving ? (
             <OnboardingBuild
+              next="confirm"
               profile={profile}
               saved={result !== null}
               onComplete={finishBuild}
+            />
+          ) : confirming ? (
+            <TrialOffer
+              profile={profile}
+              headingRef={heading}
+              error={error}
+              onConfirm={confirm}
+              onBack={() => setConfirming(false)}
             />
           ) : result ? (
             <div className="onboarding-enter">
@@ -224,7 +242,6 @@ function OnboardingForm({ email, saved }: OnboardingProps) {
                       "What do you want to follow?",
                       "How do you like to read?",
                       "From the research to your inbox.",
-                      "Your first 14 days of Personal are on us.",
                     ][step]
                   }
                 </h1>
@@ -232,10 +249,9 @@ function OnboardingForm({ email, saved }: OnboardingProps) {
                   {
                     [
                       "Tell us a little about your work. We'll use it to shape your reading brief.",
-                      "Pick the topics you care about. We'll use these to filter your Personal edition.",
+                      "Pick the topics you care about.",
                       "Choose a short briefing or a list of headlines and primary sources.",
-                      "We research what's changing in AI engineering. Your brief tells us what belongs in your edition.",
-                      "Try an issue written to your interests. No credit card needed. You decide whether to keep it after day 14.",
+                      "Your brief filters the day's research into your edition.",
                     ][step]
                   }
                 </p>
@@ -277,24 +293,10 @@ function OnboardingForm({ email, saved }: OnboardingProps) {
                     />
                     {profile.role !== "Student" && (
                       <div className="grid gap-5 sm:grid-cols-2">
-                        <Field label="Seniority · optional">
-                          <select
-                            className={inputClass}
-                            value={profile.seniority}
-                            onChange={(event) =>
-                              update(
-                                "seniority",
-                                event.target
-                                  .value as ReadingProfile["seniority"],
-                              )
-                            }
-                          >
-                            <option value="">Select your level</option>
-                            {SENIORITY.map((level) => (
-                              <option key={level}>{level}</option>
-                            ))}
-                          </select>
-                        </Field>
+                        <SeniorityField
+                          value={profile.seniority}
+                          onChange={(value) => update("seniority", value)}
+                        />
                         <Field label="Company · optional">
                           <input
                             autoComplete="organization"
@@ -330,6 +332,9 @@ function OnboardingForm({ email, saved }: OnboardingProps) {
                         update("content", toggle(profile.content, value))
                       }
                     />
+                    <p className="font-mono text-[10px] leading-5 text-muted-foreground">
+                      Personal uses these. Free stays general.
+                    </p>
                   </div>
                 )}
                 {step === 2 && (
@@ -376,69 +381,6 @@ function OnboardingForm({ email, saved }: OnboardingProps) {
                   </div>
                 )}
                 {step === 3 && <EditionPreview topics={profile.topics} />}
-                {step === 4 && (
-                  <div className="mt-9">
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <div className="border border-muted-foreground bg-background p-6">
-                        <p className="font-mono text-[10px] uppercase tracking-widest text-foreground">
-                          Personalized
-                        </p>
-                        <h2 className="mt-4 text-2xl">Personal</h2>
-                        <p className="mt-2 text-sm text-muted-foreground">
-                          Free for 14 days
-                        </p>
-                        <FeatureList
-                          items={[
-                            "An issue written to your interests",
-                            "Ad-free daily reading",
-                            "Briefing or links-only format",
-                          ]}
-                        />
-                        <div className="mt-6 border-t border-border pt-5">
-                          <p className="text-sm">
-                            For {profile.firstName},{" "}
-                            {profile.role.toLowerCase()}
-                          </p>
-                          <p className="mt-3 font-mono text-[10px] uppercase leading-6 tracking-wide text-foreground">
-                            {profile.topics.join(" · ")}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="border border-border p-6">
-                        <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                          General
-                        </p>
-                        <h2 className="mt-4 text-2xl">Free</h2>
-                        <p className="mt-2 text-sm text-muted-foreground">
-                          $0, always
-                        </p>
-                        <FeatureList
-                          items={[
-                            "The general daily issue",
-                            "Curated AI-engineering sources",
-                            "Supported by sponsors",
-                          ]}
-                        />
-                        <p className="mt-6 border-t border-border pt-5 text-sm leading-6 text-muted-foreground">
-                          Your trial returns to Free automatically. Upgrade only
-                          if you want to.
-                        </p>
-                      </div>
-                    </div>
-                    <p className="mt-5 text-xs leading-6 text-muted-foreground">
-                      Keep Personal for $4.99/month after your trial, or choose
-                      Professional for $9.99/month with weekly deep research.{" "}
-                      <Link
-                        href="/pricing"
-                        target="_blank"
-                        className="underline underline-offset-4"
-                      >
-                        Compare plans
-                      </Link>
-                      .
-                    </p>
-                  </div>
-                )}
               </div>
               {error && (
                 <p
@@ -465,29 +407,10 @@ function OnboardingForm({ email, saved }: OnboardingProps) {
                     About a minute.
                   </span>
                 )}
-                {step < 4 ? (
-                  <button className={buttonClass} type="submit">
-                    Continue <ArrowRight className="size-4" />
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className={buttonClass}
-                    onClick={() => finish("trial")}
-                  >
-                    Start my 14 free days <ArrowRight className="size-4" />
-                  </button>
-                )}
-              </div>
-              {step === 4 && (
-                <button
-                  type="button"
-                  onClick={() => finish("free")}
-                  className="mx-auto mt-6 block min-h-11 text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground"
-                >
-                  Stay on Free
+                <button className={buttonClass} type="submit">
+                  Continue <ArrowRight className="size-4" />
                 </button>
-              )}
+              </div>
             </form>
           )}
         </section>
@@ -585,12 +508,204 @@ function FeatureList({ items }: { items: string[] }) {
     </ul>
   );
 }
+function TrialOffer({
+  profile,
+  headingRef,
+  error,
+  onConfirm,
+  onBack,
+}: {
+  profile: ReadingProfile;
+  headingRef: React.RefObject<HTMLHeadingElement | null>;
+  error: string;
+  onConfirm: (choice: "trial" | "free") => void;
+  onBack: () => void;
+}) {
+  const [pending, setPending] = useState<"trial" | "free" | null>(null);
+  return (
+    <div className="onboarding-enter">
+      <h1 ref={headingRef} tabIndex={-1} className="onboarding-title">
+        Your first 14 days of Personal are on us.
+      </h1>
+      <p className="mt-4 max-w-xl text-sm leading-7 text-muted-foreground">
+        An issue written to your interests. No card needed. You decide whether
+        to keep it after day 14.
+      </p>
+      <div className="mt-7 grid gap-3 sm:grid-cols-2">
+        <div className="border border-muted-foreground bg-background p-5">
+          <p className="font-mono text-[10px] uppercase tracking-widest text-foreground">
+            Personalized
+          </p>
+          <h2 className="mt-3 text-xl">Personal</h2>
+          <p className="mt-1 text-sm text-muted-foreground">Free for 14 days</p>
+          <FeatureList
+            items={[
+              "An issue written to your interests",
+              "Ad-free daily reading",
+              "Briefing or links-only format",
+            ]}
+          />
+          <div className="mt-5 border-t border-border pt-4">
+            <p className="text-sm">
+              For {profile.firstName}, {profile.role.toLowerCase()}
+            </p>
+            <p className="mt-2 font-mono text-[10px] uppercase leading-6 tracking-wide text-foreground">
+              {profile.topics.join(" · ")}
+            </p>
+          </div>
+        </div>
+        <div className="border border-border p-5">
+          <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+            General
+          </p>
+          <h2 className="mt-3 text-xl">Free</h2>
+          <p className="mt-1 text-sm text-muted-foreground">$0, always</p>
+          <FeatureList
+            items={[
+              "The general daily issue",
+              "Curated AI-engineering sources",
+              "Supported by sponsors",
+            ]}
+          />
+          <p className="mt-5 border-t border-border pt-4 text-sm leading-6 text-muted-foreground">
+            Your trial returns to Free automatically. Upgrade only if you want
+            to.
+          </p>
+        </div>
+      </div>
+      <p className="mt-4 text-xs leading-6 text-muted-foreground">
+        Keep Personal for $4.99/month after your trial, or choose Professional
+        for $9.99/month with weekly deep research.{" "}
+        <Link href="/pricing" target="_blank" className="underline underline-offset-4">
+          Compare plans
+        </Link>
+        .
+      </p>
+      {error && (
+        <p role="alert" className="mt-5 border-l-2 border-foreground pl-4 text-sm">
+          {error}
+        </p>
+      )}
+      <div className="mt-7 flex flex-wrap items-center justify-between gap-5 border-t border-border pt-6">
+        <button
+          type="button"
+          onClick={onBack}
+          className="inline-flex min-h-11 items-center gap-2 text-xs text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="size-3" /> Back
+        </button>
+        <button
+          type="button"
+          disabled={pending !== null}
+          className={buttonClass}
+          onClick={() => {
+            setPending("trial");
+            onConfirm("trial");
+          }}
+        >
+          Start my 14 free days <ArrowRight className="size-4" />
+        </button>
+      </div>
+      <button
+        type="button"
+        disabled={pending !== null}
+        onClick={() => {
+          setPending("free");
+          onConfirm("free");
+        }}
+        className="mx-auto mt-5 block min-h-11 text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground disabled:opacity-50"
+      >
+        Stay on Free
+      </button>
+    </div>
+  );
+}
+function SeniorityField({
+  value,
+  onChange,
+}: {
+  value: ReadingProfile["seniority"];
+  onChange: (value: ReadingProfile["seniority"]) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const container = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    function onPointerDown(event: PointerEvent) {
+      if (!container.current?.contains(event.target as Node)) setOpen(false);
+    }
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpen(false);
+    }
+    window.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open ]);
+  return (
+    <div ref={container} className="grid gap-3">
+      <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+        Seniority · optional
+      </span>
+      <div className="relative">
+        <button
+          type="button"
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          onClick={() => setOpen((current) => !current)}
+          className={`${inputClass} flex h-13 items-center justify-between gap-3 text-left ${value ? "text-foreground" : "text-muted-foreground"}`}
+        >
+          <span className="truncate">{value || "Select your level"}</span>
+          <ChevronDown aria-hidden className={`size-4 shrink-0 transition-transform ${open ? "rotate-180" : ""}`} />
+        </button>
+        {open && (
+          <ul
+            role="listbox"
+            aria-label="Seniority level"
+            className="absolute inset-x-0 top-full z-20 mt-1 max-h-60 overflow-y-auto border border-border bg-card py-1 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.8)]"
+          >
+            <li role="option" aria-selected={value === ""}>
+              <button
+                type="button"
+                onClick={() => {
+                  onChange("");
+                  setOpen(false);
+                }}
+                className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors hover:bg-white/[0.06] ${value === "" ? "text-foreground" : "text-muted-foreground"}`}
+              >
+                Select your level
+                {value === "" && <Check aria-hidden className="size-3" />}
+              </button>
+            </li>
+            {SENIORITY.map((level) => (
+              <li key={level} role="option" aria-selected={value === level}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    onChange(level);
+                    setOpen(false);
+                  }}
+                  className={`flex w-full items-center justify-between px-4 py-2.5 text-left text-sm transition-colors hover:bg-white/[0.06] ${value === level ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+                >
+                  {level}
+                  {value === level && <Check aria-hidden className="size-3" />}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
 function EditionPreview({ topics }: { topics: string[] }) {
   return (
     <div className="mt-10">
       <div
         className="grid items-center gap-5 sm:grid-cols-[1fr_40px_1fr]"
-        aria-label="Illustration of research becoming your personal daily edition"
+        aria-label="Animation of research becoming your personal edition"
       >
         <div>
           <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -620,18 +735,15 @@ function EditionPreview({ topics }: { topics: string[] }) {
         </div>
         <ArrowRight
           aria-hidden
-          className="mx-auto size-6 rotate-90 text-muted-foreground sm:rotate-0"
+          className="onboarding-flow mx-auto size-6 rotate-90 text-foreground sm:rotate-0"
         />
         <div>
           <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-foreground">
             Your daily edition
           </p>
-          <div className="border border-muted-foreground bg-background p-5">
+          <div className="onboarding-edition border border-muted-foreground bg-background p-5">
             <p className="wordmark text-[10px]">THE FORWARD PASS</p>
             <p className="mt-5 text-lg font-medium">Your personal issue</p>
-            <p className="mt-2 text-xs leading-6 text-muted-foreground">
-              Selected from the day’s research.
-            </p>
             <div className="my-5 border-y border-border py-4">
               {[85, 100, 65, 90].map((width, index) => (
                 <div
@@ -650,10 +762,6 @@ function EditionPreview({ topics }: { topics: string[] }) {
           </div>
         </div>
       </div>
-      <p className="mt-5 text-xs leading-6 text-muted-foreground">
-        Illustration. Your selections shape your reading brief for Personal. The
-        Free edition stays general.
-      </p>
     </div>
   );
 }

@@ -6,10 +6,12 @@ import type { ReadingProfile } from "@/lib/onboarding";
 
 export function OnboardingBuild({
   profile,
+  next,
   saved,
   onComplete,
 }: {
   profile: ReadingProfile;
+  next: "result" | "confirm";
   saved: boolean;
   onComplete: () => void;
 }) {
@@ -28,6 +30,15 @@ export function OnboardingBuild({
   }, []);
 
   useEffect(() => {
+    if (next === "confirm") {
+      if (stage < 5) return;
+      // Let the completed terminal remain readable before the offer.
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      const timer = window.setTimeout(onComplete, reducedMotion ? 0 : 650);
+      return () => window.clearTimeout(timer);
+    }
     if (!saved || stage < 5) return;
     // Let the completed terminal remain readable before changing screens.
     const reducedMotion = window.matchMedia(
@@ -35,7 +46,7 @@ export function OnboardingBuild({
     ).matches;
     const timer = window.setTimeout(onComplete, reducedMotion ? 0 : 650);
     return () => window.clearTimeout(timer);
-  }, [saved, stage, onComplete]);
+  }, [next, saved, stage, onComplete]);
 
   const lines = [
     `Reading your topics · ${profile.topics.length} selected`,
@@ -78,7 +89,7 @@ export function OnboardingBuild({
         ))}
         {stage >= 5 && (
           <p className="flex items-start gap-3">
-            {saved ? (
+            {next === "confirm" || saved ? (
               <Check aria-hidden className="mt-2 size-3 shrink-0" />
             ) : (
               <LoaderCircle
@@ -87,7 +98,11 @@ export function OnboardingBuild({
               />
             )}
             <span>
-              {saved ? "Reading brief ready" : "Saving your preferences…"}
+              {next === "confirm"
+                ? "Reading brief ready"
+                : saved
+                  ? "Reading brief ready"
+                  : "Saving your preferences…"}
             </span>
           </p>
         )}
