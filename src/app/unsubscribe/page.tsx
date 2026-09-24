@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SiteFooter } from "@/components/site-footer";
 import { UnsubscribeForm } from "@/components/forward-pass-forms";
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default async function Unsubscribe({
         <p>Enter the email address you subscribed with. You’ll stop receiving the newsletter right away.</p>
         <UnsubscribeForm initialEmail={email} />
       </article>
+      <SiteFooter />
     </main>
   );
 }

@@ -12,7 +12,7 @@ const archiveIndexSchema = z.object({
 export type ArchiveIndex = z.infer<typeof archiveIndexSchema>;
 export type ArchiveKind = "daily" | "weekly";
 
-export async function archiveRequest(path: string): Promise<Response | null> {
+export async function archiveRequest(path: string, init?: RequestInit): Promise<Response | null> {
   const configured = process.env.FORWARDPASS_AGENT_URL;
   if (!configured) return null;
   const base = new URL(configured);
@@ -20,7 +20,7 @@ export async function archiveRequest(path: string): Promise<Response | null> {
     throw new Error("FORWARDPASS_AGENT_URL must use HTTPS outside local development.");
   }
   const token = (await cookies()).get(preferencesCookieName)?.value;
-  const headers = new Headers();
+  const headers = new Headers(init?.headers);
   if (token && verifyPreferencesToken(token)) {
     headers.set("Authorization", `Bearer ${token}`);
   } else {
@@ -28,7 +28,7 @@ export async function archiveRequest(path: string): Promise<Response | null> {
     if (email) headers.set("Authorization", `Bearer ${createPreferencesToken(email)}`);
   }
   try {
-    return await fetch(new URL(path, base), { headers, cache: "no-store" });
+    return await fetch(new URL(path, base), { ...init, headers, cache: "no-store" });
   } catch {
     return null;
   }

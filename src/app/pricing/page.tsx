@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
-import { SocialLinks } from "@/components/social-links";
+import { SiteFooter } from "@/components/site-footer";
 import { PersonalSignup } from "@/components/personal-signup";
 import { PRICE_OPTIONS } from "@/lib/pricing";
 
@@ -233,32 +233,7 @@ export default async function Pricing({
         </p>
       </section>
 
-      <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-10 text-sm sm:flex-row sm:items-end sm:justify-between md:px-10">
-          <div>
-            <div className="wordmark">THE FORWARD PASS</div>
-            <p className="mt-2 text-muted-foreground">@forwardpassnews</p>
-            <SocialLinks />
-            <Link
-              href="/"
-              className="mt-4 block text-muted-foreground hover:text-foreground"
-            >
-              Back to the free issue
-            </Link>
-          </div>
-          <nav
-            className="flex gap-6 text-muted-foreground"
-            aria-label="Legal"
-          >
-            <Link className="hover:text-foreground" href="/privacy">
-              Privacy
-            </Link>
-            <Link className="hover:text-foreground" href="/imprint">
-              Imprint
-            </Link>
-          </nav>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

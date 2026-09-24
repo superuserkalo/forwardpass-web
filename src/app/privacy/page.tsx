@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
   title: "The Forward Pass: Privacy",
@@ -91,6 +92,7 @@ export default function Privacy() {
           is used.
         </p>
       </article>
+      <SiteFooter />
     </main>
   );
 }

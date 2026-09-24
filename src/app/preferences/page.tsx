@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Resend } from "resend";
 import { InterestsEditor } from "@/components/personal-signup";
+import { SiteFooter } from "@/components/site-footer";
 import { onboardingEmail } from "@/lib/onboarding-session";
 import { preferencesEmail } from "@/lib/preferences-session";
 
@@ -38,6 +39,7 @@ export default async function Preferences() {
         )}
         <p className="mt-8 text-sm text-muted-foreground">Manage a paid subscription in the <a className="underline" href="https://polar.sh/the-forward-pass/portal">Polar billing portal</a>.</p>
       </div>
+      <SiteFooter />
     </main>
   );
 }

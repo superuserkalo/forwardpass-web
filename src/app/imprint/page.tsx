@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
   title: "The Forward Pass: Imprint",
@@ -36,6 +37,7 @@ export default function Imprint() {
           Vienna, Austria
         </p>
       </article>
+      <SiteFooter />
     </main>
   );
 }

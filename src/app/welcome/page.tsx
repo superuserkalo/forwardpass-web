@@ -4,6 +4,7 @@ import { onboardingEmail } from "@/lib/onboarding-session";
 import { loadOnboardingState } from "@/lib/onboarding-state";
 import { OnboardingFlow } from "@/components/onboarding-flow";
 import { NewsletterForm } from "@/components/forward-pass-forms";
+import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
   title: "Your edition | The Forward Pass",
@@ -29,6 +30,7 @@ export default async function Welcome() {
         </p>
         <NewsletterForm />
       </div>
+      <SiteFooter />
     </main>
   );
 }

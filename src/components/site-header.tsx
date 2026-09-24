@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { BrandLockup } from "./brand-lockup";
 
 export function SiteHeader() {
   const sentinelRef = useRef<HTMLDivElement>(null);
@@ -31,10 +31,7 @@ export function SiteHeader() {
         }`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-10 md:py-5">
-          <Link href="/" className="flex items-center gap-3" aria-label="The Forward Pass home">
-            <Image src="/logo.png" alt="The Forward Pass logo" width={28} height={28} className="size-7" priority />
-            <span className="wordmark">THE FORWARD PASS</span>
-          </Link>
+          <BrandLockup />
           <div className="flex items-center gap-5">
             <Link href="/archive" onNavigate={() => setOpeningArchive(true)} className="text-sm text-muted-foreground transition-colors hover:text-foreground">Archive</Link>
             <Link
@@ -48,8 +45,8 @@ export function SiteHeader() {
       </header>
       {openingArchive && createPortal(
         <div className="fixed inset-0 z-[100] overflow-y-auto bg-background" aria-busy="true">
-          <div className="mx-auto min-h-screen max-w-4xl px-5 pb-24 pt-10 md:px-10 md:pt-16">
-            <span className="wordmark">THE FORWARD PASS</span>
+          <div className="mx-auto min-h-screen max-w-7xl px-5 pb-24 pt-10 md:px-10 md:pt-16">
+            <BrandLockup />
             <div className="mt-24 border-b border-border pb-10 md:mt-32">
               <p className="onboarding-eyebrow">Published editions</p>
               <h1 className="font-[family-name:var(--font-editorial)] text-5xl leading-none md:text-7xl">The archive.</h1>
@@ -57,7 +54,7 @@ export function SiteHeader() {
                 Read the issues we have published. Your active plan determines how far back you can go.
               </p>
             </div>
-            <p className="border-b border-border py-5 text-xs text-muted-foreground" role="status">Loading available editions…</p>
+            <p className="border-b border-border py-5 text-xs text-muted-foreground" role="status">Loading the latest stories…</p>
           </div>
         </div>,
         document.body,
