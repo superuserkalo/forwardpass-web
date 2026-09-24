@@ -120,7 +120,7 @@ const STORY_FIXTURES: Fixture[] = [
   {
     type: "models",
     title: "Mistral Releases a 24B Reasoning Model Under Apache 2.0",
-    dek: "Weights, cookbooks and eval harness ship together — the permissive licence covers commercial serving.",
+    dek: "Weights, cookbooks and eval harness ship together. The permissive licence covers commercial serving.",
     sourceName: "MISTRAL",
     sourceUrl: "https://mistral.ai",
     topics: ["LLMs", "Open source", "Reasoning"],
