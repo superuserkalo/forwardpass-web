@@ -14,10 +14,6 @@ export function byLatest(a: Story, b: Story): number {
   return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
 }
 
-export function byUpvotes(a: Story, b: Story): number {
-  return b.upvotes - a.upvotes || byLatest(a, b);
-}
-
 export function rankForYou(stories: Story[], readerTopics: FeedTopic[]): Story[] {
   const latest = [...stories].sort(byLatest);
   if (readerTopics.length === 0) return latest;
