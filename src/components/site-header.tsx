@@ -35,7 +35,11 @@ export function SiteHeader() {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-10 md:py-5">
           <BrandLockup />
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link href="/pricing" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+              <span className="sm:hidden">Personal AI</span>
+              <span className="hidden sm:inline">Personal AI newsletter</span>
+            </Link>
             <Link href="/archive" onNavigate={() => {
               if (pathname !== "/archive") setOpeningArchive(true);
             }} className="text-sm text-muted-foreground transition-colors hover:text-foreground">Archive</Link>

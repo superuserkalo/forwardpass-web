@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { AdvertisingForm, NewsletterForm } from "@/components/forward-pass-forms";
 import { Hero } from "@/components/hero";
-import { Sigil } from "@/components/sigil";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
@@ -90,7 +89,6 @@ export default function Home() {
         <AdvertisingForm />
       </section>
 
-      <Sigil />
       <SiteFooter />
     </main>
   );

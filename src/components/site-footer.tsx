@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BrandLockup } from "./brand-lockup";
+import { Sigil } from "./sigil";
 import { SocialLinks } from "./social-links";
 
 const COLUMNS: Array<{ label: string; links: Array<{ label: string; href: string }> }> = [
@@ -7,17 +8,24 @@ const COLUMNS: Array<{ label: string; links: Array<{ label: string; href: string
     label: "Read",
     links: [
       { label: "The archive", href: "/archive" },
-      { label: "Weekly deep dive", href: "/archive?section=weekly" },
       { label: "Editorial", href: "/archive?section=editorial" },
-      { label: "Reading brief", href: "/preferences" },
+      { label: "Weekly deep dive", href: "/archive?tab=weekly" },
     ],
   },
   {
-    label: "Plans",
+    label: "Newsletter",
     links: [
-      { label: "Pricing", href: "/pricing" },
-      { label: "Personal trial", href: "/welcome" },
-      { label: "Advertise", href: "/collaborate" },
+      { label: "Personal AI newsletter", href: "/pricing" },
+      { label: "Start your free trial", href: "/welcome" },
+      { label: "Your reading brief", href: "/preferences" },
+      { label: "Unsubscribe", href: "/unsubscribe" },
+    ],
+  },
+  {
+    label: "Company",
+    links: [
+      { label: "Collaborate", href: "/collaborate" },
+      { label: "Contact", href: "mailto:hello@withradian.com" },
     ],
   },
   {
@@ -25,27 +33,23 @@ const COLUMNS: Array<{ label: string; links: Array<{ label: string; href: string
     links: [
       { label: "Privacy", href: "/privacy" },
       { label: "Imprint", href: "/imprint" },
-      { label: "Unsubscribe", href: "/unsubscribe" },
     ],
   },
 ];
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border">
+    <footer>
+      <div className="border-t border-border">
+        <Sigil />
+      </div>
       <div className="mx-auto max-w-7xl px-5 py-12 md:px-10 md:py-16">
-        <div className="flex flex-col gap-12 sm:flex-row sm:justify-between">
-          <div className="max-w-sm">
+        <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
+          <div>
             <BrandLockup />
-            <p className="mt-4 text-sm leading-6 text-muted-foreground">
-              One issue a day on what’s changing in AI engineering. The important
-              models, agents, research, infrastructure and tools, with primary
-              sources.
-            </p>
-            <p className="mt-4 text-sm text-muted-foreground">@forwardpassnews</p>
             <SocialLinks />
           </div>
-          <nav className="grid grid-cols-2 gap-10 sm:grid-cols-3" aria-label="Footer">
+          <nav className="grid grid-cols-2 gap-x-10 gap-y-10 sm:grid-cols-4" aria-label="Footer">
             {COLUMNS.map((column) => (
               <div key={column.label}>
                 <h2 className="font-mono text-[10px] tracking-[.18em] text-muted-foreground uppercase">
@@ -66,7 +70,9 @@ export function SiteFooter() {
         </div>
         <div className="mt-12 flex flex-col gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} The Forward Pass</p>
-          <p>Vienna, Austria · hello@withradian.com</p>
+          <p>
+            Engineered with <span aria-label="love">❤️</span> in Europe
+          </p>
         </div>
       </div>
     </footer>
