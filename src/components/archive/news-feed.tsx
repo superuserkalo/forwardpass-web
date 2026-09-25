@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 import { BookmarkButton, UpvoteButton } from "./story-actions";
 import { SourceMark, StoryThumb } from "./story-media";
 
-type FeedTab = "for-you" | "latest" | "upvotes";
+export type FeedTab = "latest" | "for-you" | "weekly" | "upvotes";
 type FeedView = "list" | "grid";
 
 const PAGE_SIZE = 20;
@@ -58,15 +58,22 @@ function toggleIn<T>(values: T[], value: T): T[] {
 export function NewsFeed({
   stories,
   personalized,
+  professional,
+  weekly,
+  initialTab = "latest",
   readerTopics,
   now,
 }: {
   stories: Story[];
   personalized: boolean;
+  professional: boolean;
+  /** Server-rendered Weekly deep dive, shown in its tab for Professional readers. */
+  weekly: React.ReactNode;
+  initialTab?: FeedTab;
   readerTopics: FeedTopic[];
   now: number;
 }) {
-  const [tab, setTab] = useState<FeedTab>(personalized ? "for-you" : "latest");
+  const [tab, setTab] = useState<FeedTab>(initialTab);
   const [view, setView] = useState<FeedView>("list");
   const [range, setRange] = useState<FeedRange>("all");
   const [types, setTypes] = useState<StoryType[]>([]);
@@ -98,8 +105,13 @@ export function NewsFeed({
     return [...filtered].sort(tab === "upvotes" ? byUpvotes : byLatest);
   }, [ofType, topics, tab, readerTopics]);
 
-  const locked = tab === "for-you" && !personalized;
-  const title = tab === "for-you" && range === "all" ? "For You" : RANGE_TITLES[personalized ? range : "all"];
+  const locked = (tab === "for-you" && !personalized) || (tab === "weekly" && !professional);
+  const title =
+    tab === "weekly"
+      ? "Weekly deep dive"
+      : tab === "for-you" && range === "all"
+        ? "For You"
+        : RANGE_TITLES[personalized ? range : "all"];
 
   function resetPaging() {
     setShown(PAGE_SIZE);
@@ -128,14 +140,14 @@ export function NewsFeed({
     <div>
       <div className="flex items-end justify-between gap-6">
         <h1 className="font-display text-5xl leading-none tracking-tight md:text-6xl">{title}</h1>
-        <p className={cn(labelClass, "shrink-0 pb-1 text-muted-foreground")}>
+        <p className={cn(labelClass, "shrink-0 pb-1 text-muted-foreground", tab === "weekly" && "invisible")}>
           <span className="text-foreground">{locked ? 0 : visible.length}</span> results
         </p>
       </div>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-12">
-        <aside className="hidden lg:block">{filters}</aside>
-        <details className="group border border-border lg:hidden">
+      <div className={cn("mt-10 grid gap-10 lg:gap-12", tab !== "weekly" && "lg:grid-cols-[17rem_minmax(0,1fr)]")}>
+        <aside className={cn("hidden", tab !== "weekly" && "lg:block")}>{filters}</aside>
+        <details className={cn("group border border-border lg:hidden", tab === "weekly" && "hidden")}>
           <summary className={cn(labelClass, "flex cursor-pointer list-none items-center justify-between px-4 py-3")}>
             Filters
             <ChevronDown className="size-4 transition-transform group-open:rotate-180" strokeWidth={1.5} />
@@ -155,8 +167,9 @@ export function NewsFeed({
             <TabsList variant="line" className="h-auto gap-6 p-0 md:gap-9">
               {(
                 [
-                  ["for-you", "For you"],
                   ["latest", "Latest"],
+                  ["for-you", "For you"],
+                  ["weekly", "Weekly deep dive"],
                   ["upvotes", "Upvotes"],
                 ] as const
               ).map(([value, label]) => (
@@ -170,11 +183,13 @@ export function NewsFeed({
                   )}
                 >
                   {label}
-                  {value === "for-you" && !personalized && <Lock className="size-3" strokeWidth={1.5} />}
+                  {((value === "for-you" && !personalized) || (value === "weekly" && !professional)) && (
+                    <Lock className="size-3" strokeWidth={1.5} />
+                  )}
                 </TabsTrigger>
               ))}
             </TabsList>
-            <div className="flex items-center gap-2 pb-3">
+            <div className={cn("flex items-center gap-2 pb-3", tab === "weekly" && "invisible")}>
               {personalized && (
                 <DropdownMenu>
                   <DropdownMenuTrigger
@@ -220,10 +235,13 @@ export function NewsFeed({
             </div>
           </div>
 
-          {(["for-you", "latest", "upvotes"] as const).map((value) => (
+          <TabsContent value="weekly" className="onboarding-enter">
+            {professional ? weekly : <LockedTab tab="weekly" />}
+          </TabsContent>
+          {(["latest", "for-you", "upvotes"] as const).map((value) => (
             <TabsContent key={value} value={value} className="onboarding-enter">
               {locked ? (
-                <ForYouLocked />
+                <LockedTab tab="for-you" />
               ) : visible.length === 0 ? (
                 <p className={cn(labelClass, "py-24 text-center text-muted-foreground")}>No stories match these filters</p>
               ) : (
@@ -425,16 +443,28 @@ function StoryCard({ story, now }: { story: Story; now: number }) {
   );
 }
 
-function ForYouLocked() {
+const LOCKED_COPY = {
+  "for-you": {
+    title: "A feed ranked to your reading brief.",
+    body: "For You orders every story by the topics you picked. It comes with Personal and Professional.",
+    href: "/pricing",
+  },
+  weekly: {
+    title: "One deep dive, every week.",
+    body: "A weekly research issue that follows the biggest shift of the week to its primary sources. It comes with Professional.",
+    href: "/pricing?plan=professional",
+  },
+} as const;
+
+function LockedTab({ tab }: { tab: keyof typeof LOCKED_COPY }) {
+  const copy = LOCKED_COPY[tab];
   return (
     <div className="flex flex-col items-start gap-5 border-b border-border py-20">
       <Lock className="size-5 text-muted-foreground" strokeWidth={1.5} />
-      <h2 className="font-display text-3xl">A feed ranked to your reading brief.</h2>
-      <p className="max-w-md text-sm leading-7 text-muted-foreground">
-        For You orders every story by the topics you picked. It comes with Personal and Professional.
-      </p>
+      <h2 className="font-display text-3xl">{copy.title}</h2>
+      <p className="max-w-md text-sm leading-7 text-muted-foreground">{copy.body}</p>
       <Button asChild className={cn(labelClass, "rounded-none text-xs")}>
-        <Link href="/pricing">See plans</Link>
+        <Link href={copy.href}>See plans</Link>
       </Button>
     </div>
   );

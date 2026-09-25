@@ -1,6 +1,5 @@
-import { ArrowUpRight, Lock } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import type { EditionOutline } from "@/lib/feed";
 import { prettyDate } from "@/lib/story-parse";
 import { cn } from "@/lib/utils";
@@ -84,21 +83,6 @@ export function WeeklyDeepDive({ issues }: { issues: WeeklyIssue[] }) {
           </ul>
         </section>
       )}
-    </div>
-  );
-}
-
-export function WeeklyLocked() {
-  return (
-    <div className="flex flex-col items-start gap-5 border-b border-border py-20">
-      <Lock className="size-5 text-muted-foreground" strokeWidth={1.5} />
-      <h2 className="font-display text-3xl">One deep dive, every week.</h2>
-      <p className="max-w-md text-sm leading-7 text-muted-foreground">
-        Professional readers get a weekly research issue that follows the biggest shift of the week to its primary sources.
-      </p>
-      <Button asChild className={cn(labelClass, "rounded-none text-xs")}>
-        <Link href="/pricing?plan=professional">See Professional</Link>
-      </Button>
     </div>
   );
 }

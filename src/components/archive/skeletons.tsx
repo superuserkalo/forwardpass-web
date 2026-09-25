@@ -110,7 +110,6 @@ export function SectionNavSkeleton() {
     <div className="flex gap-8 border-b border-border pb-4">
       <Skeleton className="h-3 w-12" />
       <Skeleton className="h-3 w-20" />
-      <Skeleton className="h-3 w-32" />
     </div>
   );
 }

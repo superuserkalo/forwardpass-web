@@ -114,7 +114,6 @@ export function matchTopics(text: string): FeedTopic[] {
 export function inferStoryType(text: string, sourceUrl: string | null): StoryType {
   const haystack = text.toLowerCase();
   const host = sourceUrl ? sourceUrl.toLowerCase() : "";
-  if (/\b(deep dive|tutorial|opinion|editorial|analysis|how to|guide)\b/.test(haystack)) return "editorial";
   if (host.includes("arxiv") || /\b(paper|preprint|study|researchers)\b/.test(haystack)) return "papers";
   if (host.includes("github") || /\b(open[- ]source|repository|repo|weights)\b/.test(haystack)) return "repos";
   if (/\b(model|weights|checkpoint|launches|releases|billion[- ]parameter|\d+b\b)\b/.test(haystack)) return "models";
