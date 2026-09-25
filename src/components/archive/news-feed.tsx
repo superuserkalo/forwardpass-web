@@ -15,13 +15,13 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import type { Story } from "@/lib/feed";
-import { byLatest, byUpvotes, rankForYou, withinRange, type FeedRange } from "@/lib/feed-rank";
+import { byLatest, rankForYou, withinRange, type FeedRange } from "@/lib/feed-rank";
 import { formatTimeAgo, type FeedTopic, type StoryType } from "@/lib/story-parse";
 import { cn } from "@/lib/utils";
 import { BookmarkButton, UpvoteButton } from "./story-actions";
 import { SourceMark, StoryThumb } from "./story-media";
 
-export type FeedTab = "latest" | "for-you" | "weekly" | "upvotes";
+export type FeedTab = "latest" | "for-you" | "weekly";
 type FeedView = "list" | "grid";
 
 const PAGE_SIZE = 20;
@@ -102,7 +102,7 @@ export function NewsFeed({
     const filtered =
       topics.length === 0 ? ofType : ofType.filter((story) => story.topics.some((topic) => topics.includes(topic)));
     if (tab === "for-you") return rankForYou(filtered, readerTopics);
-    return [...filtered].sort(tab === "upvotes" ? byUpvotes : byLatest);
+    return [...filtered].sort(byLatest);
   }, [ofType, topics, tab, readerTopics]);
 
   const locked = (tab === "for-you" && !personalized) || (tab === "weekly" && !professional);
@@ -170,7 +170,6 @@ export function NewsFeed({
                   ["latest", "Latest"],
                   ["for-you", "For you"],
                   ["weekly", "Weekly deep dive"],
-                  ["upvotes", "Upvotes"],
                 ] as const
               ).map(([value, label]) => (
                 <TabsTrigger
@@ -238,7 +237,7 @@ export function NewsFeed({
           <TabsContent value="weekly" className="onboarding-enter">
             {professional ? weekly : <LockedTab tab="weekly" />}
           </TabsContent>
-          {(["latest", "for-you", "upvotes"] as const).map((value) => (
+          {(["latest", "for-you"] as const).map((value) => (
             <TabsContent key={value} value={value} className="onboarding-enter">
               {locked ? (
                 <LockedTab tab="for-you" />

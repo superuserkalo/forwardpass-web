@@ -24,7 +24,7 @@ const SECTIONS = [
 type Section = (typeof SECTIONS)[number]["value"];
 type SearchParams = Promise<{ section?: string | string[]; kind?: string | string[]; tab?: string | string[] }>;
 
-const TABS = ["latest", "for-you", "weekly", "upvotes"] as const;
+const TABS = ["latest", "for-you", "weekly"] as const;
 
 function pick<T extends string>(value: string | string[] | undefined, allowed: readonly T[], fallback: T): T {
   const single = Array.isArray(value) ? value[0] : value;
