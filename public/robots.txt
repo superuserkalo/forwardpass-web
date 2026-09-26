@@ -1,14 +1,9 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
+# Public pages are open to search engines and AI crawlers.
+# Agent guide: https://theforwardpass.net/llms.txt
 User-agent: *
+Disallow: /api/
+Disallow: /preferences
+Disallow: /unsubscribe
 Allow: /
+
+Sitemap: https://theforwardpass.net/sitemap.xml
