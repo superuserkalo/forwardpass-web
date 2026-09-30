@@ -197,7 +197,7 @@ export default async function Pricing({
           <table className="w-full min-w-[40rem] border-collapse text-sm">
             <thead>
               <tr className="border-b border-border text-left">
-                <th className="w-40 py-4 pr-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                <th className="sticky left-0 z-10 w-32 bg-background py-4 pr-4 font-mono md:static md:w-40 text-[10px] uppercase tracking-widest text-muted-foreground">
                   Features
                 </th>
                 <th className="w-56 py-4 pr-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -214,7 +214,7 @@ export default async function Pricing({
             <tbody>
               {COMPARE.map(([label, free, personal, professional]) => (
                 <tr key={label} className="border-b border-border">
-                  <td className="py-4 pr-4 text-foreground">{label}</td>
+                  <td className="sticky left-0 z-10 bg-background py-4 pr-4 text-foreground md:static">{label}</td>
                   <td className="py-4 pr-4 text-muted-foreground">{free}</td>
                   <td className="border-x border-border bg-card/40 px-4 py-4 text-muted-foreground">
                     {personal}
