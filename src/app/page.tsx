@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AdvertisingForm, NewsletterForm } from "@/components/forward-pass-forms";
+import { NewsletterForm } from "@/components/forward-pass-forms";
 import { Hero } from "@/components/hero";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -77,16 +77,6 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
-
-      <section id="advertise" className="mx-auto max-w-7xl scroll-mt-8 px-5 py-24 md:px-10 md:py-36">
-        <p className="mb-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">Advertising & sponsorship</p>
-        <h2 className="font-display max-w-4xl text-4xl leading-tight font-medium tracking-[-0.02em] sm:text-6xl">Building for AI engineers?</h2>
-        <p className="mt-7 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          Reach an audience of AI engineers, researchers, technical founders and people building the next generation of AI systems.
-        </p>
-        <p className="mt-8 text-sm font-medium">Advertise in The Forward Pass</p>
-        <AdvertisingForm />
       </section>
 
       <SiteFooter />

@@ -64,10 +64,10 @@ export function SiteHeader() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-10 md:py-5">
           <BrandLockup />
           <nav aria-label="Main" className="hidden items-center gap-6 md:flex">
-            <Link href="/pricing" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+            <Link href="/pricing" className="text-sm text-foreground/85 transition-colors hover:text-foreground">
               Personal AI newsletter
             </Link>
-            <Link href="/archive" onNavigate={onArchiveNavigate} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+            <Link href="/archive" onNavigate={onArchiveNavigate} className="text-sm text-foreground/85 transition-colors hover:text-foreground">
               Archive
             </Link>
             <Link
