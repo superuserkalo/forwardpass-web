@@ -66,13 +66,15 @@ const emails = (calls) => calls.filter(([name]) => name === "send").map(([, inpu
 const tokenIn = (email) => /(?:#|\?)token=([^"&\s]+)/.exec(email.html)?.[1] ?? "";
 const registered = { segments: [NEWSLETTER_SEGMENT], topics: [{ id: NEWSLETTER_TOPIC, subscription: "opt_in" }] };
 
-test("a new address creates a contact and is emailed a link to confirm it", async () => {
+test("a new address is stored but not subscribed, and is emailed a link to confirm it", async () => {
   const { submit, calls } = signup(null, { lookupError: { name: "not_found" } });
   const result = await submit("  New@Example.com ");
   assert.equal(result.success, true);
   const create = calls.find(([name]) => name === "create")[1];
   assert.equal(create.email, "new@example.com");
-  assert.equal(create.topics[0].subscription, "opt_in");
+  assert.equal(create.segments, undefined);
+  assert.equal(create.topics[0].id, NEWSLETTER_TOPIC);
+  assert.equal(create.topics[0].subscription, "opt_out");
   const [email] = emails(calls);
   assert.equal(email.to[0], "new@example.com");
   assert.equal(verifyLinkToken("verify", tokenIn(email))?.email, "new@example.com");
@@ -103,26 +105,37 @@ test("repeat signups for the same address are throttled by the link cooldown", a
   assert.equal(emails(calls).length, 0);
 });
 
-test("a Radian-only contact can join the newsletter without changing their Radian preference", async () => {
+test("a Radian-only contact is not subscribed to the newsletter until they confirm", async () => {
   const { submit, calls } = signup({ id: "existing", unsubscribed: false, properties: {} }, {
     segments: ["4da8672a-f61d-40bf-a5ab-eb0da7fca8f4"],
     topics: [{ id: "3703dc48-be4b-4f9b-bb87-19a4754ad64c", subscription: "opt_in" }],
   });
   assert.equal((await submit("reader@example.com")).success, true);
-  const topic = calls.find(([name]) => name === "topic-update")[1];
-  assert.equal(topic.topics[0].id, NEWSLETTER_TOPIC);
-  assert.ok(names(calls).includes("segment-add"));
+  assert.equal(names(calls).some((name) => ["topic-update", "segment-add", "create"].includes(name)), false);
   assert.equal(verifyLinkToken("verify", tokenIn(emails(calls)[0]))?.email, "reader@example.com");
 });
 
-test("an unsubscribed reader who signs up again is emailed a sign-in link, not a confirmation", async () => {
-  const { submit, calls } = signup({ id: "existing", unsubscribed: false, properties: {} }, {
+test("typing an unsubscribed address cannot re-subscribe it; the owner must confirm", async () => {
+  const { submit, calls } = signup({ id: "existing", unsubscribed: true, properties: {} }, {
     segments: [NEWSLETTER_SEGMENT],
     topics: [{ id: NEWSLETTER_TOPIC, subscription: "opt_out" }],
   });
   assert.equal((await submit("reader@example.com")).success, true);
-  assert.ok(names(calls).includes("topic-update"));
-  assert.equal(verifyLinkToken("signin", tokenIn(emails(calls)[0]))?.email, "reader@example.com");
+  assert.equal(names(calls).some((name) => ["topic-update", "segment-add", "create"].includes(name)), false);
+  assert.equal(calls.some(([name, input]) => name === "update" && "unsubscribed" in input), false);
+  const [email] = emails(calls);
+  assert.equal(verifyLinkToken("verify", tokenIn(email))?.email, "reader@example.com");
+  assert.equal(verifyLinkToken("signin", tokenIn(email)), null);
+});
+
+test("an unconfirmed address that signs up repeatedly is throttled too", async () => {
+  const recent = new Date(Date.now() - 20_000).toISOString();
+  const { submit, calls } = signup(
+    { id: "existing", unsubscribed: false, properties: { last_link_sent_at: { value: recent } } },
+    { segments: [], topics: [{ id: NEWSLETTER_TOPIC, subscription: "opt_out" }] },
+  );
+  assert.equal((await submit("reader@example.com")).success, true);
+  assert.equal(emails(calls).length, 0);
 });
 
 test("lookup failure stops signup without writing contacts or sending email", async () => {

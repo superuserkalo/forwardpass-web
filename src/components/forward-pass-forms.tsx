@@ -46,7 +46,7 @@ export function NewsletterForm() {
     return (
       <div className="flex min-h-14 items-center gap-3 border-y border-border py-4 font-mono text-sm" role="status">
         <Check className="size-4" aria-hidden="true" />
-        Check your inbox. We sent you a link to confirm your email.
+        Almost there. Check your inbox and confirm your email to join the list.
       </div>
     );
   }

@@ -16,6 +16,7 @@ test("a confirmation link starts a 30-day session and continues to onboarding", 
   const token = createLinkToken("verify", "reader@example.com", now, DAY);
   const session = exchangeLinkToken(token, now);
   assert.equal(session.next, "/welcome");
+  assert.equal(session.subscribeEmail, "reader@example.com");
   assert.equal(session.maxAgeSeconds, 30 * 86_400);
   assert.equal(verifyPreferencesToken(session.cookie, now)?.email, "reader@example.com");
   assert.ok(verifyPreferencesToken(session.cookie, now + 29 * DAY));
@@ -26,6 +27,7 @@ test("a sign-in link starts the same session and continues to the reading brief"
   const now = Date.now();
   const session = exchangeLinkToken(createLinkToken("signin", "reader@example.com", now, 60_000), now);
   assert.equal(session.next, "/preferences");
+  assert.equal(session.subscribeEmail, null);
   assert.equal(verifyPreferencesToken(session.cookie, now)?.email, "reader@example.com");
 });
 
@@ -34,6 +36,7 @@ test("an existing newsletter edit link keeps working and keeps its own expiry", 
   const token = createPreferencesToken("reader@example.com", now);
   const session = exchangeLinkToken(token, now);
   assert.equal(session.cookie, token);
+  assert.equal(session.subscribeEmail, null);
   assert.equal(session.next, "/preferences");
   assert.equal(session.maxAgeSeconds, 86_400);
 });

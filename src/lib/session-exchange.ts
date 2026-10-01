@@ -8,6 +8,8 @@ export type Session = {
   cookie: string;
   maxAgeSeconds: number;
   next: "/welcome" | "/preferences";
+  /** Set only for a confirmation link: the address whose owner just proved their inbox and may now be subscribed. */
+  subscribeEmail: string | null;
 };
 
 /**
@@ -18,7 +20,12 @@ export type Session = {
 export function exchangeLinkToken(token: string, now = Date.now()): Session | null {
   const edit = verifyPreferencesToken(token, now);
   if (edit) {
-    return { cookie: token, maxAgeSeconds: Math.max(1, Math.floor((edit.expires - now) / 1000)), next: "/preferences" };
+    return {
+      cookie: token,
+      maxAgeSeconds: Math.max(1, Math.floor((edit.expires - now) / 1000)),
+      next: "/preferences",
+      subscribeEmail: null,
+    };
   }
   for (const [purpose, next] of [
     ["verify", "/welcome"],
@@ -30,6 +37,7 @@ export function exchangeLinkToken(token: string, now = Date.now()): Session | nu
         cookie: createPreferencesToken(link.email, now, SESSION_MS),
         maxAgeSeconds: SESSION_MS / 1000,
         next,
+        subscribeEmail: purpose === "verify" ? link.email : null,
       };
     }
   }

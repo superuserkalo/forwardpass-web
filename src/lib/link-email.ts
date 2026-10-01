@@ -48,10 +48,10 @@ function linkUrl(purpose: LinkPurpose, token: string): string {
 const COPY: Record<LinkPurpose, { subject: string; heading: string; body: string; action: string; footer: string }> = {
   verify: {
     subject: "The Forward Pass: Confirm your email",
-    heading: "You're on the list.",
-    body: "One issue a day on what's changing in AI engineering, covering the important models, agents, research, infrastructure and tools, with primary sources. Confirm your email to set up your edition and start your 14 days of Personal.",
+    heading: "One click to join.",
+    body: "Confirm your email to join The Forward Pass: one issue a day on what's changing in AI engineering, covering the important models, agents, research, infrastructure and tools, with primary sources. You'll also set up your edition and start your 14 days of Personal. Nothing starts until you confirm.",
     action: "Confirm your email",
-    footer: "Didn't sign up? Ignore this email and nothing happens.",
+    footer: "Didn't sign up? Ignore this email and you won't be added.",
   },
   signin: {
     subject: "The Forward Pass: Your sign-in link",

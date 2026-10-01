@@ -41,7 +41,10 @@ Connect the GitHub repo to Vercel, set `RESEND_API_KEY` in the project environme
 
 ## Newsletter onboarding and Personal trial
 
-New newsletter signups are emailed a confirmation link. Following it opens
+New newsletter signups use double opt-in: the address is stored in no segment
+and opted out of the newsletter topic, and is emailed a confirmation link. Only
+following that link subscribes it (`joinNewsletter` in `src/lib/newsletter.ts`,
+called from `/preferences/session`), which also opens
 `/welcome`: profile, topics, format, an animated edition preview, and the
 Personal trial offer. Readers can stay on Free. Personal
 is complimentary for 14 days, with no Polar checkout or automatic charge.
