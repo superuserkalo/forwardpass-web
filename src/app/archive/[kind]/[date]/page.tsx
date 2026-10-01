@@ -13,14 +13,19 @@ import type { ArchiveKind } from "@/lib/archive-client";
 import { loadArchiveIndex, loadEditionText } from "@/lib/archive-viewer";
 import { loadEditorialArticle, loadFeed, outlineEdition, type EditionOutline, type EditorialArticle } from "@/lib/feed";
 import { prettyDate, stripInlineMarkdown } from "@/lib/story-parse";
+import { AI_DISCLOSURE, AI_LABEL, AI_META } from "@/lib/ai-disclosure";
 import { cn } from "@/lib/utils";
 
 type Params = Promise<{ kind: string; date: string }>;
 
-export const metadata: Metadata = {
-  title: "Published edition | The Forward Pass",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const { kind } = await params;
+  return {
+    title: "Published edition | The Forward Pass",
+    robots: { index: false, follow: false },
+    ...(kind === "daily" || kind === "weekly" ? { other: AI_META } : {}),
+  };
+}
 
 const labelClass = "font-mono text-[11px] uppercase tracking-[.2em]";
 
@@ -191,8 +196,10 @@ function Edition({
         <p className={cn(labelClass, "text-[10px] text-muted-foreground")}>
           {kind === "weekly" ? "Weekly deep dive" : "Daily edition"} <span aria-hidden="true">·</span> {prettyDate(date)}
         </p>
+        <p className={cn(labelClass, "mt-3 text-[10px] text-muted-foreground")}>{kind === "weekly" ? "AI-generated issue" : AI_LABEL}</p>
         <h1 className="mt-6 font-display text-5xl leading-[1.02] tracking-tight text-balance md:text-7xl">{outline.title}</h1>
         {dek && <p className="mx-auto mt-7 max-w-2xl text-lg leading-8 text-muted-foreground text-pretty">{dek}</p>}
+        <p className="mx-auto mt-5 max-w-2xl text-sm leading-6 text-muted-foreground text-pretty">{AI_DISCLOSURE}</p>
         {outline.topics.length > 0 && (
           <ul className="mt-8 flex flex-wrap justify-center gap-2">
             {outline.topics.slice(0, 5).map((topic) => (

@@ -46,7 +46,7 @@ export default function Home() {
           }}
         />
         <div className="relative mx-auto flex min-h-[75vh] max-w-7xl flex-col justify-center px-5 py-20 md:px-10 md:py-28">
-          <p className="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">Daily intelligence for AI builders</p>
+          <p className="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">Daily AI-generated issues for AI builders</p>
           <h1 className="font-display max-w-5xl text-5xl leading-none font-medium tracking-[-0.02em] sm:text-7xl lg:text-8xl">What’s changing in AI engineering.</h1>
           <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             The important models, agents, research, infrastructure and tools. Researched and ranked for people who actually build with AI.
