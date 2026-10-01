@@ -157,3 +157,48 @@
 @media (prefers-reduced-motion: reduce) {
   .skeleton-shimmer::after { animation: none; }
 }
+
+/*
+ * Header boxes. The fill is a pseudo-element masked by an ordered-dither ramp
+ * (public/dither-ramp.svg: solid, then dithered, then clear). Sliding the mask
+ * in whole 3px cells sweeps the fill in or out as a dither wipe, and a plain
+ * CSS transition reverses it on mouse-out.
+ */
+@layer components {
+  .dither-box {
+    position: relative;
+    isolation: isolate;
+    border: 1px solid color-mix(in srgb, var(--foreground) 45%, transparent);
+    --dither-clear: -540px;
+    --dither-solid: 0px;
+    /* The text flips colour halfway through the wipe. */
+    transition: color 0s linear 200ms, scale 300ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .dither-box:active { scale: 0.98; }
+  .dither-box::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    background: var(--primary);
+    mask: url("/dither-ramp.svg") repeat-y;
+    mask-size: 780px 12px;
+    transition: mask-position 460ms steps(180, end);
+  }
+
+  /* Outline at rest, fills on hover. */
+  .dither-ghost { color: var(--foreground); }
+  .dither-ghost::before { mask-position: var(--dither-clear) 0; }
+  .dither-ghost:is(:hover, :focus-visible)::before { mask-position: var(--dither-solid) 0; }
+  .dither-ghost:is(:hover, :focus-visible) { color: var(--primary-foreground); }
+
+  /* Filled at rest, empties to an outline on hover. */
+  .dither-solid { color: var(--primary-foreground); }
+  .dither-solid::before { mask-position: var(--dither-solid) 0; }
+  .dither-solid:is(:hover, :focus-visible)::before { mask-position: var(--dither-clear) 0; }
+  .dither-solid:is(:hover, :focus-visible) { color: var(--foreground); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dither-box, .dither-box::before { transition-duration: 0s; transition-delay: 0s; }
+  }
+}

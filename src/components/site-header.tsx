@@ -63,16 +63,16 @@ export function SiteHeader() {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-10 md:py-5">
           <BrandLockup />
-          <nav aria-label="Main" className="hidden items-center gap-6 md:flex">
-            <Link href="/pricing" className="text-sm text-foreground/85 transition-colors hover:text-foreground">
+          <nav aria-label="Main" className="hidden items-center gap-3 md:flex">
+            <Link href="/pricing" className="dither-box dither-ghost px-5 py-2.5 text-sm font-medium">
               Personal AI newsletter
             </Link>
-            <Link href="/archive" onNavigate={onArchiveNavigate} className="text-sm text-foreground/85 transition-colors hover:text-foreground">
+            <Link href="/archive" onNavigate={onArchiveNavigate} className="dither-box dither-ghost px-5 py-2.5 text-sm font-medium">
               Archive
             </Link>
             <Link
               href="/collaborate"
-              className="bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-90 active:scale-[0.98]"
+              className="dither-box dither-solid px-5 py-2.5 text-sm font-medium"
             >
               Collaborate
             </Link>
