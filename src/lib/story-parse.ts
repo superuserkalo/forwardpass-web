@@ -3,7 +3,7 @@ export type StoryType = "news" | "papers" | "models" | "repos" | "editorial";
 export type ParsedBlock = {
   heading: string;
   body: string;
-  /** Anchor id. Numbered stories use `story-<n>`, labelled sections (quick signals) a slug. */
+  /** Anchor id: the story's record id (`s-…`) when the engine marks it, else `story-<n>`; labelled sections (signals) use a slug. */
   id?: string;
   /** True for labelled sections such as Quick signals, which are not stories. */
   label?: boolean;
@@ -136,20 +136,41 @@ function summarize(block: string, limit = 220): string {
   return summary.length > limit ? `${summary.slice(0, limit - 1).trimEnd()}…` : summary;
 }
 
+// The engine marks each featured heading with its stable story id: `<!-- story:s-… -->`.
+const STORY_MARKER = /^<!--\s*story:(s-[a-f0-9]{16})\s*-->$/;
+const LABEL_HEADINGS = new Set(["signals", "quick signals"]);
+
 function splitAtHeading(text: string, marker: RegExp): ParsedBlock[] | null {
   const lines = text.split("\n");
   const sections: ParsedBlock[] = [];
-  let current: { heading: string | null; lines: string[] } | null = null;
+  let current: { heading: string | null; id?: string; lines: string[] } | null = null;
+  let pendingId: string | undefined;
+  const push = () => {
+    if (!current) return;
+    const heading = current.heading ?? "";
+    const label = LABEL_HEADINGS.has(heading.toLowerCase());
+    sections.push({
+      heading,
+      body: current.lines.join("\n").trim(),
+      ...(current.id ? { id: current.id } : label ? { id: heading.toLowerCase().replace(/\s+/g, "-"), label: true } : {}),
+    });
+  };
   for (const line of lines) {
+    const storyId = STORY_MARKER.exec(line.trim())?.[1];
+    if (storyId) {
+      pendingId = storyId;
+      continue;
+    }
     const match = marker.exec(line);
     if (match?.[1]) {
-      if (current) sections.push({ heading: current.heading ?? "", body: current.lines.join("\n").trim() });
-      current = { heading: stripInlineMarkdown(match[1]), lines: [] };
+      push();
+      current = { heading: stripInlineMarkdown(match[1]), id: pendingId, lines: [] };
+      pendingId = undefined;
     } else if (current) {
       current.lines.push(line);
     }
   }
-  if (current) sections.push({ heading: current.heading ?? "", body: current.lines.join("\n").trim() });
+  push();
   const kept = sections.filter((section) => section.heading || section.body);
   return kept.length >= 2 ? kept : null;
 }
@@ -268,7 +289,7 @@ function parseMarkdownEdition(markdown: string): ParsedEdition {
   const headingBlocks = splitAtHeading(body, /^##\s+(.+)$/) ?? splitAtHeading(body, /^###\s+(.+)$/);
   const blocks = headingBlocks ?? splitAtRules(body) ?? splitAtBoldLeads(body) ?? [{ heading: title ?? "", body }];
   const firstHeading = headingBlocks ? /^#{2,3}\s+.+$/m.exec(body) : null;
-  const preamble = firstHeading ? body.slice(0, firstHeading.index).trim() : "";
+  const preamble = firstHeading ? body.slice(0, firstHeading.index).split("\n").filter((line) => !STORY_MARKER.test(line.trim())).join("\n").trim() : "";
   const firstImage = findImages(text)[0] ?? null;
   const wordCount = text.split(/\s+/).filter(Boolean).length;
   const leadSource = preamble || (blocks[0] ? blocks[0].body : body);

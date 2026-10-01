@@ -81,6 +81,11 @@ export default async function EditionPage({ params }: { params: Params }) {
 }
 
 /** 1-based story number, or null for labelled sections such as Quick signals. */
+/** Vote id for a story section: its record id when the engine marked one, else its position (older issues). */
+function storyVoteId(kind: ArchiveKind, date: string, sectionId: string, number: number): string {
+  return /^s-[a-f0-9]{16}$/.test(sectionId) ? `${kind}:${date}:${sectionId}` : `${kind}:${date}:${number - 1}`;
+}
+
 function storyNumber(outline: EditionOutline, id: string): number | null {
   const stories = outline.sections.filter((section) => !section.label);
   const position = stories.findIndex((section) => section.id === id);
@@ -272,9 +277,9 @@ function Edition({
                   </div>
                   {number && kind === "daily" && (
                     <UpvoteButton
-                      id={`${kind}:${date}:${number - 1}`}
-                      upvotes={votes.get(`${kind}:${date}:${number - 1}`)?.upvotes ?? 0}
-                      viewerHasUpvoted={votes.get(`${kind}:${date}:${number - 1}`)?.viewerHasUpvoted ?? false}
+                      id={storyVoteId(kind, date, section.id, number)}
+                      upvotes={votes.get(storyVoteId(kind, date, section.id, number))?.upvotes ?? 0}
+                      viewerHasUpvoted={votes.get(storyVoteId(kind, date, section.id, number))?.viewerHasUpvoted ?? false}
                       className="mt-6 shrink-0"
                     />
                   )}
