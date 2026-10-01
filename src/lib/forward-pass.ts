@@ -149,7 +149,8 @@ export async function subscribeAction(email: string) {
   after(async () => {
     try {
       await getResend().emails.send({
-        from: "The Forward Pass <hello@withradian.com>",
+        // Reader mail comes from the newsletter's own verified domain; replies still reach the team.
+        from: "The Forward Pass <news@theforwardpass.net>",
         to: [data.email],
         replyTo: "hello@withradian.com",
         subject: "The Forward Pass: You're on the list",
