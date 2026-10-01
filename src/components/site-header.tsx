@@ -13,21 +13,20 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const [openingArchive, setOpeningArchive] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
+  // The menu is open only on the page it was opened from, so navigating closes it.
+  const [menuOpenAt, setMenuOpenAt] = useState<string | null>(null);
+  if (menuOpenAt !== null && menuOpenAt !== pathname) setMenuOpenAt(null);
+  const menuOpen = menuOpenAt === pathname;
 
   useEffect(() => {
     if (!menuOpen) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
+      if (event.key === "Escape") setMenuOpenAt(null);
     };
     const onResize = () => {
-      if (window.matchMedia("(min-width: 768px)").matches) setMenuOpen(false);
+      if (window.matchMedia("(min-width: 768px)").matches) setMenuOpenAt(null);
     };
     window.addEventListener("keydown", onKey);
     window.addEventListener("resize", onResize);
@@ -83,7 +82,7 @@ export function SiteHeader() {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
-            onClick={() => setMenuOpen((open) => !open)}
+            onClick={() => setMenuOpenAt(menuOpen ? null : pathname)}
             className="-mr-2 flex size-11 items-center justify-center text-foreground md:hidden"
           >
             {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
@@ -95,20 +94,20 @@ export function SiteHeader() {
             aria-label="Main"
             className="flex h-[calc(100dvh-4.5rem)] flex-col border-t border-border bg-background px-5 pb-[max(2rem,env(safe-area-inset-bottom))] pt-6 md:hidden"
           >
-            <Link href="/pricing" onClick={() => setMenuOpen(false)} className="border-b border-border py-5 font-display text-3xl text-foreground">
+            <Link href="/pricing" onClick={() => setMenuOpenAt(null)} className="border-b border-border py-5 font-display text-3xl text-foreground">
               Personal AI newsletter
             </Link>
             <Link
               href="/archive"
               onNavigate={onArchiveNavigate}
-              onClick={() => setMenuOpen(false)}
+              onClick={() => setMenuOpenAt(null)}
               className="border-b border-border py-5 font-display text-3xl text-foreground"
             >
               Archive
             </Link>
             <Link
               href="/collaborate"
-              onClick={() => setMenuOpen(false)}
+              onClick={() => setMenuOpenAt(null)}
               className="mt-auto flex h-12 items-center justify-center bg-primary text-sm font-medium text-primary-foreground active:scale-[0.98]"
             >
               Collaborate
