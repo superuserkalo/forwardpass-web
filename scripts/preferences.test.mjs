@@ -46,7 +46,6 @@ function interestsAction(ownerEmail) {
   runInNewContext(source, {
     exports,
     require: (name) => {
-      if (name === "./onboarding-session") return { onboardingEmail: async () => null };
       if (name === "./preferences-session") return { preferencesEmail: async () => ownerEmail };
       if (name === "./subscribers") return { setInterests: async (...args) => writes.push(args) };
       if (name === "./polar") return { createSubscriptionCheckout: async () => "" };

@@ -3,7 +3,6 @@
 import { headers } from "next/headers";
 import { z } from "zod";
 import { createSubscriptionCheckout } from "./polar";
-import { onboardingEmail } from "./onboarding-session";
 import { preferencesEmail } from "./preferences-session";
 import { setInterests, upsertSubscriber } from "./subscribers";
 
@@ -54,7 +53,7 @@ export async function updateInterestsAction(input: {
   interests: string;
 }): Promise<{ success: true }> {
   const data = interestsSchema.parse(input);
-  const ownerEmail = await preferencesEmail() ?? await onboardingEmail();
+  const ownerEmail = await preferencesEmail();
   if (ownerEmail !== data.email) throw new Error("This reading brief requires your signed edit link.");
   await setInterests(data.email, data.interests);
   return { success: true };

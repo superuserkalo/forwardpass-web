@@ -9,6 +9,8 @@ const keys = [
   "personal_status",
   "personal_trial_ends_at",
   "onboarding_profile",
+  // Timestamp of the last emailed sign-in, confirmation or unsubscribe link. Links are throttled per address, so without it no link email is sent.
+  "last_link_sent_at",
 ];
 const existing = new Map();
 let after;

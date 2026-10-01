@@ -1,14 +1,16 @@
 "use client";
 
 import { useState, useTransition, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
 import { ArrowRight, Check } from "lucide-react";
 import styles from "./newsletter-form.module.css";
 import {
   advertisingInquiryAction,
+  requestUnsubscribeLinkAction,
   subscribeAction,
   unsubscribeAction,
 } from "@/lib/forward-pass";
+import { requestSignInLinkAction } from "@/lib/signin-actions";
+import { TurnstileWidget } from "@/components/turnstile-widget";
 
 function inputClass() {
   return "flex h-14 w-full border border-input bg-transparent px-4 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-ring disabled:cursor-not-allowed disabled:opacity-50";
@@ -19,9 +21,10 @@ function buttonClass() {
 }
 
 export function NewsletterForm() {
-  const router = useRouter();
-  const [status, setStatus] = useState<"success" | "error" | "already_registered" | null>(null);
+  const [status, setStatus] = useState<"success" | "error" | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [token, setToken] = useState<string | null>(null);
+  const [resetKey, setResetKey] = useState(0);
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -29,15 +32,12 @@ export function NewsletterForm() {
     setStatus(null);
     startTransition(async () => {
       try {
-        const result = await subscribeAction(String(form.get("email")));
-        if (result.alreadyRegistered) {
-          setStatus("already_registered");
-          return;
-        }
-        if (result.canOnboard) { router.push("/welcome"); return; }
+        await subscribeAction(String(form.get("email")), token ?? "");
         setStatus("success");
       } catch {
         setStatus("error");
+        setToken(null);
+        setResetKey((key) => key + 1);
       }
     });
   }
@@ -46,7 +46,7 @@ export function NewsletterForm() {
     return (
       <div className="flex min-h-14 items-center gap-3 border-y border-border py-4 font-mono text-sm" role="status">
         <Check className="size-4" aria-hidden="true" />
-        You’re on the list.
+        Check your inbox. We sent you a link to confirm your email.
       </div>
     );
   }
@@ -61,18 +61,21 @@ export function NewsletterForm() {
           <ArrowRight aria-hidden="true" className="size-4" />
         </button>
       </div>
+      <TurnstileWidget action="signup" onToken={setToken} resetKey={resetKey} />
       <div className="mt-3 flex justify-between gap-4 text-xs text-muted-foreground">
         <span>No noise. One issue a day. We promise :)</span>
         {status === "error" ? <span role="alert">Couldn’t subscribe. Please try again.</span> : null}
-        {status === "already_registered" ? <span role="alert">This email is already registered.</span> : null}
       </div>
     </form>
   );
 }
 
-export function UnsubscribeForm({ initialEmail }: { initialEmail?: string }) {
+/** Asks for an emailed link. The answer is the same for every address, so it never confirms who is subscribed. */
+export function SignInForm() {
   const [status, setStatus] = useState<"success" | "error" | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [token, setToken] = useState<string | null>(null);
+  const [resetKey, setResetKey] = useState(0);
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -80,34 +83,114 @@ export function UnsubscribeForm({ initialEmail }: { initialEmail?: string }) {
     setStatus(null);
     startTransition(async () => {
       try {
-        await unsubscribeAction(String(form.get("email")));
+        await requestSignInLinkAction(String(form.get("email")), token ?? "");
         setStatus("success");
       } catch {
         setStatus("error");
+        setToken(null);
+        setResetKey((key) => key + 1);
       }
     });
   }
 
   if (status === "success") {
     return (
-      <div className="mt-10 flex min-h-14 items-center gap-3 border-y border-border py-4 text-sm" role="status">
+      <div className="mt-8 flex min-h-14 items-center gap-3 border-y border-border py-4 text-sm" role="status">
         <Check className="size-4" aria-hidden="true" />
-        You’ve been unsubscribed.
+        If that address is subscribed, a sign-in link is on its way. It works for 30 minutes.
       </div>
     );
   }
 
   return (
-    <form onSubmit={onSubmit} className="mt-10" aria-label="Unsubscribe">
+    <form onSubmit={onSubmit} className="mt-8" aria-label="Email me a sign-in link">
       <div className="flex flex-col gap-2 sm:flex-row">
-        <input name="email" type="email" autoComplete="email" placeholder="Email address" defaultValue={initialEmail ?? ""} required className={inputClass()} />
+        <input name="email" type="email" autoComplete="email" aria-label="Email address" placeholder="Email address" required className={inputClass()} />
         <button type="submit" disabled={isPending} className={buttonClass()}>
-          {isPending ? "Removing…" : "Unsubscribe"}
+          {isPending ? "Sending…" : "Email me a link"}
           <ArrowRight aria-hidden="true" className="size-4" />
         </button>
       </div>
+      <TurnstileWidget action="signin" onToken={setToken} resetKey={resetKey} />
+      {status === "error" ? <p className="mt-3 text-xs" role="alert">Couldn’t send the link. Please try again.</p> : null}
+    </form>
+  );
+}
+
+export function UnsubscribeForm({ initialEmail, token }: { initialEmail?: string; token?: string }) {
+  const [status, setStatus] = useState<"unsubscribed" | "link-sent" | "error" | null>(null);
+  const [linkExpired, setLinkExpired] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [captcha, setCaptcha] = useState<string | null>(null);
+  const [resetKey, setResetKey] = useState(0);
+  const confirming = Boolean(token) && !linkExpired;
+
+  function confirm() {
+    if (!token) return;
+    setStatus(null);
+    startTransition(async () => {
+      try {
+        await unsubscribeAction(token);
+        setStatus("unsubscribed");
+      } catch {
+        setLinkExpired(true);
+        setStatus("error");
+      }
+    });
+  }
+
+  function requestLink(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    setStatus(null);
+    startTransition(async () => {
+      try {
+        await requestUnsubscribeLinkAction(String(form.get("email")), captcha ?? "");
+        setStatus("link-sent");
+      } catch {
+        setStatus("error");
+        setCaptcha(null);
+        setResetKey((key) => key + 1);
+      }
+    });
+  }
+
+  if (status === "unsubscribed" || status === "link-sent") {
+    return (
+      <div className="mt-10 flex min-h-14 items-center gap-3 border-y border-border py-4 text-sm" role="status">
+        <Check className="size-4" aria-hidden="true" />
+        {status === "unsubscribed"
+          ? "You’ve been unsubscribed."
+          : "If that address is subscribed, we’ve emailed you a link to confirm. Open it to finish unsubscribing."}
+      </div>
+    );
+  }
+
+  if (confirming) {
+    return (
+      <div className="mt-10">
+        <button type="button" onClick={confirm} disabled={isPending} className={buttonClass()}>
+          {isPending ? "Removing…" : "Confirm unsubscribe"}
+          <ArrowRight aria-hidden="true" className="size-4" />
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={requestLink} className="mt-10" aria-label="Unsubscribe">
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <input name="email" type="email" autoComplete="email" placeholder="Email address" defaultValue={initialEmail ?? ""} required className={inputClass()} />
+        <button type="submit" disabled={isPending} className={buttonClass()}>
+          {isPending ? "Sending…" : "Email me a link"}
+          <ArrowRight aria-hidden="true" className="size-4" />
+        </button>
+      </div>
+      <TurnstileWidget action="unsubscribe" onToken={setCaptcha} resetKey={resetKey} />
       {status === "error" ? (
-        <p className="mt-3 text-xs" role="alert">Couldn’t unsubscribe. Please email hello@withradian.com.</p>
+        <p className="mt-3 text-xs" role="alert">
+          {linkExpired ? "That link is invalid or has expired. Request a new one." : "Couldn’t send the link. Please email hello@withradian.com."}
+        </p>
       ) : null}
     </form>
   );

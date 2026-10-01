@@ -32,8 +32,8 @@ Segment IDs and sender addresses live in `src/lib/forward-pass.ts`.
 | `/`            | Landing page + newsletter signup + advertiser form |
 | `/privacy`     | Privacy policy                   |
 | `/imprint`     | Publisher information            |
-| `/unsubscribe` | Self-serve unsubscribe (`?email=` pre-fills) |
-| `/preferences` | Signed reading-brief editing and billing portal link |
+| `/unsubscribe` | Self-serve unsubscribe. An emailed `?token=` link confirms it; an email address alone cannot |
+| `/preferences` | Signed reading-brief editing and billing portal link; offers an emailed sign-in link when signed out |
 
 ## Deploy
 
@@ -41,8 +41,9 @@ Connect the GitHub repo to Vercel, set `RESEND_API_KEY` in the project environme
 
 ## Newsletter onboarding and Personal trial
 
-New newsletter signups go to `/welcome`: profile, topics, format, an animated
-edition preview, and the Personal trial offer. Readers can stay on Free. Personal
+New newsletter signups are emailed a confirmation link. Following it opens
+`/welcome`: profile, topics, format, an animated edition preview, and the
+Personal trial offer. Readers can stay on Free. Personal
 is complimentary for 14 days, with no Polar checkout or automatic charge.
 The existing paid checkout remains available on `/pricing`.
 
@@ -56,9 +57,29 @@ The script preserves existing properties and checks their types. It creates
 `interests`, `personal_plan`, `personal_status`, `personal_trial_ends_at`, and
 `onboarding_profile` as strings. Trials store `personal_status=trial` and a fixed
 UTC expiry. Retrying or reopening onboarding does not reset that date. Paid
-`active` subscriptions take precedence. The HTTP-only, signed onboarding cookie
-expires after 24 hours; it is only issued when creating a new contact. An existing
-email address by itself does not authorize profile edits or a second trial.
+`active` subscriptions take precedence. There is no password and no cookie is
+issued at signup: a browser session starts only when the reader opens an emailed
+link, so an email address by itself never authorizes profile edits, archive
+access or a trial. Confirmation links last 24 hours, sign-in links 30 minutes and
+unsubscribe links 90 days. Following one sets a 30-day HTTP-only session cookie
+(a signed preferences token, also accepted by the agent as a Bearer token).
+`/preferences` offers "Email me a link" to recover a lost session. Every form
+answers identically whether or not the address is known, and link emails are
+throttled to one per address every two minutes, tracked in the
+`last_link_sent_at` contact property. Tokens are signed with
+`PREFERENCES_SIGNING_SECRET`, one signing prefix per purpose.
+
+**Bot protection.** The signup, sign-in and unsubscribe-link forms are guarded by
+Cloudflare Turnstile (widget "The Forward Pass forms", managed mode, shown only
+when Cloudflare needs an interaction). `requireHuman` in `src/lib/turnstile.ts`
+runs first in each server action, before any subscriber lookup, and fails closed.
+In production it also checks the token's action and that its hostname is
+`NEXT_PUBLIC_SITE_URL` or its `www.` form. Set `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
+(public) and `TURNSTILE_SECRET_KEY` (from the Cloudflare dashboard, Turnstile) in
+the hosting environment before deploying, or these forms will reject everyone.
+Locally, `.env.local` uses Cloudflare's published always-pass test keys. Preview
+deployments on other hostnames are not registered on the widget, so these forms
+will not work there.
 Draft preferences stay in the current tab's session storage until completion.
 
 **Delivery integration:** the adjacent `forwardpass` agent now stages a daily

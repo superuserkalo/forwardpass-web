@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { onboardingEmail } from "./onboarding-session";
-import { createPreferencesToken, preferencesCookieName, verifyPreferencesToken } from "./preferences-token";
+import { preferencesCookieName, verifyPreferencesToken } from "./preferences-token";
 
 const archiveIndexSchema = z.object({
   tier: z.enum(["free", "personal", "professional"]),
@@ -21,12 +20,7 @@ export async function archiveRequest(path: string, init?: RequestInit): Promise<
   }
   const token = (await cookies()).get(preferencesCookieName)?.value;
   const headers = new Headers(init?.headers);
-  if (token && verifyPreferencesToken(token)) {
-    headers.set("Authorization", `Bearer ${token}`);
-  } else {
-    const email = await onboardingEmail();
-    if (email) headers.set("Authorization", `Bearer ${createPreferencesToken(email)}`);
-  }
+  if (token && verifyPreferencesToken(token)) headers.set("Authorization", `Bearer ${token}`);
   try {
     return await fetch(new URL(path, base), { ...init, headers, cache: "no-store" });
   } catch {

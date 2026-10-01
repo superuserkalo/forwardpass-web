@@ -1,6 +1,5 @@
 import { archiveEntry, archiveIndex, type ArchiveIndex, type ArchiveKind } from "./archive-client";
 import { demoDailyDates, demoEdition, demoFixturesEnabled, demoWeeklyDates } from "./feed-fixtures";
-import { onboardingEmail } from "./onboarding-session";
 import { loadOnboardingState } from "./onboarding-state";
 import { preferencesEmail } from "./preferences-session";
 import type { FeedTopic } from "./story-parse";
@@ -32,7 +31,7 @@ export async function loadEditionText(
 
 export async function readerTopics(): Promise<FeedTopic[]> {
   if (demoFixturesEnabled()) return DEMO_TOPICS;
-  const email = (await preferencesEmail()) ?? (await onboardingEmail());
+  const email = await preferencesEmail();
   if (!email || !process.env.RESEND_API_KEY) return [];
   try {
     const state = await loadOnboardingState(email);

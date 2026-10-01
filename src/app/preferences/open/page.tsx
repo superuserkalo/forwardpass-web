@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
+import { z } from "zod";
+
+const sessionSchema = z.object({ next: z.enum(["/welcome", "/preferences"]) });
 
 export default function OpenPreferences() {
   useEffect(() => {
@@ -16,8 +19,11 @@ export default function OpenPreferences() {
       body: JSON.stringify({ token }),
       credentials: "same-origin",
       cache: "no-store",
-    }).catch(() => null).finally(() => window.location.replace("/preferences"));
+    })
+      .then(async (response) => (response.ok ? sessionSchema.parse(await response.json()).next : "/preferences"))
+      .catch(() => "/preferences")
+      .then((next) => window.location.replace(next));
   }, []);
 
-  return <main className="mx-auto min-h-screen max-w-3xl px-5 py-24 text-muted-foreground">Opening your reading brief…</main>;
+  return <main className="mx-auto min-h-screen max-w-3xl px-5 py-24 text-muted-foreground">Opening your edition…</main>;
 }

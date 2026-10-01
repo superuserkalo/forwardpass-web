@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { onboardingEmail } from "@/lib/onboarding-session";
+import { preferencesEmail } from "@/lib/preferences-session";
 import { loadOnboardingState } from "@/lib/onboarding-state";
 import { OnboardingFlow } from "@/components/onboarding-flow";
 import { NewsletterForm } from "@/components/forward-pass-forms";
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 export default async function Welcome() {
-  const email = await onboardingEmail();
+  const email = await preferencesEmail();
   if (email)
     return (
       <OnboardingFlow email={email} saved={await loadOnboardingState(email)} />
@@ -25,8 +25,8 @@ export default async function Welcome() {
         <p className="onboarding-eyebrow">Your daily read, made personal</p>
         <h1 className="onboarding-title">Start with your inbox.</h1>
         <p className="mt-6 text-muted-foreground">
-          Join The Forward Pass, then tell us what you want to read. New
-          subscribers get 14 days of Personal on us. No card needed.
+          Join The Forward Pass, confirm your email, then tell us what you want
+          to read. New subscribers get 14 days of Personal on us. No card needed.
         </p>
         <NewsletterForm />
       </div>

@@ -3,7 +3,9 @@
 import { after } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
-import { createOnboardingSession, onboardingEmail } from "./onboarding-session";
+import { linkTarget, sendLinkEmail, toLinkTarget, type LinkTarget } from "./link-email";
+import { verifyLinkToken } from "./link-token";
+import { requireHuman } from "./turnstile";
 
 const NEWSLETTER_SEGMENT = "2ec79559-e5f2-4a84-887b-5cee315656a3";
 const NEWSLETTER_TOPIC = "418f8071-0c80-4e3f-a076-b21ccfd40318";
@@ -28,10 +30,12 @@ function getResend() {
   return new Resend(key);
 }
 
+type ContactOutcome = "created" | "joined" | "rejoined" | "already_registered" | "updated";
+
 async function upsertContact(
   contact: { email: string; firstName?: string; lastName?: string },
   segmentId: string,
-) {
+): Promise<{ outcome: ContactOutcome; target: LinkTarget }> {
   const resend = getResend();
   const { data: existing, error: getError } = await resend.contacts.get({
     email: contact.email,
@@ -39,7 +43,7 @@ async function upsertContact(
 
   if (getError && getError.name !== "not_found") throw new Error("Could not check contact");
   if (!existing) {
-    const { error: createError } = await resend.contacts.create({
+    const { data: created, error: createError } = await resend.contacts.create({
       email: contact.email,
       firstName: contact.firstName,
       lastName: contact.lastName,
@@ -53,8 +57,9 @@ async function upsertContact(
       console.error(`Resend contact create failed: ${createError.message}`);
       throw new Error("Resend contact create failed");
     }
-    return "created";
+    return { outcome: "created", target: { id: created?.id ?? "", lastLinkSentAt: null } };
   }
+  const target = toLinkTarget(existing.id, existing.properties);
 
   if (segmentId === NEWSLETTER_SEGMENT) {
     const [segments, topics] = await Promise.all([
@@ -68,7 +73,7 @@ async function upsertContact(
     const isOptedIn = topics.data.data.some(
       (topic) => topic.id === NEWSLETTER_TOPIC && topic.subscription === "opt_in",
     );
-    if (isMember && isOptedIn && !existing.unsubscribed) return "already_registered";
+    if (isMember && isOptedIn && !existing.unsubscribed) return { outcome: "already_registered", target };
     const { error: topicError } = await resend.contacts.topics.update({
       email: contact.email,
       topics: [{ id: NEWSLETTER_TOPIC, subscription: "opt_in" }],
@@ -85,7 +90,7 @@ async function upsertContact(
       const { error: updateError } = await resend.contacts.update({ id: existing.id, unsubscribed: false });
       if (updateError) throw new Error("Could not restore contact subscription");
     }
-    return isMember ? "rejoined" : "joined";
+    return { outcome: isMember ? "rejoined" : "joined", target };
   }
 
   const { error: updateError } = await resend.contacts.update({
@@ -103,7 +108,7 @@ async function upsertContact(
     console.error(`Resend segment update failed: ${segmentError.message}`);
     throw new Error("Resend segment update failed");
   }
-  return "updated";
+  return { outcome: "updated", target };
 }
 
 const escapeHtml = (value: string) =>
@@ -118,63 +123,40 @@ const escapeHtml = (value: string) =>
     return entities[character] ?? character;
   });
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://theforwardpass.net";
-
-function welcomeEmailHtml(email: string) {
-  const unsubscribeUrl = `${SITE_URL}/unsubscribe?email=${encodeURIComponent(email)}`;
-  return `<div style="background:#0a0a0a;padding:40px 0;font-family:Arial,Helvetica,sans-serif;">
-  <div style="max-width:520px;margin:0 auto;padding:0 24px;color:#f5f5f5;">
-    <p style="margin:0 0 32px;font-family:'Courier New',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#a3a3a3;">The Forward Pass</p>
-    <h1 style="margin:0 0 20px;font-size:26px;line-height:1.2;font-weight:normal;color:#f5f5f5;">You're on the list.</h1>
-    <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#d4d4d4;">You'll get one issue a day on what's changing in AI engineering, covering the important models, agents, research, infrastructure and tools, with primary sources.</p>
-    <p style="margin:0 0 32px;font-size:15px;line-height:1.6;color:#d4d4d4;">No noise. One issue a day. We promise :)</p>
-    <p style="margin:0 0 8px;font-family:'Courier New',monospace;font-size:12px;color:#737373;">Kaloyan, The Forward Pass</p>
-    <p style="margin:32px 0 0;font-family:'Courier New',monospace;font-size:11px;color:#737373;">Didn't sign up? <a href="${escapeHtml(unsubscribeUrl)}" style="color:#a3a3a3;">Unsubscribe</a></p>
-  </div>
-</div>`;
+/**
+ * Answers `{ success: true }` for every address, new or already registered, so
+ * the form cannot be used to discover who is subscribed. The email is the proof
+ * of inbox ownership: new readers get a confirmation link, existing ones a
+ * sign-in link, and only following the link starts a browser session.
+ */
+export async function subscribeAction(email: string, turnstileToken: string): Promise<{ success: true }> {
+  await requireHuman("signup", turnstileToken);
+  const data = newsletterSchema.parse({ email });
+  const { outcome, target } = await upsertContact({ email: data.email }, NEWSLETTER_SEGMENT);
+  const purpose = outcome === "created" || outcome === "joined" ? "verify" : "signin";
+  after(() => sendLinkEmail(purpose, data.email, target));
+  return { success: true };
 }
 
-export async function subscribeAction(email: string) {
+/** Emails an unsubscribe confirmation link. Never changes the subscription itself. */
+export async function requestUnsubscribeLinkAction(email: string, turnstileToken: string): Promise<{ success: true }> {
+  await requireHuman("unsubscribe", turnstileToken);
   const data = newsletterSchema.parse({ email });
-  const result = await upsertContact({ email: data.email }, NEWSLETTER_SEGMENT);
-  if (result === "already_registered") {
-    return { success: false, alreadyRegistered: true, canOnboard: false };
-  }
-  const firstSignup = result === "created" || result === "joined";
-  if (firstSignup) await createOnboardingSession(data.email);
-  const canOnboard = firstSignup || (await onboardingEmail()) === data.email;
-  if (!firstSignup) return { success: true, canOnboard };
-
-  after(async () => {
-    try {
-      await getResend().emails.send({
-        // Reader mail comes from the newsletter's own verified domain; replies still reach the team.
-        from: "The Forward Pass <news@theforwardpass.net>",
-        to: [data.email],
-        replyTo: "hello@withradian.com",
-        subject: "The Forward Pass: You're on the list",
-        html: welcomeEmailHtml(data.email),
-        text: `You're on the list.\n\nYou'll get one issue a day on what's changing in AI engineering, covering the important models, agents, research, infrastructure and tools, with primary sources.\n\nNo noise. One issue a day. We promise :)\n\nKaloyan, The Forward Pass\n\nDidn't sign up? Unsubscribe: ${SITE_URL}/unsubscribe?email=${encodeURIComponent(data.email)}`,
-      });
-    } catch (error) {
-      console.error("Welcome email failed", error);
-    }
-  });
-
-  return { success: true, canOnboard };
+  const target = await linkTarget(data.email);
+  if (target) after(() => sendLinkEmail("unsubscribe", data.email, target));
+  return { success: true };
 }
 
-export async function unsubscribeAction(email: string) {
-  const data = newsletterSchema.parse({ email });
+export async function unsubscribeAction(token: string) {
+  const verified = verifyLinkToken("unsubscribe", token);
+  if (!verified) throw new Error("This unsubscribe link is invalid or has expired.");
+  const email = verified.email;
   const resend = getResend();
-  const { data: existing, error: getError } = await resend.contacts.get({
-    email: data.email,
-  });
+  const { data: existing, error: getError } = await resend.contacts.get({ email });
   if (getError && getError.name !== "not_found") throw new Error("Could not check contact");
   if (!existing) return { success: true };
   const { error } = await resend.contacts.topics.update({
-    email: data.email,
+    email,
     topics: [{ id: NEWSLETTER_TOPIC, subscription: "opt_out" }],
   });
   if (error) {

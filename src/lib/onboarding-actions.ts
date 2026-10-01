@@ -2,7 +2,7 @@
 
 import { Resend } from "resend";
 import { z } from "zod";
-import { onboardingEmail } from "./onboarding-session";
+import { preferencesEmail } from "./preferences-session";
 import {
   onboardingSchema,
   readingBrief,
@@ -17,9 +17,9 @@ export async function completeOnboardingAction(
 ) {
   const profile = onboardingSchema.parse(input);
   const selected = z.enum(["trial", "free"]).parse(choice);
-  const email = await onboardingEmail();
+  const email = await preferencesEmail();
   if (!email)
-    throw new Error("Your signup session expired. Please sign up again.");
+    throw new Error("Your session expired. Open the link in your email again.");
   const resend = new Resend(process.env.RESEND_API_KEY);
   const { data: contact, error } = await resend.contacts.get({ email });
   if (error || !contact)

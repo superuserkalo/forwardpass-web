@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Resend } from "resend";
+import { SignInForm } from "@/components/forward-pass-forms";
 import { InterestsEditor } from "@/components/personal-signup";
 import { SiteFooter } from "@/components/site-footer";
-import { onboardingEmail } from "@/lib/onboarding-session";
 import { preferencesEmail } from "@/lib/preferences-session";
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Preferences() {
-  const email = await preferencesEmail() ?? await onboardingEmail();
+  const email = await preferencesEmail();
   let interests = "";
   if (email) {
     const key = process.env.RESEND_API_KEY;
@@ -35,7 +35,10 @@ export default async function Preferences() {
             <InterestsEditor email={email} initialInterests={interests} />
           </>
         ) : (
-          <p className="mt-6 text-muted-foreground">Open the edit link in your latest Forward Pass email. If it has expired, the next issue will include a fresh link.</p>
+          <>
+            <p className="mt-6 text-muted-foreground">Enter your email and we’ll send you a link to open your reading brief on this device.</p>
+            <SignInForm />
+          </>
         )}
         <p className="mt-8 text-sm text-muted-foreground">Manage a paid subscription in the <a className="underline" href="https://polar.sh/the-forward-pass/portal">Polar billing portal</a>.</p>
       </div>
