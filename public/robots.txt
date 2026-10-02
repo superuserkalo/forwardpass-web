@@ -1,9 +1,9 @@
 # Public pages are open to search engines and AI crawlers.
 # Agent guide: https://theforwardpass.net/llms.txt
+# Private pages (preferences, unsubscribe, welcome, editions) stay crawlable so crawlers can read
+# their noindex tags; a Disallow here would hide the tag and let the bare URL get indexed.
 User-agent: *
 Disallow: /api/
-Disallow: /preferences
-Disallow: /unsubscribe
 Allow: /
 
 Sitemap: https://theforwardpass.net/sitemap.xml
