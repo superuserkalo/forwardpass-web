@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { SiteFooter } from "@/components/site-footer";
+import { LegalPage } from "@/components/legal-page";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -12,12 +11,7 @@ export const metadata: Metadata = pageMetadata({
 
 export default function Imprint() {
   return (
-    <main className="mx-auto min-h-screen max-w-3xl px-5 py-10 md:px-10 md:py-16">
-      <Link href="/" className="wordmark">THE FORWARD PASS</Link>
-      <article className="legal-copy">
-        <h1>Imprint</h1>
-        <p>The Forward Pass is an independent publication about AI engineering.</p>
-
+    <LegalPage eyebrow="Legal" title="Imprint" lede={<p>The Forward Pass is an independent publication about AI engineering.</p>}>
         <h2>Contact</h2>
         <p>
           Email: <a href="mailto:hello@withradian.com">hello@withradian.com</a>
@@ -31,8 +25,6 @@ export default function Imprint() {
           <br />
           Vienna, Austria
         </p>
-      </article>
-      <SiteFooter />
-    </main>
+    </LegalPage>
   );
 }

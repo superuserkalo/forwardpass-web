@@ -2,7 +2,7 @@
 import Link from "next/link";
 export default function WelcomeError({ retry }: { retry: () => void }) {
   return (
-    <main className="mx-auto max-w-3xl px-5 py-20">
+    <main className="page-shell py-24">
       <Link href="/" className="wordmark">
         THE FORWARD PASS
       </Link>
@@ -14,7 +14,7 @@ export default function WelcomeError({ retry }: { retry: () => void }) {
       </p>
       <button
         onClick={retry}
-        className="mt-8 bg-primary px-6 py-4 text-primary-foreground"
+        className="mt-8 inline-flex h-14 items-center bg-primary px-6 text-sm font-medium text-primary-foreground"
       >
         Try again
       </button>

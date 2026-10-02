@@ -117,7 +117,7 @@ export function SectionNavSkeleton() {
 /** Whole-page stand-in for /archive, shown by the route's loading state and the header's instant overlay. */
 export function ArchiveShellSkeleton({ withBrand = false }: { withBrand?: boolean }) {
   return (
-    <div className="mx-auto max-w-7xl px-5 pb-24 md:px-10" aria-busy="true">
+    <div className="page-shell pb-24" aria-busy="true">
       {withBrand && (
         <div className="py-4 md:py-5">
           <BrandLockup />
@@ -135,11 +135,8 @@ export function ArchiveShellSkeleton({ withBrand = false }: { withBrand?: boolea
 
 export function ArticleSkeleton() {
   return (
-    <div role="status" aria-label="Loading edition" className="mx-auto max-w-7xl px-5 pb-24 md:px-10">
-      <div className="py-4 md:py-5">
-        <BrandLockup />
-      </div>
-      <Skeleton className="mt-10 h-3 w-28 md:mt-14" />
+    <div role="status" aria-label="Loading edition" className="page-shell pb-24 pt-28 md:pt-32">
+      <Skeleton className="h-3 w-28" />
       <div className="mx-auto mt-16 max-w-3xl space-y-5 text-center">
         <Skeleton className="mx-auto h-3 w-56" />
         <Skeleton className="mx-auto h-14 w-full" />
@@ -166,9 +163,8 @@ export function ArticleSkeleton() {
 /** Generic page stand-in for form-style pages (reading brief, onboarding). */
 export function FormPageSkeleton() {
   return (
-    <div role="status" aria-label="Loading" className="mx-auto min-h-screen max-w-3xl px-5 py-10 md:py-16">
-      <BrandLockup />
-      <div className="mt-24 space-y-5">
+    <div role="status" aria-label="Loading" className="page-shell min-h-[70vh] pb-24 pt-32 md:pt-44">
+      <div className="max-w-2xl space-y-5">
         <Skeleton className="h-2.5 w-28" />
         <Skeleton className="h-8 w-72" />
         <Skeleton className="h-4 w-full max-w-md" />

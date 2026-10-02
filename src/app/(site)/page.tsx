@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { NewsletterForm } from "@/components/forward-pass-forms";
 import { Hero } from "@/components/hero";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { TrustBand } from "@/components/trust-band";
 import { FEED_TYPES, SITE_DESCRIPTION, SITE_NAME, SITE_URL, organizationJsonLd, serializeJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -50,8 +49,6 @@ export default function Home() {
   return (
     <main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(homeJsonLd) }} />
-      <SiteHeader />
-
       <section id="top" className="relative isolate overflow-hidden">
         <Hero />
         <div
@@ -62,7 +59,7 @@ export default function Home() {
               "linear-gradient(90deg, var(--background) 0%, color-mix(in srgb, var(--background) 65%, transparent) 38%, transparent 72%)",
           }}
         />
-        <div className="relative mx-auto flex min-h-[75vh] max-w-7xl flex-col justify-center px-5 py-20 md:px-10 md:py-28">
+        <div className="page-shell relative flex min-h-[78vh] flex-col justify-center py-28 md:py-36">
           <p className="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">Daily AI-generated issues for AI builders</p>
           <h1 className="font-display max-w-5xl text-5xl leading-none font-medium tracking-[-0.02em] sm:text-7xl lg:text-8xl">What’s changing in AI engineering.</h1>
           <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -72,8 +69,10 @@ export default function Home() {
         </div>
       </section>
 
+      <TrustBand />
+
       <section className="border-y border-border">
-        <div className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-24">
+        <div className="page-shell py-20 md:py-28">
           <h2 className="font-display text-center text-4xl font-medium tracking-[-0.02em] sm:text-5xl">What you’ll get</h2>
           <p className="mx-auto mt-4 max-w-xl text-center text-sm leading-relaxed text-muted-foreground sm:text-base">
             Important developments, why they matter, and primary sources.
@@ -95,8 +94,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <SiteFooter />
     </main>
   );
 }

@@ -9,7 +9,7 @@ const inputClass =
   "flex h-14 w-full border border-input bg-transparent px-4 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-ring disabled:cursor-not-allowed disabled:opacity-50";
 
 const buttonClass =
-  "inline-flex h-14 items-center justify-center gap-2 bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex h-14 shrink-0 items-center justify-center gap-2 whitespace-nowrap bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50";
 
 export function PersonalSignup({
   compact = false,

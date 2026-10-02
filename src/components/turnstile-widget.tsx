@@ -56,7 +56,7 @@ export function TurnstileWidget({
   onToken,
   resetKey,
 }: {
-  action: "signup" | "signin" | "unsubscribe";
+  action: "signup" | "signin" | "unsubscribe" | "contact";
   onToken: (token: string | null) => void;
   resetKey: number;
 }) {

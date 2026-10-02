@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
 import { PersonalSignup } from "@/components/personal-signup";
 import { PRICE_OPTIONS } from "@/lib/pricing";
 import { pageMetadata } from "@/lib/seo";
@@ -79,9 +77,7 @@ export default async function Pricing({
   const initialPlan = (await searchParams).plan === "professional" ? "professional" : "personal";
   return (
     <main>
-      <SiteHeader />
-
-      <section id="top" className="mx-auto max-w-7xl px-5 pb-16 pt-32 md:px-10 md:pt-40">
+      <section id="top" className="page-shell pb-16 pt-32 md:pt-44">
         <p className="mb-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">
           Pricing
         </p>
@@ -94,7 +90,7 @@ export default async function Pricing({
         </p>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 pb-24 md:px-10">
+      <section className="page-shell pb-24">
         <div className="grid gap-px border border-border bg-border md:grid-cols-3">
           {TIERS.map((tier) => (
             <div
@@ -131,7 +127,7 @@ export default async function Pricing({
               </ul>
               <Link
                 href={tier.cta.href}
-                className={`mt-10 inline-flex h-14 items-center justify-center px-6 text-sm font-medium transition-colors ${
+                className={`mt-10 inline-flex h-14 items-center justify-center whitespace-nowrap px-6 text-sm font-medium transition-colors ${
                   tier.id !== "free"
                     ? "bg-primary text-primary-foreground hover:opacity-90"
                     : "border border-border hover:bg-accent"
@@ -148,7 +144,7 @@ export default async function Pricing({
         id="signup"
         className="border-y border-border bg-card/40"
       >
-        <div className="mx-auto grid max-w-7xl gap-16 px-5 py-24 md:grid-cols-2 md:px-10 md:py-32">
+        <div className="page-shell grid gap-16 py-24 md:grid-cols-2 md:py-32">
           <div>
             <p className="mb-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">
               Paid plans
@@ -184,7 +180,7 @@ export default async function Pricing({
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-24 md:px-10 md:py-32">
+      <section className="page-shell py-24 md:py-32">
         <p className="mb-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">
           Compare plans
         </p>
@@ -227,8 +223,6 @@ export default async function Pricing({
           cancelled from the billing portal.
         </p>
       </section>
-
-      <SiteFooter />
     </main>
   );
 }

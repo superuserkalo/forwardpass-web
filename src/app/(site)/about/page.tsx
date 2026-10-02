@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SiteFooter } from "@/components/site-footer";
+import { LegalPage } from "@/components/legal-page";
 import { AI_DISCLOSURE } from "@/lib/ai-disclosure";
 import { SITE_URL, organizationJsonLd, pageMetadata, serializeJsonLd } from "@/lib/seo";
 
@@ -22,17 +22,20 @@ const aboutJsonLd = {
 
 export default function About() {
   return (
-    <main className="mx-auto min-h-screen max-w-3xl px-5 py-10 md:px-10 md:py-16">
+    <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(aboutJsonLd) }} />
-      <Link href="/" className="wordmark">THE FORWARD PASS</Link>
-      <article className="legal-copy">
-        <h1>About</h1>
-        <p>
-          The Forward Pass is a daily newsletter for people who build with AI. Each morning it covers
-          what changed in AI engineering: model releases and benchmarks, agents and coding tools, research
-          worth reading, inference and infrastructure, developer tools, and open-source weights, repos and
-          datasets.
-        </p>
+      <LegalPage
+        eyebrow="The publication"
+        title="About"
+        lede={
+          <p>
+            The Forward Pass is a daily newsletter for people who build with AI. Each morning it covers
+            what changed in AI engineering: model releases and benchmarks, agents and coding tools, research
+            worth reading, inference and infrastructure, developer tools, and open-source weights, repos and
+            datasets.
+          </p>
+        }
+      >
 
         <h2>Written by AI, checked against sources</h2>
         <p>{AI_DISCLOSURE}</p>
@@ -96,8 +99,7 @@ export default function About() {
           The Forward Pass is published by Kaloyan Gamtchev in Vienna, Austria (see the{" "}
           <Link href="/imprint">imprint</Link>).
         </p>
-      </article>
-      <SiteFooter />
-    </main>
+      </LegalPage>
+    </>
   );
 }

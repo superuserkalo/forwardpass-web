@@ -5,8 +5,6 @@ import { CrawlerSuspense } from "@/components/crawler-suspense";
 import { NewsFeed, type FeedTab } from "@/components/archive/news-feed";
 import { EditorialSkeleton, NewsFeedSkeleton, WeeklySkeleton } from "@/components/archive/skeletons";
 import { WeeklyDeepDive, type WeeklyIssue } from "@/components/archive/weekly-deep-dive";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
 import { hasPersonalFeatures, loadArchiveIndex, loadEditionText, readerTopics, requestTime } from "@/lib/archive-viewer";
 import { editorialAsStory, loadEditorial, loadFeed, outlineEdition } from "@/lib/feed";
 import { pageMetadata } from "@/lib/seo";
@@ -54,8 +52,7 @@ export default async function ArchivePage({ searchParams }: { searchParams: Sear
 
   return (
     <main className="min-h-screen">
-      <SiteHeader />
-      <div className="mx-auto max-w-7xl px-5 pt-28 pb-24 md:px-10 md:pt-32">
+      <div className="page-shell pt-28 pb-24 md:pt-32">
         <SectionNav active={section} />
         <div className="pt-12">
           {section === "news" && (
@@ -74,7 +71,6 @@ export default async function ArchivePage({ searchParams }: { searchParams: Sear
           )}
         </div>
       </div>
-      <SiteFooter />
     </main>
   );
 }

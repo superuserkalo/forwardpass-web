@@ -4,7 +4,7 @@ import { z } from "zod";
 const VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 const FAILED = "Verification failed. Please try again.";
 
-export type TurnstileAction = "signup" | "signin" | "unsubscribe";
+export type TurnstileAction = "signup" | "signin" | "unsubscribe" | "contact";
 
 const resultSchema = z.object({
   success: z.boolean(),

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { BrandLockup } from "./brand-lockup";
-import { Sigil } from "./sigil";
+import { ArrowUpRight, Heart } from "lucide-react";
+import { FooterField } from "./footer-field";
 import { SocialLinks } from "./social-links";
 
 const COLUMNS: Array<{ label: string; links: Array<{ label: string; href: string }> }> = [
@@ -26,13 +26,14 @@ const COLUMNS: Array<{ label: string; links: Array<{ label: string; href: string
     links: [
       { label: "About", href: "/about" },
       { label: "Collaborate", href: "/collaborate" },
-      { label: "Contact", href: "mailto:hello@withradian.com" },
+      { label: "Contact", href: "/contact" },
     ],
   },
   {
     label: "Legal",
     links: [
       { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
       { label: "Imprint", href: "/imprint" },
     ],
   },
@@ -40,27 +41,44 @@ const COLUMNS: Array<{ label: string; links: Array<{ label: string; href: string
 
 export function SiteFooter() {
   return (
-    <footer>
-      <div className="border-t border-border">
-        <Sigil />
-      </div>
-      <div className="mx-auto max-w-7xl px-5 py-12 md:px-10 md:py-16">
-        <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
-          <div>
-            <BrandLockup />
-            <SocialLinks />
+    <FooterField>
+      <div className="page-shell pt-16 pb-[clamp(7rem,13vw,15rem)] md:pt-24">
+        <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-5">
+            <p className="font-mono text-[11px] tracking-[.18em] text-muted-foreground uppercase">One issue a day · 05:45 UTC</p>
+            <p className="font-display mt-5 max-w-md text-4xl leading-[1.05] font-medium tracking-[-0.02em] md:text-5xl">
+              Read what changed. Skip the rest.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
+              <Link href="/welcome" className="dither-box dither-solid inline-flex h-12 items-center px-6 text-sm font-medium">
+                Join free
+              </Link>
+              <SocialLinks />
+            </div>
           </div>
-          <nav className="grid grid-cols-2 gap-x-10 gap-y-10 sm:grid-cols-4" aria-label="Footer">
-            {COLUMNS.map((column) => (
-              <div key={column.label}>
-                <h2 className="font-mono text-[10px] tracking-[.18em] text-muted-foreground uppercase">
+
+          <nav
+            className="grid gap-px border border-border bg-border sm:grid-cols-2 lg:col-span-7 xl:grid-cols-4"
+            aria-label="Footer"
+          >
+            {COLUMNS.map((column, index) => (
+              <div key={column.label} className="bg-background/85 p-6 backdrop-blur-sm">
+                <h2 className="flex items-center justify-between font-mono text-[10px] tracking-[.18em] text-muted-foreground uppercase">
                   {column.label}
+                  <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                 </h2>
-                <ul className="mt-4 space-y-2.5">
+                <ul className="mt-6 space-y-3">
                   {column.links.map((link) => (
                     <li key={link.href}>
-                      <Link href={link.href} className="text-sm text-foreground/80 transition-colors hover:text-foreground">
+                      <Link
+                        href={link.href}
+                        className="group flex items-center justify-between gap-3 text-sm whitespace-nowrap text-foreground/80 transition-colors hover:text-foreground"
+                      >
                         {link.label}
+                        <ArrowUpRight
+                          aria-hidden="true"
+                          className="size-3.5 -translate-x-1 opacity-0 transition-[opacity,transform] duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                        />
                       </Link>
                     </li>
                   ))}
@@ -69,13 +87,20 @@ export function SiteFooter() {
             ))}
           </nav>
         </div>
-        <div className="mt-12 flex flex-col gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+
+        <div className="mt-14 flex flex-col gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} The Forward Pass</p>
           <p>
-            Engineered with <span aria-label="love">❤️</span> in Europe
+            Written by AI, checked against sources.{" "}
+            <Link href="/about" className="underline underline-offset-4 transition-colors hover:text-foreground">
+              How it&apos;s made
+            </Link>
+          </p>
+          <p className="flex items-center gap-1.5">
+            Engineered with <Heart role="img" aria-label="love" className="size-3.5 fill-current" /> in Europe
           </p>
         </div>
       </div>
-    </footer>
+    </FooterField>
   );
 }

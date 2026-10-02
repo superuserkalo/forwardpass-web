@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Home from "@/app/page";
+import Home from "@/app/(site)/page";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { SiteFooter } from "@/components/site-footer";
+import { LegalPage } from "@/components/legal-page";
 import { UnsubscribeForm } from "@/components/forward-pass-forms";
 
 export const metadata: Metadata = {
@@ -17,18 +16,18 @@ export default async function Unsubscribe({
   const { email, token } = await searchParams;
 
   return (
-    <main className="mx-auto min-h-screen max-w-3xl px-5 py-10 md:px-10 md:py-16">
-      <Link href="/" className="wordmark">THE FORWARD PASS</Link>
-      <article className="legal-copy">
-        <h1>Unsubscribe</h1>
+    <LegalPage
+      eyebrow="Newsletter"
+      title="Unsubscribe"
+      lede={
         <p>
           {token
             ? "Confirm below and you’ll stop receiving the newsletter right away."
             : "Enter the email address you subscribed with. We’ll email you a link to confirm, so nobody else can unsubscribe you."}
         </p>
-        <UnsubscribeForm initialEmail={email} token={token} />
-      </article>
-      <SiteFooter />
-    </main>
+      }
+    >
+      <UnsubscribeForm initialEmail={email} token={token} />
+    </LegalPage>
   );
 }

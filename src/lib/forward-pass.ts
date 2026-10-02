@@ -23,6 +23,12 @@ const inquirySchema = z.object({
   budget: z.string().trim().max(120).optional(),
 });
 
+const contactSchema = z.object({
+  name: z.string().trim().min(1).max(100),
+  email: z.string().trim().email().max(254),
+  message: z.string().trim().min(10).max(3000),
+});
+
 function getResend() {
   const key = process.env.RESEND_API_KEY;
   if (!key) throw new Error("Email service is not configured");
@@ -128,6 +134,34 @@ export async function unsubscribeAction(token: string) {
       segmentId: NEWSLETTER_SEGMENT,
     });
     if (removed.error) throw new Error("Could not leave newsletter segment");
+  }
+  return { success: true };
+}
+
+/** Sends a message from the contact form to the team inbox. Nothing is stored beyond the email itself. */
+export async function contactAction(
+  input: { name: string; email: string; message: string },
+  turnstileToken: string,
+): Promise<{ success: true }> {
+  await requireHuman("contact", turnstileToken);
+  const data = contactSchema.parse(input);
+  const rows: Array<[string, string]> = [
+    ["Name", data.name],
+    ["Email", data.email],
+    ["Message", data.message],
+  ];
+  const { error } = await getResend().emails.send({
+    from: "The Forward Pass <hello@withradian.com>",
+    to: ["hello@withradian.com"],
+    replyTo: data.email,
+    subject: `Message from ${data.name}`,
+    html: `<h1>New message from the contact form</h1>${rows
+      .map(([label, value]) => `<p><strong>${escapeHtml(label)}</strong><br>${escapeHtml(value).replace(/\n/g, "<br>")}</p>`)
+      .join("")}`,
+  });
+  if (error) {
+    console.error(`Contact email failed: ${error.message}`);
+    throw new Error("Contact email failed");
   }
   return { success: true };
 }

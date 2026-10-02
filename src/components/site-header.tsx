@@ -13,6 +13,8 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const [openingArchive, setOpeningArchive] = useState(false);
+  // The header now lives in a shared layout, so it outlasts the navigation it started.
+  if (openingArchive && pathname === "/archive") setOpeningArchive(false);
   // The menu is open only on the page it was opened from, so navigating closes it.
   const [menuOpenAt, setMenuOpenAt] = useState<string | null>(null);
   if (menuOpenAt !== null && menuOpenAt !== pathname) setMenuOpenAt(null);
@@ -26,7 +28,7 @@ export function SiteHeader() {
       if (event.key === "Escape") setMenuOpenAt(null);
     };
     const onResize = () => {
-      if (window.matchMedia("(min-width: 768px)").matches) setMenuOpenAt(null);
+      if (window.matchMedia("(min-width: 1024px)").matches) setMenuOpenAt(null);
     };
     window.addEventListener("keydown", onKey);
     window.addEventListener("resize", onResize);
@@ -61,9 +63,9 @@ export function SiteHeader() {
             : "border-b border-transparent bg-transparent"
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-10 md:py-5">
+        <div className="page-shell flex items-center justify-between py-4 md:py-5">
           <BrandLockup />
-          <nav aria-label="Main" className="hidden items-center gap-3 md:flex">
+          <nav aria-label="Main" className="hidden items-center gap-3 lg:flex">
             <Link href="/pricing" className="dither-box dither-ghost px-5 py-2.5 text-sm font-medium">
               Personal AI newsletter
             </Link>
@@ -83,7 +85,7 @@ export function SiteHeader() {
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             onClick={() => setMenuOpenAt(menuOpen ? null : pathname)}
-            className="-mr-2 flex size-11 items-center justify-center text-foreground md:hidden"
+            className="-mr-2 flex size-11 items-center justify-center text-foreground lg:hidden"
           >
             {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
@@ -92,7 +94,7 @@ export function SiteHeader() {
           <nav
             id="mobile-menu"
             aria-label="Main"
-            className="flex h-[calc(100dvh-4.5rem)] flex-col border-t border-border bg-background px-5 pb-[max(2rem,env(safe-area-inset-bottom))] pt-6 md:hidden"
+            className="flex h-[calc(100dvh-4.5rem)] flex-col border-t border-border bg-background px-5 pb-[max(2rem,env(safe-area-inset-bottom))] pt-6 lg:hidden"
           >
             <Link href="/pricing" onClick={() => setMenuOpenAt(null)} className="border-b border-border py-5 font-display text-3xl text-foreground">
               Personal AI newsletter
@@ -108,7 +110,7 @@ export function SiteHeader() {
             <Link
               href="/collaborate"
               onClick={() => setMenuOpenAt(null)}
-              className="mt-auto flex h-12 items-center justify-center bg-primary text-sm font-medium text-primary-foreground active:scale-[0.98]"
+              className="mt-auto flex h-12 items-center justify-center whitespace-nowrap bg-primary text-sm font-medium text-primary-foreground active:scale-[0.98]"
             >
               Collaborate
             </Link>

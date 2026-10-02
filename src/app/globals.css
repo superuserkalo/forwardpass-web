@@ -66,6 +66,9 @@
     border-color: var(--color-border);
   }
 
+  /* A label that wraps onto a second line turns a button into a block. */
+  button { white-space: nowrap; }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -80,6 +83,13 @@
 }
 
 @layer components {
+  /* The one page container. It scales with the viewport instead of stopping at a narrow column. */
+  .page-shell {
+    width: 100%;
+    max-width: 120rem;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4.5vw, 5.5rem);
+  }
   .wordmark {
     font-family: var(--font-barlow-condensed), var(--font-ui);
     font-size: 1.125rem;
@@ -88,8 +98,9 @@
     letter-spacing: 0.045em;
     white-space: nowrap;
   }
-  .legal-copy { margin-top: 8rem; max-width: 42rem; }
-  .legal-copy h1 { margin-bottom: 3rem; font-family: var(--font-editorial); font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 500; line-height: 1; }
+  .legal-copy { max-width: 46rem; }
+  .legal-copy > :first-child { margin-top: 0; }
+  .legal-lede a { color: var(--color-foreground); text-decoration: underline; text-underline-offset: 0.25rem; }
   .legal-copy p { margin-top: 1.5rem; color: var(--color-muted-foreground); line-height: 1.75; }
   .legal-copy a { color: var(--color-foreground); text-decoration: underline; text-underline-offset: 0.25rem; }
   .legal-copy h2 { margin-top: 3.5rem; font-family: var(--font-technical); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; }
@@ -169,6 +180,7 @@
     position: relative;
     isolation: isolate;
     border: 1px solid color-mix(in srgb, var(--foreground) 45%, transparent);
+    white-space: nowrap;
     --dither-clear: -540px;
     --dither-solid: 0px;
     /* The text flips colour halfway through the wipe. */

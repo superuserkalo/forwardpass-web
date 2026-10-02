@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SiteFooter } from "@/components/site-footer";
+import { LegalPage } from "@/components/legal-page";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -12,16 +12,17 @@ export const metadata: Metadata = pageMetadata({
 
 export default function Privacy() {
   return (
-    <main className="mx-auto min-h-screen max-w-3xl px-5 py-10 md:px-10 md:py-16">
-      <Link href="/" className="wordmark">THE FORWARD PASS</Link>
-      <article className="legal-copy">
-        <h1>Privacy</h1>
+    <LegalPage
+      eyebrow="Legal"
+      title="Privacy"
+      lede={
         <p>
           The Forward Pass is published by Kaloyan Gamtchev, sole proprietorship (see the{" "}
           <Link href="/imprint">Imprint</Link>), and is operated together with Radian. This page explains
           what we collect, why, and how to opt out.
         </p>
-
+      }
+    >
         <h2>Who is responsible</h2>
         <p>
           Kaloyan Gamtchev, Inge-Konradi-Gasse 12/1/50, Vienna, Austria. Questions about your data:{" "}
@@ -36,6 +37,9 @@ export default function Privacy() {
             promote, and your approximate budget if you share it.
           </li>
           <li>
+            Contact messages: your name, email address and the message you send through the contact form.
+          </li>
+          <li>
             Email engagement: whether an issue was opened and which links were clicked, so we can
             improve the newsletter and report reach to sponsors in aggregate.
           </li>
@@ -44,7 +48,7 @@ export default function Privacy() {
         <h2>Why we use it</h2>
         <ul>
           <li>To send you the daily newsletter you asked for.</li>
-          <li>To answer your advertising or sponsorship inquiry.</li>
+          <li>To answer your advertising or sponsorship inquiry, or your contact message.</li>
           <li>
             To contact you about The Forward Pass and about related Radian products and services that
             are relevant to people building with AI. These include sponsorship, partnership and product
@@ -86,8 +90,6 @@ export default function Privacy() {
           This site does not use advertising or tracking cookies. Only what is needed to serve the page
           is used.
         </p>
-      </article>
-      <SiteFooter />
-    </main>
+    </LegalPage>
   );
 }

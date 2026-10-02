@@ -9,8 +9,6 @@ import { CrawlerSuspense } from "@/components/crawler-suspense";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BookmarkButton, ShareButton, UpvoteButton } from "@/components/archive/story-actions";
 import { StoryThumb } from "@/components/archive/story-media";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
 import { imageForSection, type ArchiveKind, type StoryImage } from "@/lib/archive-client";
 import { loadArchiveIndex, loadEditionText } from "@/lib/archive-viewer";
 import { loadEditorialArticle, loadFeed, outlineEdition, type EditionOutline, type EditorialArticle } from "@/lib/feed";
@@ -170,8 +168,7 @@ async function EditionContent({ params }: { params: Params }) {
 
   return (
     <main className="min-h-screen">
-      <SiteHeader />
-      <div className="mx-auto max-w-7xl px-5 pt-28 pb-24 md:px-10 md:pt-32">
+      <div className="page-shell pt-28 pb-24 md:pt-32">
         <Link href={kind === "weekly" ? "/archive?section=weekly" : "/archive"} className={cn(labelClass, "inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground")}>
           <ArrowLeft className="size-3.5" strokeWidth={1.5} /> Archive
         </Link>
@@ -197,7 +194,6 @@ async function EditionContent({ params }: { params: Params }) {
           <NextReads kind={kind} date={date} />
         </CrawlerSuspense>
       </div>
-      <SiteFooter />
     </main>
   );
 }
@@ -213,14 +209,12 @@ async function EditorialArticlePage({ slug }: { slug: string }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(articleJsonLd(article, `/archive/editorial/${slug}`)) }}
       />
-      <SiteHeader />
-      <div className="mx-auto max-w-7xl px-5 pt-28 pb-24 md:px-10 md:pt-32">
+      <div className="page-shell pt-28 pb-24 md:pt-32">
         <Link href="/archive?section=editorial" className={cn(labelClass, "inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground")}>
           <ArrowLeft className="size-3.5" strokeWidth={1.5} /> Editorial
         </Link>
         <EditorialArticleView article={article} />
       </div>
-      <SiteFooter />
     </main>
   );
 }

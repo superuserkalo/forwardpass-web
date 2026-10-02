@@ -41,7 +41,7 @@ const TOTAL_STEPS = 4;
 const inputClass =
   "h-13 w-full border border-input bg-background px-4 text-sm outline-none transition-colors focus:border-foreground";
 const buttonClass =
-  "inline-flex min-h-13 items-center justify-center gap-3 bg-primary px-7 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-85 disabled:cursor-wait disabled:opacity-50";
+  "inline-flex min-h-13 shrink-0 items-center justify-center gap-3 whitespace-nowrap bg-primary px-7 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-85 disabled:cursor-wait disabled:opacity-50";
 type Result = Awaited<ReturnType<typeof completeOnboardingAction>>;
 
 const subscribeToHydration = () => () => {};

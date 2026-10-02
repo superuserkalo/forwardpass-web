@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { preferencesEmail } from "@/lib/preferences-session";
 import { loadOnboardingState } from "@/lib/onboarding-state";
 import { OnboardingFlow } from "@/components/onboarding-flow";
 import { NewsletterForm } from "@/components/forward-pass-forms";
 import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
   title: "Your edition",
@@ -17,11 +17,10 @@ export default async function Welcome() {
       <OnboardingFlow email={email} saved={await loadOnboardingState(email)} />
     );
   return (
-    <main className="mx-auto min-h-screen max-w-3xl px-5 py-10 md:py-16">
-      <Link href="/" className="wordmark">
-        THE FORWARD PASS
-      </Link>
-      <div className="mt-24">
+    <>
+    <SiteHeader />
+    <main className="page-shell min-h-[70vh] pb-24 pt-32 md:pb-36 md:pt-44">
+      <div className="max-w-2xl">
         <p className="onboarding-eyebrow">Your daily read, made personal</p>
         <h1 className="onboarding-title">Start with your inbox.</h1>
         <p className="mt-6 text-muted-foreground">
@@ -30,7 +29,8 @@ export default async function Welcome() {
         </p>
         <NewsletterForm />
       </div>
-      <SiteFooter />
     </main>
+    <SiteFooter />
+    </>
   );
 }

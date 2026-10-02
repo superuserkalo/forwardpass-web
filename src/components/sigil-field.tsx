@@ -6,12 +6,14 @@ const GLYPHS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.:*+=-/#%&";
 const BIT_W = 6;
 const BIT_H = 8;
 const MAX_COLS = 768;
-const MAX_ROWS = 80;
+const MAX_ROWS = 256;
 const WORDMARK_FULL = "THE FORWARD PASS";
 const WORDMARK_SHORT = "FORWARD PASS";
 const TRACKING = 0.04;
 const WIDTH_BUDGET = 0.86;
 const QUALITY = 2;
+
+type Anchor = "center" | "bottom";
 
 type Grid = {
   cols: number;
@@ -152,7 +154,7 @@ function buildGlyphBits(family: string): Uint32Array<ArrayBuffer> {
   return bits;
 }
 
-function buildCells(grid: Grid, family: string): Uint32Array<ArrayBuffer> {
+function buildCells(grid: Grid, family: string, anchor: Anchor): Uint32Array<ArrayBuffer> {
   const cells = new Uint32Array(MAX_COLS * MAX_ROWS);
   const width = Math.round(grid.cols * grid.cellW * QUALITY);
   const height = Math.round(grid.rows * grid.cellH * QUALITY);
@@ -183,7 +185,7 @@ function buildCells(grid: Grid, family: string): Uint32Array<ArrayBuffer> {
 
   const cap = capEm * size;
   const startX = (width - textEm * size) / 2;
-  const baseline = height / 2 + cap / 2;
+  const baseline = anchor === "bottom" ? height - cap * 0.5 : height / 2 + cap / 2;
 
   ctx.fillStyle = "#fff";
   ctx.textAlign = "left";
@@ -219,10 +221,12 @@ function buildCells(grid: Grid, family: string): Uint32Array<ArrayBuffer> {
 }
 
 type SigilFieldProps = {
-  bandRef: RefObject<HTMLDivElement | null>;
+  bandRef: RefObject<HTMLElement | null>;
+  /** Where the wordmark sits in the band. */
+  anchor?: Anchor;
 };
 
-export function SigilField({ bandRef }: SigilFieldProps) {
+export function SigilField({ bandRef, anchor = "center" }: SigilFieldProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pointer = useRef<{ x: number; y: number }>({ x: -10, y: -10 });
   const [active, setActive] = useState(false);
@@ -287,7 +291,7 @@ export function SigilField({ bandRef }: SigilFieldProps) {
         const cells = storage(gpu, MAX_COLS * MAX_ROWS * 4, "read");
 
         let grid = measureGrid(band);
-        cells.write(buildCells(grid, displayFamily));
+        cells.write(buildCells(grid, displayFamily, anchor));
 
         const sigil = effect(gpu, SHADER, {
           blend: "premultiplied",
@@ -308,7 +312,7 @@ export function SigilField({ bandRef }: SigilFieldProps) {
 
         canvasSurface.onResize(() => {
           grid = measureGrid(band);
-          cells.write(buildCells(grid, displayFamily));
+          cells.write(buildCells(grid, displayFamily, anchor));
           sigil.set({ params: { cols: grid.cols, rows: grid.rows } });
         });
 
@@ -346,7 +350,7 @@ export function SigilField({ bandRef }: SigilFieldProps) {
       band.removeEventListener("pointerleave", onPointerLeave);
       dispose?.();
     };
-  }, [bandRef]);
+  }, [bandRef, anchor]);
 
   return (
     <>
@@ -362,9 +366,9 @@ export function SigilField({ bandRef }: SigilFieldProps) {
       />
       <div
         aria-hidden="true"
-        className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${
-          active ? "opacity-0" : "opacity-100"
-        }`}
+        className={`absolute inset-0 flex justify-center transition-opacity duration-700 ${
+          anchor === "bottom" ? "items-end pb-10" : "items-center"
+        } ${active ? "opacity-0" : "opacity-100"}`}
       >
         <span className="font-mono text-xs uppercase tracking-[0.5em] text-muted-foreground sm:text-sm">
           The Forward Pass

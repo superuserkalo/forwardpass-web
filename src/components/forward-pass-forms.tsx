@@ -5,6 +5,7 @@ import { ArrowRight, Check } from "lucide-react";
 import styles from "./newsletter-form.module.css";
 import {
   advertisingInquiryAction,
+  contactAction,
   requestUnsubscribeLinkAction,
   subscribeAction,
   unsubscribeAction,
@@ -13,11 +14,11 @@ import { requestSignInLinkAction } from "@/lib/signin-actions";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 
 function inputClass() {
-  return "flex h-14 w-full border border-input bg-transparent px-4 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-ring disabled:cursor-not-allowed disabled:opacity-50";
+  return "flex h-14 w-full min-w-0 border border-input bg-transparent px-4 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-ring disabled:cursor-not-allowed disabled:opacity-50";
 }
 
 function buttonClass() {
-  return "inline-flex h-14 items-center justify-center gap-2 bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50";
+  return "inline-flex h-14 shrink-0 items-center justify-center gap-2 whitespace-nowrap bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50";
 }
 
 export function NewsletterForm() {
@@ -246,6 +247,59 @@ export function AdvertisingForm() {
           <ArrowRight aria-hidden="true" className="size-4" />
         </button>
         {status === "error" ? <span className="text-xs text-muted-foreground" role="alert">Couldn’t send. Please try again.</span> : null}
+      </div>
+    </form>
+  );
+}
+
+export function ContactForm() {
+  const [status, setStatus] = useState<"success" | "error" | null>(null);
+  const [isPending, startTransition] = useTransition();
+  const [token, setToken] = useState<string | null>(null);
+  const [resetKey, setResetKey] = useState(0);
+
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    setStatus(null);
+    startTransition(async () => {
+      try {
+        await contactAction(
+          { name: String(form.get("name")), email: String(form.get("email")), message: String(form.get("message")) },
+          token ?? "",
+        );
+        setStatus("success");
+      } catch {
+        setStatus("error");
+        setToken(null);
+        setResetKey((key) => key + 1);
+      }
+    });
+  }
+
+  if (status === "success") {
+    return (
+      <div className="mt-8 flex min-h-36 items-center gap-3 border-y border-border text-sm" role="status">
+        <Check className="size-4" aria-hidden="true" />
+        Thanks. We read every message and will reply by email.
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="mt-8 grid gap-5 md:grid-cols-2" aria-label="Contact">
+      <Field label="Name"><input name="name" autoComplete="name" required className={inputClass()} /></Field>
+      <Field label="Email"><input name="email" type="email" autoComplete="email" required className={inputClass()} /></Field>
+      <Field label="How can we help?" wide><textarea name="message" required minLength={10} rows={5} className={`${inputClass()} min-h-28`} /></Field>
+      <div className="md:col-span-2">
+        <div className="flex items-center gap-4">
+          <button type="submit" disabled={isPending} className={buttonClass()}>
+            {isPending ? "Sending…" : "Send message"}
+            <ArrowRight aria-hidden="true" className="size-4" />
+          </button>
+          {status === "error" ? <span className="text-xs text-muted-foreground" role="alert">Couldn’t send. Please try again or email hello@withradian.com.</span> : null}
+        </div>
+        <TurnstileWidget action="contact" onToken={setToken} resetKey={resetKey} />
       </div>
     </form>
   );

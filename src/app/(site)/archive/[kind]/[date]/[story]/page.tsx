@@ -9,8 +9,6 @@ import { Notice, absoluteUrl, breadcrumbJsonLd, labelClass, markdownComponents, 
 import { ArticleSkeleton } from "@/components/archive/skeletons";
 import { ShareButton, UpvoteButton } from "@/components/archive/story-actions";
 import { StoryThumb } from "@/components/archive/story-media";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
 import { AI_DISCLOSURE, AI_LABEL, AI_META } from "@/lib/ai-disclosure";
 import { imageForSection, type ArchiveEntry } from "@/lib/archive-client";
 import { loadEditionText } from "@/lib/archive-viewer";
@@ -95,8 +93,7 @@ async function StoryContent({ params }: { params: Params }) {
 
   return (
     <main className="min-h-screen">
-      <SiteHeader />
-      <div className="mx-auto max-w-7xl px-5 pt-28 pb-24 md:px-10 md:pt-32">
+      <div className="page-shell pt-28 pb-24 md:pt-32">
         <Link href={issuePath} className={cn(labelClass, "inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground")}>
           <ArrowLeft className="size-3.5" strokeWidth={1.5} /> {prettyDate(date)} issue
         </Link>
@@ -111,7 +108,6 @@ async function StoryContent({ params }: { params: Params }) {
           <Notice title="This story is temporarily unavailable.">Please try again in a few minutes.</Notice>
         )}
       </div>
-      <SiteFooter />
     </main>
   );
 }
