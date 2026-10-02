@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Geist, Geist_Mono, Newsreader } from "next/font/google";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
+import { FEED_TYPES, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -54,6 +54,7 @@ export const metadata: Metadata = {
   other: {
     "darkreader-lock": "",
   },
+  alternates: { types: FEED_TYPES },
   icons: {
     icon: "/favicon.png",
   },

@@ -24,6 +24,7 @@ const COLUMNS: Array<{ label: string; links: Array<{ label: string; href: string
   {
     label: "Company",
     links: [
+      { label: "About", href: "/about" },
       { label: "Collaborate", href: "/collaborate" },
       { label: "Contact", href: "mailto:hello@withradian.com" },
     ],

@@ -3,12 +3,12 @@ import { NewsletterForm } from "@/components/forward-pass-forms";
 import { Hero } from "@/components/hero";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL, organizationJsonLd, serializeJsonLd } from "@/lib/seo";
+import { FEED_TYPES, SITE_DESCRIPTION, SITE_NAME, SITE_URL, organizationJsonLd, serializeJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: { absolute: "The Forward Pass: What's changing in AI engineering" },
   description: SITE_DESCRIPTION,
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/", types: FEED_TYPES },
   openGraph: {
     url: "/",
     siteName: SITE_NAME,

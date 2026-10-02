@@ -11,14 +11,20 @@ const archiveIndexSchema = z.object({
 export type ArchiveIndex = z.infer<typeof archiveIndexSchema>;
 export type ArchiveKind = "daily" | "weekly";
 
-export async function archiveRequest(path: string, init?: RequestInit): Promise<Response | null> {
+export type ArchiveEntry = { status: number; text: string; image: string | null };
+
+// Public outputs (sitemap, RSS, llms-full.txt, Markdown copies) read as an anonymous Free reader,
+// so nothing behind a subscription leaks into them whoever triggers the render.
+type Access = { anonymous?: boolean };
+
+export async function archiveRequest(path: string, init?: RequestInit, access: Access = {}): Promise<Response | null> {
   const configured = process.env.FORWARDPASS_AGENT_URL;
   if (!configured) return null;
   const base = new URL(configured);
   if (base.protocol !== "https:" && !(base.protocol === "http:" && ["localhost", "127.0.0.1"].includes(base.hostname))) {
     throw new Error("FORWARDPASS_AGENT_URL must use HTTPS outside local development.");
   }
-  const token = (await cookies()).get(preferencesCookieName)?.value;
+  const token = access.anonymous ? undefined : (await cookies()).get(preferencesCookieName)?.value;
   const headers = new Headers(init?.headers);
   if (token && verifyPreferencesToken(token)) headers.set("Authorization", `Bearer ${token}`);
   try {
@@ -28,15 +34,16 @@ export async function archiveRequest(path: string, init?: RequestInit): Promise<
   }
 }
 
-export async function archiveIndex(): Promise<ArchiveIndex | null> {
-  const response = await archiveRequest("/archive");
+export async function archiveIndex(access: Access = {}): Promise<ArchiveIndex | null> {
+  const response = await archiveRequest("/archive", undefined, access);
   if (!response?.ok) return null;
   return archiveIndexSchema.parse(await response.json());
 }
 
-export async function archiveEntry(kind: ArchiveKind, date: string): Promise<{ status: number; text: string } | null> {
-  if (!z.iso.date().safeParse(date).success) return { status: 400, text: "Invalid edition date." };
-  const response = await archiveRequest(`/archive/${kind}/${date}`);
+export async function archiveEntry(kind: ArchiveKind, date: string, access: Access = {}): Promise<ArchiveEntry | null> {
+  if (!z.iso.date().safeParse(date).success) return { status: 400, text: "Invalid edition date.", image: null };
+  const response = await archiveRequest(`/archive/${kind}/${date}`, undefined, access);
   if (!response) return null;
-  return { status: response.status, text: await response.text() };
+  const image = response.headers.get("x-cover-image");
+  return { status: response.status, text: await response.text(), image: image?.startsWith("/media/") ? image : null };
 }

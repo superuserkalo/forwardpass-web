@@ -11,6 +11,9 @@ export const SOCIAL_PROFILES = [
   "https://www.linkedin.com/company/forwardpassnews",
 ];
 
+// RSS autodiscovery. Child metadata replaces the parent's alternates object, so pages spread this in.
+export const FEED_TYPES = { "application/rss+xml": [{ url: "/feed.xml", title: SITE_NAME }] };
+
 // Child metadata replaces the parent's openGraph object wholesale, so every page restates it.
 export function pageMetadata({
   path,
@@ -24,7 +27,7 @@ export function pageMetadata({
   return {
     title,
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: path, types: FEED_TYPES },
     openGraph: { url: path, siteName: SITE_NAME, title, description, type: "website", locale: "en_US" },
     twitter: { card: "summary_large_image", site: "@forwardpassnews", title, description },
   };
@@ -40,6 +43,7 @@ export const organizationJsonLd = {
   logo: `${SITE_URL}/logo.png`,
   description: SITE_DESCRIPTION,
   email: "hello@withradian.com",
+  publishingPrinciples: `${SITE_URL}/about`,
   sameAs: SOCIAL_PROFILES,
 };
 

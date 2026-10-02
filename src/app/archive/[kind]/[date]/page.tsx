@@ -16,22 +16,89 @@ import { loadArchiveIndex, loadEditionText } from "@/lib/archive-viewer";
 import { loadEditorialArticle, loadFeed, outlineEdition, type EditionOutline, type EditorialArticle } from "@/lib/feed";
 import { prettyDate, stripInlineMarkdown } from "@/lib/story-parse";
 import { AI_DISCLOSURE, AI_LABEL, AI_META } from "@/lib/ai-disclosure";
-import { SITE_NAME, SITE_URL, organizationJsonLd, serializeJsonLd } from "@/lib/seo";
+import { FEED_TYPES, SITE_NAME, SITE_URL, organizationJsonLd, serializeJsonLd } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 type Params = Promise<{ kind: string; date: string }>;
 
 // generateMetadata and the page share one request per render.
 const loadArticle = cache(loadEditorialArticle);
+const loadEdition = cache((kind: ArchiveKind, date: string) => loadEditionText(kind, date));
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { kind, date } = await params;
   if (kind === "editorial") return editorialMetadata(date, await loadArticle(date));
-  // Daily and weekly editions depend on the reader's session and plan, so they stay out of search.
-  return {
+  const hidden: Metadata = {
     title: "Published edition",
     robots: { index: false, follow: false },
     ...(kind === "daily" || kind === "weekly" ? { other: AI_META } : {}),
+  };
+  if (kind !== "daily") return hidden;
+  // A daily issue is indexable exactly when this request may read it. Crawlers arrive signed out,
+  // so free issues inside the public archive window are indexed and older ones drop out.
+  const edition = await loadEdition(kind, date);
+  if (edition?.status !== 200) return hidden;
+  return editionMetadata(date, outlineEdition(kind, date, edition.text), edition.image);
+}
+
+function editionDek(outline: EditionOutline): string {
+  return stripInlineMarkdown(outline.preamble.split(/\n\s*\n/)[0] ?? "") || outline.lead || "";
+}
+
+function editionMetadata(date: string, outline: EditionOutline, cover: string | null): Metadata {
+  const path = `/archive/daily/${date}`;
+  const description = editionDek(outline) || `The Forward Pass daily issue for ${prettyDate(date)}.`;
+  const image = cover ?? outline.heroImage;
+  return {
+    title: outline.title,
+    description,
+    alternates: { canonical: path, types: { ...FEED_TYPES, "text/markdown": `${path}.md` } },
+    openGraph: {
+      type: "article",
+      url: path,
+      siteName: SITE_NAME,
+      title: outline.title,
+      description,
+      publishedTime: `${date}T07:00:00Z`,
+      section: "Daily issue",
+      tags: outline.topics,
+      ...(image ? { images: [{ url: image, alt: outline.title }] } : {}),
+    },
+    twitter: { card: "summary_large_image", site: "@forwardpassnews", title: outline.title, description },
+    other: AI_META,
+  };
+}
+
+const absolute = (url: string) => (url.startsWith("/") ? `${SITE_URL}${url}` : url);
+
+function breadcrumbJsonLd(trail: Array<[string, string]>) {
+  return {
+    "@type": "BreadcrumbList",
+    itemListElement: trail.map(([name, path], index) => ({ "@type": "ListItem", position: index + 1, name, item: `${SITE_URL}${path}` })),
+  };
+}
+
+function editionJsonLd(date: string, outline: EditionOutline, cover: string | null) {
+  const path = `/archive/daily/${date}`;
+  const image = cover ?? outline.heroImage;
+  return {
+    "@graph": [
+      {
+        "@type": "NewsArticle",
+        headline: outline.title,
+        description: editionDek(outline) || undefined,
+        image: image ? absolute(image) : `${SITE_URL}/opengraph-image`,
+        datePublished: `${date}T07:00:00Z`,
+        author: { "@id": organizationJsonLd["@id"] },
+        publisher: organizationJsonLd,
+        mainEntityOfPage: `${SITE_URL}${path}`,
+        articleSection: "Daily issue",
+        keywords: outline.topics.join(", ") || undefined,
+        isAccessibleForFree: true,
+        inLanguage: "en",
+      },
+      breadcrumbJsonLd([["Home", "/"], ["Archive", "/archive"], [prettyDate(date), path]]),
+    ],
   };
 }
 
@@ -43,7 +110,7 @@ function editorialMetadata(slug: string, article: EditorialArticle | null): Meta
     title: article.title,
     description,
     authors: [{ name: article.author }],
-    alternates: { canonical: path },
+    alternates: { canonical: path, types: { ...FEED_TYPES, "text/markdown": `${path}.md` } },
     openGraph: {
       type: "article",
       url: path,
@@ -61,17 +128,23 @@ function editorialMetadata(slug: string, article: EditorialArticle | null): Meta
 
 function articleJsonLd(article: EditorialArticle, path: string) {
   return {
-    "@type": article.kind === "opinion" ? "OpinionNewsArticle" : article.kind === "tutorial" ? "TechArticle" : "AnalysisNewsArticle",
-    headline: article.title,
-    description: article.dek || undefined,
-    image: article.image ?? `${SITE_URL}/opengraph-image`,
-    datePublished: article.publishedAt,
-    author: { "@type": "Person", name: article.author },
-    publisher: organizationJsonLd,
-    mainEntityOfPage: `${SITE_URL}${path}`,
-    keywords: article.topics.join(", ") || undefined,
-    wordCount: article.markdown.split(/\s+/).length,
-    inLanguage: "en",
+    "@graph": [
+      {
+        "@type": article.kind === "opinion" ? "OpinionNewsArticle" : article.kind === "tutorial" ? "TechArticle" : "AnalysisNewsArticle",
+        headline: article.title,
+        description: article.dek || undefined,
+        image: article.image ? absolute(article.image) : `${SITE_URL}/opengraph-image`,
+        datePublished: article.publishedAt,
+        author: { "@type": "Person", name: article.author },
+        publisher: organizationJsonLd,
+        mainEntityOfPage: `${SITE_URL}${path}`,
+        keywords: article.topics.join(", ") || undefined,
+        wordCount: article.markdown.split(/\s+/).length,
+        isAccessibleForFree: true,
+        inLanguage: "en",
+      },
+      breadcrumbJsonLd([["Home", "/"], ["Editorial", "/archive?section=editorial"], [article.title, path]]),
+    ],
   };
 }
 
@@ -113,7 +186,7 @@ async function EditionContent({ params }: { params: Params }) {
   if (kind === "editorial") return <EditorialArticlePage slug={date} />;
   if (kind !== "daily" && kind !== "weekly") notFound();
   const [edition, feed] = await Promise.all([
-    loadEditionText(kind, date),
+    loadEdition(kind, date),
     kind === "daily" ? loadFeed(200) : Promise.resolve(null),
   ]);
   const votes = new Map(
@@ -129,7 +202,15 @@ async function EditionContent({ params }: { params: Params }) {
           <ArrowLeft className="size-3.5" strokeWidth={1.5} /> Archive
         </Link>
         {edition?.status === 200 ? (
-          <Edition kind={kind} date={date} outline={outlineEdition(kind, date, edition.text)} votes={votes} />
+          <>
+            {kind === "daily" && (
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: serializeJsonLd(editionJsonLd(date, outlineEdition(kind, date, edition.text), edition.image)) }}
+              />
+            )}
+            <Edition kind={kind} date={date} outline={outlineEdition(kind, date, edition.text)} cover={edition.image} votes={votes} />
+          </>
         ) : edition?.status === 403 ? (
           <Notice title="Outside your archive access.">
             Open the link in your latest email to restore your reading session, or see the{" "}
@@ -239,15 +320,17 @@ function Edition({
   kind,
   date,
   outline,
+  cover,
   votes,
 }: {
   kind: ArchiveKind;
   date: string;
   outline: EditionOutline;
+  cover: string | null;
   votes: Map<string, VoteState>;
 }) {
-  const [introLead = "", ...introRest] = outline.preamble.split(/\n\s*\n/);
-  const dek = stripInlineMarkdown(introLead) || outline.lead;
+  const [, ...introRest] = outline.preamble.split(/\n\s*\n/);
+  const dek = editionDek(outline);
   const editionId = `${kind}:${date}`;
   const facts: Array<[string, string]> = [
     ["Edition", kind === "weekly" ? "Weekly research" : "Daily"],
@@ -277,7 +360,7 @@ function Edition({
         )}
       </header>
 
-      <StoryThumb seed={editionId} image={outline.heroImage} className="mx-auto mt-14 aspect-[21/9] max-w-6xl" />
+      <StoryThumb seed={editionId} image={cover ?? outline.heroImage} className="mx-auto mt-14 aspect-[21/9] max-w-6xl" />
 
       <dl className="mx-auto grid max-w-6xl grid-cols-2 border-x border-b border-border md:grid-cols-4">
         {facts.map(([label, value], index) => (

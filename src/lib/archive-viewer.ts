@@ -1,4 +1,4 @@
-import { archiveEntry, archiveIndex, type ArchiveIndex, type ArchiveKind } from "./archive-client";
+import { archiveEntry, archiveIndex, type ArchiveEntry, type ArchiveIndex, type ArchiveKind } from "./archive-client";
 import { demoDailyDates, demoEdition, demoFixturesEnabled, demoWeeklyDates } from "./feed-fixtures";
 import { loadOnboardingState } from "./onboarding-state";
 import { preferencesEmail } from "./preferences-session";
@@ -23,10 +23,18 @@ export async function loadArchiveIndex(): Promise<ArchiveIndex | null> {
 export async function loadEditionText(
   kind: ArchiveKind,
   date: string,
-): Promise<{ status: number; text: string } | null> {
-  const entry = await archiveEntry(kind, date);
+  access: { anonymous?: boolean } = {},
+): Promise<ArchiveEntry | null> {
+  const entry = await archiveEntry(kind, date, access);
   if (entry || !demoFixturesEnabled()) return entry;
-  return { status: 200, text: demoEdition(kind, date) };
+  return { status: 200, text: demoEdition(kind, date), image: null };
+}
+
+/** Daily issues an anonymous reader can open: the ones search engines and feeds may carry. */
+export async function publicDailyDates(): Promise<string[]> {
+  const index = await archiveIndex({ anonymous: true }).catch(() => null);
+  if (index) return index.daily;
+  return demoFixturesEnabled() ? demoDailyDates() : [];
 }
 
 export async function readerTopics(): Promise<FeedTopic[]> {
