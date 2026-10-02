@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
 import { EDITORIAL_KINDS, EditorialBoard, EditorialKindNav, type EditorialFilter } from "@/components/archive/editorial-board";
+import { CrawlerSuspense } from "@/components/crawler-suspense";
 import { NewsFeed, type FeedTab } from "@/components/archive/news-feed";
 import { EditorialSkeleton, NewsFeedSkeleton, WeeklySkeleton } from "@/components/archive/skeletons";
 import { WeeklyDeepDive, type WeeklyIssue } from "@/components/archive/weekly-deep-dive";
@@ -59,17 +59,17 @@ export default async function ArchivePage({ searchParams }: { searchParams: Sear
         <SectionNav active={section} />
         <div className="pt-12">
           {section === "news" && (
-            <Suspense fallback={<NewsFeedSkeleton />}>
+            <CrawlerSuspense fallback={<NewsFeedSkeleton />}>
               <NewsSection tab={tab} />
-            </Suspense>
+            </CrawlerSuspense>
           )}
           {section === "editorial" && (
             <>
               <h1 className="sr-only">Editorial archive</h1>
               <EditorialKindNav active={kind} />
-              <Suspense key={kind} fallback={<EditorialSkeleton />}>
+              <CrawlerSuspense key={kind} fallback={<EditorialSkeleton />}>
                 <EditorialSection kind={kind} />
-              </Suspense>
+              </CrawlerSuspense>
             </>
           )}
         </div>
@@ -125,9 +125,9 @@ async function NewsSection({ tab }: { tab: FeedTab }) {
       professional={professional}
       weekly={
         professional && index ? (
-          <Suspense fallback={<WeeklySkeleton />}>
+          <CrawlerSuspense fallback={<WeeklySkeleton />}>
             <WeeklyIssues dates={index.weekly} />
-          </Suspense>
+          </CrawlerSuspense>
         ) : null
       }
       initialTab={tab}

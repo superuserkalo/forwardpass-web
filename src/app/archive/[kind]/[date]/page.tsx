@@ -2,8 +2,10 @@ import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Suspense, cache } from "react";
+import { cache } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
+import { ArticleSkeleton } from "@/components/archive/skeletons";
+import { CrawlerSuspense } from "@/components/crawler-suspense";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BookmarkButton, ShareButton, UpvoteButton } from "@/components/archive/story-actions";
 import { StoryThumb } from "@/components/archive/story-media";
@@ -92,7 +94,21 @@ const markdownComponents: Components = {
   ),
 };
 
-export default async function EditionPage({ params }: { params: Params }) {
+export default function EditionPage({ params }: { params: Params }) {
+  return (
+    <CrawlerSuspense
+      fallback={
+        <main className="min-h-screen">
+          <ArticleSkeleton />
+        </main>
+      }
+    >
+      <EditionContent params={params} />
+    </CrawlerSuspense>
+  );
+}
+
+async function EditionContent({ params }: { params: Params }) {
   const { kind, date } = await params;
   if (kind === "editorial") return <EditorialArticlePage slug={date} />;
   if (kind !== "daily" && kind !== "weekly") notFound();
@@ -122,9 +138,9 @@ export default async function EditionPage({ params }: { params: Params }) {
         ) : (
           <Notice title="This edition is temporarily unavailable.">Please try again in a few minutes.</Notice>
         )}
-        <Suspense fallback={<NextReadsSkeleton />}>
+        <CrawlerSuspense fallback={<NextReadsSkeleton />}>
           <NextReads kind={kind} date={date} />
-        </Suspense>
+        </CrawlerSuspense>
       </div>
       <SiteFooter />
     </main>
