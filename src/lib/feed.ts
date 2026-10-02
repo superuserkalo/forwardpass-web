@@ -9,6 +9,7 @@ import {
   inferStoryType,
   matchTopics,
   parseEdition,
+  prettyDate,
   sentenceTitle,
   sourceNameFromUrl,
   stripInlineMarkdown,
@@ -333,8 +334,15 @@ export function outlineEdition(kind: ArchiveKind, date: string, markdown: string
     .filter((line) => !/^\s*[-*]\s+/.test(line))
     .join("\n")
     .trim();
+  // The engine heads each issue with its email subject, which is the lead story's headline. As a
+  // page title that passes the whole issue off as that one story, so a daily issue is named by its
+  // date unless it carries a title of its own.
+  const leadHeading = parsed.blocks.find((block) => !block.label)?.heading.trim();
+  const ownTitle = parsed.title !== null && parsed.title.trim() !== leadHeading ? parsed.title : null;
   return {
-    title: parsed.title ?? (kind === "weekly" ? "This week in depth." : "Today’s forward pass."),
+    title: kind === "daily"
+      ? ownTitle ?? `AI engineering, ${prettyDate(date)}`
+      : parsed.title ?? "This week in depth.",
     lead: parsed.lead,
     preamble,
     heroImage: parsed.firstImage,
