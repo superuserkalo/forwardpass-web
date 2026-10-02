@@ -12,7 +12,7 @@ import { StoryThumb } from "@/components/archive/story-media";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { AI_DISCLOSURE, AI_LABEL, AI_META } from "@/lib/ai-disclosure";
-import type { ArchiveEntry } from "@/lib/archive-client";
+import { imageForSection, type ArchiveEntry } from "@/lib/archive-client";
 import { loadEditionText } from "@/lib/archive-viewer";
 import { loadFeed, outlineEdition, type EditionOutline } from "@/lib/feed";
 import { FEED_TYPES, SITE_NAME, SITE_URL, organizationJsonLd, serializeJsonLd } from "@/lib/seo";
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const path = `/archive/daily/${date}/${story}`;
   const title = found.section.heading;
   const description = storyDek(found.section.body) || `From The Forward Pass daily issue for ${prettyDate(date)}.`;
-  const image = edition.storyImages[found.section.id]?.path;
+  const image = imageForSection(edition.storyImages, found.section.id, story)?.path;
   return {
     title,
     description,
@@ -133,7 +133,7 @@ function Story({
   const { section, number } = found;
   const path = `/archive/daily/${date}/${slug}`;
   const issuePath = `/archive/daily/${date}`;
-  const image = edition.storyImages[section.id] ?? null;
+  const image = imageForSection(edition.storyImages, section.id, slug);
   const voteId = storyVoteId("daily", date, section.id, number);
   const vote = votes.find((entry) => entry.id === voteId);
   const others = outline.sections.filter((entry) => !entry.label && entry.id !== section.id);

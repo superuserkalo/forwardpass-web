@@ -11,13 +11,18 @@ const archiveIndexSchema = z.object({
 export type ArchiveIndex = z.infer<typeof archiveIndexSchema>;
 export type ArchiveKind = "daily" | "weekly";
 
-export type StoryImage = { path: string; credit: string | null; source: string | null };
+export type StoryImage = { path: string; credit: string | null; source: string | null; slug?: string | null };
 export type ArchiveEntry = { status: number; text: string; image: string | null; storyImages: Record<string, StoryImage> };
 
 const storyImagesSchema = z.record(
   z.string().regex(/^s-[a-f0-9]{16}$/),
-  z.object({ path: z.string().regex(/^\/media\/story\/\d{4}-\d{2}-\d{2}\/s-[a-f0-9]{16}$/), credit: z.string().nullable(), source: z.url().nullable() }),
+  z.object({ path: z.string().regex(/^\/media\/story\/\d{4}-\d{2}-\d{2}\/s-[a-f0-9]{16}$/), credit: z.string().nullable(), source: z.url().nullable(), slug: z.string().nullable().optional() }),
 );
+
+/** A section's image: by story id, or by slug for issues saved before story records. */
+export function imageForSection(images: Record<string, StoryImage>, id: string, slug: string): StoryImage | null {
+  return images[id] ?? Object.values(images).find((image) => image.slug === slug) ?? null;
+}
 
 function storyImagesFrom(header: string | null): Record<string, StoryImage> {
   if (!header) return {};

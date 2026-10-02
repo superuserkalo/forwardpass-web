@@ -11,7 +11,7 @@ import { BookmarkButton, ShareButton, UpvoteButton } from "@/components/archive/
 import { StoryThumb } from "@/components/archive/story-media";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import type { ArchiveKind, StoryImage } from "@/lib/archive-client";
+import { imageForSection, type ArchiveKind, type StoryImage } from "@/lib/archive-client";
 import { loadArchiveIndex, loadEditionText } from "@/lib/archive-viewer";
 import { loadEditorialArticle, loadFeed, outlineEdition, type EditionOutline, type EditorialArticle } from "@/lib/feed";
 import { prettyDate, stripInlineMarkdown } from "@/lib/story-parse";
@@ -407,8 +407,8 @@ function Edition({
                 </div>
               )}
               {/* The lead story's image is already the issue's hero. */}
-              {number && number > 1 && storyImages[section.id] && (
-                <StoryThumb seed={`${editionId}:${section.id}`} image={storyImages[section.id].path} className="mb-8 aspect-[16/9]" />
+              {number && number > 1 && imageForSection(storyImages, section.id, storySlug(section.heading)) && (
+                <StoryThumb seed={`${editionId}:${section.id}`} image={imageForSection(storyImages, section.id, storySlug(section.heading))?.path ?? null} className="mb-8 aspect-[16/9]" />
               )}
               <div className="archive-copy">
                 <ReactMarkdown components={markdownComponents}>{section.body}</ReactMarkdown>
