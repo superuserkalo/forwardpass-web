@@ -4,16 +4,9 @@ import { SiteFooter } from "@/components/site-footer";
 import { UnsubscribeForm } from "@/components/forward-pass-forms";
 
 export const metadata: Metadata = {
-  title: "The Forward Pass: Unsubscribe",
+  title: "Unsubscribe",
   description: "Stop receiving The Forward Pass newsletter.",
-  openGraph: {
-    title: "The Forward Pass: Unsubscribe",
-    description: "Stop receiving The Forward Pass newsletter.",
-    type: "website",
-  },
-  twitter: {
-    card: "summary",
-  },
+  robots: { index: false, follow: false },
 };
 
 export default async function Unsubscribe({

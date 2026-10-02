@@ -1,19 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter } from "@/components/site-footer";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "The Forward Pass: Imprint",
-  description: "Publisher information for The Forward Pass.",
-  openGraph: {
-    title: "The Forward Pass: Imprint",
-    description: "Publisher information for The Forward Pass.",
-    type: "website",
-  },
-  twitter: {
-    card: "summary",
-  },
-};
+export const metadata: Metadata = pageMetadata({
+  path: "/imprint",
+  title: "Imprint",
+  description:
+    "Publisher information for The Forward Pass.",
+});
 
 export default function Imprint() {
   return (

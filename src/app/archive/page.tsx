@@ -9,12 +9,9 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { hasPersonalFeatures, loadArchiveIndex, loadEditionText, readerTopics, requestTime } from "@/lib/archive-viewer";
 import { editorialAsStory, loadEditorial, loadFeed, outlineEdition } from "@/lib/feed";
+import { pageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: "Archive | The Forward Pass",
-  description: "Every story, deep dive and weekly research issue from The Forward Pass.",
-};
 
 const SECTIONS = [
   { value: "news", label: "News" },
@@ -23,6 +20,22 @@ const SECTIONS = [
 
 type Section = (typeof SECTIONS)[number]["value"];
 type SearchParams = Promise<{ section?: string | string[]; kind?: string | string[]; tab?: string | string[] }>;
+
+// Tabs and kind filters are views of the same two listings, so each canonicalises to its section.
+export async function generateMetadata({ searchParams }: { searchParams: SearchParams }): Promise<Metadata> {
+  const params = await searchParams;
+  return pick(params.section, SECTIONS.map((entry) => entry.value), "news") === "editorial"
+    ? pageMetadata({
+        path: "/archive?section=editorial",
+        title: "Editorial archive",
+        description: "Deep dives, tutorials and opinion on AI engineering from The Forward Pass.",
+      })
+    : pageMetadata({
+        path: "/archive",
+        title: "Archive",
+        description: "Every story, deep dive and weekly research issue from The Forward Pass.",
+      });
+}
 
 const TABS = ["latest", "for-you", "weekly"] as const;
 
@@ -52,6 +65,7 @@ export default async function ArchivePage({ searchParams }: { searchParams: Sear
           )}
           {section === "editorial" && (
             <>
+              <h1 className="sr-only">Editorial archive</h1>
               <EditorialKindNav active={kind} />
               <Suspense key={kind} fallback={<EditorialSkeleton />}>
                 <EditorialSection kind={kind} />

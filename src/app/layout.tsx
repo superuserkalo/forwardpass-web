@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Geist, Geist_Mono, Newsreader } from "next/font/google";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -32,13 +33,19 @@ const brand = Barlow_Condensed({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://theforwardpass.net"),
-  title: "The Forward Pass: What's changing in AI engineering",
-  description: "A daily intelligence newsletter for people who build with AI.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "The Forward Pass: What's changing in AI engineering",
+    template: "%s | The Forward Pass",
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
   openGraph: {
+    siteName: SITE_NAME,
     title: "The Forward Pass",
     description: "What's changing in AI engineering.",
     type: "website",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",

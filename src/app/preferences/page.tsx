@@ -7,7 +7,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { preferencesEmail } from "@/lib/preferences-session";
 
 export const metadata: Metadata = {
-  title: "Your reading brief | The Forward Pass",
+  title: "Your reading brief",
   robots: { index: false, follow: false },
   referrer: "no-referrer",
 };

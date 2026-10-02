@@ -20,5 +20,5 @@ Archive content can depend on the reader's session and subscription. A sign-in, 
 - [Collaborate](https://theforwardpass.net/collaborate): Advertising and sponsorship information.
 - [Privacy](https://theforwardpass.net/privacy): How subscriber data is handled.
 - [Imprint](https://theforwardpass.net/imprint): Publisher information.
-- [Sitemap](https://theforwardpass.net/sitemap.xml): XML index of public landing pages. Discover articles through the archive.
+- [Sitemap](https://theforwardpass.net/sitemap.xml): XML index of public landing pages and editorial articles. Discover news stories through the archive.
 - [Crawler rules](https://theforwardpass.net/robots.txt): Crawl permissions for automated clients.

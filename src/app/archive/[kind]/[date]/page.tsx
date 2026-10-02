@@ -2,7 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, cache } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BookmarkButton, ShareButton, UpvoteButton } from "@/components/archive/story-actions";
@@ -14,16 +14,62 @@ import { loadArchiveIndex, loadEditionText } from "@/lib/archive-viewer";
 import { loadEditorialArticle, loadFeed, outlineEdition, type EditionOutline, type EditorialArticle } from "@/lib/feed";
 import { prettyDate, stripInlineMarkdown } from "@/lib/story-parse";
 import { AI_DISCLOSURE, AI_LABEL, AI_META } from "@/lib/ai-disclosure";
+import { SITE_NAME, SITE_URL, organizationJsonLd, serializeJsonLd } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 type Params = Promise<{ kind: string; date: string }>;
 
+// generateMetadata and the page share one request per render.
+const loadArticle = cache(loadEditorialArticle);
+
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-  const { kind } = await params;
+  const { kind, date } = await params;
+  if (kind === "editorial") return editorialMetadata(date, await loadArticle(date));
+  // Daily and weekly editions depend on the reader's session and plan, so they stay out of search.
   return {
-    title: "Published edition | The Forward Pass",
+    title: "Published edition",
     robots: { index: false, follow: false },
     ...(kind === "daily" || kind === "weekly" ? { other: AI_META } : {}),
+  };
+}
+
+function editorialMetadata(slug: string, article: EditorialArticle | null): Metadata {
+  if (!article) return { title: "Article not found", robots: { index: false, follow: false } };
+  const path = `/archive/editorial/${slug}`;
+  const description = article.dek || `${KIND_LABELS[article.kind]} by ${article.author} in The Forward Pass.`;
+  return {
+    title: article.title,
+    description,
+    authors: [{ name: article.author }],
+    alternates: { canonical: path },
+    openGraph: {
+      type: "article",
+      url: path,
+      siteName: SITE_NAME,
+      title: article.title,
+      description,
+      publishedTime: article.publishedAt,
+      authors: [article.author],
+      tags: article.topics,
+      ...(article.image ? { images: [{ url: article.image, alt: article.title }] } : {}),
+    },
+    twitter: { card: "summary_large_image", site: "@forwardpassnews", title: article.title, description },
+  };
+}
+
+function articleJsonLd(article: EditorialArticle, path: string) {
+  return {
+    "@type": article.kind === "opinion" ? "OpinionNewsArticle" : article.kind === "tutorial" ? "TechArticle" : "AnalysisNewsArticle",
+    headline: article.title,
+    description: article.dek || undefined,
+    image: article.image ?? `${SITE_URL}/opengraph-image`,
+    datePublished: article.publishedAt,
+    author: { "@type": "Person", name: article.author },
+    publisher: organizationJsonLd,
+    mainEntityOfPage: `${SITE_URL}${path}`,
+    keywords: article.topics.join(", ") || undefined,
+    wordCount: article.markdown.split(/\s+/).length,
+    inLanguage: "en",
   };
 }
 
@@ -98,10 +144,14 @@ function storyNumber(outline: EditionOutline, id: string): number | null {
 }
 
 async function EditorialArticlePage({ slug }: { slug: string }) {
-  const article = await loadEditorialArticle(slug);
+  const article = await loadArticle(slug);
   if (!article) notFound();
   return (
     <main className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(articleJsonLd(article, `/archive/editorial/${slug}`)) }}
+      />
       <SiteHeader />
       <div className="mx-auto max-w-7xl px-5 pt-28 pb-24 md:px-10 md:pt-32">
         <Link href="/archive?section=editorial" className={cn(labelClass, "inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground")}>

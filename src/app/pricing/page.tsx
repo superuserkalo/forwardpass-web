@@ -4,19 +4,14 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PersonalSignup } from "@/components/personal-signup";
 import { PRICE_OPTIONS } from "@/lib/pricing";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Pricing | The Forward Pass",
+export const metadata: Metadata = pageMetadata({
+  path: "/pricing",
+  title: "Pricing",
   description:
     "A free daily issue for everyone. A personal issue written to your interests from $4.99/month.",
-  openGraph: {
-    title: "Pricing | The Forward Pass",
-    description:
-      "A free daily issue for everyone. A personal issue written to your interests from $4.99/month.",
-    type: "website",
-  },
-  twitter: { card: "summary" },
-};
+});
 
 const TIERS = [
   {

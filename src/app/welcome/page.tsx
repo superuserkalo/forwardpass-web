@@ -7,7 +7,7 @@ import { NewsletterForm } from "@/components/forward-pass-forms";
 import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
-  title: "Your edition | The Forward Pass",
+  title: "Your edition",
   robots: { index: false, follow: false },
 };
 export default async function Welcome() {

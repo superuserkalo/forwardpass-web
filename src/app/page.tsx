@@ -3,14 +3,15 @@ import { NewsletterForm } from "@/components/forward-pass-forms";
 import { Hero } from "@/components/hero";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL, organizationJsonLd, serializeJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "The Forward Pass: What's changing in AI engineering",
-  description: "A daily intelligence newsletter for people who build with AI.",
+  title: { absolute: "The Forward Pass: What's changing in AI engineering" },
+  description: SITE_DESCRIPTION,
   alternates: { canonical: "/" },
   openGraph: {
     url: "/",
-    siteName: "The Forward Pass",
+    siteName: SITE_NAME,
     title: "The Forward Pass",
     description: "What's changing in AI engineering.",
     type: "website",
@@ -30,9 +31,25 @@ const COVERAGE: Array<{ name: string; leaves: Array<string> }> = [
   { name: "open_source", leaves: ["weights", "repos", "licences", "datasets"] },
 ];
 
+const homeJsonLd = {
+  "@graph": [
+    organizationJsonLd,
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: SITE_NAME,
+      description: SITE_DESCRIPTION,
+      inLanguage: "en",
+      publisher: { "@id": organizationJsonLd["@id"] },
+    },
+  ],
+};
+
 export default function Home() {
   return (
     <main>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(homeJsonLd) }} />
       <SiteHeader />
 
       <section id="top" className="relative isolate overflow-hidden">

@@ -1,19 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter } from "@/components/site-footer";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "The Forward Pass: Privacy",
-  description: "How The Forward Pass handles your data.",
-  openGraph: {
-    title: "The Forward Pass: Privacy",
-    description: "How The Forward Pass handles your data.",
-    type: "website",
-  },
-  twitter: {
-    card: "summary",
-  },
-};
+export const metadata: Metadata = pageMetadata({
+  path: "/privacy",
+  title: "Privacy",
+  description:
+    "How The Forward Pass handles subscriber data, payments, and cookies.",
+});
 
 export default function Privacy() {
   return (
