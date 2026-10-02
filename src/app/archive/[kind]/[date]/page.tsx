@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cache } from "react";
-import ReactMarkdown, { type Components } from "react-markdown";
+import ReactMarkdown from "react-markdown";
 import { ArticleSkeleton } from "@/components/archive/skeletons";
 import { CrawlerSuspense } from "@/components/crawler-suspense";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -11,12 +11,14 @@ import { BookmarkButton, ShareButton, UpvoteButton } from "@/components/archive/
 import { StoryThumb } from "@/components/archive/story-media";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import type { ArchiveKind } from "@/lib/archive-client";
+import type { ArchiveKind, StoryImage } from "@/lib/archive-client";
 import { loadArchiveIndex, loadEditionText } from "@/lib/archive-viewer";
 import { loadEditorialArticle, loadFeed, outlineEdition, type EditionOutline, type EditorialArticle } from "@/lib/feed";
 import { prettyDate, stripInlineMarkdown } from "@/lib/story-parse";
 import { AI_DISCLOSURE, AI_LABEL, AI_META } from "@/lib/ai-disclosure";
 import { FEED_TYPES, SITE_NAME, SITE_URL, organizationJsonLd, serializeJsonLd } from "@/lib/seo";
+import { Notice, absoluteUrl, breadcrumbJsonLd, labelClass, markdownComponents, storyNumber, storyVoteId } from "@/components/archive/edition-shared";
+import { storySlug } from "@/lib/story-slug";
 import { cn } from "@/lib/utils";
 
 type Params = Promise<{ kind: string; date: string }>;
@@ -69,15 +71,6 @@ function editionMetadata(date: string, outline: EditionOutline, cover: string | 
   };
 }
 
-const absolute = (url: string) => (url.startsWith("/") ? `${SITE_URL}${url}` : url);
-
-function breadcrumbJsonLd(trail: Array<[string, string]>) {
-  return {
-    "@type": "BreadcrumbList",
-    itemListElement: trail.map(([name, path], index) => ({ "@type": "ListItem", position: index + 1, name, item: `${SITE_URL}${path}` })),
-  };
-}
-
 function editionJsonLd(date: string, outline: EditionOutline, cover: string | null) {
   const path = `/archive/daily/${date}`;
   const image = cover ?? outline.heroImage;
@@ -87,7 +80,7 @@ function editionJsonLd(date: string, outline: EditionOutline, cover: string | nu
         "@type": "NewsArticle",
         headline: outline.title,
         description: editionDek(outline) || undefined,
-        image: image ? absolute(image) : `${SITE_URL}/opengraph-image`,
+        image: image ? absoluteUrl(image) : `${SITE_URL}/opengraph-image`,
         datePublished: `${date}T07:00:00Z`,
         author: { "@id": organizationJsonLd["@id"] },
         publisher: organizationJsonLd,
@@ -133,7 +126,7 @@ function articleJsonLd(article: EditorialArticle, path: string) {
         "@type": article.kind === "opinion" ? "OpinionNewsArticle" : article.kind === "tutorial" ? "TechArticle" : "AnalysisNewsArticle",
         headline: article.title,
         description: article.dek || undefined,
-        image: article.image ? absolute(article.image) : `${SITE_URL}/opengraph-image`,
+        image: article.image ? absoluteUrl(article.image) : `${SITE_URL}/opengraph-image`,
         datePublished: article.publishedAt,
         author: { "@type": "Person", name: article.author },
         publisher: organizationJsonLd,
@@ -147,25 +140,6 @@ function articleJsonLd(article: EditorialArticle, path: string) {
     ],
   };
 }
-
-const labelClass = "font-mono text-[11px] uppercase tracking-[.2em]";
-
-const markdownComponents: Components = {
-  img: ({ src, alt }) =>
-    typeof src === "string" ? (
-      <figure>
-        {/* Edition images come from arbitrary publisher hosts. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt={alt ?? ""} loading="lazy" />
-        {alt && <figcaption>{alt}</figcaption>}
-      </figure>
-    ) : null,
-  a: ({ href, children }) => (
-    <a href={href} target={href?.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
-      {children}
-    </a>
-  ),
-};
 
 export default function EditionPage({ params }: { params: Params }) {
   return (
@@ -209,7 +183,7 @@ async function EditionContent({ params }: { params: Params }) {
                 dangerouslySetInnerHTML={{ __html: serializeJsonLd(editionJsonLd(date, outlineEdition(kind, date, edition.text), edition.image)) }}
               />
             )}
-            <Edition kind={kind} date={date} outline={outlineEdition(kind, date, edition.text)} cover={edition.image} votes={votes} />
+            <Edition kind={kind} date={date} outline={outlineEdition(kind, date, edition.text)} cover={edition.image} storyImages={edition.storyImages} votes={votes} />
           </>
         ) : edition?.status === 403 ? (
           <Notice title="Outside your archive access.">
@@ -230,16 +204,6 @@ async function EditionContent({ params }: { params: Params }) {
 
 /** 1-based story number, or null for labelled sections such as Quick signals. */
 /** Vote id for a story section: its record id when the engine marked one, else its position (older issues). */
-function storyVoteId(kind: ArchiveKind, date: string, sectionId: string, number: number): string {
-  return /^s-[a-f0-9]{16}$/.test(sectionId) ? `${kind}:${date}:${sectionId}` : `${kind}:${date}:${number - 1}`;
-}
-
-function storyNumber(outline: EditionOutline, id: string): number | null {
-  const stories = outline.sections.filter((section) => !section.label);
-  const position = stories.findIndex((section) => section.id === id);
-  return position === -1 ? null : position + 1;
-}
-
 async function EditorialArticlePage({ slug }: { slug: string }) {
   const article = await loadArticle(slug);
   if (!article) notFound();
@@ -305,15 +269,6 @@ function EditorialArticleView({ article }: { article: EditorialArticle }) {
   );
 }
 
-function Notice({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="mx-auto max-w-2xl py-28 text-center">
-      <p className="font-display text-4xl">{title}</p>
-      <p className="mt-4 text-sm leading-7 text-muted-foreground">{children}</p>
-    </div>
-  );
-}
-
 type VoteState = { upvotes: number; viewerHasUpvoted: boolean };
 
 function Edition({
@@ -321,12 +276,14 @@ function Edition({
   date,
   outline,
   cover,
+  storyImages,
   votes,
 }: {
   kind: ArchiveKind;
   date: string;
   outline: EditionOutline;
   cover: string | null;
+  storyImages: Record<string, StoryImage>;
   votes: Map<string, VoteState>;
 }) {
   const [, ...introRest] = outline.preamble.split(/\n\s*\n/);
@@ -429,7 +386,15 @@ function Edition({
                     <p className={cn("text-muted-foreground", number ? "font-mono text-[11px] tabular-nums" : labelClass + " text-[10px]")}>
                       {number ? String(number).padStart(2, "0") : "Also in this issue"}
                     </p>
-                    <h2 className="mt-2 font-display text-3xl leading-tight text-balance md:text-[2.125rem]">{section.heading}</h2>
+                    <h2 className="mt-2 font-display text-3xl leading-tight text-balance md:text-[2.125rem]">
+                      {number && kind === "daily" ? (
+                        <Link href={`/archive/daily/${date}/${storySlug(section.heading)}`} className="underline-offset-[6px] decoration-1 hover:underline">
+                          {section.heading}
+                        </Link>
+                      ) : (
+                        section.heading
+                      )}
+                    </h2>
                   </div>
                   {number && kind === "daily" && (
                     <UpvoteButton
@@ -440,6 +405,10 @@ function Edition({
                     />
                   )}
                 </div>
+              )}
+              {/* The lead story's image is already the issue's hero. */}
+              {number && number > 1 && storyImages[section.id] && (
+                <StoryThumb seed={`${editionId}:${section.id}`} image={storyImages[section.id].path} className="mb-8 aspect-[16/9]" />
               )}
               <div className="archive-copy">
                 <ReactMarkdown components={markdownComponents}>{section.body}</ReactMarkdown>

@@ -393,7 +393,7 @@ function StoryRow({ story, now }: { story: Story; now: number }) {
       </div>
       <div className="min-w-0">
         <h2 className="text-lg leading-snug font-medium text-pretty md:text-xl">
-          <Link href={story.href} className="after:absolute after:inset-0 group-hover/row:underline group-hover/row:underline-offset-4 group-hover/row:decoration-1">
+          <Link href={story.href} {...externalLink(story.href)} className="after:absolute after:inset-0 group-hover/row:underline group-hover/row:underline-offset-4 group-hover/row:decoration-1">
             {story.title}
           </Link>
         </h2>
@@ -421,7 +421,7 @@ function StoryCard({ story, now }: { story: Story; now: number }) {
           {source}
         </p>
         <h2 className="text-lg leading-snug font-medium text-balance">
-          <Link href={story.href} className="after:absolute after:inset-0 group-hover/card:underline group-hover/card:underline-offset-4 group-hover/card:decoration-1">
+          <Link href={story.href} {...externalLink(story.href)} className="after:absolute after:inset-0 group-hover/card:underline group-hover/card:underline-offset-4 group-hover/card:decoration-1">
             {story.title}
           </Link>
         </h2>
@@ -467,4 +467,9 @@ function LockedTab({ tab }: { tab: keyof typeof LOCKED_COPY }) {
       </Button>
     </div>
   );
+}
+
+// Signals link straight to their source, so they open beside the archive.
+function externalLink(href: string) {
+  return /^https?:\/\//.test(href) ? { target: "_blank", rel: "noreferrer" } : {};
 }

@@ -9,7 +9,7 @@ Daily issues are written by AI models and every fact is checked against its cite
 
 Start with the public archive for published coverage. Use the article's URL and publication date when citing it. Follow linked original sources when checking research or product claims. News describes events at publication time and may have changed since then.
 
-Every free daily issue and editorial article has a plain Markdown copy: add .md to its URL, for example https://theforwardpass.net/archive/daily/2026-10-02.md. Archive content can depend on the reader's session and subscription. A sign-in, upgrade, or unavailable notice is not the article's content. Personal editions and account preferences are not public reference material.
+Each featured story in a daily issue has its own page at /archive/daily/<date>/<story>, which is the best URL to cite for that story. Every free daily issue, story and editorial article has a plain Markdown copy: add .md to its URL, for example https://theforwardpass.net/archive/daily/2026-10-02.md. Archive content can depend on the reader's session and subscription. A sign-in, upgrade, or unavailable notice is not the article's content. Personal editions and account preferences are not public reference material.
 
 ## Read
 
@@ -26,6 +26,6 @@ Every free daily issue and editorial article has a plain Markdown copy: add .md 
 - [Collaborate](https://theforwardpass.net/collaborate): Advertising and sponsorship information.
 - [Privacy](https://theforwardpass.net/privacy): How subscriber data is handled.
 - [Imprint](https://theforwardpass.net/imprint): Publisher information.
-- [Sitemap](https://theforwardpass.net/sitemap.xml): XML index of public pages, free daily issues and editorial articles.
+- [Sitemap](https://theforwardpass.net/sitemap.xml): XML index of public pages, free daily issues, their stories and editorial articles.
 - [Crawler rules](https://theforwardpass.net/robots.txt): Crawl permissions for automated clients.
 `;

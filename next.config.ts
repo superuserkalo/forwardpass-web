@@ -6,7 +6,10 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     // Markdown copies of issues and articles sit next to their HTML pages.
-    return [{ source: "/archive/:kind/:slug.md", destination: "/markdown/:kind/:slug" }];
+    return [
+      { source: "/archive/:kind/:slug/:story.md", destination: "/markdown/:kind/:slug/:story" },
+      { source: "/archive/:kind/:slug.md", destination: "/markdown/:kind/:slug" },
+    ];
   },
 };
 

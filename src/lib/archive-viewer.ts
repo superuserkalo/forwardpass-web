@@ -27,7 +27,7 @@ export async function loadEditionText(
 ): Promise<ArchiveEntry | null> {
   const entry = await archiveEntry(kind, date, access);
   if (entry || !demoFixturesEnabled()) return entry;
-  return { status: 200, text: demoEdition(kind, date), image: null };
+  return { status: 200, text: demoEdition(kind, date), image: null, storyImages: {} };
 }
 
 /** Daily issues an anonymous reader can open: the ones search engines and feeds may carry. */
