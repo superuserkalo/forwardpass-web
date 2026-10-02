@@ -39,7 +39,10 @@ export type EditorialPiece = {
   title: string;
   dek: string;
   author: string;
-  kind: "deep-dive" | "tutorial" | "opinion";
+  kind: "deep-dive" | "tutorial" | "opinion" | "report";
+  /** Written by the engine and disclosed as AI-generated. */
+  ai: boolean;
+  sources: string[];
   image: string | null;
   publishedAt: string;
   href: string;
@@ -83,11 +86,13 @@ const remoteEditorialSchema = z.object({
       title: z.string().min(1),
       dek: z.string().catch(""),
       author: z.string().catch("The Forward Pass"),
-      kind: z.enum(["deep-dive", "tutorial", "opinion"]).catch("deep-dive"),
+      kind: z.enum(["deep-dive", "tutorial", "opinion", "report"]).catch("deep-dive"),
       image: z.string().nullish(),
       published_at: z.string(),
       href: z.string().nullish(),
       topics: z.array(z.string()).catch([]),
+      ai_generated: z.boolean().catch(false),
+      sources: z.array(z.url()).catch([]),
       upvotes: z.number().int().catch(0),
       viewer_has_upvoted: z.boolean().catch(false),
     }),
@@ -157,6 +162,8 @@ export async function remoteEditorialPieces(): Promise<EditorialPiece[] | null> 
     publishedAt: piece.published_at,
     href: piece.href ?? "/archive",
     topics: toFeedTopics(piece.topics),
+    ai: piece.ai_generated,
+    sources: piece.sources,
     upvotes: piece.upvotes,
     viewerHasUpvoted: piece.viewer_has_upvoted,
   }));
@@ -271,6 +278,8 @@ export async function loadEditorialArticle(slug: string): Promise<EditorialArtic
       publishedAt: piece.published_at,
       href: piece.href ?? `/archive/editorial/${slug}`,
       topics: toFeedTopics(piece.topics),
+      ai: piece.ai_generated,
+      sources: piece.sources,
       upvotes: piece.upvotes,
       viewerHasUpvoted: piece.viewer_has_upvoted,
       markdown: piece.markdown,

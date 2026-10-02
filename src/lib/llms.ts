@@ -5,7 +5,7 @@ export const LLMS_TXT = `# The Forward Pass
 
 The canonical website is https://theforwardpass.net. The free plan provides a general daily issue. Personal provides an issue based on the reader's interests. Professional adds weekly research on the reader's brief. Read the pricing page for current prices, trial terms, and archive access.
 
-Daily issues are written by AI models and every fact is checked against its cited source; no human edits an issue before it is sent. The about page explains the process. Editorial articles carry their author's name.
+Daily issues are written by AI models and every fact is checked against its cited source; no human edits an issue before it is sent. The about page explains the process. The Sunday deep dive and the monthly data report in the editorial archive are written the same way, bylined to The Forward Pass research desk; the monthly report's numbers are The Forward Pass's own measurements of GitHub stars and Hacker News discussion. Pieces written by people carry their author's name.
 
 Start with the public archive for published coverage. Use the article's URL and publication date when citing it. Follow linked original sources when checking research or product claims. News describes events at publication time and may have changed since then.
 

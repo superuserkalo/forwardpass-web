@@ -5,7 +5,7 @@ import { test } from "node:test";
 import { AI_DISCLOSURE, AI_LABEL, AI_META } from "../src/lib/ai-disclosure.ts";
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
-const archive = read("src/app/archive/[kind]/[date]/page.tsx");
+const archive = read("src/app/(site)/archive/[kind]/[date]/page.tsx");
 
 test("disclosure wording says the issue is AI-written with no human edit", () => {
   assert.equal(AI_LABEL, "Daily AI-generated issue");
@@ -27,5 +27,5 @@ test("archived issues carry machine-readable marking", () => {
 });
 
 test("the homepage tells visitors before they subscribe", () => {
-  assert.match(read("src/app/page.tsx"), /Daily AI-generated issues/);
+  assert.match(read("src/app/(site)/page.tsx"), /Daily AI-generated issues/);
 });

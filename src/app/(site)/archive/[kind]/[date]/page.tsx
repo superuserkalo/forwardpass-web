@@ -13,7 +13,7 @@ import { imageForSection, type ArchiveKind, type StoryImage } from "@/lib/archiv
 import { loadArchiveIndex, loadEditionText } from "@/lib/archive-viewer";
 import { loadEditorialArticle, loadFeed, outlineEdition, type EditionOutline, type EditorialArticle } from "@/lib/feed";
 import { prettyDate, stripInlineMarkdown } from "@/lib/story-parse";
-import { AI_DISCLOSURE, AI_LABEL, AI_META } from "@/lib/ai-disclosure";
+import { AI_ARTICLE_DISCLOSURE, AI_ARTICLE_LABEL, AI_DISCLOSURE, AI_LABEL, AI_META } from "@/lib/ai-disclosure";
 import { FEED_TYPES, SITE_NAME, SITE_URL, organizationJsonLd, serializeJsonLd } from "@/lib/seo";
 import { Notice, absoluteUrl, breadcrumbJsonLd, labelClass, markdownComponents, storyNumber, storyVoteId } from "@/components/archive/edition-shared";
 import { storySlug } from "@/lib/story-slug";
@@ -114,6 +114,7 @@ function editorialMetadata(slug: string, article: EditorialArticle | null): Meta
       ...(article.image ? { images: [{ url: article.image, alt: article.title }] } : {}),
     },
     twitter: { card: "summary_large_image", site: "@forwardpassnews", title: article.title, description },
+    ...(article.ai ? { other: AI_META } : {}),
   };
 }
 
@@ -126,7 +127,9 @@ function articleJsonLd(article: EditorialArticle, path: string) {
         description: article.dek || undefined,
         image: article.image ? absoluteUrl(article.image) : `${SITE_URL}/opengraph-image`,
         datePublished: article.publishedAt,
-        author: { "@type": "Person", name: article.author },
+        // Engine-written pieces are bylined to the publication, not to a person.
+        author: article.ai ? { "@id": organizationJsonLd["@id"] } : { "@type": "Person", name: article.author },
+        ...(article.sources.length ? { citation: article.sources } : {}),
         publisher: organizationJsonLd,
         mainEntityOfPage: `${SITE_URL}${path}`,
         keywords: article.topics.join(", ") || undefined,
@@ -219,7 +222,7 @@ async function EditorialArticlePage({ slug }: { slug: string }) {
   );
 }
 
-const KIND_LABELS: Record<EditorialArticle["kind"], string> = { "deep-dive": "Deep dive", tutorial: "Tutorial", opinion: "Opinion" };
+const KIND_LABELS: Record<EditorialArticle["kind"], string> = { "deep-dive": "Deep dive", tutorial: "Tutorial", opinion: "Opinion", report: "Data report" };
 const longDate = new Intl.DateTimeFormat("en", { timeZone: "UTC", month: "long", day: "numeric", year: "numeric" });
 
 function EditorialArticleView({ article }: { article: EditorialArticle }) {
@@ -237,6 +240,12 @@ function EditorialArticleView({ article }: { article: EditorialArticle }) {
         </p>
         <h1 className="mt-6 font-display text-5xl leading-[1.02] tracking-tight text-balance md:text-7xl">{article.title}</h1>
         {article.dek && <p className="mx-auto mt-7 max-w-2xl text-lg leading-8 text-muted-foreground text-pretty">{article.dek}</p>}
+        {article.ai && (
+          <>
+            <p className={cn(labelClass, "mt-6 text-[10px] text-muted-foreground")}>{AI_ARTICLE_LABEL}</p>
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-muted-foreground text-pretty">{AI_ARTICLE_DISCLOSURE}</p>
+          </>
+        )}
       </header>
       <StoryThumb seed={article.id} image={article.image} className="mx-auto mt-14 aspect-[21/9] max-w-6xl" />
       <dl className="mx-auto grid max-w-6xl grid-cols-2 border-x border-b border-border md:grid-cols-4">

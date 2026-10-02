@@ -81,10 +81,24 @@ export default function About() {
 
         <h2>Editorial articles</h2>
         <p>
-          Deep dives, tutorials and opinion pieces in the{" "}
-          <Link href="/archive?section=editorial">editorial archive</Link> carry their author&apos;s name
-          and date.
+          The <Link href="/archive?section=editorial">editorial archive</Link> has two kinds of long-form
+          piece written by the same pipeline, both bylined to The Forward Pass research desk and labelled as
+          AI-generated:
         </p>
+        <ul>
+          <li>
+            <strong>The Sunday deep dive.</strong> The week&apos;s most consequential story, researched
+            across all of its sources and checked sentence by sentence like the daily issue. Its
+            &ldquo;Try it&rdquo; steps are copied from the official documentation and say what each one
+            needs, such as an account, an API key, approval or specific hardware. We do not run them.
+          </li>
+          <li>
+            <strong>The monthly data report.</strong> What got traction in the month, from our own
+            measurements of GitHub stars and Hacker News discussion on everything we collect. Every number is
+            computed by code, and the text may only use numbers from those tables.
+          </li>
+        </ul>
+        <p>Pieces written by people carry their author&apos;s name.</p>
 
         <h2>Plans</h2>
         <p>

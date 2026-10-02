@@ -162,7 +162,7 @@ export function demoFeed(): Story[] {
   }));
 }
 
-type EditorialFixture = Omit<EditorialPiece, "id" | "publishedAt" | "href" | "image" | "viewerHasUpvoted"> & {
+type EditorialFixture = Omit<EditorialPiece, "id" | "publishedAt" | "href" | "image" | "viewerHasUpvoted" | "ai" | "sources"> & {
   daysAgo: number;
 };
 
@@ -282,6 +282,8 @@ export function demoEditorial(): EditorialPiece[] {
     ...piece,
     id: `demo:editorial:${index}`,
     image: null,
+    ai: false,
+    sources: [],
     viewerHasUpvoted: false,
     publishedAt: new Date(Date.now() - piece.daysAgo * 86_400_000).toISOString(),
     href: `/archive/editorial/demo-piece-${index}`,

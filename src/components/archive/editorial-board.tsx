@@ -9,6 +9,7 @@ export const EDITORIAL_KINDS = [
   { value: "deep-dive", label: "Deep dive" },
   { value: "tutorial", label: "Tutorial" },
   { value: "opinion", label: "Opinion" },
+  { value: "report", label: "Data report" },
 ] as const;
 
 export type EditorialFilter = (typeof EDITORIAL_KINDS)[number]["value"];
@@ -17,6 +18,7 @@ const KIND_LABELS: Record<EditorialPiece["kind"], string> = {
   "deep-dive": "Deep dive",
   tutorial: "Tutorial",
   opinion: "Opinion",
+  report: "Data report",
 };
 
 const labelClass = "font-mono text-[11px] uppercase tracking-[.2em]";

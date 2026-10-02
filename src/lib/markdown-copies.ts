@@ -1,5 +1,5 @@
 import { loadEditionText } from "./archive-viewer";
-import { AI_DISCLOSURE } from "./ai-disclosure";
+import { AI_ARTICLE_DISCLOSURE, AI_DISCLOSURE } from "./ai-disclosure";
 import { loadEditorialArticle, outlineEdition } from "./feed";
 import { SITE_NAME, SITE_URL } from "./seo";
 import { prettyDate } from "./story-parse";
@@ -29,7 +29,8 @@ export async function articleMarkdown(slug: string): Promise<MarkdownCopy | null
   if (!article) return null;
   const path = `/archive/editorial/${slug}`;
   const byline = `By ${article.author}, ${SITE_NAME}, ${article.publishedAt.slice(0, 10)}. Source: ${SITE_URL}${path}`;
-  return { path, body: [`# ${article.title}`, article.dek, byline, article.markdown.trim()].filter(Boolean).join("\n\n") + "\n" };
+  const disclosure = article.ai ? `> ${AI_ARTICLE_DISCLOSURE}` : "";
+  return { path, body: [`# ${article.title}`, article.dek, byline, disclosure, article.markdown.trim()].filter(Boolean).join("\n\n") + "\n" };
 }
 
 export async function storyMarkdown(date: string, slug: string): Promise<MarkdownCopy | null> {

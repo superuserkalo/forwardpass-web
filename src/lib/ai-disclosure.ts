@@ -5,3 +5,7 @@ export const AI_DISCLOSURE =
   "This issue is researched and written by AI models, and every fact is checked against its cited source. No human edits it before it is sent.";
 // Machine-readable marking, Article 50(2).
 export const AI_META = { "ai-generated": "true" } as const;
+// Engine-written editorial (Sunday deep dives, monthly data reports) is disclosed the same way.
+export const AI_ARTICLE_LABEL = "AI-generated article";
+export const AI_ARTICLE_DISCLOSURE =
+  "This article is researched and written by AI models from the sources it cites, and every claim is checked against them. No human edits it before it is published.";
