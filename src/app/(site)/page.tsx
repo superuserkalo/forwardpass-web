@@ -64,7 +64,7 @@ export default function Home() {
           <div>
             <h1 className="font-display whitespace-nowrap text-[1.375rem] leading-tight font-medium tracking-[-0.02em] sm:text-[2.125rem]">What matters in AI, daily.</h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              A free daily AI-generated briefing on what’s changing in AI engineering. Delivered to your inbox, Slack, Discord or Telegram.
+              A free daily AI-generated briefing on what’s changing in AI engineering. Delivered to your inbox, Slack, Discord and Telegram, and available to your AI agent via MCP.
             </p>
             <div className="w-full max-w-xl">
               <NewsletterForm animatePlaceholder />
