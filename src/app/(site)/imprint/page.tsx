@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LegalPage } from "@/components/legal-page";
 import { pageMetadata } from "@/lib/seo";
 
@@ -14,7 +15,7 @@ export default function Imprint() {
     <LegalPage eyebrow="Legal" title="Imprint" lede={<p>The Forward Pass is an independent publication about AI engineering.</p>}>
         <h2>Contact</h2>
         <p>
-          Email: <a href="mailto:hello@withradian.com">hello@withradian.com</a>
+          Email: <Link href="/contact">hello@withradian.com</Link>
         </p>
 
         <h2>Responsible for content</h2>
