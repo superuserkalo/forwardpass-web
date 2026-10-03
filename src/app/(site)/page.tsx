@@ -62,9 +62,9 @@ export default function Home() {
         />
         <div className="page-shell relative flex min-h-[calc(100svh-7.5rem)] flex-col justify-center pb-8 pt-28 md:pt-24 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-center lg:gap-x-14">
           <div>
-            <h1 className="font-display whitespace-nowrap text-[1.375rem] leading-tight font-medium tracking-[-0.02em] sm:text-[2.125rem]">Your daily briefing on AI.</h1>
+            <h1 className="font-display whitespace-nowrap text-[1.375rem] leading-tight font-medium tracking-[-0.02em] sm:text-[2.125rem]">What matters in AI, daily.</h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              The news, models, papers and tools worth keeping up with. Free, AI-generated and checked against the original sources.
+              A free daily AI-generated briefing on what’s changing in AI engineering.
             </p>
             <div className="w-full max-w-xl">
               <NewsletterForm animatePlaceholder />
