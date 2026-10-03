@@ -1,9 +1,9 @@
 import { RollingCount, ScanCounter } from "@/components/scan-counter";
 import { currentSourceCount } from "@/lib/source-count";
 
-// Publishers from the engine's source catalogue. OpenAI has no mark in the open icon set, so it is set as a name.
+// Publishers from the engine's source catalogue.
 const PUBLISHERS: Array<{ name: string; logo?: string }> = [
-  { name: "OpenAI" },
+  { name: "OpenAI", logo: "openai" },
   { name: "Anthropic", logo: "anthropic" },
   { name: "Google DeepMind", logo: "google-deepmind" },
   { name: "Meta AI", logo: "meta" },
