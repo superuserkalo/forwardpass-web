@@ -1,0 +1,1076 @@
+[
+  {
+    "date": "2026-09-25",
+    "url": "https://alphasignal.ai/email/e53c1b581ec9b101",
+    "kind": "weekday digest",
+    "body_words": 1092,
+    "leads": [
+      {
+        "position": 1,
+        "label": "Top News",
+        "display_metric": "Likes",
+        "display_metric_value": 9743,
+        "source_url": "https://huggingface.co/spaces/nvidia/nemotron-diarization",
+        "source_host": "huggingface.co",
+        "block_words": 156,
+        "body_words": 138,
+        "paragraphs": 5,
+        "bullet_points": 3,
+        "first_paragraph_words": 31,
+        "closing_paragraph_words": 28,
+        "approx_sentence_count": 8
+      },
+      {
+        "position": 2,
+        "label": "Top News",
+        "display_metric": "Likes",
+        "display_metric_value": 5685,
+        "source_url": "https://claude.com/blog/claude-marketplace",
+        "source_host": "claude.com",
+        "block_words": 172,
+        "body_words": 155,
+        "paragraphs": 4,
+        "bullet_points": 3,
+        "first_paragraph_words": 27,
+        "closing_paragraph_words": 24,
+        "approx_sentence_count": 10
+      },
+      {
+        "position": 3,
+        "label": "Top News",
+        "display_metric": "Likes",
+        "display_metric_value": 4926,
+        "source_url": "https://openai.com/index/introducing-mentalhealthbench/",
+        "source_host": "openai.com",
+        "block_words": 170,
+        "body_words": 154,
+        "paragraphs": 5,
+        "bullet_points": 3,
+        "first_paragraph_words": 36,
+        "closing_paragraph_words": 36,
+        "approx_sentence_count": 10
+      }
+    ],
+    "signals": [
+      {
+        "position": 1,
+        "headline_words": 13,
+        "source_url": "https://github.com/Contrastive-LM/CLM",
+        "source_host": "github.com",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 4512
+      },
+      {
+        "position": 2,
+        "headline_words": 21,
+        "source_url": "https://sentry.io/resources/agent-tracing-series/",
+        "source_host": "sentry.io",
+        "paid_insert": true,
+        "display_metric": null,
+        "display_metric_value": null
+      },
+      {
+        "position": 3,
+        "headline_words": 12,
+        "source_url": "https://github.com/TNT-Likely/PanWatch",
+        "source_host": "github.com",
+        "paid_insert": false,
+        "display_metric": "Stars",
+        "display_metric_value": 1771
+      },
+      {
+        "position": 4,
+        "headline_words": 11,
+        "source_url": "https://arxiv.org/abs/2609.22934",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 390
+      },
+      {
+        "position": 5,
+        "headline_words": 13,
+        "source_url": "https://huggingface.co/Viggle/Qwen-Image-2.1-viggle-turbo",
+        "source_host": "huggingface.co",
+        "paid_insert": false,
+        "display_metric": "Downloads",
+        "display_metric_value": 12425
+      },
+      {
+        "position": 6,
+        "headline_words": 11,
+        "source_url": "https://github.com/unreallabsai/unreal-agent",
+        "source_host": "github.com",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 4411
+      }
+    ],
+    "intro_words_including_greeting_and_partner_label": 84,
+    "merge_tag_in_greeting": true,
+    "extra_block": "webinar",
+    "read_time": "6 min 59 sec",
+    "lead_metrics_descending": true,
+    "organic_signal_metrics_descending": false
+  },
+  {
+    "date": "2026-09-24",
+    "url": "https://alphasignal.ai/email/328b8c3f25ea2a39",
+    "kind": "weekday digest",
+    "body_words": 1025,
+    "leads": [
+      {
+        "position": 1,
+        "label": "Top News",
+        "display_metric": "Likes",
+        "display_metric_value": 36668,
+        "source_url": "https://www.anthropic.com/news/claude-discovers-novel-enzyme-system",
+        "source_host": "www.anthropic.com",
+        "block_words": 174,
+        "body_words": 157,
+        "paragraphs": 5,
+        "bullet_points": 2,
+        "first_paragraph_words": 19,
+        "closing_paragraph_words": 17,
+        "approx_sentence_count": 14
+      },
+      {
+        "position": 2,
+        "label": "Top News",
+        "display_metric": "Likes",
+        "display_metric_value": 10171,
+        "source_url": "https://claude.ai/code/claim-credit/10",
+        "source_host": "claude.ai",
+        "block_words": 177,
+        "body_words": 158,
+        "paragraphs": 4,
+        "bullet_points": 3,
+        "first_paragraph_words": 38,
+        "closing_paragraph_words": 27,
+        "approx_sentence_count": 8
+      },
+      {
+        "position": 3,
+        "label": "Top News",
+        "display_metric": "Likes",
+        "display_metric_value": 10115,
+        "source_url": "https://twitter.com/i/web/status/2102808325742322002",
+        "source_host": "twitter.com",
+        "block_words": 163,
+        "body_words": 145,
+        "paragraphs": 5,
+        "bullet_points": 3,
+        "first_paragraph_words": 17,
+        "closing_paragraph_words": 28,
+        "approx_sentence_count": 13
+      }
+    ],
+    "signals": [
+      {
+        "position": 1,
+        "headline_words": 10,
+        "source_url": "https://github.com/anishfn/shapeshift",
+        "source_host": "github.com",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 5459
+      },
+      {
+        "position": 2,
+        "headline_words": 15,
+        "source_url": "https://pre.dev/rl-tasks",
+        "source_host": "pre.dev",
+        "paid_insert": true,
+        "display_metric": null,
+        "display_metric_value": null
+      },
+      {
+        "position": 3,
+        "headline_words": 15,
+        "source_url": "https://arxiv.org/abs/2609.25518",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 931
+      },
+      {
+        "position": 4,
+        "headline_words": 14,
+        "source_url": "https://arxiv.org/abs/2609.19107",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 657
+      },
+      {
+        "position": 5,
+        "headline_words": 10,
+        "source_url": "https://huggingface.co/unsloth/Qwen-Image-2.1-GGUF",
+        "source_host": "huggingface.co",
+        "paid_insert": false,
+        "display_metric": "Downloads",
+        "display_metric_value": 26739
+      },
+      {
+        "position": 6,
+        "headline_words": 11,
+        "source_url": "https://github.com/JohnHeibel/PDoomVideo",
+        "source_host": "github.com",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 4941
+      }
+    ],
+    "intro_words_including_greeting_and_partner_label": 81,
+    "merge_tag_in_greeting": true,
+    "extra_block": "author",
+    "read_time": "6 min 39 sec",
+    "lead_metrics_descending": true,
+    "organic_signal_metrics_descending": false
+  },
+  {
+    "date": "2026-09-23",
+    "url": "https://alphasignal.ai/email/3b0069ed2fa97e1b",
+    "kind": "weekday digest",
+    "body_words": 1044,
+    "leads": [
+      {
+        "position": 1,
+        "label": "Top News",
+        "display_metric": "Likes",
+        "display_metric_value": 125529,
+        "source_url": "https://www.anthropic.com/claude-opus-5-5",
+        "source_host": "www.anthropic.com",
+        "block_words": 174,
+        "body_words": 155,
+        "paragraphs": 4,
+        "bullet_points": 4,
+        "first_paragraph_words": 17,
+        "closing_paragraph_words": 20,
+        "approx_sentence_count": 6
+      },
+      {
+        "position": 2,
+        "label": "Top News",
+        "display_metric": "Likes",
+        "display_metric_value": 54457,
+        "source_url": "https://openai.com/index/introducing-gpt-6-sol-and-luna",
+        "source_host": "openai.com",
+        "block_words": 161,
+        "body_words": 144,
+        "paragraphs": 3,
+        "bullet_points": 4,
+        "first_paragraph_words": 41,
+        "closing_paragraph_words": 34,
+        "approx_sentence_count": 6
+      },
+      {
+        "position": 3,
+        "label": "Top Paper",
+        "display_metric": "Likes",
+        "display_metric_value": 8179,
+        "source_url": "https://arxiv.org/abs/2606.29540",
+        "source_host": "arxiv.org",
+        "block_words": 187,
+        "body_words": 169,
+        "paragraphs": 5,
+        "bullet_points": 4,
+        "first_paragraph_words": 17,
+        "closing_paragraph_words": 19,
+        "approx_sentence_count": 11
+      }
+    ],
+    "signals": [
+      {
+        "position": 1,
+        "headline_words": 10,
+        "source_url": "https://github.com/NousResearch/hermes-agent",
+        "source_host": "github.com",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 3417
+      },
+      {
+        "position": 2,
+        "headline_words": 17,
+        "source_url": "https://nyra-labs.com/crisperwhisper",
+        "source_host": "nyra-labs.com",
+        "paid_insert": true,
+        "display_metric": null,
+        "display_metric_value": null
+      },
+      {
+        "position": 3,
+        "headline_words": 15,
+        "source_url": "https://arxiv.org/abs/2609.22682",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 359
+      },
+      {
+        "position": 4,
+        "headline_words": 11,
+        "source_url": "https://arxiv.org/abs/2609.21748",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 319
+      },
+      {
+        "position": 5,
+        "headline_words": 10,
+        "source_url": "https://huggingface.co/abenzerps/Qwen-Image-2.1-GGUF",
+        "source_host": "huggingface.co",
+        "paid_insert": false,
+        "display_metric": "Downloads",
+        "display_metric_value": 182313
+      },
+      {
+        "position": 6,
+        "headline_words": 13,
+        "source_url": "https://huggingface.co/Altworld/Hemmingway-1",
+        "source_host": "huggingface.co",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 3192
+      }
+    ],
+    "intro_words_including_greeting_and_partner_label": 83,
+    "merge_tag_in_greeting": true,
+    "extra_block": "author",
+    "read_time": "6 min 46 sec",
+    "lead_metrics_descending": true,
+    "organic_signal_metrics_descending": false
+  },
+  {
+    "date": "2026-09-22",
+    "url": "https://alphasignal.ai/email/3652621d1eb3a9f5",
+    "kind": "weekday digest",
+    "body_words": 1027,
+    "leads": [
+      {
+        "position": 1,
+        "label": "Top News",
+        "display_metric": "Likes",
+        "display_metric_value": 33404,
+        "source_url": "https://x.ai/news/grok-4-7",
+        "source_host": "x.ai",
+        "block_words": 186,
+        "body_words": 167,
+        "paragraphs": 4,
+        "bullet_points": 4,
+        "first_paragraph_words": 16,
+        "closing_paragraph_words": 23,
+        "approx_sentence_count": 8
+      },
+      {
+        "position": 2,
+        "label": "Top Repo",
+        "display_metric": "Likes",
+        "display_metric_value": 4181,
+        "source_url": "https://github.com/google/ax",
+        "source_host": "github.com",
+        "block_words": 183,
+        "body_words": 167,
+        "paragraphs": 4,
+        "bullet_points": 4,
+        "first_paragraph_words": 42,
+        "closing_paragraph_words": 27,
+        "approx_sentence_count": 9
+      },
+      {
+        "position": 3,
+        "label": "Top Repo",
+        "display_metric": "Likes",
+        "display_metric_value": 4132,
+        "source_url": "https://github.com/nftechie/misalignment",
+        "source_host": "github.com",
+        "block_words": 186,
+        "body_words": 166,
+        "paragraphs": 4,
+        "bullet_points": 3,
+        "first_paragraph_words": 35,
+        "closing_paragraph_words": 40,
+        "approx_sentence_count": 7
+      }
+    ],
+    "signals": [
+      {
+        "position": 1,
+        "headline_words": 9,
+        "source_url": "https://github.com/bespokelabsai/nimble",
+        "source_host": "github.com",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 3274
+      },
+      {
+        "position": 2,
+        "headline_words": 19,
+        "source_url": "https://priorlabs.ai/tabpfn",
+        "source_host": "priorlabs.ai",
+        "paid_insert": true,
+        "display_metric": null,
+        "display_metric_value": null
+      },
+      {
+        "position": 3,
+        "headline_words": 11,
+        "source_url": "https://arxiv.org/abs/2609.21032",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 897
+      },
+      {
+        "position": 4,
+        "headline_words": 14,
+        "source_url": "https://arxiv.org/abs/2609.22068",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 537
+      },
+      {
+        "position": 5,
+        "headline_words": 9,
+        "source_url": "https://huggingface.co/abenzerps/Qwen-Image-2.1-Uncensored-GGUF",
+        "source_host": "huggingface.co",
+        "paid_insert": false,
+        "display_metric": "Downloads",
+        "display_metric_value": 33232
+      },
+      {
+        "position": 6,
+        "headline_words": 12,
+        "source_url": "https://www.qwencloud.com/models/qwen3.8-livetranslate-flash-realtime",
+        "source_host": "www.qwencloud.com",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 2869
+      }
+    ],
+    "intro_words_including_greeting_and_partner_label": 67,
+    "merge_tag_in_greeting": true,
+    "extra_block": "author",
+    "read_time": "6 min 40 sec",
+    "lead_metrics_descending": true,
+    "organic_signal_metrics_descending": false
+  },
+  {
+    "date": "2026-09-21",
+    "url": "https://alphasignal.ai/email/9a9e1854d7195c32",
+    "kind": "weekday digest",
+    "body_words": 1141,
+    "leads": [
+      {
+        "position": 1,
+        "label": "Top Repo",
+        "display_metric": "Likes",
+        "display_metric_value": 31140,
+        "source_url": "https://github.com/anthropics/claude-code",
+        "source_host": "github.com",
+        "block_words": 171,
+        "body_words": 154,
+        "paragraphs": 4,
+        "bullet_points": 4,
+        "first_paragraph_words": 48,
+        "closing_paragraph_words": 19,
+        "approx_sentence_count": 10
+      },
+      {
+        "position": 2,
+        "label": "Top Repo",
+        "display_metric": "Likes",
+        "display_metric_value": 7596,
+        "source_url": "https://github.com/vercel-labs/json-render",
+        "source_host": "github.com",
+        "block_words": 181,
+        "body_words": 165,
+        "paragraphs": 5,
+        "bullet_points": 3,
+        "first_paragraph_words": 26,
+        "closing_paragraph_words": 25,
+        "approx_sentence_count": 9
+      },
+      {
+        "position": 3,
+        "label": "Top Repo",
+        "display_metric": "Likes",
+        "display_metric_value": 7263,
+        "source_url": "https://github.com/mizorewww/laya-mlx",
+        "source_host": "github.com",
+        "block_words": 189,
+        "body_words": 170,
+        "paragraphs": 4,
+        "bullet_points": 4,
+        "first_paragraph_words": 45,
+        "closing_paragraph_words": 24,
+        "approx_sentence_count": 9
+      }
+    ],
+    "signals": [
+      {
+        "position": 1,
+        "headline_words": 12,
+        "source_url": "https://www.modelscope.cn/models/Qwen/Qwen-Image-2.1",
+        "source_host": "www.modelscope.cn",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 7253
+      },
+      {
+        "position": 2,
+        "headline_words": 19,
+        "source_url": "https://attio.com/",
+        "source_host": "attio.com",
+        "paid_insert": true,
+        "display_metric": null,
+        "display_metric_value": null
+      },
+      {
+        "position": 3,
+        "headline_words": 13,
+        "source_url": "https://arxiv.org/abs/2609.16247",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 4311
+      },
+      {
+        "position": 4,
+        "headline_words": 13,
+        "source_url": "https://arxiv.org/abs/2609.20807",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 856
+      },
+      {
+        "position": 5,
+        "headline_words": 13,
+        "source_url": "https://huggingface.co/jaredpalmer/kev-0.5b",
+        "source_host": "huggingface.co",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 1583
+      },
+      {
+        "position": 6,
+        "headline_words": 11,
+        "source_url": "https://x.ai/news/grok-voice-transcribe-2",
+        "source_host": "x.ai",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 6218
+      }
+    ],
+    "intro_words_including_greeting_and_partner_label": 83,
+    "merge_tag_in_greeting": true,
+    "extra_block": "author",
+    "read_time": "7 min 15 sec",
+    "lead_metrics_descending": true,
+    "organic_signal_metrics_descending": false
+  },
+  {
+    "date": "2026-09-20",
+    "url": "https://alphasignal.ai/email/8f2be5a907777e51",
+    "kind": "Sunday analysis",
+    "body_words": 1218,
+    "leads": [],
+    "signals": [],
+    "intro_words_including_greeting_and_partner_label": 90,
+    "merge_tag_in_greeting": false,
+    "author": "Ben Dickson",
+    "article_block_words": 1018,
+    "subheading_count": 0
+  },
+  {
+    "date": "2026-09-18",
+    "url": "https://alphasignal.ai/email/14924a1270da94a1",
+    "kind": "weekday digest",
+    "body_words": 1178,
+    "leads": [
+      {
+        "position": 1,
+        "label": "Top News",
+        "display_metric": "Likes",
+        "display_metric_value": 13307,
+        "source_url": "https://openai.com/index/astra-for-law/",
+        "source_host": "openai.com",
+        "block_words": 165,
+        "body_words": 147,
+        "paragraphs": 4,
+        "bullet_points": 4,
+        "first_paragraph_words": 32,
+        "closing_paragraph_words": 28,
+        "approx_sentence_count": 6
+      },
+      {
+        "position": 2,
+        "label": "Top News",
+        "display_metric": "Likes",
+        "display_metric_value": 8657,
+        "source_url": "https://code.claude.com/docs/en/claude-projects",
+        "source_host": "code.claude.com",
+        "block_words": 196,
+        "body_words": 178,
+        "paragraphs": 5,
+        "bullet_points": 4,
+        "first_paragraph_words": 27,
+        "closing_paragraph_words": 14,
+        "approx_sentence_count": 14
+      },
+      {
+        "position": 3,
+        "label": "Top Repo",
+        "display_metric": "Likes",
+        "display_metric_value": 7129,
+        "source_url": "https://github.com/browser-use/jev-ultrafast",
+        "source_host": "github.com",
+        "block_words": 184,
+        "body_words": 164,
+        "paragraphs": 3,
+        "bullet_points": 4,
+        "first_paragraph_words": 36,
+        "closing_paragraph_words": 27,
+        "approx_sentence_count": 8
+      }
+    ],
+    "signals": [
+      {
+        "position": 1,
+        "headline_words": 12,
+        "source_url": "https://github.com/PrismML-Eng/Bonsai-demo",
+        "source_host": "github.com",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 4359
+      },
+      {
+        "position": 2,
+        "headline_words": 19,
+        "source_url": "https://sentry.io/resources/agent-tracing-series/",
+        "source_host": "sentry.io",
+        "paid_insert": true,
+        "display_metric": null,
+        "display_metric_value": null
+      },
+      {
+        "position": 3,
+        "headline_words": 15,
+        "source_url": "https://arxiv.org/abs/2609.03181",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 1109
+      },
+      {
+        "position": 4,
+        "headline_words": 12,
+        "source_url": "https://arxiv.org/abs/2609.11638",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 999
+      },
+      {
+        "position": 5,
+        "headline_words": 13,
+        "source_url": "https://huggingface.co/empero-ai/Qwen3.8-35B-A3B-Distill-GGUF",
+        "source_host": "huggingface.co",
+        "paid_insert": false,
+        "display_metric": "Downloads",
+        "display_metric_value": 4633
+      },
+      {
+        "position": 6,
+        "headline_words": 13,
+        "source_url": "https://github.com/tamaratran/fast-jev-compaction",
+        "source_host": "github.com",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 4044
+      }
+    ],
+    "intro_words_including_greeting_and_partner_label": 81,
+    "merge_tag_in_greeting": true,
+    "extra_block": "webinar",
+    "read_time": "7 min 23 sec",
+    "lead_metrics_descending": true,
+    "organic_signal_metrics_descending": false
+  },
+  {
+    "date": "2026-09-17",
+    "url": "https://alphasignal.ai/email/712af216aa4a9b2c",
+    "kind": "weekday digest",
+    "body_words": 1028,
+    "leads": [
+      {
+        "position": 1,
+        "label": "Top News",
+        "display_metric": "Likes",
+        "display_metric_value": 15717,
+        "source_url": "https://claude.com/blog/cowork-is-now-claude",
+        "source_host": "claude.com",
+        "block_words": 167,
+        "body_words": 149,
+        "paragraphs": 5,
+        "bullet_points": 3,
+        "first_paragraph_words": 16,
+        "closing_paragraph_words": 21,
+        "approx_sentence_count": 9
+      },
+      {
+        "position": 2,
+        "label": "Top Paper",
+        "display_metric": "Likes",
+        "display_metric_value": 5433,
+        "source_url": "https://arxiv.org/abs/2609.14858",
+        "source_host": "arxiv.org",
+        "block_words": 189,
+        "body_words": 171,
+        "paragraphs": 4,
+        "bullet_points": 3,
+        "first_paragraph_words": 26,
+        "closing_paragraph_words": 26,
+        "approx_sentence_count": 13
+      },
+      {
+        "position": 3,
+        "label": "Top Model",
+        "display_metric": "Likes",
+        "display_metric_value": 3805,
+        "source_url": "https://huggingface.co/meituan-longcat/LongCat-Video-Avatar-1.5",
+        "source_host": "huggingface.co",
+        "block_words": 179,
+        "body_words": 159,
+        "paragraphs": 4,
+        "bullet_points": 4,
+        "first_paragraph_words": 37,
+        "closing_paragraph_words": 43,
+        "approx_sentence_count": 8
+      }
+    ],
+    "signals": [
+      {
+        "position": 1,
+        "headline_words": 11,
+        "source_url": "https://huggingface.co/harshatheg/Qwen-2.5-1B-RLCD",
+        "source_host": "huggingface.co",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 3592
+      },
+      {
+        "position": 2,
+        "headline_words": 18,
+        "source_url": "https://www.youtube.com/watch",
+        "source_host": "www.youtube.com",
+        "paid_insert": true,
+        "display_metric": null,
+        "display_metric_value": null
+      },
+      {
+        "position": 3,
+        "headline_words": 16,
+        "source_url": "https://arxiv.org/abs/2609.15468",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 1519
+      },
+      {
+        "position": 4,
+        "headline_words": 12,
+        "source_url": "https://arxiv.org/abs/2608.27454",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 396
+      },
+      {
+        "position": 5,
+        "headline_words": 12,
+        "source_url": "https://arxiv.org/abs/2609.04108",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 289
+      },
+      {
+        "position": 6,
+        "headline_words": 11,
+        "source_url": "https://openai.com/index/model-misalignment-reporting-framework/",
+        "source_host": "openai.com",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 3551
+      }
+    ],
+    "intro_words_including_greeting_and_partner_label": 86,
+    "merge_tag_in_greeting": true,
+    "extra_block": "author",
+    "read_time": "6 min 32 sec",
+    "lead_metrics_descending": true,
+    "organic_signal_metrics_descending": false
+  },
+  {
+    "date": "2026-09-16",
+    "url": "https://alphasignal.ai/email/b99508ee22518e06",
+    "kind": "weekday digest",
+    "body_words": 1050,
+    "leads": [
+      {
+        "position": 1,
+        "label": "Top News",
+        "display_metric": "Likes",
+        "display_metric_value": 8063,
+        "source_url": "https://claude.com/blog/salesforce-in-claude",
+        "source_host": "claude.com",
+        "block_words": 177,
+        "body_words": 161,
+        "paragraphs": 5,
+        "bullet_points": 3,
+        "first_paragraph_words": 22,
+        "closing_paragraph_words": 14,
+        "approx_sentence_count": 10
+      },
+      {
+        "position": 2,
+        "label": "Top Repo",
+        "display_metric": "Likes",
+        "display_metric_value": 3613,
+        "source_url": "https://github.com/meituan-longcat/LongCat-Video",
+        "source_host": "github.com",
+        "block_words": 187,
+        "body_words": 167,
+        "paragraphs": 4,
+        "bullet_points": 4,
+        "first_paragraph_words": 37,
+        "closing_paragraph_words": 23,
+        "approx_sentence_count": 10
+      },
+      {
+        "position": 3,
+        "label": "Top News",
+        "display_metric": "Likes",
+        "display_metric_value": 3229,
+        "source_url": "https://odyssey.systems/introducing-odyssey-3",
+        "source_host": "odyssey.systems",
+        "block_words": 176,
+        "body_words": 157,
+        "paragraphs": 3,
+        "bullet_points": 4,
+        "first_paragraph_words": 32,
+        "closing_paragraph_words": 31,
+        "approx_sentence_count": 9
+      }
+    ],
+    "signals": [
+      {
+        "position": 1,
+        "headline_words": 13,
+        "source_url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-live-gemini-3-8-live-extended-thinking/",
+        "source_host": "blog.google",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 2818
+      },
+      {
+        "position": 2,
+        "headline_words": 15,
+        "source_url": "https://workos.com/auth-md",
+        "source_host": "workos.com",
+        "paid_insert": true,
+        "display_metric": null,
+        "display_metric_value": null
+      },
+      {
+        "position": 3,
+        "headline_words": 11,
+        "source_url": "https://arxiv.org/abs/2609.10883",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 552
+      },
+      {
+        "position": 4,
+        "headline_words": 13,
+        "source_url": "https://arxiv.org/abs/2609.13443",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 248
+      },
+      {
+        "position": 5,
+        "headline_words": 12,
+        "source_url": "https://arxiv.org/abs/2609.14605",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 158
+      },
+      {
+        "position": 6,
+        "headline_words": 11,
+        "source_url": "https://github.com/SakanaAI/pc-alm",
+        "source_host": "github.com",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 2720
+      }
+    ],
+    "intro_words_including_greeting_and_partner_label": 78,
+    "merge_tag_in_greeting": true,
+    "extra_block": "author",
+    "read_time": "6 min 42 sec",
+    "lead_metrics_descending": true,
+    "organic_signal_metrics_descending": false
+  },
+  {
+    "date": "2026-09-15",
+    "url": "https://alphasignal.ai/email/0f2b79151c7087e6",
+    "kind": "weekday digest",
+    "body_words": 1023,
+    "leads": [
+      {
+        "position": 1,
+        "label": "Top Repo",
+        "display_metric": "Likes",
+        "display_metric_value": 12785,
+        "source_url": "https://github.com/Frankweb33/flybrain-robot-bridge",
+        "source_host": "github.com",
+        "block_words": 185,
+        "body_words": 167,
+        "paragraphs": 5,
+        "bullet_points": 3,
+        "first_paragraph_words": 39,
+        "closing_paragraph_words": 10,
+        "approx_sentence_count": 9
+      },
+      {
+        "position": 2,
+        "label": "Top Repo",
+        "display_metric": "Likes",
+        "display_metric_value": 7254,
+        "source_url": "https://github.com/yifanzhang-pro/recurrent-looped-tranformer",
+        "source_host": "github.com",
+        "block_words": 154,
+        "body_words": 138,
+        "paragraphs": 4,
+        "bullet_points": 3,
+        "first_paragraph_words": 30,
+        "closing_paragraph_words": 32,
+        "approx_sentence_count": 10
+      },
+      {
+        "position": 3,
+        "label": "Top Repo",
+        "display_metric": "Likes",
+        "display_metric_value": 3317,
+        "source_url": "https://github.com/totec448-spec/chat-on-steroids",
+        "source_host": "github.com",
+        "block_words": 159,
+        "body_words": 141,
+        "paragraphs": 5,
+        "bullet_points": 4,
+        "first_paragraph_words": 27,
+        "closing_paragraph_words": 25,
+        "approx_sentence_count": 10
+      }
+    ],
+    "signals": [
+      {
+        "position": 1,
+        "headline_words": 13,
+        "source_url": "https://github.com/shadcn-ui/lint",
+        "source_host": "github.com",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 2520
+      },
+      {
+        "position": 2,
+        "headline_words": 21,
+        "source_url": "https://attio.com/",
+        "source_host": "attio.com",
+        "paid_insert": true,
+        "display_metric": null,
+        "display_metric_value": null
+      },
+      {
+        "position": 3,
+        "headline_words": 13,
+        "source_url": "https://arxiv.org/abs/2609.11873",
+        "source_host": "arxiv.org",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 784
+      },
+      {
+        "position": 4,
+        "headline_words": 12,
+        "source_url": "https://github.com/harry0703/MoneyPrinterTurbo",
+        "source_host": "github.com",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 2322
+      },
+      {
+        "position": 5,
+        "headline_words": 17,
+        "source_url": "https://github.com/Gitlawb/openclaude",
+        "source_host": "github.com",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 2036
+      },
+      {
+        "position": 6,
+        "headline_words": 11,
+        "source_url": "https://huggingface.co/DavidAU/Qwen3.8-27B-TURBO-Fable-Cold-Fusion-735-882-Heretic-Uncensored-NEO-CODER-MAX-MTP-GGUF",
+        "source_host": "huggingface.co",
+        "paid_insert": false,
+        "display_metric": "Likes",
+        "display_metric_value": 2263
+      }
+    ],
+    "intro_words_including_greeting_and_partner_label": 74,
+    "merge_tag_in_greeting": true,
+    "extra_block": "author",
+    "read_time": "6 min 33 sec",
+    "lead_metrics_descending": true,
+    "organic_signal_metrics_descending": false
+  },
+  {
+    "date": "2026-09-13",
+    "url": "https://alphasignal.ai/email/dbce367ad97e73c6",
+    "kind": "Sunday analysis",
+    "body_words": 1507,
+    "leads": [],
+    "signals": [],
+    "intro_words_including_greeting_and_partner_label": 81,
+    "merge_tag_in_greeting": false,
+    "author": "Ben Dickson",
+    "article_block_words": 1312,
+    "subheading_count": 0
+  },
+  {
+    "date": "2026-09-06",
+    "url": "https://alphasignal.ai/email/16eeb59411f865b1",
+    "kind": "Sunday analysis",
+    "body_words": 1215,
+    "leads": [],
+    "signals": [],
+    "intro_words_including_greeting_and_partner_label": 85,
+    "merge_tag_in_greeting": false,
+    "author": "Ben Dickson",
+    "article_block_words": 1014,
+    "subheading_count": 0
+  }
+]

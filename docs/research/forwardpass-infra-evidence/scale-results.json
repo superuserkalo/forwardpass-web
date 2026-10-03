@@ -1,0 +1,40 @@
+{
+  "snapshotDate": "2026-09-24T20:33:42.280Z",
+  "sourceRecords": 1992,
+  "communityRecords": 710,
+  "canonicalCandidates": 2665,
+  "measuredAttentionCandidates": 802,
+  "realVelocityCandidates": 0,
+  "grouping": {
+    "assumption": "Every candidate pair judged a distinct event; title prefilter still executes unchanged",
+    "groups": 2665,
+    "possibleJudgeCalls": 2465,
+    "cpuMilliseconds": 8623
+  },
+  "brief": {
+    "assumption": "Captured excerpts unavailable; real source text and history can increase prompt length",
+    "characters": 568583,
+    "maxRetainedSummaryCharacters": 60
+  },
+  "portfolio": {
+    "budget": 400,
+    "inputPriority": [
+      "high-priority",
+      "lower-priority-0",
+      "lower-priority-1",
+      "lower-priority-2",
+      "lower-priority-3",
+      "lower-priority-4",
+      "lower-priority-5"
+    ],
+    "selected": [
+      "lower-priority-0",
+      "lower-priority-1",
+      "lower-priority-2",
+      "lower-priority-3",
+      "lower-priority-4",
+      "lower-priority-5"
+    ],
+    "selectedEstimatedWords": 360
+  }
+}

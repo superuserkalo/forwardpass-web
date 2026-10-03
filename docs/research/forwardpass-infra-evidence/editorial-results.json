@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "titleSimilarity": 0,
+    "groups": 2,
+    "semanticCalls": 0
+  },
+  "evidence": {
+    "singleEventAcceptedUnrelated": true,
+    "zeroVerifiedCoverageSelected": 1
+  },
+  "priority": {
+    "inputFirst": "editor-first-major",
+    "selected": [
+      "lower-priority-0",
+      "lower-priority-1",
+      "lower-priority-2",
+      "lower-priority-3",
+      "lower-priority-4"
+    ]
+  },
+  "renderingRoundTrip": {
+    "renderedStories": 1,
+    "readerStories": 0,
+    "emailStories": 1
+  },
+  "actualBudget": {
+    "allocated": 60,
+    "renderedWords": 2519,
+    "characters": 12644,
+    "lengthGuardAccepted": true
+  },
+  "huggingFaceNormalization": [
+    {
+      "guid": "fixture/model",
+      "link": "https://huggingface.co/fixture/model",
+      "title": "fixture/model",
+      "description": "text-generation",
+      "undated": true,
+      "revision": "2026-09-26",
+      "watch": true
+    }
+  ]
+}

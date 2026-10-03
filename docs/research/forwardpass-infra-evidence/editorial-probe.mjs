@@ -1,0 +1,21 @@
+import { textSimilarity, groupEditorialEvents, selectIssuePortfolio } from '/Users/kalo/forwardpass/agent/lib/editorial-selection.ts';
+import { hasContributingEvidence } from '/Users/kalo/forwardpass/agent/lib/editorial-evidence.ts';
+import { renderEditorialDraft } from '/Users/kalo/forwardpass/agent/lib/editorial-draft.ts';
+import { assertPublishableIssue } from '/Users/kalo/forwardpass/agent/lib/publication.ts';
+import { editionStories } from '/Users/kalo/forwardpass/agent/lib/edition-stories.ts';
+import { parseIssue } from '/Users/kalo/forwardpass/agent/lib/email-html.ts';
+import { jsonIndex } from '/Users/kalo/forwardpass/agent/lib/source-index.ts';
+const date='2026-09-26';
+const candidate=(id,title)=>({title,summary:'Synthetic pure-function fixture.',url:`https://example.test/${id}`,publishedAt:`${date}T00:00:00Z`,source:'Fixture',category:'research'});
+const card=(id,title)=>({id,candidate:candidate(id,title),date,documentId:`doc-${id}`,previousDocumentId:null,status:'captured',excerpt:'Same model release with repository and weights.',changedExcerpt:'',assessment:{relevant:1,substantive:1,change:'new',kind:'release',probabilities:{}}});
+const story={title:'Supported observation',whatHappened:'The system uses a cache.',previousState:'',technicalChange:'',whyItMatters:'',claims:[{claim:'The system uses a cache.',sourceUrl:'https://example.test/source',evidence:'The system uses a cache.'}],caveats:[],unansweredQuestions:[],recommendedDisposition:'main'};
+const result=(id,words,verifiedCoverage=['answered'])=>({job:{id,title:id,eventIds:[id],historyIds:[],question:'Does it improve real deployment reliability?',coverage:['reliability'],essential:false,targetWords:words},story,checks:[],publishable:true,verifiedCoverage});
+const a=card('a','LongCat-Video-Avatar-1.5');
+const b=card('b','Meituan releases a faster open talking-head generator');
+let semanticCalls=0;const groups=await groupEditorialEvents([a,b],async()=>{semanticCalls++;return true;});
+const unrelated={claim:'A different system uses a cache.',sourceUrl:'https://other.test/unrelated',documentId:'unrelated-document',accepted:true};
+const noAnswer=result('unanswered',100,[]);
+const priorityInput=[result('editor-first-major',400),...Array.from({length:5},(_,i)=>result(`lower-priority-${i}`,60,[`minor-${i}`]))];
+const longResult=result('long',60);const draft={stories:[{jobId:'long',headline:'Supported observation',whatHappened:Array(500).fill('The system uses a cache.').join(' '),whyItMatters:'The system uses a cache.'}]};const markdown=renderEditorialDraft(date,draft,[longResult]);
+let lengthGuardAccepted=false;try{assertPublishableIssue(markdown,[{story,publishable:true,disposition:'lead'}],date);lengthGuardAccepted=true;}catch{}
+console.log(JSON.stringify({identity:{titleSimilarity:textSimilarity(a.candidate.title,b.candidate.title),groups:groups.length,semanticCalls},evidence:{singleEventAcceptedUnrelated:hasContributingEvidence(noAnswer.job,[unrelated],[{id:'unanswered',cards:[a]}]),zeroVerifiedCoverageSelected:selectIssuePortfolio([noAnswer]).length},priority:{inputFirst:priorityInput[0].job.id,selected:selectIssuePortfolio(priorityInput,400).map(r=>r.job.id)},renderingRoundTrip:{renderedStories:draft.stories.length,readerStories:editionStories(markdown).length,emailStories:parseIssue(markdown).stories.length},actualBudget:{allocated:60,renderedWords:markdown.split(/\s+/).length,characters:markdown.length,lengthGuardAccepted},huggingFaceNormalization:jsonIndex({url:'https://huggingface.co/api/models?author=fixture'},JSON.stringify([{id:'fixture/model',pipeline_tag:'text-generation',lastModified:'2026-09-26',likes:812,downloads:45000}]))},null,2));

@@ -1,0 +1,183 @@
+{
+  "robotics-widening-false": {
+    "source_url": "https://api.alphasignal.ai/api/news",
+    "observed_at": "2026-09-26",
+    "request": {
+      "page": 1,
+      "limit": 3,
+      "sort": "upvotes",
+      "timeframe": "24h",
+      "categories": [
+        "robotics"
+      ]
+    },
+    "metadata": {
+      "total_records": 0,
+      "total_pages": 0,
+      "current_page": 1,
+      "limit": 3,
+      "entity_metadata": {
+        "authors": {},
+        "topics": {}
+      }
+    },
+    "items": []
+  },
+  "robotics-widening-true": {
+    "source_url": "https://api.alphasignal.ai/api/news",
+    "observed_at": "2026-09-26",
+    "request": {
+      "page": 1,
+      "limit": 3,
+      "sort": "upvotes",
+      "timeframe": "24h",
+      "categories": [
+        "robotics"
+      ],
+      "allow_widening": true
+    },
+    "metadata": {
+      "total_records": 2,
+      "total_pages": 1,
+      "current_page": 1,
+      "limit": 3,
+      "new_timeframe": "3d",
+      "entity_metadata": {
+        "authors": {
+          "odysseyml": {
+            "article_count": 4
+          },
+          "bfl_ai": {
+            "article_count": 14
+          }
+        },
+        "topics": {
+          "video": {
+            "article_count": 409
+          },
+          "robotics": {
+            "article_count": 624
+          },
+          "open_source": {
+            "article_count": 1341
+          }
+        }
+      }
+    },
+    "items": [
+      {
+        "slug": "odyssey-s-agora-2-lets-20-players-share-one-ai-generated-world",
+        "publish_time": "2026-09-24T15:37:36.000Z",
+        "upvotes": 2967,
+        "content_type": "news",
+        "regular_categories": [
+          "video",
+          "robotics"
+        ]
+      },
+      {
+        "slug": "black-forest-labs-flux-3-action-beats-pi0-5-at-robot-control-by-1-66x",
+        "publish_time": "2026-09-23T17:46:26.000Z",
+        "upvotes": 2035,
+        "content_type": "news",
+        "regular_categories": [
+          "robotics",
+          "open_source"
+        ]
+      }
+    ]
+  },
+  "widening-false": {
+    "source_url": "https://api.alphasignal.ai/api/news",
+    "observed_at": "2026-09-26",
+    "request": {
+      "page": 1,
+      "limit": 12,
+      "sort": "upvotes",
+      "timeframe": "24h",
+      "categories": [
+        "retrieval"
+      ]
+    },
+    "metadata": {
+      "total_records": 1,
+      "total_pages": 1,
+      "current_page": 1,
+      "limit": 12,
+      "entity_metadata": {
+        "authors": {
+          "alphasignal": {
+            "article_count": 4544
+          }
+        },
+        "topics": {
+          "retrieval": {
+            "article_count": 303
+          },
+          "open_source": {
+            "article_count": 1341
+          }
+        }
+      }
+    },
+    "items": [
+      {
+        "slug": "hugging-face-s-stsb-bert-tiny-packs-a-full-embedding-stack-into-17-6-mb",
+        "publish_time": "2026-09-25T21:14:59.147Z",
+        "upvotes": 3368,
+        "content_type": "model",
+        "regular_categories": [
+          "retrieval",
+          "open_source"
+        ]
+      }
+    ]
+  },
+  "widening-true": {
+    "source_url": "https://api.alphasignal.ai/api/news",
+    "observed_at": "2026-09-26",
+    "request": {
+      "page": 1,
+      "limit": 12,
+      "sort": "upvotes",
+      "timeframe": "24h",
+      "categories": [
+        "retrieval"
+      ],
+      "allow_widening": true
+    },
+    "metadata": {
+      "total_records": 1,
+      "total_pages": 1,
+      "current_page": 1,
+      "limit": 12,
+      "entity_metadata": {
+        "authors": {
+          "alphasignal": {
+            "article_count": 4544
+          }
+        },
+        "topics": {
+          "retrieval": {
+            "article_count": 303
+          },
+          "open_source": {
+            "article_count": 1341
+          }
+        }
+      }
+    },
+    "items": [
+      {
+        "slug": "hugging-face-s-stsb-bert-tiny-packs-a-full-embedding-stack-into-17-6-mb",
+        "publish_time": "2026-09-25T21:14:59.147Z",
+        "upvotes": 3368,
+        "content_type": "model",
+        "regular_categories": [
+          "retrieval",
+          "open_source"
+        ]
+      }
+    ]
+  }
+}

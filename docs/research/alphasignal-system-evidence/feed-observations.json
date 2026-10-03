@@ -1,0 +1,3669 @@
+{
+  "observed_at": "2026-09-26T11:49:03.919048+00:00",
+  "source": "https://api.alphasignal.ai/mcp",
+  "queries": {
+    "latest": {
+      "request": {
+        "jsonrpc": "2.0",
+        "id": "latest",
+        "method": "tools/call",
+        "params": {
+          "name": "list_news",
+          "arguments": {
+            "sort": "latest",
+            "limit": 50
+          }
+        }
+      },
+      "metadata": {
+        "total_records": 6501,
+        "total_pages": 131,
+        "current_page": 1,
+        "limit": 50,
+        "entity_metadata": {
+          "authors": {
+            "alphasignal": {
+              "article_count": 4544
+            },
+            "googleai": {
+              "article_count": 10
+            },
+            "anthropicai": {
+              "article_count": 44
+            },
+            "runwayml": {
+              "article_count": 35
+            },
+            "exaailabs": {
+              "article_count": 11
+            },
+            "replit": {
+              "article_count": 15
+            },
+            "zeddotdev": {
+              "article_count": 24
+            },
+            "togethercompute": {
+              "article_count": 9
+            },
+            "sarvamai": {
+              "article_count": 17
+            },
+            "artificialanlys": {
+              "article_count": 99
+            },
+            "arena": {
+              "article_count": 13
+            },
+            "googleresearch": {
+              "article_count": 37
+            },
+            "midjourney": {
+              "article_count": 9
+            },
+            "perplexity_ai": {
+              "article_count": 39
+            },
+            "krea_ai": {
+              "article_count": 22
+            },
+            "msdev": {
+              "article_count": 15
+            },
+            "claudedevs": {
+              "article_count": 26
+            },
+            "sakanaailabs": {
+              "article_count": 31
+            },
+            "odysseyml": {
+              "article_count": 4
+            },
+            "p0": {
+              "article_count": 2
+            },
+            "adham__khaled__": {
+              "article_count": 14
+            },
+            "liquidai": {
+              "article_count": 29
+            },
+            "databricks": {
+              "article_count": 13
+            },
+            "tencenthunyuan": {
+              "article_count": 38
+            },
+            "aiatmeta": {
+              "article_count": 34
+            }
+          },
+          "topics": {
+            "retrieval": {
+              "article_count": 303
+            },
+            "open_source": {
+              "article_count": 1341
+            },
+            "llms": {
+              "article_count": 1540
+            },
+            "development": {
+              "article_count": 1181
+            },
+            "audio": {
+              "article_count": 378
+            },
+            "reasoning": {
+              "article_count": 506
+            },
+            "agents": {
+              "article_count": 1140
+            },
+            "video": {
+              "article_count": 409
+            },
+            "api": {
+              "article_count": 271
+            },
+            "vibe_coding": {
+              "article_count": 144
+            },
+            "business": {
+              "article_count": 187
+            },
+            "benchmarks": {
+              "article_count": 991
+            },
+            "image": {
+              "article_count": 1056
+            },
+            "gpus": {
+              "article_count": 405
+            },
+            "post_training": {
+              "article_count": 649
+            },
+            "security": {
+              "article_count": 532
+            },
+            "infra": {
+              "article_count": 414
+            },
+            "training_infra": {
+              "article_count": 338
+            },
+            "data": {
+              "article_count": 522
+            },
+            "robotics": {
+              "article_count": 624
+            }
+          }
+        }
+      },
+      "items": [
+        {
+          "_id": "6ab6e46f8cb49c4afa451001",
+          "slug": "hugging-face-s-stsb-bert-tiny-packs-a-full-embedding-stack-into-17-6-mb",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "retrieval",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T21:14:59.147Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 3368,
+          "url": "https://alphasignal.ai/news/hugging-face-s-stsb-bert-tiny-packs-a-full-embedding-stack-into-17-6-mb"
+        },
+        {
+          "_id": "6ab6c19a8cb49c4afa450ff8",
+          "slug": "typellm-forces-llms-to-return-valid-json-every-time-5-8x-faster",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "development"
+          ],
+          "publish_time": "2026-09-25T18:46:35.383Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 2538,
+          "url": "https://alphasignal.ai/news/typellm-forces-llms-to-return-valid-json-every-time-5-8x-faster"
+        },
+        {
+          "_id": "6ab6ce358cb49c4afa450ffe",
+          "slug": "google-s-gemini-3-8-brings-programmable-voices-and-sends-tpus-into-orbit",
+          "username": "googleai",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "llms"
+          ],
+          "publish_time": "2026-09-25T18:28:00.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 403,
+          "url": "https://alphasignal.ai/news/google-s-gemini-3-8-brings-programmable-voices-and-sends-tpus-into-orbit"
+        },
+        {
+          "_id": "6ab6b613bce380b74a841e97",
+          "slug": "anthropic-s-claude-breaks-physics-record-with-a-nine-loop-particle-calculation",
+          "username": "anthropicai",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "reasoning"
+          ],
+          "publish_time": "2026-09-25T17:46:08.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 5564,
+          "url": "https://alphasignal.ai/news/anthropic-s-claude-breaks-physics-record-with-a-nine-loop-particle-calculation"
+        },
+        {
+          "_id": "6ab6d1e68cb49c4afa450fff",
+          "slug": "runway-brings-ai-video-and-image-generation-directly-into-claude",
+          "username": "runwayml",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "video"
+          ],
+          "publish_time": "2026-09-25T17:41:35.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 297,
+          "url": "https://alphasignal.ai/news/runway-brings-ai-video-and-image-generation-directly-into-claude"
+        },
+        {
+          "_id": "6ab6ae3bbce380b74a841e95",
+          "slug": "exa-s-agent-ultra-beats-openai-and-anthropic-at-web-research-for-54-less",
+          "username": "exaailabs",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "api"
+          ],
+          "publish_time": "2026-09-25T16:46:16.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 1907,
+          "url": "https://alphasignal.ai/news/exa-s-agent-ultra-beats-openai-and-anthropic-at-web-research-for-54-less"
+        },
+        {
+          "_id": "6ab755791c11da0c449c7411",
+          "slug": "replit-acquires-atta-to-turn-agent-chat-into-a-bi-powerhouse",
+          "username": "replit",
+          "author_type": "company",
+          "regular_categories": [
+            "vibe_coding",
+            "business"
+          ],
+          "publish_time": "2026-09-25T16:01:46.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 115,
+          "url": "https://alphasignal.ai/news/replit-acquires-atta-to-turn-agent-chat-into-a-bi-powerhouse"
+        },
+        {
+          "_id": "6ab6aa5bbce380b74a841e91",
+          "slug": "zed-s-delta-beats-codex-and-claude-code-at-half-the-requests",
+          "username": "zeddotdev",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "development"
+          ],
+          "publish_time": "2026-09-25T15:50:26.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 327,
+          "url": "https://alphasignal.ai/news/zed-s-delta-beats-codex-and-claude-code-at-half-the-requests"
+        },
+        {
+          "_id": "6ab70d16c5c36db7a16e3b5e",
+          "slug": "rome-hits-500-stars-building-an-open-agent-workspace-that-never-forgets",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T15:34:05.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 803,
+          "url": "https://alphasignal.ai/news/rome-hits-500-stars-building-an-open-agent-workspace-that-never-forgets"
+        },
+        {
+          "_id": "6ab6c02cbce380b74a841e9e",
+          "slug": "coldtea-ai-s-pr-lens-draws-animated-architecture-maps-for-ai-generated-code",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "development",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T15:29:39.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 746,
+          "url": "https://alphasignal.ai/news/coldtea-ai-s-pr-lens-draws-animated-architecture-maps-for-ai-generated-code"
+        },
+        {
+          "_id": "6ab68b0dbce380b74a841e90",
+          "slug": "runway-adds-seedream-5-0-layers-to-split-flat-images-into-editable-parts",
+          "username": "runwayml",
+          "author_type": "company",
+          "regular_categories": [
+            "image",
+            "development"
+          ],
+          "publish_time": "2026-09-25T14:01:02.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 538,
+          "url": "https://alphasignal.ai/news/runway-adds-seedream-5-0-layers-to-split-flat-images-into-editable-parts"
+        },
+        {
+          "_id": "6ab67020bce380b74a841e8c",
+          "slug": "moondream-shrinks-parakeet-redux-speech-recognition-to-178-mb",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "gpus"
+          ],
+          "publish_time": "2026-09-25T12:58:47.190Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 1942,
+          "url": "https://alphasignal.ai/news/moondream-shrinks-parakeet-redux-speech-recognition-to-178-mb"
+        },
+        {
+          "_id": "6ab66f1bbce380b74a841e88",
+          "slug": "together-ai-s-tev1-turns-routing-and-moderation-into-a-17-fine-tune",
+          "username": "togethercompute",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "post_training"
+          ],
+          "publish_time": "2026-09-25T12:54:27.930Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 1283,
+          "url": "https://alphasignal.ai/news/together-ai-s-tev1-turns-routing-and-moderation-into-a-17-fine-tune"
+        },
+        {
+          "_id": "6ab66eccbce380b74a841e84",
+          "slug": "fastino-s-gliner2-5-decide-beats-1b-models-at-agent-routing-with-340m-parameters",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T12:53:05.791Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 1324,
+          "url": "https://alphasignal.ai/news/fastino-s-gliner2-5-decide-beats-1b-models-at-agent-routing-with-340m-parameters"
+        },
+        {
+          "_id": "6ab66309bce380b74a841e82",
+          "slug": "wifit3-brings-wi-fi-hacking-tools-to-windows-without-linux-or-root",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "security",
+            "development"
+          ],
+          "publish_time": "2026-09-25T12:03:03.186Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 3374,
+          "url": "https://alphasignal.ai/news/wifit3-brings-wi-fi-hacking-tools-to-windows-without-linux-or-root"
+        },
+        {
+          "_id": "6ab667dfbce380b74a841e83",
+          "slug": "sarvam-releases-saaras-v4-to-transcribe-all-22-indian-languages-at-once",
+          "username": "sarvamai",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "benchmarks"
+          ],
+          "publish_time": "2026-09-25T11:49:36.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 1243,
+          "url": "https://alphasignal.ai/news/sarvam-releases-saaras-v4-to-transcribe-all-22-indian-languages-at-once"
+        },
+        {
+          "_id": "6ab64657bce380b74a841e81",
+          "slug": "ornith-1-5-beats-35b-models-on-reasoning-with-just-9b-parameters",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "benchmarks"
+          ],
+          "publish_time": "2026-09-25T10:00:33.549Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 3373,
+          "url": "https://alphasignal.ai/news/ornith-1-5-beats-35b-models-on-reasoning-with-just-9b-parameters"
+        },
+        {
+          "_id": "6ab6243cbce380b74a841e80",
+          "slug": "naver-s-splade-model-hits-878k-downloads-doubling-bm25-search-accuracy",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "retrieval",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T07:34:58.611Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 3358,
+          "url": "https://alphasignal.ai/news/naver-s-splade-model-hits-878k-downloads-doubling-bm25-search-accuracy"
+        },
+        {
+          "_id": "6ab615ecbce380b74a841e7c",
+          "slug": "mia-ai-lab-squeezes-a-99-gb-qwen3-8-flash-next-onto-one-gpu",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "infra",
+            "llms"
+          ],
+          "publish_time": "2026-09-25T02:05:18.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 115,
+          "url": "https://alphasignal.ai/news/mia-ai-lab-squeezes-a-99-gb-qwen3-8-flash-next-onto-one-gpu"
+        },
+        {
+          "_id": "6ab5c4238c55327b26e95cef",
+          "slug": "edge0-ships-audio8-asr-infinite-to-transcribe-speech-for-hours-straight",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "infra"
+          ],
+          "publish_time": "2026-09-25T00:45:01.680Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 2317,
+          "url": "https://alphasignal.ai/news/edge0-ships-audio8-asr-infinite-to-transcribe-speech-for-hours-straight"
+        },
+        {
+          "_id": "6ab5ba8f96ee95de362df5bd",
+          "slug": "stanford-s-terminal-bench-science-exposes-gpt-6-astra-leading-at-63-on-real",
+          "username": "artificialanlys",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "agents"
+          ],
+          "publish_time": "2026-09-24T23:30:55.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 1104,
+          "url": "https://alphasignal.ai/news/stanford-s-terminal-bench-science-exposes-gpt-6-astra-leading-at-63-on-real"
+        },
+        {
+          "_id": "6ab5dee28c55327b26e95cf5",
+          "slug": "zed-1-21-lets-developers-run-language-server-commands-without-cursor-context",
+          "username": "zeddotdev",
+          "author_type": "company",
+          "regular_categories": [
+            "development",
+            "open_source"
+          ],
+          "publish_time": "2026-09-24T20:37:38.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 216,
+          "url": "https://alphasignal.ai/news/zed-1-21-lets-developers-run-language-server-commands-without-cursor-context"
+        },
+        {
+          "_id": "6ab59e6996ee95de362df5b0",
+          "slug": "lm-arena-merges-12-ai-leaderboards-into-one-free-dashboard",
+          "username": "arena",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "llms"
+          ],
+          "publish_time": "2026-09-24T20:12:20.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 224,
+          "url": "https://alphasignal.ai/news/lm-arena-merges-12-ai-leaderboards-into-one-free-dashboard"
+        },
+        {
+          "_id": "6ab58d4a96ee95de362df5aa",
+          "slug": "google-s-gemini-and-veo-team-up-to-generate-coherent-10-minute-videos",
+          "username": "googleresearch",
+          "author_type": "company",
+          "regular_categories": [
+            "video",
+            "agents"
+          ],
+          "publish_time": "2026-09-24T19:44:12.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 2174,
+          "url": "https://alphasignal.ai/news/google-s-gemini-and-veo-team-up-to-generate-coherent-10-minute-videos"
+        },
+        {
+          "_id": "6ab585c796ee95de362df5a8",
+          "slug": "midjourney-s-v8-drops-seamless-tiles-smarter-edits-and-live-style-previews",
+          "username": "midjourney",
+          "author_type": "company",
+          "regular_categories": [
+            "image",
+            "development"
+          ],
+          "publish_time": "2026-09-24T19:20:37.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 403,
+          "url": "https://alphasignal.ai/news/midjourney-s-v8-drops-seamless-tiles-smarter-edits-and-live-style-previews"
+        },
+        {
+          "_id": "6ab5686496ee95de362df59f",
+          "slug": "stanford-s-clm-turns-agent-decisions-into-vector-search-9x-faster",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "development"
+          ],
+          "publish_time": "2026-09-24T18:13:39.435Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 5354,
+          "url": "https://alphasignal.ai/news/stanford-s-clm-turns-agent-decisions-into-vector-search-9x-faster"
+        },
+        {
+          "_id": "6ab5743196ee95de362df5a2",
+          "slug": "perplexity-s-photon-slashes-search-latency-by-12x-for-ai-agents",
+          "username": "perplexity_ai",
+          "author_type": "company",
+          "regular_categories": [
+            "api",
+            "retrieval"
+          ],
+          "publish_time": "2026-09-24T18:07:51.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 633,
+          "url": "https://alphasignal.ai/news/perplexity-s-photon-slashes-search-latency-by-12x-for-ai-agents"
+        },
+        {
+          "_id": "6ab5905796ee95de362df5ae",
+          "slug": "krea-agent-now-turns-plain-language-prompts-into-custom-creative-apps",
+          "username": "krea_ai",
+          "author_type": "company",
+          "regular_categories": [
+            "vibe_coding",
+            "video"
+          ],
+          "publish_time": "2026-09-24T17:54:25.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 224,
+          "url": "https://alphasignal.ai/news/krea-agent-now-turns-plain-language-prompts-into-custom-creative-apps"
+        },
+        {
+          "_id": "6ab5c9b78c55327b26e95cf3",
+          "slug": "microsoft-s-run-assert-eval-cuts-ai-agent-cross-account-failures-from-43-8-to",
+          "username": "msdev",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "security"
+          ],
+          "publish_time": "2026-09-24T17:37:47.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 185,
+          "url": "https://alphasignal.ai/news/microsoft-s-run-assert-eval-cuts-ai-agent-cross-account-failures-from-43-8-to"
+        },
+        {
+          "_id": "6ab55de696ee95de362df59c",
+          "slug": "anthropic-now-charges-developers-for-claude-s-blocked-safety-refusals",
+          "username": "claudedevs",
+          "author_type": "company",
+          "regular_categories": [
+            "security",
+            "business"
+          ],
+          "publish_time": "2026-09-24T17:11:05.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 2795,
+          "url": "https://alphasignal.ai/news/anthropic-now-charges-developers-for-claude-s-blocked-safety-refusals"
+        },
+        {
+          "_id": "6ab5629796ee95de362df59e",
+          "slug": "perplexity-brings-portable-computer-to-amd-ryzen-ai-max-pcs",
+          "username": "perplexity_ai",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "gpus"
+          ],
+          "publish_time": "2026-09-24T16:35:30.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 426,
+          "url": "https://alphasignal.ai/news/perplexity-brings-portable-computer-to-amd-ryzen-ai-max-pcs"
+        },
+        {
+          "_id": "6ab70bd6c5c36db7a16e3b5d",
+          "slug": "researchers-train-ai-on-zero-human-data-using-self-play-programs",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "training_infra",
+            "llms"
+          ],
+          "publish_time": "2026-09-24T16:23:01.000Z",
+          "content_type": "paper",
+          "editorial_content": null,
+          "upvotes": 1333,
+          "url": "https://alphasignal.ai/news/researchers-train-ai-on-zero-human-data-using-self-play-programs"
+        },
+        {
+          "_id": "6ab6be8dbce380b74a841e9b",
+          "slug": "cmu-builds-a-synthetic-hospital-where-ai-fails-45-of-medical-summaries",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "data"
+          ],
+          "publish_time": "2026-09-24T16:00:56.000Z",
+          "content_type": "paper",
+          "editorial_content": null,
+          "upvotes": 884,
+          "url": "https://alphasignal.ai/news/cmu-builds-a-synthetic-hospital-where-ai-fails-45-of-medical-summaries"
+        },
+        {
+          "_id": "6ab550ff96ee95de362df59a",
+          "slug": "sakana-ai-recruits-lstm-pioneer-schmidhuber-to-lead-self-improving-ai-lab",
+          "username": "sakanaailabs",
+          "author_type": "company",
+          "regular_categories": [
+            "business",
+            "llms"
+          ],
+          "publish_time": "2026-09-24T15:49:21.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 2519,
+          "url": "https://alphasignal.ai/news/sakana-ai-recruits-lstm-pioneer-schmidhuber-to-lead-self-improving-ai-lab"
+        },
+        {
+          "_id": "6ab545bc96ee95de362df599",
+          "slug": "odyssey-s-agora-2-lets-20-players-share-one-ai-generated-world",
+          "username": "odysseyml",
+          "author_type": "company",
+          "regular_categories": [
+            "video",
+            "robotics"
+          ],
+          "publish_time": "2026-09-24T15:37:36.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 2967,
+          "url": "https://alphasignal.ai/news/odyssey-s-agora-2-lets-20-players-share-one-ai-generated-world"
+        },
+        {
+          "_id": "6ab7457ef773dca1c372cc97",
+          "slug": "parallel-web-systems-lets-ai-agents-query-crunchbase-and-pubmed-directly",
+          "username": "p0",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "retrieval"
+          ],
+          "publish_time": "2026-09-24T15:25:16.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 117,
+          "url": "https://alphasignal.ai/news/parallel-web-systems-lets-ai-agents-query-crunchbase-and-pubmed-directly"
+        },
+        {
+          "_id": "6ab5284c9e7dd9c1ba8b9529",
+          "slug": "how-to-run-qwen-3-8-27b-as-a-local-coding-agent",
+          "username": "adham__khaled__",
+          "author_type": "author",
+          "regular_categories": [
+            "agents",
+            "development",
+            "open_source"
+          ],
+          "publish_time": "2026-09-24T15:00:00.000Z",
+          "content_type": "tutorial",
+          "editorial_content": true,
+          "upvotes": 6,
+          "url": "https://alphasignal.ai/news/how-to-run-qwen-3-8-27b-as-a-local-coding-agent"
+        },
+        {
+          "_id": "6ab53f6a96ee95de362df598",
+          "slug": "liquid-ai-s-lfm2-5-vl-dspark-makes-vision-ai-3-13x-faster-on-apple-silicon",
+          "username": "liquidai",
+          "author_type": "company",
+          "regular_categories": [
+            "infra",
+            "image"
+          ],
+          "publish_time": "2026-09-24T14:35:22.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 561,
+          "url": "https://alphasignal.ai/news/liquid-ai-s-lfm2-5-vl-dspark-makes-vision-ai-3-13x-faster-on-apple-silicon"
+        },
+        {
+          "_id": "6ab5ba5496ee95de362df5b5",
+          "slug": "panwatch-packs-multi-agent-stock-research-into-one-open-source-docker-image",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "development"
+          ],
+          "publish_time": "2026-09-24T14:16:47.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 3697,
+          "url": "https://alphasignal.ai/news/panwatch-packs-multi-agent-stock-research-into-one-open-source-docker-image"
+        },
+        {
+          "_id": "6ab584b596ee95de362df5a7",
+          "slug": "databricks-buys-row-zero-to-kill-the-ungoverned-spreadsheet",
+          "username": "databricks",
+          "author_type": "company",
+          "regular_categories": [
+            "business",
+            "infra"
+          ],
+          "publish_time": "2026-09-24T13:32:32.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 153,
+          "url": "https://alphasignal.ai/news/databricks-buys-row-zero-to-kill-the-ungoverned-spreadsheet"
+        },
+        {
+          "_id": "6ab52dce96ee95de362df596",
+          "slug": "sarvam-ai-s-vision-2-1-beats-gemini-at-reading-india-s-22-languages",
+          "username": "sarvamai",
+          "author_type": "company",
+          "regular_categories": [
+            "image",
+            "benchmarks"
+          ],
+          "publish_time": "2026-09-24T13:23:23.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 1473,
+          "url": "https://alphasignal.ai/news/sarvam-ai-s-vision-2-1-beats-gemini-at-reading-india-s-22-languages"
+        },
+        {
+          "_id": "6ab70baac5c36db7a16e3b5b",
+          "slug": "penn-researchers-show-jev-cuts-ai-grading-costs-by-325x",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "llms"
+          ],
+          "publish_time": "2026-09-24T13:16:21.000Z",
+          "content_type": "paper",
+          "editorial_content": null,
+          "upvotes": 305,
+          "url": "https://alphasignal.ai/news/penn-researchers-show-jev-cuts-ai-grading-costs-by-325x"
+        },
+        {
+          "_id": "6ab5ba7296ee95de362df5b9",
+          "slug": "open-source-laya-turns-slack-and-gmail-chaos-into-approved-actions",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "open_source",
+            "agents"
+          ],
+          "publish_time": "2026-09-24T11:17:04.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 2760,
+          "url": "https://alphasignal.ai/news/open-source-laya-turns-slack-and-gmail-chaos-into-approved-actions"
+        },
+        {
+          "_id": "6ab5134096ee95de362df581",
+          "slug": "genspark-s-genoffice-lets-ai-coding-agents-build-office-files-without-opening",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "open_source",
+            "development"
+          ],
+          "publish_time": "2026-09-24T08:40:26.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 263,
+          "url": "https://alphasignal.ai/news/genspark-s-genoffice-lets-ai-coding-agents-build-office-files-without-opening"
+        },
+        {
+          "_id": "6ab4e3a396ee95de362df571",
+          "slug": "tencent-s-hy-mt2-brings-offline-ai-translation-to-iphone-in-33-languages",
+          "username": "tencenthunyuan",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "llms"
+          ],
+          "publish_time": "2026-09-24T07:15:39.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 635,
+          "url": "https://alphasignal.ai/news/tencent-s-hy-mt2-brings-offline-ai-translation-to-iphone-in-33-languages"
+        },
+        {
+          "_id": "6ab4bd0396ee95de362df566",
+          "slug": "stanford-s-mattr-tops-ai-interpretability-benchmark-by-nearly-3x",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "post_training"
+          ],
+          "publish_time": "2026-09-24T06:01:25.120Z",
+          "content_type": "paper",
+          "editorial_content": null,
+          "upvotes": 1163,
+          "url": "https://alphasignal.ai/news/stanford-s-mattr-tops-ai-interpretability-benchmark-by-nearly-3x"
+        },
+        {
+          "_id": "6ab4cb4e96ee95de362df56b",
+          "slug": "meta-s-muse-slashes-real-time-avatar-generation-from-120-model-calls-to-two",
+          "username": "aiatmeta",
+          "author_type": "company",
+          "regular_categories": [
+            "video",
+            "audio"
+          ],
+          "publish_time": "2026-09-24T05:43:20.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 506,
+          "url": "https://alphasignal.ai/news/meta-s-muse-slashes-real-time-avatar-generation-from-120-model-calls-to-two"
+        },
+        {
+          "_id": "6ab4e3be96ee95de362df572",
+          "slug": "tencent-cuts-ai-training-time-by-29-with-a-simple-batch-size-trick",
+          "username": "tencenthunyuan",
+          "author_type": "company",
+          "regular_categories": [
+            "post_training",
+            "training_infra"
+          ],
+          "publish_time": "2026-09-24T03:15:39.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 192,
+          "url": "https://alphasignal.ai/news/tencent-cuts-ai-training-time-by-29-with-a-simple-batch-size-trick"
+        },
+        {
+          "_id": "6ab4840b96ee95de362df55d",
+          "slug": "anthropic-s-claude-opus-5-5-tops-coding-benchmarks-but-costs-13-per-task",
+          "username": "artificialanlys",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "development"
+          ],
+          "publish_time": "2026-09-24T01:24:22.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 1086,
+          "url": "https://alphasignal.ai/news/anthropic-s-claude-opus-5-5-tops-coding-benchmarks-but-costs-13-per-task"
+        },
+        {
+          "_id": "6ab4720196ee95de362df553",
+          "slug": "featherless-ai-s-simple-jev-turns-open-hugging-face-models-into-classifier-apis",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "open_source",
+            "llms"
+          ],
+          "publish_time": "2026-09-24T00:42:17.976Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 1246,
+          "url": "https://alphasignal.ai/news/featherless-ai-s-simple-jev-turns-open-hugging-face-models-into-classifier-apis"
+        }
+      ]
+    },
+    "upvotes-24h": {
+      "request": {
+        "jsonrpc": "2.0",
+        "id": "upvotes-24h",
+        "method": "tools/call",
+        "params": {
+          "name": "list_news",
+          "arguments": {
+            "sort": "upvotes",
+            "timeframe": "24h",
+            "limit": 50
+          }
+        }
+      },
+      "metadata": {
+        "total_records": 16,
+        "total_pages": 1,
+        "current_page": 1,
+        "limit": 50,
+        "entity_metadata": {
+          "authors": {
+            "anthropicai": {
+              "article_count": 44
+            },
+            "alphasignal": {
+              "article_count": 4544
+            },
+            "exaailabs": {
+              "article_count": 11
+            },
+            "togethercompute": {
+              "article_count": 9
+            },
+            "sarvamai": {
+              "article_count": 17
+            },
+            "runwayml": {
+              "article_count": 35
+            },
+            "googleai": {
+              "article_count": 10
+            },
+            "zeddotdev": {
+              "article_count": 24
+            },
+            "replit": {
+              "article_count": 15
+            }
+          },
+          "topics": {
+            "llms": {
+              "article_count": 1540
+            },
+            "reasoning": {
+              "article_count": 506
+            },
+            "security": {
+              "article_count": 532
+            },
+            "development": {
+              "article_count": 1181
+            },
+            "retrieval": {
+              "article_count": 303
+            },
+            "open_source": {
+              "article_count": 1341
+            },
+            "audio": {
+              "article_count": 378
+            },
+            "gpus": {
+              "article_count": 405
+            },
+            "agents": {
+              "article_count": 1140
+            },
+            "api": {
+              "article_count": 271
+            },
+            "post_training": {
+              "article_count": 649
+            },
+            "benchmarks": {
+              "article_count": 991
+            },
+            "image": {
+              "article_count": 1056
+            },
+            "video": {
+              "article_count": 409
+            },
+            "vibe_coding": {
+              "article_count": 144
+            },
+            "business": {
+              "article_count": 187
+            }
+          }
+        }
+      },
+      "items": [
+        {
+          "_id": "6ab6b613bce380b74a841e97",
+          "slug": "anthropic-s-claude-breaks-physics-record-with-a-nine-loop-particle-calculation",
+          "username": "anthropicai",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "reasoning"
+          ],
+          "publish_time": "2026-09-25T17:46:08.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 5564,
+          "url": "https://alphasignal.ai/news/anthropic-s-claude-breaks-physics-record-with-a-nine-loop-particle-calculation"
+        },
+        {
+          "_id": "6ab66309bce380b74a841e82",
+          "slug": "wifit3-brings-wi-fi-hacking-tools-to-windows-without-linux-or-root",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "security",
+            "development"
+          ],
+          "publish_time": "2026-09-25T12:03:03.186Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 3374,
+          "url": "https://alphasignal.ai/news/wifit3-brings-wi-fi-hacking-tools-to-windows-without-linux-or-root"
+        },
+        {
+          "_id": "6ab6e46f8cb49c4afa451001",
+          "slug": "hugging-face-s-stsb-bert-tiny-packs-a-full-embedding-stack-into-17-6-mb",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "retrieval",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T21:14:59.147Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 3368,
+          "url": "https://alphasignal.ai/news/hugging-face-s-stsb-bert-tiny-packs-a-full-embedding-stack-into-17-6-mb"
+        },
+        {
+          "_id": "6ab6c19a8cb49c4afa450ff8",
+          "slug": "typellm-forces-llms-to-return-valid-json-every-time-5-8x-faster",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "development"
+          ],
+          "publish_time": "2026-09-25T18:46:35.383Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 2538,
+          "url": "https://alphasignal.ai/news/typellm-forces-llms-to-return-valid-json-every-time-5-8x-faster"
+        },
+        {
+          "_id": "6ab67020bce380b74a841e8c",
+          "slug": "moondream-shrinks-parakeet-redux-speech-recognition-to-178-mb",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "gpus"
+          ],
+          "publish_time": "2026-09-25T12:58:47.190Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 1942,
+          "url": "https://alphasignal.ai/news/moondream-shrinks-parakeet-redux-speech-recognition-to-178-mb"
+        },
+        {
+          "_id": "6ab6ae3bbce380b74a841e95",
+          "slug": "exa-s-agent-ultra-beats-openai-and-anthropic-at-web-research-for-54-less",
+          "username": "exaailabs",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "api"
+          ],
+          "publish_time": "2026-09-25T16:46:16.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 1907,
+          "url": "https://alphasignal.ai/news/exa-s-agent-ultra-beats-openai-and-anthropic-at-web-research-for-54-less"
+        },
+        {
+          "_id": "6ab66eccbce380b74a841e84",
+          "slug": "fastino-s-gliner2-5-decide-beats-1b-models-at-agent-routing-with-340m-parameters",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T12:53:05.791Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 1324,
+          "url": "https://alphasignal.ai/news/fastino-s-gliner2-5-decide-beats-1b-models-at-agent-routing-with-340m-parameters"
+        },
+        {
+          "_id": "6ab66f1bbce380b74a841e88",
+          "slug": "together-ai-s-tev1-turns-routing-and-moderation-into-a-17-fine-tune",
+          "username": "togethercompute",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "post_training"
+          ],
+          "publish_time": "2026-09-25T12:54:27.930Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 1283,
+          "url": "https://alphasignal.ai/news/together-ai-s-tev1-turns-routing-and-moderation-into-a-17-fine-tune"
+        },
+        {
+          "_id": "6ab667dfbce380b74a841e83",
+          "slug": "sarvam-releases-saaras-v4-to-transcribe-all-22-indian-languages-at-once",
+          "username": "sarvamai",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "benchmarks"
+          ],
+          "publish_time": "2026-09-25T11:49:36.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 1243,
+          "url": "https://alphasignal.ai/news/sarvam-releases-saaras-v4-to-transcribe-all-22-indian-languages-at-once"
+        },
+        {
+          "_id": "6ab70d16c5c36db7a16e3b5e",
+          "slug": "rome-hits-500-stars-building-an-open-agent-workspace-that-never-forgets",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T15:34:05.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 803,
+          "url": "https://alphasignal.ai/news/rome-hits-500-stars-building-an-open-agent-workspace-that-never-forgets"
+        },
+        {
+          "_id": "6ab6c02cbce380b74a841e9e",
+          "slug": "coldtea-ai-s-pr-lens-draws-animated-architecture-maps-for-ai-generated-code",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "development",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T15:29:39.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 746,
+          "url": "https://alphasignal.ai/news/coldtea-ai-s-pr-lens-draws-animated-architecture-maps-for-ai-generated-code"
+        },
+        {
+          "_id": "6ab68b0dbce380b74a841e90",
+          "slug": "runway-adds-seedream-5-0-layers-to-split-flat-images-into-editable-parts",
+          "username": "runwayml",
+          "author_type": "company",
+          "regular_categories": [
+            "image",
+            "development"
+          ],
+          "publish_time": "2026-09-25T14:01:02.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 538,
+          "url": "https://alphasignal.ai/news/runway-adds-seedream-5-0-layers-to-split-flat-images-into-editable-parts"
+        },
+        {
+          "_id": "6ab6ce358cb49c4afa450ffe",
+          "slug": "google-s-gemini-3-8-brings-programmable-voices-and-sends-tpus-into-orbit",
+          "username": "googleai",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "llms"
+          ],
+          "publish_time": "2026-09-25T18:28:00.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 403,
+          "url": "https://alphasignal.ai/news/google-s-gemini-3-8-brings-programmable-voices-and-sends-tpus-into-orbit"
+        },
+        {
+          "_id": "6ab6aa5bbce380b74a841e91",
+          "slug": "zed-s-delta-beats-codex-and-claude-code-at-half-the-requests",
+          "username": "zeddotdev",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "development"
+          ],
+          "publish_time": "2026-09-25T15:50:26.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 327,
+          "url": "https://alphasignal.ai/news/zed-s-delta-beats-codex-and-claude-code-at-half-the-requests"
+        },
+        {
+          "_id": "6ab6d1e68cb49c4afa450fff",
+          "slug": "runway-brings-ai-video-and-image-generation-directly-into-claude",
+          "username": "runwayml",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "video"
+          ],
+          "publish_time": "2026-09-25T17:41:35.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 297,
+          "url": "https://alphasignal.ai/news/runway-brings-ai-video-and-image-generation-directly-into-claude"
+        },
+        {
+          "_id": "6ab755791c11da0c449c7411",
+          "slug": "replit-acquires-atta-to-turn-agent-chat-into-a-bi-powerhouse",
+          "username": "replit",
+          "author_type": "company",
+          "regular_categories": [
+            "vibe_coding",
+            "business"
+          ],
+          "publish_time": "2026-09-25T16:01:46.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 115,
+          "url": "https://alphasignal.ai/news/replit-acquires-atta-to-turn-agent-chat-into-a-bi-powerhouse"
+        }
+      ]
+    },
+    "upvotes-3d": {
+      "request": {
+        "jsonrpc": "2.0",
+        "id": "upvotes-3d",
+        "method": "tools/call",
+        "params": {
+          "name": "list_news",
+          "arguments": {
+            "sort": "upvotes",
+            "timeframe": "3d",
+            "limit": 50
+          }
+        }
+      },
+      "metadata": {
+        "total_records": 78,
+        "total_pages": 2,
+        "current_page": 1,
+        "limit": 50,
+        "entity_metadata": {
+          "authors": {
+            "anthropicai": {
+              "article_count": 44
+            },
+            "claudedevs": {
+              "article_count": 26
+            },
+            "nvidiaai": {
+              "article_count": 73
+            },
+            "claudeai": {
+              "article_count": 28
+            },
+            "alphasignal": {
+              "article_count": 4544
+            },
+            "openai": {
+              "article_count": 79
+            },
+            "googleaistudio": {
+              "article_count": 10
+            },
+            "cursor_ai": {
+              "article_count": 29
+            },
+            "alibaba_qwen": {
+              "article_count": 83
+            },
+            "odysseyml": {
+              "article_count": 4
+            },
+            "sakanaailabs": {
+              "article_count": 31
+            },
+            "geminiapp": {
+              "article_count": 26
+            },
+            "googleresearch": {
+              "article_count": 37
+            },
+            "fishaudio": {
+              "article_count": 8
+            },
+            "bfl_ai": {
+              "article_count": 14
+            },
+            "exaailabs": {
+              "article_count": 11
+            },
+            "googlegemma": {
+              "article_count": 12
+            },
+            "sarvamai": {
+              "article_count": 17
+            },
+            "epochairesearch": {
+              "article_count": 22
+            },
+            "togethercompute": {
+              "article_count": 9
+            },
+            "artificialanlys": {
+              "article_count": 99
+            },
+            "primeintellect": {
+              "article_count": 19
+            },
+            "prismml": {
+              "article_count": 7
+            },
+            "tencenthunyuan": {
+              "article_count": 38
+            },
+            "perplexity_ai": {
+              "article_count": 39
+            },
+            "liquidai": {
+              "article_count": 29
+            },
+            "runwayml": {
+              "article_count": 35
+            },
+            "aiatmeta": {
+              "article_count": 34
+            }
+          },
+          "topics": {
+            "llms": {
+              "article_count": 1540
+            },
+            "development": {
+              "article_count": 1181
+            },
+            "api": {
+              "article_count": 271
+            },
+            "audio": {
+              "article_count": 378
+            },
+            "open_source": {
+              "article_count": 1341
+            },
+            "agents": {
+              "article_count": 1140
+            },
+            "reasoning": {
+              "article_count": 506
+            },
+            "benchmarks": {
+              "article_count": 991
+            },
+            "security": {
+              "article_count": 532
+            },
+            "retrieval": {
+              "article_count": 303
+            },
+            "video": {
+              "article_count": 409
+            },
+            "robotics": {
+              "article_count": 624
+            },
+            "business": {
+              "article_count": 187
+            },
+            "post_training": {
+              "article_count": 649
+            },
+            "infra": {
+              "article_count": 414
+            },
+            "gpus": {
+              "article_count": 405
+            },
+            "image": {
+              "article_count": 1056
+            },
+            "training_infra": {
+              "article_count": 338
+            },
+            "data": {
+              "article_count": 522
+            }
+          }
+        }
+      },
+      "items": [
+        {
+          "_id": "6ab418507902c0ea05acdbec",
+          "slug": "anthropic-s-claude-uncovers-a-hidden-crispr-like-system-in-virus-dna",
+          "username": "anthropicai",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "development"
+          ],
+          "publish_time": "2026-09-23T18:18:33.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 45658,
+          "url": "https://alphasignal.ai/news/anthropic-s-claude-uncovers-a-hidden-crispr-like-system-in-virus-dna"
+        },
+        {
+          "_id": "6ab4459c96ee95de362df54a",
+          "slug": "anthropic-ships-claude-code-cloud-sessions-so-developers-can-code-without-a",
+          "username": "claudedevs",
+          "author_type": "company",
+          "regular_categories": [
+            "development",
+            "api"
+          ],
+          "publish_time": "2026-09-23T21:23:41.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 20925,
+          "url": "https://alphasignal.ai/news/anthropic-ships-claude-code-cloud-sessions-so-developers-can-code-without-a"
+        },
+        {
+          "_id": "6ab3f76f7902c0ea05acdbe3",
+          "slug": "nvidia-s-nemotron-3-beats-12-rivals-with-a-14-72-speaker-error-rate",
+          "username": "nvidiaai",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "open_source"
+          ],
+          "publish_time": "2026-09-23T15:02:41.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 10107,
+          "url": "https://alphasignal.ai/news/nvidia-s-nemotron-3-beats-12-rivals-with-a-14-72-speaker-error-rate"
+        },
+        {
+          "_id": "6ab428b07902c0ea05acdbf8",
+          "slug": "anthropic-s-claude-marketplace-unifies-2-000-partners-into-one-enterprise-hub",
+          "username": "claudeai",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "api"
+          ],
+          "publish_time": "2026-09-23T19:21:42.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 5873,
+          "url": "https://alphasignal.ai/news/anthropic-s-claude-marketplace-unifies-2-000-partners-into-one-enterprise-hub"
+        },
+        {
+          "_id": "6ab6b613bce380b74a841e97",
+          "slug": "anthropic-s-claude-breaks-physics-record-with-a-nine-loop-particle-calculation",
+          "username": "anthropicai",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "reasoning"
+          ],
+          "publish_time": "2026-09-25T17:46:08.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 5564,
+          "url": "https://alphasignal.ai/news/anthropic-s-claude-breaks-physics-record-with-a-nine-loop-particle-calculation"
+        },
+        {
+          "_id": "6ab5686496ee95de362df59f",
+          "slug": "stanford-s-clm-turns-agent-decisions-into-vector-search-9x-faster",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "development"
+          ],
+          "publish_time": "2026-09-24T18:13:39.435Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 5354,
+          "url": "https://alphasignal.ai/news/stanford-s-clm-turns-agent-decisions-into-vector-search-9x-faster"
+        },
+        {
+          "_id": "6ab425277902c0ea05acdbf7",
+          "slug": "openai-s-mentalhealthbench-tests-ai-on-everyday-stress-beyond-crisis-responses",
+          "username": "openai",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "security"
+          ],
+          "publish_time": "2026-09-23T19:08:41.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 5163,
+          "url": "https://alphasignal.ai/news/openai-s-mentalhealthbench-tests-ai-on-everyday-stress-beyond-crisis-responses"
+        },
+        {
+          "_id": "6ab5ba5496ee95de362df5b5",
+          "slug": "panwatch-packs-multi-agent-stock-research-into-one-open-source-docker-image",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "development"
+          ],
+          "publish_time": "2026-09-24T14:16:47.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 3697,
+          "url": "https://alphasignal.ai/news/panwatch-packs-multi-agent-stock-research-into-one-open-source-docker-image"
+        },
+        {
+          "_id": "6ab3f3167902c0ea05acdbe2",
+          "slug": "google-ships-gemini-3-8-flash-tts-with-prompt-directed-emotional-speech",
+          "username": "googleaistudio",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "api"
+          ],
+          "publish_time": "2026-09-23T15:25:55.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 3522,
+          "url": "https://alphasignal.ai/news/google-ships-gemini-3-8-flash-tts-with-prompt-directed-emotional-speech"
+        },
+        {
+          "_id": "6ab43d4f7902c0ea05acdbfe",
+          "slug": "cursor-s-rollouts-sends-ai-agents-to-watch-your-code-in-production",
+          "username": "cursor_ai",
+          "author_type": "company",
+          "regular_categories": [
+            "development",
+            "security"
+          ],
+          "publish_time": "2026-09-23T20:45:01.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 3427,
+          "url": "https://alphasignal.ai/news/cursor-s-rollouts-sends-ai-agents-to-watch-your-code-in-production"
+        },
+        {
+          "_id": "6ab66309bce380b74a841e82",
+          "slug": "wifit3-brings-wi-fi-hacking-tools-to-windows-without-linux-or-root",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "security",
+            "development"
+          ],
+          "publish_time": "2026-09-25T12:03:03.186Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 3374,
+          "url": "https://alphasignal.ai/news/wifit3-brings-wi-fi-hacking-tools-to-windows-without-linux-or-root"
+        },
+        {
+          "_id": "6ab64657bce380b74a841e81",
+          "slug": "ornith-1-5-beats-35b-models-on-reasoning-with-just-9b-parameters",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "benchmarks"
+          ],
+          "publish_time": "2026-09-25T10:00:33.549Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 3373,
+          "url": "https://alphasignal.ai/news/ornith-1-5-beats-35b-models-on-reasoning-with-just-9b-parameters"
+        },
+        {
+          "_id": "6ab6e46f8cb49c4afa451001",
+          "slug": "hugging-face-s-stsb-bert-tiny-packs-a-full-embedding-stack-into-17-6-mb",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "retrieval",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T21:14:59.147Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 3368,
+          "url": "https://alphasignal.ai/news/hugging-face-s-stsb-bert-tiny-packs-a-full-embedding-stack-into-17-6-mb"
+        },
+        {
+          "_id": "6ab6243cbce380b74a841e80",
+          "slug": "naver-s-splade-model-hits-878k-downloads-doubling-bm25-search-accuracy",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "retrieval",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T07:34:58.611Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 3358,
+          "url": "https://alphasignal.ai/news/naver-s-splade-model-hits-878k-downloads-doubling-bm25-search-accuracy"
+        },
+        {
+          "_id": "6ab3bf237902c0ea05acdbcd",
+          "slug": "alibaba-s-qwen-intelligence-splits-phone-automation-across-three-specialized",
+          "username": "alibaba_qwen",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "benchmarks"
+          ],
+          "publish_time": "2026-09-23T11:50:54.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 3139,
+          "url": "https://alphasignal.ai/news/alibaba-s-qwen-intelligence-splits-phone-automation-across-three-specialized"
+        },
+        {
+          "_id": "6ab545bc96ee95de362df599",
+          "slug": "odyssey-s-agora-2-lets-20-players-share-one-ai-generated-world",
+          "username": "odysseyml",
+          "author_type": "company",
+          "regular_categories": [
+            "video",
+            "robotics"
+          ],
+          "publish_time": "2026-09-24T15:37:36.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 2967,
+          "url": "https://alphasignal.ai/news/odyssey-s-agora-2-lets-20-players-share-one-ai-generated-world"
+        },
+        {
+          "_id": "6ab55de696ee95de362df59c",
+          "slug": "anthropic-now-charges-developers-for-claude-s-blocked-safety-refusals",
+          "username": "claudedevs",
+          "author_type": "company",
+          "regular_categories": [
+            "security",
+            "business"
+          ],
+          "publish_time": "2026-09-24T17:11:05.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 2795,
+          "url": "https://alphasignal.ai/news/anthropic-now-charges-developers-for-claude-s-blocked-safety-refusals"
+        },
+        {
+          "_id": "6ab5ba7296ee95de362df5b9",
+          "slug": "open-source-laya-turns-slack-and-gmail-chaos-into-approved-actions",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "open_source",
+            "agents"
+          ],
+          "publish_time": "2026-09-24T11:17:04.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 2760,
+          "url": "https://alphasignal.ai/news/open-source-laya-turns-slack-and-gmail-chaos-into-approved-actions"
+        },
+        {
+          "_id": "6ab3cd957902c0ea05acdbcf",
+          "slug": "jared-palmer-s-kev-0-5b-answers-many-ai-questions-in-one-38mb-pass",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "post_training",
+            "llms"
+          ],
+          "publish_time": "2026-09-23T13:00:23.303Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 2600,
+          "url": "https://alphasignal.ai/news/jared-palmer-s-kev-0-5b-answers-many-ai-questions-in-one-38mb-pass"
+        },
+        {
+          "_id": "6ab6c19a8cb49c4afa450ff8",
+          "slug": "typellm-forces-llms-to-return-valid-json-every-time-5-8x-faster",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "development"
+          ],
+          "publish_time": "2026-09-25T18:46:35.383Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 2538,
+          "url": "https://alphasignal.ai/news/typellm-forces-llms-to-return-valid-json-every-time-5-8x-faster"
+        },
+        {
+          "_id": "6ab550ff96ee95de362df59a",
+          "slug": "sakana-ai-recruits-lstm-pioneer-schmidhuber-to-lead-self-improving-ai-lab",
+          "username": "sakanaailabs",
+          "author_type": "company",
+          "regular_categories": [
+            "business",
+            "llms"
+          ],
+          "publish_time": "2026-09-24T15:49:21.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 2519,
+          "url": "https://alphasignal.ai/news/sakana-ai-recruits-lstm-pioneer-schmidhuber-to-lead-self-improving-ai-lab"
+        },
+        {
+          "_id": "6ab3fc8b7902c0ea05acdbe5",
+          "slug": "google-s-gemini-now-controls-adobe-linear-and-12-more-apps",
+          "username": "geminiapp",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "api"
+          ],
+          "publish_time": "2026-09-23T16:02:59.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 2510,
+          "url": "https://alphasignal.ai/news/google-s-gemini-now-controls-adobe-linear-and-12-more-apps"
+        },
+        {
+          "_id": "6ab5c4238c55327b26e95cef",
+          "slug": "edge0-ships-audio8-asr-infinite-to-transcribe-speech-for-hours-straight",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "infra"
+          ],
+          "publish_time": "2026-09-25T00:45:01.680Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 2317,
+          "url": "https://alphasignal.ai/news/edge0-ships-audio8-asr-infinite-to-transcribe-speech-for-hours-straight"
+        },
+        {
+          "_id": "6ab58d4a96ee95de362df5aa",
+          "slug": "google-s-gemini-and-veo-team-up-to-generate-coherent-10-minute-videos",
+          "username": "googleresearch",
+          "author_type": "company",
+          "regular_categories": [
+            "video",
+            "agents"
+          ],
+          "publish_time": "2026-09-24T19:44:12.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 2174,
+          "url": "https://alphasignal.ai/news/google-s-gemini-and-veo-team-up-to-generate-coherent-10-minute-videos"
+        },
+        {
+          "_id": "6ab4406596ee95de362df545",
+          "slug": "fish-audio-s-drama-3-lets-developers-direct-ai-voice-like-a-human-actor",
+          "username": "fishaudio",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "api"
+          ],
+          "publish_time": "2026-09-23T17:01:51.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 2036,
+          "url": "https://alphasignal.ai/news/fish-audio-s-drama-3-lets-developers-direct-ai-voice-like-a-human-actor"
+        },
+        {
+          "_id": "6ab417187902c0ea05acdbea",
+          "slug": "black-forest-labs-flux-3-action-beats-pi0-5-at-robot-control-by-1-66x",
+          "username": "bfl_ai",
+          "author_type": "company",
+          "regular_categories": [
+            "robotics",
+            "open_source"
+          ],
+          "publish_time": "2026-09-23T17:46:26.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 2035,
+          "url": "https://alphasignal.ai/news/black-forest-labs-flux-3-action-beats-pi0-5-at-robot-control-by-1-66x"
+        },
+        {
+          "_id": "6ab67020bce380b74a841e8c",
+          "slug": "moondream-shrinks-parakeet-redux-speech-recognition-to-178-mb",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "gpus"
+          ],
+          "publish_time": "2026-09-25T12:58:47.190Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 1942,
+          "url": "https://alphasignal.ai/news/moondream-shrinks-parakeet-redux-speech-recognition-to-178-mb"
+        },
+        {
+          "_id": "6ab6ae3bbce380b74a841e95",
+          "slug": "exa-s-agent-ultra-beats-openai-and-anthropic-at-web-research-for-54-less",
+          "username": "exaailabs",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "api"
+          ],
+          "publish_time": "2026-09-25T16:46:16.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 1907,
+          "url": "https://alphasignal.ai/news/exa-s-agent-ultra-beats-openai-and-anthropic-at-web-research-for-54-less"
+        },
+        {
+          "_id": "6ab44f1896ee95de362df54f",
+          "slug": "google-s-antigravity-sdk-lets-gemma-4-run-agent-workflows-without-the-cloud",
+          "username": "googlegemma",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "open_source"
+          ],
+          "publish_time": "2026-09-23T20:56:24.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 1554,
+          "url": "https://alphasignal.ai/news/google-s-antigravity-sdk-lets-gemma-4-run-agent-workflows-without-the-cloud"
+        },
+        {
+          "_id": "6ab52dce96ee95de362df596",
+          "slug": "sarvam-ai-s-vision-2-1-beats-gemini-at-reading-india-s-22-languages",
+          "username": "sarvamai",
+          "author_type": "company",
+          "regular_categories": [
+            "image",
+            "benchmarks"
+          ],
+          "publish_time": "2026-09-24T13:23:23.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 1473,
+          "url": "https://alphasignal.ai/news/sarvam-ai-s-vision-2-1-beats-gemini-at-reading-india-s-22-languages"
+        },
+        {
+          "_id": "6ab413da7902c0ea05acdbe8",
+          "slug": "epoch-s-fab-benchmark-watched-gpt-6-astra-jump-from-28-to-80",
+          "username": "epochairesearch",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "image"
+          ],
+          "publish_time": "2026-09-23T17:21:56.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 1435,
+          "url": "https://alphasignal.ai/news/epoch-s-fab-benchmark-watched-gpt-6-astra-jump-from-28-to-80"
+        },
+        {
+          "_id": "6ab70bd6c5c36db7a16e3b5d",
+          "slug": "researchers-train-ai-on-zero-human-data-using-self-play-programs",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "training_infra",
+            "llms"
+          ],
+          "publish_time": "2026-09-24T16:23:01.000Z",
+          "content_type": "paper",
+          "editorial_content": null,
+          "upvotes": 1333,
+          "url": "https://alphasignal.ai/news/researchers-train-ai-on-zero-human-data-using-self-play-programs"
+        },
+        {
+          "_id": "6ab66eccbce380b74a841e84",
+          "slug": "fastino-s-gliner2-5-decide-beats-1b-models-at-agent-routing-with-340m-parameters",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T12:53:05.791Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 1324,
+          "url": "https://alphasignal.ai/news/fastino-s-gliner2-5-decide-beats-1b-models-at-agent-routing-with-340m-parameters"
+        },
+        {
+          "_id": "6ab66f1bbce380b74a841e88",
+          "slug": "together-ai-s-tev1-turns-routing-and-moderation-into-a-17-fine-tune",
+          "username": "togethercompute",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "post_training"
+          ],
+          "publish_time": "2026-09-25T12:54:27.930Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 1283,
+          "url": "https://alphasignal.ai/news/together-ai-s-tev1-turns-routing-and-moderation-into-a-17-fine-tune"
+        },
+        {
+          "_id": "6ab4720196ee95de362df553",
+          "slug": "featherless-ai-s-simple-jev-turns-open-hugging-face-models-into-classifier-apis",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "open_source",
+            "llms"
+          ],
+          "publish_time": "2026-09-24T00:42:17.976Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 1246,
+          "url": "https://alphasignal.ai/news/featherless-ai-s-simple-jev-turns-open-hugging-face-models-into-classifier-apis"
+        },
+        {
+          "_id": "6ab667dfbce380b74a841e83",
+          "slug": "sarvam-releases-saaras-v4-to-transcribe-all-22-indian-languages-at-once",
+          "username": "sarvamai",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "benchmarks"
+          ],
+          "publish_time": "2026-09-25T11:49:36.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 1243,
+          "url": "https://alphasignal.ai/news/sarvam-releases-saaras-v4-to-transcribe-all-22-indian-languages-at-once"
+        },
+        {
+          "_id": "6ab4bd0396ee95de362df566",
+          "slug": "stanford-s-mattr-tops-ai-interpretability-benchmark-by-nearly-3x",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "post_training"
+          ],
+          "publish_time": "2026-09-24T06:01:25.120Z",
+          "content_type": "paper",
+          "editorial_content": null,
+          "upvotes": 1163,
+          "url": "https://alphasignal.ai/news/stanford-s-mattr-tops-ai-interpretability-benchmark-by-nearly-3x"
+        },
+        {
+          "_id": "6ab5ba8f96ee95de362df5bd",
+          "slug": "stanford-s-terminal-bench-science-exposes-gpt-6-astra-leading-at-63-on-real",
+          "username": "artificialanlys",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "agents"
+          ],
+          "publish_time": "2026-09-24T23:30:55.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 1104,
+          "url": "https://alphasignal.ai/news/stanford-s-terminal-bench-science-exposes-gpt-6-astra-leading-at-63-on-real"
+        },
+        {
+          "_id": "6ab4840b96ee95de362df55d",
+          "slug": "anthropic-s-claude-opus-5-5-tops-coding-benchmarks-but-costs-13-per-task",
+          "username": "artificialanlys",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "development"
+          ],
+          "publish_time": "2026-09-24T01:24:22.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 1086,
+          "url": "https://alphasignal.ai/news/anthropic-s-claude-opus-5-5-tops-coding-benchmarks-but-costs-13-per-task"
+        },
+        {
+          "_id": "6ab421a37902c0ea05acdbf5",
+          "slug": "prime-intellect-opens-prime-sandboxes-to-run-30m-ai-agent-environments",
+          "username": "primeintellect",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "training_infra"
+          ],
+          "publish_time": "2026-09-23T18:23:50.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 971,
+          "url": "https://alphasignal.ai/news/prime-intellect-opens-prime-sandboxes-to-run-30m-ai-agent-environments"
+        },
+        {
+          "_id": "6ab6be8dbce380b74a841e9b",
+          "slug": "cmu-builds-a-synthetic-hospital-where-ai-fails-45-of-medical-summaries",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "data"
+          ],
+          "publish_time": "2026-09-24T16:00:56.000Z",
+          "content_type": "paper",
+          "editorial_content": null,
+          "upvotes": 884,
+          "url": "https://alphasignal.ai/news/cmu-builds-a-synthetic-hospital-where-ai-fails-45-of-medical-summaries"
+        },
+        {
+          "_id": "6ab70d16c5c36db7a16e3b5e",
+          "slug": "rome-hits-500-stars-building-an-open-agent-workspace-that-never-forgets",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T15:34:05.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 803,
+          "url": "https://alphasignal.ai/news/rome-hits-500-stars-building-an-open-agent-workspace-that-never-forgets"
+        },
+        {
+          "_id": "6ab6c02cbce380b74a841e9e",
+          "slug": "coldtea-ai-s-pr-lens-draws-animated-architecture-maps-for-ai-generated-code",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "development",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T15:29:39.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 746,
+          "url": "https://alphasignal.ai/news/coldtea-ai-s-pr-lens-draws-animated-architecture-maps-for-ai-generated-code"
+        },
+        {
+          "_id": "6ab440f796ee95de362df548",
+          "slug": "prismml-runs-bonsai-1-7b-on-smart-glasses-at-2x-the-speed",
+          "username": "prismml",
+          "author_type": "company",
+          "regular_categories": [
+            "gpus",
+            "image"
+          ],
+          "publish_time": "2026-09-23T20:34:51.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 697,
+          "url": "https://alphasignal.ai/news/prismml-runs-bonsai-1-7b-on-smart-glasses-at-2x-the-speed"
+        },
+        {
+          "_id": "6ab4e3a396ee95de362df571",
+          "slug": "tencent-s-hy-mt2-brings-offline-ai-translation-to-iphone-in-33-languages",
+          "username": "tencenthunyuan",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "llms"
+          ],
+          "publish_time": "2026-09-24T07:15:39.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 635,
+          "url": "https://alphasignal.ai/news/tencent-s-hy-mt2-brings-offline-ai-translation-to-iphone-in-33-languages"
+        },
+        {
+          "_id": "6ab5743196ee95de362df5a2",
+          "slug": "perplexity-s-photon-slashes-search-latency-by-12x-for-ai-agents",
+          "username": "perplexity_ai",
+          "author_type": "company",
+          "regular_categories": [
+            "api",
+            "retrieval"
+          ],
+          "publish_time": "2026-09-24T18:07:51.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 633,
+          "url": "https://alphasignal.ai/news/perplexity-s-photon-slashes-search-latency-by-12x-for-ai-agents"
+        },
+        {
+          "_id": "6ab53f6a96ee95de362df598",
+          "slug": "liquid-ai-s-lfm2-5-vl-dspark-makes-vision-ai-3-13x-faster-on-apple-silicon",
+          "username": "liquidai",
+          "author_type": "company",
+          "regular_categories": [
+            "infra",
+            "image"
+          ],
+          "publish_time": "2026-09-24T14:35:22.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 561,
+          "url": "https://alphasignal.ai/news/liquid-ai-s-lfm2-5-vl-dspark-makes-vision-ai-3-13x-faster-on-apple-silicon"
+        },
+        {
+          "_id": "6ab68b0dbce380b74a841e90",
+          "slug": "runway-adds-seedream-5-0-layers-to-split-flat-images-into-editable-parts",
+          "username": "runwayml",
+          "author_type": "company",
+          "regular_categories": [
+            "image",
+            "development"
+          ],
+          "publish_time": "2026-09-25T14:01:02.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 538,
+          "url": "https://alphasignal.ai/news/runway-adds-seedream-5-0-layers-to-split-flat-images-into-editable-parts"
+        },
+        {
+          "_id": "6ab408927902c0ea05acdbe6",
+          "slug": "openai-s-chatgpt-work-lets-voice-control-your-emails-slack-and-calendar",
+          "username": "openai",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "audio"
+          ],
+          "publish_time": "2026-09-23T17:08:34.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 536,
+          "url": "https://alphasignal.ai/news/openai-s-chatgpt-work-lets-voice-control-your-emails-slack-and-calendar"
+        },
+        {
+          "_id": "6ab4cb4e96ee95de362df56b",
+          "slug": "meta-s-muse-slashes-real-time-avatar-generation-from-120-model-calls-to-two",
+          "username": "aiatmeta",
+          "author_type": "company",
+          "regular_categories": [
+            "video",
+            "audio"
+          ],
+          "publish_time": "2026-09-24T05:43:20.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 506,
+          "url": "https://alphasignal.ai/news/meta-s-muse-slashes-real-time-avatar-generation-from-120-model-calls-to-two"
+        }
+      ]
+    },
+    "upvotes-3d-page2": {
+      "request": {
+        "jsonrpc": "2.0",
+        "id": "upvotes-3d-page2",
+        "method": "tools/call",
+        "params": {
+          "name": "list_news",
+          "arguments": {
+            "sort": "upvotes",
+            "timeframe": "3d",
+            "page": 2,
+            "limit": 50
+          }
+        }
+      },
+      "metadata": {
+        "total_records": 78,
+        "total_pages": 2,
+        "current_page": 2,
+        "limit": 50,
+        "entity_metadata": {
+          "authors": {
+            "lmstudio": {
+              "article_count": 10
+            },
+            "perplexity_ai": {
+              "article_count": 39
+            },
+            "googleai": {
+              "article_count": 10
+            },
+            "midjourney": {
+              "article_count": 9
+            },
+            "liquidai": {
+              "article_count": 29
+            },
+            "cognition": {
+              "article_count": 23
+            },
+            "microsoftai": {
+              "article_count": 16
+            },
+            "zeddotdev": {
+              "article_count": 24
+            },
+            "alphasignal": {
+              "article_count": 4544
+            },
+            "runwayml": {
+              "article_count": 35
+            },
+            "artificialanlys": {
+              "article_count": 99
+            },
+            "youdotcom": {
+              "article_count": 2
+            },
+            "arena": {
+              "article_count": 13
+            },
+            "krea_ai": {
+              "article_count": 22
+            },
+            "tencenthunyuan": {
+              "article_count": 38
+            },
+            "msdev": {
+              "article_count": 15
+            },
+            "factoryai": {
+              "article_count": 22
+            },
+            "cohere": {
+              "article_count": 30
+            },
+            "databricks": {
+              "article_count": 13
+            },
+            "topazlabs": {
+              "article_count": 2
+            },
+            "p0": {
+              "article_count": 2
+            },
+            "replit": {
+              "article_count": 15
+            },
+            "adham__khaled__": {
+              "article_count": 14
+            }
+          },
+          "topics": {
+            "development": {
+              "article_count": 1181
+            },
+            "vibe_coding": {
+              "article_count": 144
+            },
+            "agents": {
+              "article_count": 1140
+            },
+            "gpus": {
+              "article_count": 405
+            },
+            "audio": {
+              "article_count": 378
+            },
+            "llms": {
+              "article_count": 1540
+            },
+            "image": {
+              "article_count": 1056
+            },
+            "business": {
+              "article_count": 187
+            },
+            "benchmarks": {
+              "article_count": 991
+            },
+            "video": {
+              "article_count": 409
+            },
+            "open_source": {
+              "article_count": 1341
+            },
+            "api": {
+              "article_count": 271
+            },
+            "retrieval": {
+              "article_count": 303
+            },
+            "post_training": {
+              "article_count": 649
+            },
+            "training_infra": {
+              "article_count": 338
+            },
+            "security": {
+              "article_count": 532
+            },
+            "infra": {
+              "article_count": 414
+            }
+          }
+        }
+      },
+      "items": [
+        {
+          "_id": "6ab42a4e7902c0ea05acdbfa",
+          "slug": "lm-studio-s-bionic-lets-developers-draw-architecture-and-code-it-instantly",
+          "username": "lmstudio",
+          "author_type": "company",
+          "regular_categories": [
+            "development",
+            "vibe_coding"
+          ],
+          "publish_time": "2026-09-23T17:55:12.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 432,
+          "url": "https://alphasignal.ai/news/lm-studio-s-bionic-lets-developers-draw-architecture-and-code-it-instantly"
+        },
+        {
+          "_id": "6ab5629796ee95de362df59e",
+          "slug": "perplexity-brings-portable-computer-to-amd-ryzen-ai-max-pcs",
+          "username": "perplexity_ai",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "gpus"
+          ],
+          "publish_time": "2026-09-24T16:35:30.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 426,
+          "url": "https://alphasignal.ai/news/perplexity-brings-portable-computer-to-amd-ryzen-ai-max-pcs"
+        },
+        {
+          "_id": "6ab6ce358cb49c4afa450ffe",
+          "slug": "google-s-gemini-3-8-brings-programmable-voices-and-sends-tpus-into-orbit",
+          "username": "googleai",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "llms"
+          ],
+          "publish_time": "2026-09-25T18:28:00.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 403,
+          "url": "https://alphasignal.ai/news/google-s-gemini-3-8-brings-programmable-voices-and-sends-tpus-into-orbit"
+        },
+        {
+          "_id": "6ab585c796ee95de362df5a8",
+          "slug": "midjourney-s-v8-drops-seamless-tiles-smarter-edits-and-live-style-previews",
+          "username": "midjourney",
+          "author_type": "company",
+          "regular_categories": [
+            "image",
+            "development"
+          ],
+          "publish_time": "2026-09-24T19:20:37.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 403,
+          "url": "https://alphasignal.ai/news/midjourney-s-v8-drops-seamless-tiles-smarter-edits-and-live-style-previews"
+        },
+        {
+          "_id": "6ab42f617902c0ea05acdbfc",
+          "slug": "liquid-ai-brings-liquid-context-to-snapdragon-so-agents-share-your-memory",
+          "username": "liquidai",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "gpus"
+          ],
+          "publish_time": "2026-09-23T19:00:25.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 401,
+          "url": "https://alphasignal.ai/news/liquid-ai-brings-liquid-context-to-snapdragon-so-agents-share-your-memory"
+        },
+        {
+          "_id": "6ab4216f7902c0ea05acdbf3",
+          "slug": "cognition-embeds-devin-into-microsoft-teams-for-90-of-fortune-500",
+          "username": "cognition",
+          "author_type": "company",
+          "regular_categories": [
+            "development",
+            "business"
+          ],
+          "publish_time": "2026-09-23T18:14:35.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 370,
+          "url": "https://alphasignal.ai/news/cognition-embeds-devin-into-microsoft-teams-for-90-of-fortune-500"
+        },
+        {
+          "_id": "6ab4492d96ee95de362df54b",
+          "slug": "microsoft-s-mai-image-2-6-climbs-to-no-2-faster-than-any-rival",
+          "username": "microsoftai",
+          "author_type": "company",
+          "regular_categories": [
+            "image",
+            "benchmarks"
+          ],
+          "publish_time": "2026-09-23T16:54:48.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 336,
+          "url": "https://alphasignal.ai/news/microsoft-s-mai-image-2-6-climbs-to-no-2-faster-than-any-rival"
+        },
+        {
+          "_id": "6ab6aa5bbce380b74a841e91",
+          "slug": "zed-s-delta-beats-codex-and-claude-code-at-half-the-requests",
+          "username": "zeddotdev",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "development"
+          ],
+          "publish_time": "2026-09-25T15:50:26.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 327,
+          "url": "https://alphasignal.ai/news/zed-s-delta-beats-codex-and-claude-code-at-half-the-requests"
+        },
+        {
+          "_id": "6ab70baac5c36db7a16e3b5b",
+          "slug": "penn-researchers-show-jev-cuts-ai-grading-costs-by-325x",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "llms"
+          ],
+          "publish_time": "2026-09-24T13:16:21.000Z",
+          "content_type": "paper",
+          "editorial_content": null,
+          "upvotes": 305,
+          "url": "https://alphasignal.ai/news/penn-researchers-show-jev-cuts-ai-grading-costs-by-325x"
+        },
+        {
+          "_id": "6ab6d1e68cb49c4afa450fff",
+          "slug": "runway-brings-ai-video-and-image-generation-directly-into-claude",
+          "username": "runwayml",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "video"
+          ],
+          "publish_time": "2026-09-25T17:41:35.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 297,
+          "url": "https://alphasignal.ai/news/runway-brings-ai-video-and-image-generation-directly-into-claude"
+        },
+        {
+          "_id": "6ab5134096ee95de362df581",
+          "slug": "genspark-s-genoffice-lets-ai-coding-agents-build-office-files-without-opening",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "open_source",
+            "development"
+          ],
+          "publish_time": "2026-09-24T08:40:26.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 263,
+          "url": "https://alphasignal.ai/news/genspark-s-genoffice-lets-ai-coding-agents-build-office-files-without-opening"
+        },
+        {
+          "_id": "6ab4e3f096ee95de362df576",
+          "slug": "ant-group-s-ming-image-tops-open-weight-ui-design-rankings-among-81-models",
+          "username": "artificialanlys",
+          "author_type": "company",
+          "regular_categories": [
+            "image",
+            "open_source"
+          ],
+          "publish_time": "2026-09-24T00:26:13.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 241,
+          "url": "https://alphasignal.ai/news/ant-group-s-ming-image-tops-open-weight-ui-design-rankings-among-81-models"
+        },
+        {
+          "_id": "6ab4e32e96ee95de362df570",
+          "slug": "you-com-adds-one-api-flag-that-boosts-search-accuracy-by-20",
+          "username": "youdotcom",
+          "author_type": "company",
+          "regular_categories": [
+            "api",
+            "retrieval"
+          ],
+          "publish_time": "2026-09-23T17:32:48.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 231,
+          "url": "https://alphasignal.ai/news/you-com-adds-one-api-flag-that-boosts-search-accuracy-by-20"
+        },
+        {
+          "_id": "6ab59e6996ee95de362df5b0",
+          "slug": "lm-arena-merges-12-ai-leaderboards-into-one-free-dashboard",
+          "username": "arena",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "llms"
+          ],
+          "publish_time": "2026-09-24T20:12:20.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 224,
+          "url": "https://alphasignal.ai/news/lm-arena-merges-12-ai-leaderboards-into-one-free-dashboard"
+        },
+        {
+          "_id": "6ab5905796ee95de362df5ae",
+          "slug": "krea-agent-now-turns-plain-language-prompts-into-custom-creative-apps",
+          "username": "krea_ai",
+          "author_type": "company",
+          "regular_categories": [
+            "vibe_coding",
+            "video"
+          ],
+          "publish_time": "2026-09-24T17:54:25.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 224,
+          "url": "https://alphasignal.ai/news/krea-agent-now-turns-plain-language-prompts-into-custom-creative-apps"
+        },
+        {
+          "_id": "6ab5dee28c55327b26e95cf5",
+          "slug": "zed-1-21-lets-developers-run-language-server-commands-without-cursor-context",
+          "username": "zeddotdev",
+          "author_type": "company",
+          "regular_categories": [
+            "development",
+            "open_source"
+          ],
+          "publish_time": "2026-09-24T20:37:38.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 216,
+          "url": "https://alphasignal.ai/news/zed-1-21-lets-developers-run-language-server-commands-without-cursor-context"
+        },
+        {
+          "_id": "6ab4e3be96ee95de362df572",
+          "slug": "tencent-cuts-ai-training-time-by-29-with-a-simple-batch-size-trick",
+          "username": "tencenthunyuan",
+          "author_type": "company",
+          "regular_categories": [
+            "post_training",
+            "training_infra"
+          ],
+          "publish_time": "2026-09-24T03:15:39.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 192,
+          "url": "https://alphasignal.ai/news/tencent-cuts-ai-training-time-by-29-with-a-simple-batch-size-trick"
+        },
+        {
+          "_id": "6ab5c9b78c55327b26e95cf3",
+          "slug": "microsoft-s-run-assert-eval-cuts-ai-agent-cross-account-failures-from-43-8-to",
+          "username": "msdev",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "security"
+          ],
+          "publish_time": "2026-09-24T17:37:47.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 185,
+          "url": "https://alphasignal.ai/news/microsoft-s-run-assert-eval-cuts-ai-agent-cross-account-failures-from-43-8-to"
+        },
+        {
+          "_id": "6ab479b296ee95de362df55b",
+          "slug": "factory-launches-droids-teams-plan-for-small-developer-groups-at-46-per-seat",
+          "username": "factoryai",
+          "author_type": "company",
+          "regular_categories": [
+            "development",
+            "business"
+          ],
+          "publish_time": "2026-09-23T17:34:46.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 163,
+          "url": "https://alphasignal.ai/news/factory-launches-droids-teams-plan-for-small-developer-groups-at-46-per-seat"
+        },
+        {
+          "_id": "6ab45ab896ee95de362df551",
+          "slug": "cohere-brings-model-vault-to-canada-for-enterprises-needing-data-sovereignty",
+          "username": "cohere",
+          "author_type": "company",
+          "regular_categories": [
+            "business",
+            "infra"
+          ],
+          "publish_time": "2026-09-23T18:12:17.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 157,
+          "url": "https://alphasignal.ai/news/cohere-brings-model-vault-to-canada-for-enterprises-needing-data-sovereignty"
+        },
+        {
+          "_id": "6ab584b596ee95de362df5a7",
+          "slug": "databricks-buys-row-zero-to-kill-the-ungoverned-spreadsheet",
+          "username": "databricks",
+          "author_type": "company",
+          "regular_categories": [
+            "business",
+            "infra"
+          ],
+          "publish_time": "2026-09-24T13:32:32.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 153,
+          "url": "https://alphasignal.ai/news/databricks-buys-row-zero-to-kill-the-ungoverned-spreadsheet"
+        },
+        {
+          "_id": "6ab4707d96ee95de362df552",
+          "slug": "adobe-buys-topaz-labs-for-340m-and-brings-ai-upscaling-to-photoshop",
+          "username": "topazlabs",
+          "author_type": "company",
+          "regular_categories": [
+            "business",
+            "image"
+          ],
+          "publish_time": "2026-09-23T15:06:10.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 153,
+          "url": "https://alphasignal.ai/news/adobe-buys-topaz-labs-for-340m-and-brings-ai-upscaling-to-photoshop"
+        },
+        {
+          "_id": "6ab7457ef773dca1c372cc97",
+          "slug": "parallel-web-systems-lets-ai-agents-query-crunchbase-and-pubmed-directly",
+          "username": "p0",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "retrieval"
+          ],
+          "publish_time": "2026-09-24T15:25:16.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 117,
+          "url": "https://alphasignal.ai/news/parallel-web-systems-lets-ai-agents-query-crunchbase-and-pubmed-directly"
+        },
+        {
+          "_id": "6ab6c3498cb49c4afa450ffa",
+          "slug": "hermes-plugin-hands-agent-triage-to-jev-in-0-4-seconds",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "infra"
+          ],
+          "publish_time": "2026-09-23T19:49:40.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 117,
+          "url": "https://alphasignal.ai/news/hermes-plugin-hands-agent-triage-to-jev-in-0-4-seconds"
+        },
+        {
+          "_id": "6ab755791c11da0c449c7411",
+          "slug": "replit-acquires-atta-to-turn-agent-chat-into-a-bi-powerhouse",
+          "username": "replit",
+          "author_type": "company",
+          "regular_categories": [
+            "vibe_coding",
+            "business"
+          ],
+          "publish_time": "2026-09-25T16:01:46.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 115,
+          "url": "https://alphasignal.ai/news/replit-acquires-atta-to-turn-agent-chat-into-a-bi-powerhouse"
+        },
+        {
+          "_id": "6ab615ecbce380b74a841e7c",
+          "slug": "mia-ai-lab-squeezes-a-99-gb-qwen3-8-flash-next-onto-one-gpu",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "infra",
+            "llms"
+          ],
+          "publish_time": "2026-09-25T02:05:18.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 115,
+          "url": "https://alphasignal.ai/news/mia-ai-lab-squeezes-a-99-gb-qwen3-8-flash-next-onto-one-gpu"
+        },
+        {
+          "_id": "6ab725ecaf1432d804228b38",
+          "slug": "studentbench-shows-ai-tutors-match-human-gre-gains-at-918x-lower-cost",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "llms"
+          ],
+          "publish_time": "2026-09-23T17:57:45.000Z",
+          "content_type": "paper",
+          "editorial_content": null,
+          "upvotes": 13,
+          "url": "https://alphasignal.ai/news/studentbench-shows-ai-tutors-match-human-gre-gains-at-918x-lower-cost"
+        },
+        {
+          "_id": "6ab5284c9e7dd9c1ba8b9529",
+          "slug": "how-to-run-qwen-3-8-27b-as-a-local-coding-agent",
+          "username": "adham__khaled__",
+          "author_type": "author",
+          "regular_categories": [
+            "agents",
+            "development",
+            "open_source"
+          ],
+          "publish_time": "2026-09-24T15:00:00.000Z",
+          "content_type": "tutorial",
+          "editorial_content": true,
+          "upvotes": 6,
+          "url": "https://alphasignal.ai/news/how-to-run-qwen-3-8-27b-as-a-local-coding-agent"
+        }
+      ]
+    },
+    "trending": {
+      "request": {
+        "jsonrpc": "2.0",
+        "id": "trending",
+        "method": "tools/call",
+        "params": {
+          "name": "list_trending_news",
+          "arguments": {
+            "limit": 50
+          }
+        }
+      },
+      "metadata": null,
+      "items": [
+        {
+          "_id": "6ab418507902c0ea05acdbec",
+          "slug": "anthropic-s-claude-uncovers-a-hidden-crispr-like-system-in-virus-dna",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/anthropic-s-claude-uncovers-a-hidden-crispr-like-system-in-virus-dna"
+        },
+        {
+          "_id": "6ab4459c96ee95de362df54a",
+          "slug": "anthropic-ships-claude-code-cloud-sessions-so-developers-can-code-without-a",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/anthropic-ships-claude-code-cloud-sessions-so-developers-can-code-without-a"
+        },
+        {
+          "_id": "6ab3f76f7902c0ea05acdbe3",
+          "slug": "nvidia-s-nemotron-3-beats-12-rivals-with-a-14-72-speaker-error-rate",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/nvidia-s-nemotron-3-beats-12-rivals-with-a-14-72-speaker-error-rate"
+        },
+        {
+          "_id": "6ab428b07902c0ea05acdbf8",
+          "slug": "anthropic-s-claude-marketplace-unifies-2-000-partners-into-one-enterprise-hub",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/anthropic-s-claude-marketplace-unifies-2-000-partners-into-one-enterprise-hub"
+        },
+        {
+          "_id": "6ab6b613bce380b74a841e97",
+          "slug": "anthropic-s-claude-breaks-physics-record-with-a-nine-loop-particle-calculation",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/anthropic-s-claude-breaks-physics-record-with-a-nine-loop-particle-calculation"
+        },
+        {
+          "_id": "6ab5686496ee95de362df59f",
+          "slug": "stanford-s-clm-turns-agent-decisions-into-vector-search-9x-faster",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/stanford-s-clm-turns-agent-decisions-into-vector-search-9x-faster"
+        },
+        {
+          "_id": "6ab425277902c0ea05acdbf7",
+          "slug": "openai-s-mentalhealthbench-tests-ai-on-everyday-stress-beyond-crisis-responses",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/openai-s-mentalhealthbench-tests-ai-on-everyday-stress-beyond-crisis-responses"
+        },
+        {
+          "_id": "6ab5ba5496ee95de362df5b5",
+          "slug": "panwatch-packs-multi-agent-stock-research-into-one-open-source-docker-image",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/panwatch-packs-multi-agent-stock-research-into-one-open-source-docker-image"
+        },
+        {
+          "_id": "6ab3f3167902c0ea05acdbe2",
+          "slug": "google-ships-gemini-3-8-flash-tts-with-prompt-directed-emotional-speech",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/google-ships-gemini-3-8-flash-tts-with-prompt-directed-emotional-speech"
+        },
+        {
+          "_id": "6ab43d4f7902c0ea05acdbfe",
+          "slug": "cursor-s-rollouts-sends-ai-agents-to-watch-your-code-in-production",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/cursor-s-rollouts-sends-ai-agents-to-watch-your-code-in-production"
+        },
+        {
+          "_id": "6ab66309bce380b74a841e82",
+          "slug": "wifit3-brings-wi-fi-hacking-tools-to-windows-without-linux-or-root",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/wifit3-brings-wi-fi-hacking-tools-to-windows-without-linux-or-root"
+        },
+        {
+          "_id": "6ab64657bce380b74a841e81",
+          "slug": "ornith-1-5-beats-35b-models-on-reasoning-with-just-9b-parameters",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/ornith-1-5-beats-35b-models-on-reasoning-with-just-9b-parameters"
+        },
+        {
+          "_id": "6ab6e46f8cb49c4afa451001",
+          "slug": "hugging-face-s-stsb-bert-tiny-packs-a-full-embedding-stack-into-17-6-mb",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/hugging-face-s-stsb-bert-tiny-packs-a-full-embedding-stack-into-17-6-mb"
+        },
+        {
+          "_id": "6ab6243cbce380b74a841e80",
+          "slug": "naver-s-splade-model-hits-878k-downloads-doubling-bm25-search-accuracy",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/naver-s-splade-model-hits-878k-downloads-doubling-bm25-search-accuracy"
+        },
+        {
+          "_id": "6ab3bf237902c0ea05acdbcd",
+          "slug": "alibaba-s-qwen-intelligence-splits-phone-automation-across-three-specialized",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/alibaba-s-qwen-intelligence-splits-phone-automation-across-three-specialized"
+        },
+        {
+          "_id": "6ab545bc96ee95de362df599",
+          "slug": "odyssey-s-agora-2-lets-20-players-share-one-ai-generated-world",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/odyssey-s-agora-2-lets-20-players-share-one-ai-generated-world"
+        },
+        {
+          "_id": "6ab55de696ee95de362df59c",
+          "slug": "anthropic-now-charges-developers-for-claude-s-blocked-safety-refusals",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/anthropic-now-charges-developers-for-claude-s-blocked-safety-refusals"
+        },
+        {
+          "_id": "6ab5ba7296ee95de362df5b9",
+          "slug": "open-source-laya-turns-slack-and-gmail-chaos-into-approved-actions",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/open-source-laya-turns-slack-and-gmail-chaos-into-approved-actions"
+        },
+        {
+          "_id": "6ab3cd957902c0ea05acdbcf",
+          "slug": "jared-palmer-s-kev-0-5b-answers-many-ai-questions-in-one-38mb-pass",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/jared-palmer-s-kev-0-5b-answers-many-ai-questions-in-one-38mb-pass"
+        },
+        {
+          "_id": "6ab6c19a8cb49c4afa450ff8",
+          "slug": "typellm-forces-llms-to-return-valid-json-every-time-5-8x-faster",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/typellm-forces-llms-to-return-valid-json-every-time-5-8x-faster"
+        },
+        {
+          "_id": "6ab550ff96ee95de362df59a",
+          "slug": "sakana-ai-recruits-lstm-pioneer-schmidhuber-to-lead-self-improving-ai-lab",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/sakana-ai-recruits-lstm-pioneer-schmidhuber-to-lead-self-improving-ai-lab"
+        },
+        {
+          "_id": "6ab3fc8b7902c0ea05acdbe5",
+          "slug": "google-s-gemini-now-controls-adobe-linear-and-12-more-apps",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/google-s-gemini-now-controls-adobe-linear-and-12-more-apps"
+        },
+        {
+          "_id": "6ab5c4238c55327b26e95cef",
+          "slug": "edge0-ships-audio8-asr-infinite-to-transcribe-speech-for-hours-straight",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/edge0-ships-audio8-asr-infinite-to-transcribe-speech-for-hours-straight"
+        },
+        {
+          "_id": "6ab58d4a96ee95de362df5aa",
+          "slug": "google-s-gemini-and-veo-team-up-to-generate-coherent-10-minute-videos",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/google-s-gemini-and-veo-team-up-to-generate-coherent-10-minute-videos"
+        },
+        {
+          "_id": "6ab4406596ee95de362df545",
+          "slug": "fish-audio-s-drama-3-lets-developers-direct-ai-voice-like-a-human-actor",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/fish-audio-s-drama-3-lets-developers-direct-ai-voice-like-a-human-actor"
+        },
+        {
+          "_id": "6ab417187902c0ea05acdbea",
+          "slug": "black-forest-labs-flux-3-action-beats-pi0-5-at-robot-control-by-1-66x",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/black-forest-labs-flux-3-action-beats-pi0-5-at-robot-control-by-1-66x"
+        },
+        {
+          "_id": "6ab67020bce380b74a841e8c",
+          "slug": "moondream-shrinks-parakeet-redux-speech-recognition-to-178-mb",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/moondream-shrinks-parakeet-redux-speech-recognition-to-178-mb"
+        },
+        {
+          "_id": "6ab6ae3bbce380b74a841e95",
+          "slug": "exa-s-agent-ultra-beats-openai-and-anthropic-at-web-research-for-54-less",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/exa-s-agent-ultra-beats-openai-and-anthropic-at-web-research-for-54-less"
+        },
+        {
+          "_id": "6ab44f1896ee95de362df54f",
+          "slug": "google-s-antigravity-sdk-lets-gemma-4-run-agent-workflows-without-the-cloud",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/google-s-antigravity-sdk-lets-gemma-4-run-agent-workflows-without-the-cloud"
+        },
+        {
+          "_id": "6ab52dce96ee95de362df596",
+          "slug": "sarvam-ai-s-vision-2-1-beats-gemini-at-reading-india-s-22-languages",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/sarvam-ai-s-vision-2-1-beats-gemini-at-reading-india-s-22-languages"
+        },
+        {
+          "_id": "6ab413da7902c0ea05acdbe8",
+          "slug": "epoch-s-fab-benchmark-watched-gpt-6-astra-jump-from-28-to-80",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/epoch-s-fab-benchmark-watched-gpt-6-astra-jump-from-28-to-80"
+        },
+        {
+          "_id": "6ab70bd6c5c36db7a16e3b5d",
+          "slug": "researchers-train-ai-on-zero-human-data-using-self-play-programs",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/researchers-train-ai-on-zero-human-data-using-self-play-programs"
+        },
+        {
+          "_id": "6ab66eccbce380b74a841e84",
+          "slug": "fastino-s-gliner2-5-decide-beats-1b-models-at-agent-routing-with-340m-parameters",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/fastino-s-gliner2-5-decide-beats-1b-models-at-agent-routing-with-340m-parameters"
+        },
+        {
+          "_id": "6ab66f1bbce380b74a841e88",
+          "slug": "together-ai-s-tev1-turns-routing-and-moderation-into-a-17-fine-tune",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/together-ai-s-tev1-turns-routing-and-moderation-into-a-17-fine-tune"
+        },
+        {
+          "_id": "6ab4720196ee95de362df553",
+          "slug": "featherless-ai-s-simple-jev-turns-open-hugging-face-models-into-classifier-apis",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/featherless-ai-s-simple-jev-turns-open-hugging-face-models-into-classifier-apis"
+        },
+        {
+          "_id": "6ab667dfbce380b74a841e83",
+          "slug": "sarvam-releases-saaras-v4-to-transcribe-all-22-indian-languages-at-once",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/sarvam-releases-saaras-v4-to-transcribe-all-22-indian-languages-at-once"
+        },
+        {
+          "_id": "6ab4bd0396ee95de362df566",
+          "slug": "stanford-s-mattr-tops-ai-interpretability-benchmark-by-nearly-3x",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/stanford-s-mattr-tops-ai-interpretability-benchmark-by-nearly-3x"
+        },
+        {
+          "_id": "6ab5ba8f96ee95de362df5bd",
+          "slug": "stanford-s-terminal-bench-science-exposes-gpt-6-astra-leading-at-63-on-real",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/stanford-s-terminal-bench-science-exposes-gpt-6-astra-leading-at-63-on-real"
+        },
+        {
+          "_id": "6ab4840b96ee95de362df55d",
+          "slug": "anthropic-s-claude-opus-5-5-tops-coding-benchmarks-but-costs-13-per-task",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/anthropic-s-claude-opus-5-5-tops-coding-benchmarks-but-costs-13-per-task"
+        },
+        {
+          "_id": "6ab421a37902c0ea05acdbf5",
+          "slug": "prime-intellect-opens-prime-sandboxes-to-run-30m-ai-agent-environments",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/prime-intellect-opens-prime-sandboxes-to-run-30m-ai-agent-environments"
+        },
+        {
+          "_id": "6ab6be8dbce380b74a841e9b",
+          "slug": "cmu-builds-a-synthetic-hospital-where-ai-fails-45-of-medical-summaries",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/cmu-builds-a-synthetic-hospital-where-ai-fails-45-of-medical-summaries"
+        },
+        {
+          "_id": "6ab70d16c5c36db7a16e3b5e",
+          "slug": "rome-hits-500-stars-building-an-open-agent-workspace-that-never-forgets",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/rome-hits-500-stars-building-an-open-agent-workspace-that-never-forgets"
+        },
+        {
+          "_id": "6ab6c02cbce380b74a841e9e",
+          "slug": "coldtea-ai-s-pr-lens-draws-animated-architecture-maps-for-ai-generated-code",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/coldtea-ai-s-pr-lens-draws-animated-architecture-maps-for-ai-generated-code"
+        },
+        {
+          "_id": "6ab440f796ee95de362df548",
+          "slug": "prismml-runs-bonsai-1-7b-on-smart-glasses-at-2x-the-speed",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/prismml-runs-bonsai-1-7b-on-smart-glasses-at-2x-the-speed"
+        },
+        {
+          "_id": "6ab4e3a396ee95de362df571",
+          "slug": "tencent-s-hy-mt2-brings-offline-ai-translation-to-iphone-in-33-languages",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/tencent-s-hy-mt2-brings-offline-ai-translation-to-iphone-in-33-languages"
+        },
+        {
+          "_id": "6ab5743196ee95de362df5a2",
+          "slug": "perplexity-s-photon-slashes-search-latency-by-12x-for-ai-agents",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/perplexity-s-photon-slashes-search-latency-by-12x-for-ai-agents"
+        },
+        {
+          "_id": "6ab53f6a96ee95de362df598",
+          "slug": "liquid-ai-s-lfm2-5-vl-dspark-makes-vision-ai-3-13x-faster-on-apple-silicon",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/liquid-ai-s-lfm2-5-vl-dspark-makes-vision-ai-3-13x-faster-on-apple-silicon"
+        },
+        {
+          "_id": "6ab68b0dbce380b74a841e90",
+          "slug": "runway-adds-seedream-5-0-layers-to-split-flat-images-into-editable-parts",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/runway-adds-seedream-5-0-layers-to-split-flat-images-into-editable-parts"
+        },
+        {
+          "_id": "6ab408927902c0ea05acdbe6",
+          "slug": "openai-s-chatgpt-work-lets-voice-control-your-emails-slack-and-calendar",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/openai-s-chatgpt-work-lets-voice-control-your-emails-slack-and-calendar"
+        },
+        {
+          "_id": "6ab4cb4e96ee95de362df56b",
+          "slug": "meta-s-muse-slashes-real-time-avatar-generation-from-120-model-calls-to-two",
+          "author_type": "company",
+          "url": "https://alphasignal.ai/news/meta-s-muse-slashes-real-time-avatar-generation-from-120-model-calls-to-two"
+        }
+      ]
+    },
+    "latest-24h": {
+      "request": {
+        "jsonrpc": "2.0",
+        "id": "latest-24h",
+        "method": "tools/call",
+        "params": {
+          "name": "list_news",
+          "arguments": {
+            "sort": "latest",
+            "timeframe": "24h",
+            "limit": 50
+          }
+        }
+      },
+      "metadata": {
+        "total_records": 15,
+        "total_pages": 1,
+        "current_page": 1,
+        "limit": 50,
+        "entity_metadata": {
+          "authors": {
+            "alphasignal": {
+              "article_count": 4544
+            },
+            "googleai": {
+              "article_count": 10
+            },
+            "anthropicai": {
+              "article_count": 44
+            },
+            "runwayml": {
+              "article_count": 35
+            },
+            "exaailabs": {
+              "article_count": 11
+            },
+            "replit": {
+              "article_count": 15
+            },
+            "zeddotdev": {
+              "article_count": 24
+            },
+            "togethercompute": {
+              "article_count": 9
+            }
+          },
+          "topics": {
+            "retrieval": {
+              "article_count": 303
+            },
+            "open_source": {
+              "article_count": 1341
+            },
+            "llms": {
+              "article_count": 1540
+            },
+            "development": {
+              "article_count": 1181
+            },
+            "audio": {
+              "article_count": 378
+            },
+            "reasoning": {
+              "article_count": 506
+            },
+            "agents": {
+              "article_count": 1140
+            },
+            "video": {
+              "article_count": 409
+            },
+            "api": {
+              "article_count": 271
+            },
+            "vibe_coding": {
+              "article_count": 144
+            },
+            "business": {
+              "article_count": 187
+            },
+            "benchmarks": {
+              "article_count": 991
+            },
+            "image": {
+              "article_count": 1056
+            },
+            "gpus": {
+              "article_count": 405
+            },
+            "post_training": {
+              "article_count": 649
+            },
+            "security": {
+              "article_count": 532
+            }
+          }
+        }
+      },
+      "items": [
+        {
+          "_id": "6ab6e46f8cb49c4afa451001",
+          "slug": "hugging-face-s-stsb-bert-tiny-packs-a-full-embedding-stack-into-17-6-mb",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "retrieval",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T21:14:59.147Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 3368,
+          "url": "https://alphasignal.ai/news/hugging-face-s-stsb-bert-tiny-packs-a-full-embedding-stack-into-17-6-mb"
+        },
+        {
+          "_id": "6ab6c19a8cb49c4afa450ff8",
+          "slug": "typellm-forces-llms-to-return-valid-json-every-time-5-8x-faster",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "development"
+          ],
+          "publish_time": "2026-09-25T18:46:35.383Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 2538,
+          "url": "https://alphasignal.ai/news/typellm-forces-llms-to-return-valid-json-every-time-5-8x-faster"
+        },
+        {
+          "_id": "6ab6ce358cb49c4afa450ffe",
+          "slug": "google-s-gemini-3-8-brings-programmable-voices-and-sends-tpus-into-orbit",
+          "username": "googleai",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "llms"
+          ],
+          "publish_time": "2026-09-25T18:28:00.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 403,
+          "url": "https://alphasignal.ai/news/google-s-gemini-3-8-brings-programmable-voices-and-sends-tpus-into-orbit"
+        },
+        {
+          "_id": "6ab6b613bce380b74a841e97",
+          "slug": "anthropic-s-claude-breaks-physics-record-with-a-nine-loop-particle-calculation",
+          "username": "anthropicai",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "reasoning"
+          ],
+          "publish_time": "2026-09-25T17:46:08.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 5564,
+          "url": "https://alphasignal.ai/news/anthropic-s-claude-breaks-physics-record-with-a-nine-loop-particle-calculation"
+        },
+        {
+          "_id": "6ab6d1e68cb49c4afa450fff",
+          "slug": "runway-brings-ai-video-and-image-generation-directly-into-claude",
+          "username": "runwayml",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "video"
+          ],
+          "publish_time": "2026-09-25T17:41:35.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 297,
+          "url": "https://alphasignal.ai/news/runway-brings-ai-video-and-image-generation-directly-into-claude"
+        },
+        {
+          "_id": "6ab6ae3bbce380b74a841e95",
+          "slug": "exa-s-agent-ultra-beats-openai-and-anthropic-at-web-research-for-54-less",
+          "username": "exaailabs",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "api"
+          ],
+          "publish_time": "2026-09-25T16:46:16.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 1907,
+          "url": "https://alphasignal.ai/news/exa-s-agent-ultra-beats-openai-and-anthropic-at-web-research-for-54-less"
+        },
+        {
+          "_id": "6ab755791c11da0c449c7411",
+          "slug": "replit-acquires-atta-to-turn-agent-chat-into-a-bi-powerhouse",
+          "username": "replit",
+          "author_type": "company",
+          "regular_categories": [
+            "vibe_coding",
+            "business"
+          ],
+          "publish_time": "2026-09-25T16:01:46.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 115,
+          "url": "https://alphasignal.ai/news/replit-acquires-atta-to-turn-agent-chat-into-a-bi-powerhouse"
+        },
+        {
+          "_id": "6ab6aa5bbce380b74a841e91",
+          "slug": "zed-s-delta-beats-codex-and-claude-code-at-half-the-requests",
+          "username": "zeddotdev",
+          "author_type": "company",
+          "regular_categories": [
+            "benchmarks",
+            "development"
+          ],
+          "publish_time": "2026-09-25T15:50:26.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 327,
+          "url": "https://alphasignal.ai/news/zed-s-delta-beats-codex-and-claude-code-at-half-the-requests"
+        },
+        {
+          "_id": "6ab70d16c5c36db7a16e3b5e",
+          "slug": "rome-hits-500-stars-building-an-open-agent-workspace-that-never-forgets",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T15:34:05.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 803,
+          "url": "https://alphasignal.ai/news/rome-hits-500-stars-building-an-open-agent-workspace-that-never-forgets"
+        },
+        {
+          "_id": "6ab6c02cbce380b74a841e9e",
+          "slug": "coldtea-ai-s-pr-lens-draws-animated-architecture-maps-for-ai-generated-code",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "development",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T15:29:39.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 746,
+          "url": "https://alphasignal.ai/news/coldtea-ai-s-pr-lens-draws-animated-architecture-maps-for-ai-generated-code"
+        },
+        {
+          "_id": "6ab68b0dbce380b74a841e90",
+          "slug": "runway-adds-seedream-5-0-layers-to-split-flat-images-into-editable-parts",
+          "username": "runwayml",
+          "author_type": "company",
+          "regular_categories": [
+            "image",
+            "development"
+          ],
+          "publish_time": "2026-09-25T14:01:02.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 538,
+          "url": "https://alphasignal.ai/news/runway-adds-seedream-5-0-layers-to-split-flat-images-into-editable-parts"
+        },
+        {
+          "_id": "6ab67020bce380b74a841e8c",
+          "slug": "moondream-shrinks-parakeet-redux-speech-recognition-to-178-mb",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "gpus"
+          ],
+          "publish_time": "2026-09-25T12:58:47.190Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 1942,
+          "url": "https://alphasignal.ai/news/moondream-shrinks-parakeet-redux-speech-recognition-to-178-mb"
+        },
+        {
+          "_id": "6ab66f1bbce380b74a841e88",
+          "slug": "together-ai-s-tev1-turns-routing-and-moderation-into-a-17-fine-tune",
+          "username": "togethercompute",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "post_training"
+          ],
+          "publish_time": "2026-09-25T12:54:27.930Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 1283,
+          "url": "https://alphasignal.ai/news/together-ai-s-tev1-turns-routing-and-moderation-into-a-17-fine-tune"
+        },
+        {
+          "_id": "6ab66eccbce380b74a841e84",
+          "slug": "fastino-s-gliner2-5-decide-beats-1b-models-at-agent-routing-with-340m-parameters",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T12:53:05.791Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 1324,
+          "url": "https://alphasignal.ai/news/fastino-s-gliner2-5-decide-beats-1b-models-at-agent-routing-with-340m-parameters"
+        },
+        {
+          "_id": "6ab66309bce380b74a841e82",
+          "slug": "wifit3-brings-wi-fi-hacking-tools-to-windows-without-linux-or-root",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "security",
+            "development"
+          ],
+          "publish_time": "2026-09-25T12:03:03.186Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 3374,
+          "url": "https://alphasignal.ai/news/wifit3-brings-wi-fi-hacking-tools-to-windows-without-linux-or-root"
+        }
+      ]
+    },
+    "latest-custom": {
+      "request": {
+        "jsonrpc": "2.0",
+        "id": "latest-custom",
+        "method": "tools/call",
+        "params": {
+          "name": "list_news",
+          "arguments": {
+            "sort": "latest",
+            "timeframe": "custom",
+            "start_date": "2026-09-20",
+            "end_date": "2026-09-21",
+            "limit": 5
+          }
+        }
+      },
+      "metadata": {
+        "total_records": 6501,
+        "total_pages": 1301,
+        "current_page": 1,
+        "limit": 5,
+        "entity_metadata": {
+          "authors": {
+            "alphasignal": {
+              "article_count": 4544
+            },
+            "googleai": {
+              "article_count": 10
+            },
+            "anthropicai": {
+              "article_count": 44
+            },
+            "runwayml": {
+              "article_count": 35
+            }
+          },
+          "topics": {
+            "retrieval": {
+              "article_count": 303
+            },
+            "open_source": {
+              "article_count": 1341
+            },
+            "llms": {
+              "article_count": 1540
+            },
+            "development": {
+              "article_count": 1181
+            },
+            "audio": {
+              "article_count": 378
+            },
+            "reasoning": {
+              "article_count": 506
+            },
+            "agents": {
+              "article_count": 1140
+            },
+            "video": {
+              "article_count": 409
+            }
+          }
+        }
+      },
+      "items": [
+        {
+          "_id": "6ab6e46f8cb49c4afa451001",
+          "slug": "hugging-face-s-stsb-bert-tiny-packs-a-full-embedding-stack-into-17-6-mb",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "retrieval",
+            "open_source"
+          ],
+          "publish_time": "2026-09-25T21:14:59.147Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 3368,
+          "url": "https://alphasignal.ai/news/hugging-face-s-stsb-bert-tiny-packs-a-full-embedding-stack-into-17-6-mb"
+        },
+        {
+          "_id": "6ab6c19a8cb49c4afa450ff8",
+          "slug": "typellm-forces-llms-to-return-valid-json-every-time-5-8x-faster",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "development"
+          ],
+          "publish_time": "2026-09-25T18:46:35.383Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 2538,
+          "url": "https://alphasignal.ai/news/typellm-forces-llms-to-return-valid-json-every-time-5-8x-faster"
+        },
+        {
+          "_id": "6ab6ce358cb49c4afa450ffe",
+          "slug": "google-s-gemini-3-8-brings-programmable-voices-and-sends-tpus-into-orbit",
+          "username": "googleai",
+          "author_type": "company",
+          "regular_categories": [
+            "audio",
+            "llms"
+          ],
+          "publish_time": "2026-09-25T18:28:00.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 403,
+          "url": "https://alphasignal.ai/news/google-s-gemini-3-8-brings-programmable-voices-and-sends-tpus-into-orbit"
+        },
+        {
+          "_id": "6ab6b613bce380b74a841e97",
+          "slug": "anthropic-s-claude-breaks-physics-record-with-a-nine-loop-particle-calculation",
+          "username": "anthropicai",
+          "author_type": "company",
+          "regular_categories": [
+            "llms",
+            "reasoning"
+          ],
+          "publish_time": "2026-09-25T17:46:08.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 5564,
+          "url": "https://alphasignal.ai/news/anthropic-s-claude-breaks-physics-record-with-a-nine-loop-particle-calculation"
+        },
+        {
+          "_id": "6ab6d1e68cb49c4afa450fff",
+          "slug": "runway-brings-ai-video-and-image-generation-directly-into-claude",
+          "username": "runwayml",
+          "author_type": "company",
+          "regular_categories": [
+            "agents",
+            "video"
+          ],
+          "publish_time": "2026-09-25T17:41:35.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 297,
+          "url": "https://alphasignal.ai/news/runway-brings-ai-video-and-image-generation-directly-into-claude"
+        }
+      ]
+    },
+    "upvotes-custom": {
+      "request": {
+        "jsonrpc": "2.0",
+        "id": "upvotes-custom",
+        "method": "tools/call",
+        "params": {
+          "name": "list_news",
+          "arguments": {
+            "sort": "upvotes",
+            "timeframe": "custom",
+            "start_date": "2026-09-20",
+            "end_date": "2026-09-21",
+            "limit": 5
+          }
+        }
+      },
+      "metadata": {
+        "total_records": 8,
+        "total_pages": 2,
+        "current_page": 1,
+        "limit": 5,
+        "entity_metadata": {
+          "authors": {
+            "alibaba_qwen": {
+              "article_count": 83
+            },
+            "bespokelabsai": {
+              "article_count": 2
+            },
+            "alphasignal": {
+              "article_count": 4544
+            }
+          },
+          "topics": {
+            "image": {
+              "article_count": 1056
+            },
+            "open_source": {
+              "article_count": 1341
+            },
+            "post_training": {
+              "article_count": 649
+            },
+            "video": {
+              "article_count": 409
+            },
+            "gpus": {
+              "article_count": 405
+            }
+          }
+        }
+      },
+      "items": [
+        {
+          "_id": "6ab0a4cc276cb74ffdc61d89",
+          "slug": "alibaba-s-qwen-image-2-1-ships-transparent-image-generation-without-extra-tools",
+          "username": "alibaba_qwen",
+          "author_type": "company",
+          "regular_categories": [
+            "image",
+            "open_source"
+          ],
+          "publish_time": "2026-09-20T13:06:39.000Z",
+          "content_type": "news",
+          "editorial_content": null,
+          "upvotes": 10285,
+          "url": "https://alphasignal.ai/news/alibaba-s-qwen-image-2-1-ships-transparent-image-generation-without-extra-tools"
+        },
+        {
+          "_id": "6ab0a4e9276cb74ffdc61d8d",
+          "slug": "bespoke-labs-nimble-beats-a-27b-model-at-classification-using-just-9b",
+          "username": "bespokelabsai",
+          "author_type": "company",
+          "regular_categories": [
+            "open_source",
+            "post_training"
+          ],
+          "publish_time": "2026-09-20T19:44:35.000Z",
+          "content_type": "repo",
+          "editorial_content": null,
+          "upvotes": 880,
+          "url": "https://alphasignal.ai/news/bespoke-labs-nimble-beats-a-27b-model-at-classification-using-just-9b"
+        },
+        {
+          "_id": "6ab51e1b96ee95de362df58b",
+          "slug": "chetiart-s-crossview-warp-lets-minimax-h3-reshoot-video-from-any-angle",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "video",
+            "open_source"
+          ],
+          "publish_time": "2026-09-20T11:10:08.000Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 268,
+          "url": "https://alphasignal.ai/news/chetiart-s-crossview-warp-lets-minimax-h3-reshoot-video-from-any-angle"
+        },
+        {
+          "_id": "6ab3246bd02a704a39a65aef",
+          "slug": "realrebelai-shrinks-alibaba-s-qwen-image-2-1-to-fit-single-gpu-comfyui-setups",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "image",
+            "gpus"
+          ],
+          "publish_time": "2026-09-20T15:36:20.000Z",
+          "content_type": "model",
+          "editorial_content": null,
+          "upvotes": 192,
+          "url": "https://alphasignal.ai/news/realrebelai-shrinks-alibaba-s-qwen-image-2-1-to-fit-single-gpu-comfyui-setups"
+        },
+        {
+          "_id": "6ab5bf7a8c55327b26e95ce9",
+          "slug": "mira-scene-rebuilds-editable-3d-scenes-from-a-single-photo",
+          "username": "alphasignal",
+          "author_type": "company",
+          "regular_categories": [
+            "image",
+            "video"
+          ],
+          "publish_time": "2026-09-20T18:36:29.000Z",
+          "content_type": "paper",
+          "editorial_content": null,
+          "upvotes": 162,
+          "url": "https://alphasignal.ai/news/mira-scene-rebuilds-editable-3d-scenes-from-a-single-photo"
+        }
+      ]
+    }
+  }
+}

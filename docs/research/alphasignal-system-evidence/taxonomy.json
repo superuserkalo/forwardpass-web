@@ -1,0 +1,202 @@
+{
+  "topics": [
+    {
+      "name": "llms",
+      "url": "https://alphasignal.ai/topic/llms",
+      "subtopics": [
+        "mixture_of_experts",
+        "long_context",
+        "hallucinations",
+        "structured_output",
+        "translation",
+        "small_models",
+        "vision_language"
+      ]
+    },
+    {
+      "name": "reasoning",
+      "url": "https://alphasignal.ai/topic/reasoning",
+      "subtopics": [
+        "test_time_compute",
+        "math_reasoning"
+      ]
+    },
+    {
+      "name": "post_training",
+      "url": "https://alphasignal.ai/topic/post_training",
+      "subtopics": [
+        "rl",
+        "rlhf",
+        "dpo",
+        "distillation",
+        "fine_tuning",
+        "lora",
+        "alignment"
+      ]
+    },
+    {
+      "name": "agents",
+      "url": "https://alphasignal.ai/topic/agents",
+      "subtopics": [
+        "agent_frameworks",
+        "tool_use",
+        "mcp",
+        "computer_use",
+        "code_agents",
+        "multi_agent",
+        "memory",
+        "guardrails",
+        "deep_research"
+      ]
+    },
+    {
+      "name": "retrieval",
+      "url": "https://alphasignal.ai/topic/retrieval",
+      "subtopics": [
+        "embeddings",
+        "vector_db",
+        "rag",
+        "reranking",
+        "document_understanding"
+      ]
+    },
+    {
+      "name": "image",
+      "url": "https://alphasignal.ai/topic/image",
+      "subtopics": [
+        "image_generation",
+        "image_editing",
+        "object_detection",
+        "segmentation",
+        "pose_estimation",
+        "ocr",
+        "neural_rendering",
+        "vision_language"
+      ]
+    },
+    {
+      "name": "video",
+      "url": "https://alphasignal.ai/topic/video",
+      "subtopics": [
+        "video_generation",
+        "world_models",
+        "video_editing",
+        "video_understanding"
+      ]
+    },
+    {
+      "name": "audio",
+      "url": "https://alphasignal.ai/topic/audio",
+      "subtopics": [
+        "text_to_speech",
+        "speech_to_text",
+        "realtime_voice",
+        "voice_cloning",
+        "music_generation"
+      ]
+    },
+    {
+      "name": "robotics",
+      "url": "https://alphasignal.ai/topic/robotics",
+      "subtopics": [
+        "vla_models",
+        "humanoid",
+        "manipulation",
+        "autonomous_driving"
+      ]
+    },
+    {
+      "name": "infra",
+      "url": "https://alphasignal.ai/topic/infra",
+      "subtopics": [
+        "model_serving",
+        "inference_optimization",
+        "monitoring"
+      ]
+    },
+    {
+      "name": "training_infra",
+      "url": "https://alphasignal.ai/topic/training_infra",
+      "subtopics": [
+        "distributed_training",
+        "pretraining",
+        "scaling_laws"
+      ]
+    },
+    {
+      "name": "gpus",
+      "url": "https://alphasignal.ai/topic/gpus",
+      "subtopics": [
+        "accelerators",
+        "quantization",
+        "kernels",
+        "edge_deployment"
+      ]
+    },
+    {
+      "name": "data",
+      "url": "https://alphasignal.ai/topic/data",
+      "subtopics": [
+        "synthetic_data",
+        "data_curation",
+        "datasets"
+      ]
+    },
+    {
+      "name": "development",
+      "url": "https://alphasignal.ai/topic/development",
+      "subtopics": [
+        "code_generation",
+        "code_review",
+        "code_agents"
+      ]
+    },
+    {
+      "name": "vibe_coding",
+      "url": "https://alphasignal.ai/topic/vibe_coding",
+      "subtopics": [
+        "app_builders",
+        "ui_generation"
+      ]
+    },
+    {
+      "name": "security",
+      "url": "https://alphasignal.ai/topic/security",
+      "subtopics": [
+        "prompt_injection",
+        "jailbreaks",
+        "red_teaming",
+        "content_moderation"
+      ]
+    },
+    {
+      "name": "government",
+      "url": "https://alphasignal.ai/topic/government",
+      "subtopics": [
+        "policy",
+        "regulation",
+        "defense"
+      ]
+    },
+    {
+      "name": "open_source",
+      "url": "https://alphasignal.ai/topic/open_source",
+      "subtopics": []
+    },
+    {
+      "name": "benchmarks",
+      "url": "https://alphasignal.ai/topic/benchmarks",
+      "subtopics": []
+    },
+    {
+      "name": "business",
+      "url": "https://alphasignal.ai/topic/business",
+      "subtopics": []
+    },
+    {
+      "name": "api",
+      "url": "https://alphasignal.ai/topic/api",
+      "subtopics": []
+    }
+  ]
+}

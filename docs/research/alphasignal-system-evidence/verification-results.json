@@ -1,0 +1,47 @@
+{
+  "latest_count": 50,
+  "latest_order_descending": true,
+  "three_day_count": 78,
+  "three_day_counts_descending": true,
+  "trending_equals_three_day_top_50": true,
+  "three_day_content_types": {
+    "news": 53,
+    "repo": 11,
+    "model": 8,
+    "paper": 5,
+    "tutorial": 1
+  },
+  "issues": 12,
+  "weekday_issues": 9,
+  "all_weekdays_have_three_leads_six_signals": true,
+  "all_weekday_leads_descend": true,
+  "all_weekday_signal_slot_two_paid": true,
+  "lead_count": 27,
+  "lead_body_words_min_median_max": [
+    138,
+    158,
+    178
+  ],
+  "organic_signal_count": 45,
+  "organic_signal_words_min_median_max": [
+    9,
+    12,
+    17
+  ],
+  "editions_all_organic_signals_use_likes": 4,
+  "same_unit_editions_with_descending_signals": 0,
+  "signal_slot_three_arxiv": 8,
+  "signal_slot_four_arxiv": 8,
+  "signal_slot_five_huggingface": 6,
+  "topics": 21,
+  "parent_qualified_subtopics": 76,
+  "robotics_before_after_count": [
+    0,
+    2
+  ],
+  "robotics_new_timeframe": "3d",
+  "retrieval_before_after_count": [
+    1,
+    1
+  ]
+}

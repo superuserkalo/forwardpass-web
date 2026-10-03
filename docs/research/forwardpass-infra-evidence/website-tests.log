@@ -1,0 +1,48 @@
+(node:28278) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/kalo/forwardpass-web/src/lib/onboarding.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/kalo/forwardpass-web/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ profile rejects missing requirements and unknown selections (4.259792ms)
+✔ incomplete drafts survive without weakening submission validation (0.575958ms)
+✔ reading brief carries topic, content, format and exclusions within generator limit (0.45675ms)
+✔ Personal access expires exactly at day 14 and never overrides a paid plan (1.631916ms)
+✔ resuming never extends a trial or replaces a paid plan (0.985584ms)
+(node:28279) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/kalo/forwardpass-web/src/lib/preferences-token.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/kalo/forwardpass-web/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ signed edit links expire and reject tampering (4.04775ms)
+✔ a signed onboarding session can obtain a short archive token (0.451875ms)
+✔ an email address alone cannot edit another subscriber's brief (450.911417ms)
+✔ the signed owner can update their brief (75.748083ms)
+(node:28280) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/kalo/forwardpass-web/src/lib/pricing.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/kalo/forwardpass-web/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ each paid plan and billing period resolves its own Polar product (1.628291ms)
+✔ displayed prices match the four configured USD and EUR amounts (0.18175ms)
+✔ the current Polar state determines access across canceled and multiple subscriptions (0.403084ms)
+✔ checkout fails clearly when the selected product ID is missing (0.380625ms)
+✔ yearly Professional checkout sends only the selected product and reader context (0.176208ms)
+✔ registered email is normalized and rejected without writes or welcome email (111.912ms)
+✔ new email creates contact and onboarding session (23.118458ms)
+✔ Radian-only contact can join the newsletter without changing their Radian preference (10.429333ms)
+✔ unsubscribed reader can rejoin without receiving a new onboarding session (7.968792ms)
+✔ newsletter unsubscribe leaves Radian subscribed (22.183166ms)
+✔ lookup failure stops signup without writing contacts (2.243167ms)
+(node:28282) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/kalo/forwardpass-web/src/lib/story-parse.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/kalo/forwardpass-web/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ editions keep the intro before the first story heading (3.813417ms)
+✔ editions without headings have no preamble (0.626834ms)
+✔ story metadata is inferred from text (5.922916ms)
+✔ the delivered plain-text edition splits into numbered stories and labelled sections (6.073834ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1453.884084

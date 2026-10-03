@@ -1,0 +1,25 @@
+{
+  "sharedStoryPositions": [
+    {
+      "title": "General development",
+      "index": 0
+    },
+    {
+      "title": "Security finding",
+      "index": 1
+    }
+  ],
+  "personalBlocks": [
+    {
+      "heading": "Security finding",
+      "id": "story-0"
+    }
+  ],
+  "incidentalTopicMatch": [
+    "APIs"
+  ],
+  "personalizedRank": [
+    "old",
+    "new"
+  ]
+}

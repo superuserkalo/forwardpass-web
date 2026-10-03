@@ -1,0 +1,42 @@
+[
+  {
+    "article_slug": "typellm-forces-llms-to-return-valid-json-every-time-5-8x-faster",
+    "alphasignal_upvotes": 2538,
+    "source_url": "https://github.com/TypeLLM/TypeLLM",
+    "external_metric": "stargazers_count",
+    "external_value": 735,
+    "downloads": null,
+    "source_created": "2026-09-17T12:41:27Z",
+    "source_updated": "2026-09-26T11:48:49Z"
+  },
+  {
+    "article_slug": "rome-hits-500-stars-building-an-open-agent-workspace-that-never-forgets",
+    "alphasignal_upvotes": 803,
+    "source_url": "https://github.com/rome-os/rome",
+    "external_metric": "stargazers_count",
+    "external_value": 543,
+    "downloads": null,
+    "source_created": "2026-08-23T06:15:15Z",
+    "source_updated": "2026-09-26T10:50:55Z"
+  },
+  {
+    "article_slug": "hugging-face-s-stsb-bert-tiny-packs-a-full-embedding-stack-into-17-6-mb",
+    "alphasignal_upvotes": 3368,
+    "source_url": "https://huggingface.co/sentence-transformers-testing/stsb-bert-tiny-safetensors",
+    "external_metric": "likes",
+    "external_value": 4,
+    "downloads": 1765841,
+    "source_created": "2023-11-06T13:20:57.000Z",
+    "source_updated": "2024-01-17T11:47:16.000Z"
+  },
+  {
+    "article_slug": "moondream-shrinks-parakeet-redux-speech-recognition-to-178-mb",
+    "alphasignal_upvotes": 1942,
+    "source_url": "https://huggingface.co/moondream/parakeet-redux",
+    "external_metric": "likes",
+    "external_value": 157,
+    "downloads": 1636,
+    "source_created": "2026-09-18T11:02:15.000Z",
+    "source_updated": "2026-09-23T00:03:52.000Z"
+  }
+]

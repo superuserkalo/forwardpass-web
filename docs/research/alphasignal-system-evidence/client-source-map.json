@@ -1,0 +1,93 @@
+[
+  {
+    "behavior": "feed-contract",
+    "source_url": "https://alphasignal.ai/_next/static/chunks/4987-5c84b15fec205964.js",
+    "zero_based_character_start": 7644,
+    "zero_based_character_end": 10544,
+    "download_sha256": "67685f8aab3d51a18d4395611d05b81a4e7b090899282ed13c1f5ede7ce4c9db"
+  },
+  {
+    "behavior": "category-normalization",
+    "source_url": "https://alphasignal.ai/_next/static/chunks/4987-5c84b15fec205964.js",
+    "zero_based_character_start": 7403,
+    "zero_based_character_end": 7833,
+    "download_sha256": "67685f8aab3d51a18d4395611d05b81a4e7b090899282ed13c1f5ede7ce4c9db"
+  },
+  {
+    "behavior": "fallback-default",
+    "source_url": "https://alphasignal.ai/_next/static/chunks/app/(main)/page-1705f5a00addf323.js",
+    "zero_based_character_start": 32061,
+    "zero_based_character_end": 33411,
+    "download_sha256": "4dbefcf05b9efb7bfc3dcc7d7c5c4f15c75420137fc8ceddfb6533c81704b3e0"
+  },
+  {
+    "behavior": "timeframe-default",
+    "source_url": "https://alphasignal.ai/_next/static/chunks/app/(main)/page-1705f5a00addf323.js",
+    "zero_based_character_start": 22124,
+    "zero_based_character_end": 22944,
+    "download_sha256": "4dbefcf05b9efb7bfc3dcc7d7c5c4f15c75420137fc8ceddfb6533c81704b3e0"
+  },
+  {
+    "behavior": "widen-ladder",
+    "source_url": "https://alphasignal.ai/_next/static/chunks/8737-d7a5956159fa3be3.js",
+    "zero_based_character_start": 13446,
+    "zero_based_character_end": 13686,
+    "download_sha256": "ef19770aa70b1546a72326e5246267f1a607b7c571c9647bb82beb449ef2bb2c"
+  },
+  {
+    "behavior": "server-upvotes-binding",
+    "source_url": "https://alphasignal.ai/_next/static/chunks/4818-7dbf699d43179b49.js",
+    "zero_based_character_start": 27644,
+    "zero_based_character_end": 28144,
+    "download_sha256": "34146c39ccc03adbbefa4704cff1febd9a497832953164d770887cf2a44bbc66"
+  },
+  {
+    "behavior": "upvote-increment",
+    "source_url": "https://alphasignal.ai/_next/static/chunks/4818-7dbf699d43179b49.js",
+    "zero_based_character_start": 15602,
+    "zero_based_character_end": 15687,
+    "download_sha256": "34146c39ccc03adbbefa4704cff1febd9a497832953164d770887cf2a44bbc66"
+  },
+  {
+    "behavior": "upvote-format",
+    "source_url": "https://alphasignal.ai/_next/static/chunks/4818-7dbf699d43179b49.js",
+    "zero_based_character_start": 12229,
+    "zero_based_character_end": 12329,
+    "download_sha256": "34146c39ccc03adbbefa4704cff1febd9a497832953164d770887cf2a44bbc66"
+  },
+  {
+    "behavior": "archive-contract",
+    "source_url": "https://alphasignal.ai/_next/static/chunks/app/(main)/archive/page-94361c973a8879e3.js",
+    "zero_based_character_start": 155,
+    "zero_based_character_end": 755,
+    "download_sha256": "c66d309c15f078deed4be30f80cd9bf90da90e1e9518a173734ec9b3efd64ab9"
+  },
+  {
+    "behavior": "archive-sanitize",
+    "source_url": "https://alphasignal.ai/_next/static/chunks/app/(main)/email/%5Bnews_id%5D/page-46d5d1aad6793542.js",
+    "zero_based_character_start": 3413,
+    "zero_based_character_end": 3893,
+    "download_sha256": "2d988d1bdb368e2a3c7e5d2e731e81b3cb14380be21861ee6c3fd03c0d4f68b8"
+  },
+  {
+    "behavior": "engagement-writes-not-called",
+    "source_url": "https://alphasignal.ai/_next/static/chunks/4436-da9870871fb5268f.js",
+    "zero_based_character_start": 7142,
+    "zero_based_character_end": 7647,
+    "download_sha256": "b9d7848a14e680f8c5d2d5778508a200edc9c51d19d055dd099372aaf5df598d"
+  },
+  {
+    "behavior": "vote-mutation-contract",
+    "source_url": "https://alphasignal.ai/_next/static/chunks/4818-7dbf699d43179b49.js",
+    "zero_based_character_start": 10910,
+    "zero_based_character_end": 11710,
+    "download_sha256": "34146c39ccc03adbbefa4704cff1febd9a497832953164d770887cf2a44bbc66"
+  },
+  {
+    "behavior": "reader-vote-button",
+    "source_url": "https://alphasignal.ai/_next/static/chunks/4818-7dbf699d43179b49.js",
+    "zero_based_character_start": 13568,
+    "zero_based_character_end": 14428,
+    "download_sha256": "34146c39ccc03adbbefa4704cff1febd9a497832953164d770887cf2a44bbc66"
+  }
+]
