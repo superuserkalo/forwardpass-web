@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowUpRight, Heart } from "lucide-react";
 import { FooterField } from "./footer-field";
 import { SocialLinks } from "./social-links";
 
@@ -43,39 +42,40 @@ const COLUMNS: Array<{ label: string; links: Array<{ label: string; href: string
 export function SiteFooter() {
   return (
     <FooterField>
-      <div className="page-shell pt-16 pb-[clamp(7rem,13vw,15rem)] md:pt-24">
-        <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-5">
-            <p className="font-display max-w-md text-2xl leading-[1.15] font-medium tracking-[-0.01em] md:text-3xl">
+      <div className="page-shell pt-12 pb-10 md:pt-16">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-4">
+            <p className="font-display max-w-sm text-2xl leading-[1.15] font-medium tracking-[-0.01em] md:text-[1.75rem]">
               Read what changed. Skip the rest.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
-              <Link href="/welcome" className="dither-box dither-solid inline-flex h-12 items-center px-6 text-sm font-medium">
-                Join free
-              </Link>
+            <Link
+              href="/welcome"
+              className="dither-box dither-solid mt-8 inline-flex h-12 items-center px-6 text-sm font-medium"
+            >
+              Join free
+            </Link>
+            <div className="mt-8">
               <SocialLinks />
             </div>
           </div>
 
           <nav
-            className="grid border-t border-l border-border sm:grid-cols-2 lg:col-span-7 xl:grid-cols-4"
+            className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4 lg:col-span-8"
             aria-label="Footer"
           >
             {COLUMNS.map((column) => (
-              <div key={column.label} className="border-r border-b border-border bg-background/40 p-6">
-                <h2 className="font-mono text-[10px] tracking-[.18em] text-muted-foreground uppercase">{column.label}</h2>
-                <ul className="mt-6 space-y-3">
+              <div key={column.label}>
+                <h2 className="border-t border-border pt-4 font-mono text-[10px] tracking-[.18em] text-muted-foreground uppercase">
+                  {column.label}
+                </h2>
+                <ul className="mt-5 space-y-3">
                   {column.links.map((link) => (
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="group flex items-center justify-between gap-3 text-sm whitespace-nowrap text-foreground/80 transition-colors hover:text-foreground"
+                        className="text-sm whitespace-nowrap text-foreground/75 transition-colors hover:text-foreground"
                       >
                         {link.label}
-                        <ArrowUpRight
-                          aria-hidden="true"
-                          className="size-3.5 -translate-x-1 opacity-0 transition-[opacity,transform] duration-300 group-hover:translate-x-0 group-hover:opacity-100"
-                        />
                       </Link>
                     </li>
                   ))}
@@ -93,9 +93,7 @@ export function SiteFooter() {
               How it&apos;s made
             </Link>
           </p>
-          <p className="flex items-center gap-1.5">
-            Engineered with <Heart role="img" aria-label="love" className="size-3.5 fill-current" /> in Europe
-          </p>
+          <p>Published from Vienna, Europe</p>
         </div>
       </div>
     </FooterField>

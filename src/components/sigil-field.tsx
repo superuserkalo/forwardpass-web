@@ -10,7 +10,7 @@ const MAX_ROWS = 256;
 const WORDMARK_FULL = "THE FORWARD PASS";
 const WORDMARK_SHORT = "FORWARD PASS";
 const TRACKING = 0.04;
-const WIDTH_BUDGET = 0.86;
+const WIDTH_BUDGET = 0.94;
 const QUALITY = 2;
 
 type Anchor = "center" | "bottom";
@@ -180,7 +180,7 @@ function buildCells(grid: Grid, family: string, anchor: Anchor): Uint32Array<Arr
   const capEm = (capProbe.actualBoundingBoxAscent || 70) / 100;
   const textEm = advance / 100;
   const byWidth = (width * WIDTH_BUDGET) / textEm;
-  const byHeight = (height * 0.62) / capEm;
+  const byHeight = (height * 0.8) / capEm;
   const size = Math.min(byWidth, byHeight);
 
   const cap = capEm * size;
@@ -366,11 +366,11 @@ export function SigilField({ bandRef, anchor = "center" }: SigilFieldProps) {
       />
       <div
         aria-hidden="true"
-        className={`absolute inset-0 flex justify-center transition-opacity duration-700 ${
+        className={`absolute inset-0 flex justify-center px-[7%] transition-opacity duration-700 ${
           anchor === "bottom" ? "items-end pb-10" : "items-center"
         } ${active ? "opacity-0" : "opacity-100"}`}
       >
-        <span className="font-mono text-xs uppercase tracking-[0.5em] text-muted-foreground sm:text-sm">
+        <span className="w-full text-center font-[family-name:var(--font-barlow-condensed)] text-[clamp(1.75rem,7.5vw,5.5rem)] leading-none font-semibold tracking-[0.045em]">
           The Forward Pass
         </span>
       </div>
