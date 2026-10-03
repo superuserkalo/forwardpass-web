@@ -70,7 +70,7 @@ fn fs_main(@location(0) uv: vec2f) -> @location(0) vec4f {
   let fade = 1.0 - 0.48 * smoothstep(0.4, 1.3, length(centered));
   let cell = floor(uv * vec2f(params.ditherX, params.ditherY));
   let threshold = bayer4(u32(cell.x), u32(cell.y));
-  let a = step(threshold, line * fade) * 0.3;
+  let a = step(threshold, line * fade) * 0.28;
   return vec4f(vec3f(0.93) * a, a);
 }
 `;
