@@ -18,6 +18,7 @@ const COLUMNS: Array<{ label: string; links: Array<{ label: string; href: string
       { label: "Personal AI newsletter", href: "/pricing" },
       { label: "Start your free trial", href: "/welcome" },
       { label: "Your reading brief", href: "/preferences" },
+      { label: "Agent access", href: "/agents" },
       { label: "Unsubscribe", href: "/unsubscribe" },
     ],
   },

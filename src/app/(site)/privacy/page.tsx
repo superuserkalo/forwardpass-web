@@ -32,6 +32,7 @@ export default function Privacy() {
         <h2>What we collect</h2>
         <ul>
           <li>Newsletter: your email address and signup date. If you complete onboarding, we also store your name, role, optional seniority and company, topics, preferred content and format, reading brief, and Personal trial dates to personalize your edition.</li>
+          <li>Agent access: if you create an MCP key, we store its hash, creation date, and the associated email address in Cloudflare R2. Your reading brief can filter agent updates. Search terms are processed to return coverage; we do not save them as account history. You can replace or revoke your key from the agent access page.</li>
           <li>
             Advertising inquiries: your name, work email, company, company website, what you want to
             promote, and your approximate budget if you share it.

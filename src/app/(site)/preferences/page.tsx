@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Resend } from "resend";
 import { SignInForm } from "@/components/forward-pass-forms";
 import { InterestsEditor } from "@/components/personal-signup";
@@ -30,6 +31,7 @@ export default async function Preferences() {
           <>
             <p className="mt-6 mb-8 text-muted-foreground">Update the topics you want us to follow for {email}.</p>
             <InterestsEditor email={email} initialInterests={interests} />
+            <p className="mt-8 text-sm text-muted-foreground">Professional includes <Link href="/agents" className="text-foreground underline underline-offset-4">agent access via MCP</Link>. Create or revoke a key to connect your agents.</p>
           </>
         ) : (
           <>

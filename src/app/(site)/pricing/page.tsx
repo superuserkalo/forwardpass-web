@@ -45,7 +45,7 @@ const TIERS = [
   {
     id: "professional",
     name: "Professional",
-    blurb: "Plus weekly deep research on your niche.",
+    blurb: "Research for you. Current context for your agents.",
     price: PRICE_OPTIONS.professional.monthly.usd,
     cadence: "/mo",
     localPrice: `${PRICE_OPTIONS.professional.monthly.eur}/mo`,
@@ -53,6 +53,7 @@ const TIERS = [
     features: [
       "Everything in Personal",
       "Weekly deep research on your brief",
+      "Agent access via MCP",
       "Priority support",
     ],
     cta: { label: "Start with Professional", href: "/pricing?plan=professional#signup" },
@@ -65,6 +66,7 @@ const COMPARE: Array<[string, string, string, string]> = [
   ["Editorial", "Full access", "Full access", "Full access"],
   ["Newsletter", "Daily, sponsored", "Daily, ad-free", "Daily, ad-free"],
   ["Deep research", "—", "—", "Weekly, on your niche"],
+  ["Agent access", "—", "—", "MCP with a revocable key"],
   ["Format", "Fixed layout", "Prose or links-only", "Prose or links-only"],
   ["Archive", "Last 6 months", "Last 12 months", "Last 24 months"],
 ];
@@ -125,6 +127,7 @@ export default async function Pricing({
                   </li>
                 ))}
               </ul>
+              {tier.id === "professional" && <Link href="/agents" className="mt-5 text-sm underline underline-offset-4">Connect your AI agents</Link>}
               <Link
                 href={tier.cta.href}
                 className={`mt-10 inline-flex h-14 items-center justify-center whitespace-nowrap px-6 text-sm font-medium transition-colors ${

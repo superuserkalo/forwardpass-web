@@ -20,6 +20,7 @@ Each featured story in a daily issue has its own page at /archive/daily/<date>/<
 - [Full text](https://theforwardpass.net/llms-full.txt): This guide plus the latest free daily issues and every editorial article in Markdown.
 - [RSS feed](https://theforwardpass.net/feed.xml): Free daily issues and editorial articles, newest first.
 - [Pricing](https://theforwardpass.net/pricing): Current plans, features, prices, trial terms, and archive access.
+- [Agent access](https://theforwardpass.net/agents): Professional subscribers can create a revocable read-only MCP key. The server provides get_updates, search_coverage and get_story over published daily coverage. Use a client that supports authorization headers. Coverage updates with daily publication, not in real time. Keys belong in client configuration, never prompts or URLs.
 
 ## Optional
 
