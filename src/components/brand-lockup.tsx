@@ -9,7 +9,7 @@ export function BrandLockup({ className }: { className?: string }) {
       aria-label="The Forward Pass home"
     >
       <Image src="/logo.png" alt="" width={40} height={40} className="size-8 md:size-10" priority />
-      <span className="wordmark text-xl md:text-[1.625rem]">THE FORWARD PASS</span>
+      <span className="wordmark text-lg md:text-2xl">THE FORWARD PASS</span>
     </Link>
   );
 }
