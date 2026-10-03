@@ -22,7 +22,7 @@ function buttonClass() {
   return "inline-flex h-14 shrink-0 items-center justify-center gap-2 whitespace-nowrap bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50";
 }
 
-export function NewsletterForm() {
+export function NewsletterForm({ animatePlaceholder = false }: { animatePlaceholder?: boolean }) {
   const [status, setStatus] = useState<"success" | "error" | "verifying" | null>(null);
   const [isPending, startTransition] = useTransition();
   const [token, setToken] = useState<string | null>(null);
@@ -85,7 +85,15 @@ export function NewsletterForm() {
     <form onSubmit={onSubmit} className="mt-8 max-w-2xl" aria-label="Newsletter signup">
       <div className={styles.frame}>
         <span aria-hidden="true" className={styles.shine} />
-        <input name="email" type="email" autoComplete="email" aria-label="Email address" placeholder="Email address" required onChange={() => setHasStarted(true)} disabled={isPending || status === "verifying"} className={styles.input} />
+        <div className={styles.field}>
+          <input name="email" type="email" autoComplete="email" aria-label="Email address" placeholder={animatePlaceholder ? "your@email.com" : "Email address"} required onChange={() => setHasStarted(true)} disabled={isPending || status === "verifying"} className={`${styles.input} ${animatePlaceholder ? styles.terminalInput : ""}`} />
+          {animatePlaceholder ? (
+            <span aria-hidden="true" className={styles.placeholder}>
+              <span className={styles.placeholderText}>your@email.com</span>
+              <span className={styles.caret} />
+            </span>
+          ) : null}
+        </div>
         <button type="submit" disabled={isPending || status === "verifying"} className={styles.button}>
           {isPending ? "Joining…" : status === "verifying" ? "Verifying…" : "Join"}
           <ArrowRight aria-hidden="true" className="size-4" />

@@ -1,4 +1,5 @@
 .frame {
+  --terminal-caret: #f64906;
   position: relative;
   display: flex;
   align-items: center;
@@ -41,6 +42,12 @@
   animation: perimeter-shine 7s linear infinite;
 }
 
+.field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
 .input {
   min-width: 0;
   width: 100%;
@@ -54,6 +61,48 @@
 
 .input::placeholder {
   color: var(--muted-foreground);
+}
+
+.terminalInput {
+  caret-color: var(--terminal-caret);
+}
+
+.terminalInput:not(:focus)::placeholder {
+  color: transparent;
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0 0.75rem;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+  font-family: var(--font-technical);
+  font-size: 1rem;
+  color: var(--muted-foreground);
+}
+
+.terminalInput:placeholder-shown:not(:focus) + .placeholder {
+  visibility: visible;
+}
+
+.placeholderText {
+  flex-shrink: 0;
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: placeholder-type 1.3s steps(14, end) 250ms forwards;
+}
+
+.caret {
+  flex-shrink: 0;
+  width: 0.55ch;
+  height: 1.1em;
+  margin-left: 0.1ch;
+  background: var(--terminal-caret);
+  animation: caret-blink 1s step-end infinite;
 }
 
 .button {
@@ -92,8 +141,18 @@
   to { offset-distance: 100%; }
 }
 
+@keyframes placeholder-type {
+  to { width: 14ch; }
+}
+
+@keyframes caret-blink {
+  50% { opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .shine { display: none; }
   .shine::before { animation: none; }
   .frame, .button { transition: none; }
+  .placeholderText { width: 14ch; animation: none; }
+  .caret { animation: none; }
 }
