@@ -53,7 +53,7 @@ export function NewsletterForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="mt-10 max-w-2xl" aria-label="Newsletter signup">
+    <form onSubmit={onSubmit} className="mt-8 max-w-2xl" aria-label="Newsletter signup">
       <div className={styles.frame}>
         <span aria-hidden="true" className={styles.shine} />
         <input name="email" type="email" autoComplete="email" aria-label="Email address" placeholder="Email address" required className={styles.input} />

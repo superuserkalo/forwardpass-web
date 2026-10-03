@@ -59,10 +59,10 @@ export default function Home() {
               "linear-gradient(90deg, var(--background) 0%, color-mix(in srgb, var(--background) 65%, transparent) 38%, transparent 72%)",
           }}
         />
-        <div className="page-shell relative flex min-h-[78vh] flex-col justify-center py-28 md:py-36">
-          <p className="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">Daily AI-generated issues for AI builders</p>
-          <h1 className="font-display max-w-5xl text-5xl leading-none font-medium tracking-[-0.02em] sm:text-7xl lg:text-8xl">What’s changing in AI engineering.</h1>
-          <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+        <div className="page-shell relative flex min-h-[calc(100svh-7.5rem)] flex-col justify-center pb-8 pt-28 md:pt-24">
+          <p className="mb-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">Daily AI-generated issues for AI builders</p>
+          <h1 className="font-display max-w-5xl text-5xl leading-none font-medium tracking-[-0.02em] sm:text-7xl lg:text-[clamp(3.5rem,9.5vh,6rem)]">What’s changing in AI engineering.</h1>
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             The important models, agents, research, infrastructure and tools. Researched and ranked for people who actually build with AI.
           </p>
           <NewsletterForm />

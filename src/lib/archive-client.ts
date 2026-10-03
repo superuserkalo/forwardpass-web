@@ -49,7 +49,8 @@ export async function archiveRequest(path: string, init?: RequestInit, access: A
   const headers = new Headers(init?.headers);
   if (token && verifyPreferencesToken(token)) headers.set("Authorization", `Bearer ${token}`);
   try {
-    return await fetch(new URL(path, base), { ...init, headers, cache: "no-store" });
+    // Callers that opt into Next.js revalidation (public, cacheable reads) must not be forced to no-store.
+    return await fetch(new URL(path, base), { ...(init?.next ? {} : { cache: "no-store" as const }), ...init, headers });
   } catch {
     return null;
   }

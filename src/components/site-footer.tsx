@@ -45,8 +45,7 @@ export function SiteFooter() {
       <div className="page-shell pt-16 pb-[clamp(7rem,13vw,15rem)] md:pt-24">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
-            <p className="font-mono text-[11px] tracking-[.18em] text-muted-foreground uppercase">One issue a day · 05:45 UTC</p>
-            <p className="font-display mt-5 max-w-md text-4xl leading-[1.05] font-medium tracking-[-0.02em] md:text-5xl">
+            <p className="font-display max-w-md text-2xl leading-[1.15] font-medium tracking-[-0.01em] md:text-3xl">
               Read what changed. Skip the rest.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
@@ -58,15 +57,12 @@ export function SiteFooter() {
           </div>
 
           <nav
-            className="grid gap-px border border-border bg-border sm:grid-cols-2 lg:col-span-7 xl:grid-cols-4"
+            className="grid border-t border-l border-border sm:grid-cols-2 lg:col-span-7 xl:grid-cols-4"
             aria-label="Footer"
           >
-            {COLUMNS.map((column, index) => (
-              <div key={column.label} className="bg-background/85 p-6 backdrop-blur-sm">
-                <h2 className="flex items-center justify-between font-mono text-[10px] tracking-[.18em] text-muted-foreground uppercase">
-                  {column.label}
-                  <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                </h2>
+            {COLUMNS.map((column) => (
+              <div key={column.label} className="border-r border-b border-border bg-background/40 p-6">
+                <h2 className="font-mono text-[10px] tracking-[.18em] text-muted-foreground uppercase">{column.label}</h2>
                 <ul className="mt-6 space-y-3">
                   {column.links.map((link) => (
                     <li key={link.href}>

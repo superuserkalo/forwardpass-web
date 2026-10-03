@@ -1,29 +1,54 @@
-import { FileText, GitBranch, MessagesSquare, Newspaper, ScrollText } from "lucide-react";
+import { RollingCount, ScanCounter } from "@/components/scan-counter";
+import { currentSourceCount } from "@/lib/source-count";
 
-// What the engine reads, as described on the About page.
-const SOURCES = [
-  { label: "Lab and company blogs", Icon: Newspaper },
-  { label: "Changelogs and release notes", Icon: ScrollText },
-  { label: "Research papers", Icon: FileText },
-  { label: "GitHub releases", Icon: GitBranch },
-  { label: "Developer communities", Icon: MessagesSquare },
+// Publishers from the engine's source catalogue. OpenAI has no mark in the open icon set, so it is set as a name.
+const PUBLISHERS: Array<{ name: string; logo?: string }> = [
+  { name: "OpenAI" },
+  { name: "Anthropic", logo: "anthropic" },
+  { name: "Google DeepMind", logo: "google-deepmind" },
+  { name: "Meta AI", logo: "meta" },
+  { name: "NVIDIA", logo: "nvidia" },
+  { name: "Hugging Face", logo: "hugging-face" },
+  { name: "GitHub", logo: "github" },
+  { name: "arXiv", logo: "arxiv" },
+  { name: "Hacker News", logo: "hacker-news" },
+  { name: "PyTorch", logo: "pytorch" },
+  { name: "Vercel", logo: "vercel" },
+  { name: "Cloudflare", logo: "cloudflare" },
+  { name: "LangChain", logo: "langchain" },
 ];
 
-export function TrustBand() {
+function Row({ hidden }: { hidden?: boolean }) {
+  return (
+    <ul className="flex shrink-0 items-center gap-12 pr-12" aria-hidden={hidden || undefined}>
+      {PUBLISHERS.map(({ name, logo }) => (
+        <li key={name} className="flex items-center gap-2.5 whitespace-nowrap text-foreground/55">
+          {logo ? (
+            // Static brand marks, so a plain img avoids the image optimiser for tiny SVGs.
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={`/logos/${logo}.svg`} alt="" width={20} height={20} className="size-5 opacity-60" />
+          ) : null}
+          <span className="text-base font-semibold tracking-tight">{name}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export async function TrustBand() {
+  const sources = await currentSourceCount();
   return (
     <section aria-label="Where the issues come from" className="border-t border-border">
-      <div className="page-shell py-10 text-center md:py-12">
+      <div className="page-shell pt-6 text-center">
         <p className="text-sm text-muted-foreground sm:text-base">
-          We read <span className="font-mono text-foreground">850+</span> sources every two hours, so you only read one issue.
+          We&apos;ve scanned <ScanCounter /> signals across <RollingCount value={sources} /> sources so you don&apos;t have to.
         </p>
-        <ul className="mt-7 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-          {SOURCES.map(({ label, Icon }) => (
-            <li key={label} className="flex items-center gap-2.5 text-sm whitespace-nowrap text-foreground/70">
-              <Icon aria-hidden="true" className="size-4" strokeWidth={1.5} />
-              {label}
-            </li>
-          ))}
-        </ul>
+      </div>
+      <div className="marquee-mask overflow-hidden pt-5 pb-6">
+        <div className="marquee-track flex w-max">
+          <Row />
+          <Row hidden />
+        </div>
       </div>
     </section>
   );
