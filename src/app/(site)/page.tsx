@@ -64,9 +64,6 @@ export default function Home() {
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             The news, models, papers and tools worth keeping up with. Free, AI-generated and checked against the original sources.
           </p>
-          <p className="mt-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-            Daily AI-generated issues. Every fact is checked against its cited source.
-          </p>
           <NewsletterForm />
         </div>
       </section>
