@@ -73,10 +73,10 @@ export function SiteHeader() {
               Archive
             </Link>
             <Link
-              href="/collaborate"
+              href="/advertise"
               className="dither-box dither-solid px-5 py-2.5 text-sm font-medium"
             >
-              Collaborate
+              Advertise
             </Link>
           </nav>
           <button
@@ -108,11 +108,11 @@ export function SiteHeader() {
               Archive
             </Link>
             <Link
-              href="/collaborate"
+              href="/advertise"
               onClick={() => setMenuOpenAt(null)}
               className="mt-auto flex h-12 items-center justify-center whitespace-nowrap bg-primary text-sm font-medium text-primary-foreground active:scale-[0.98]"
             >
-              Collaborate
+              Advertise
             </Link>
           </nav>
         )}

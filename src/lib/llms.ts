@@ -24,7 +24,7 @@ Each featured story in a daily issue has its own page at /archive/daily/<date>/<
 
 ## Optional
 
-- [Collaborate](https://theforwardpass.net/collaborate): Advertising and sponsorship information.
+- [Advertise](https://theforwardpass.net/advertise): Advertising and sponsorship information.
 - [Privacy](https://theforwardpass.net/privacy): How subscriber data is handled.
 - [Imprint](https://theforwardpass.net/imprint): Publisher information.
 - [Sitemap](https://theforwardpass.net/sitemap.xml): XML index of public pages, free daily issues, their stories and editorial articles.

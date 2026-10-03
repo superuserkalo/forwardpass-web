@@ -6,7 +6,7 @@ import { SITE_URL } from "@/lib/seo";
 // The archive API reads request cookies; rendering per request also keeps new pages listed.
 export const dynamic = "force-dynamic";
 
-const PAGES = ["/", "/about", "/archive", "/archive?section=editorial", "/pricing", "/agents", "/collaborate", "/contact", "/privacy", "/terms", "/imprint"];
+const PAGES = ["/", "/about", "/archive", "/archive?section=editorial", "/pricing", "/agents", "/advertise", "/contact", "/privacy", "/terms", "/imprint"];
 
 // Free daily issues inside the public archive window, their stories and every editorial article. Weekly
 // research and older issues need a subscription, so they stay out.

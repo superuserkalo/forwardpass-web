@@ -1,5 +1,5 @@
-import { CollaboratePanel } from "@/components/collaborate-panel";
+import { AdvertisePanel } from "@/components/advertise-panel";
 
 export default function Page() {
-  return <CollaboratePanel />;
+  return <AdvertisePanel />;
 }

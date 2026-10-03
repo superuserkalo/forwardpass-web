@@ -79,7 +79,7 @@ export default function Terms() {
       <p>
         The free issue is sponsored, and paid plans are ad-free, as described on the{" "}
         <Link href="/pricing">pricing page</Link>. Advertising and sponsorship enquiries go through{" "}
-        <Link href="/collaborate">Collaborate</Link>.
+        <Link href="/advertise">Advertise</Link>.
       </p>
 
       <h2>Links to other sites</h2>

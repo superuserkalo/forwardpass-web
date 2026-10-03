@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, type ReactNode } from "react";
 import { X } from "lucide-react";
 
-/** The shared popup frame for the intercepted routes (collaborate, contact). Closing goes back, or home on a fresh visit. */
+/** The shared popup frame for the intercepted routes (advertise, contact). Closing goes back, or home on a fresh visit. */
 export function ModalPanel({ label, children }: { label: string; children: ReactNode }) {
   const router = useRouter();
 

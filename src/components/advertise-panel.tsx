@@ -3,9 +3,9 @@
 import { AdvertisingForm } from "@/components/forward-pass-forms";
 import { ModalPanel } from "@/components/modal-panel";
 
-export function CollaboratePanel() {
+export function AdvertisePanel() {
   return (
-    <ModalPanel label="Collaborate with The Forward Pass">
+    <ModalPanel label="Advertise with The Forward Pass">
       <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Advertising &amp; sponsorship</p>
       <h2 className="font-display mt-4 max-w-xl text-3xl font-medium leading-tight tracking-[-0.02em] sm:text-4xl">
         Building for AI engineers?
