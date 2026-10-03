@@ -54,18 +54,22 @@ function loadTurnstile(): Promise<TurnstileApi> {
 export function TurnstileWidget({
   action,
   onToken,
+  onError,
   resetKey,
 }: {
   action: "signup" | "signin" | "unsubscribe" | "contact";
   onToken: (token: string | null) => void;
+  onError?: () => void;
   resetKey: number;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const widgetId = useRef<string | null>(null);
   const latestOnToken = useRef(onToken);
+  const latestOnError = useRef(onError);
 
   useEffect(() => {
     latestOnToken.current = onToken;
+    latestOnError.current = onError;
   });
 
   useEffect(() => {
@@ -73,6 +77,7 @@ export function TurnstileWidget({
     const element = container.current;
     if (!siteKey || !element) {
       console.error("NEXT_PUBLIC_TURNSTILE_SITE_KEY is not configured.");
+      latestOnError.current?.();
       return;
     }
     let cancelled = false;
@@ -86,10 +91,17 @@ export function TurnstileWidget({
           appearance: "interaction-only",
           callback: (token) => latestOnToken.current(token),
           "expired-callback": () => latestOnToken.current(null),
-          "error-callback": () => latestOnToken.current(null),
+          "error-callback": () => {
+            latestOnToken.current(null);
+            latestOnError.current?.();
+          },
         });
       })
-      .catch(() => latestOnToken.current(null));
+      .catch(() => {
+        if (cancelled) return;
+        latestOnToken.current(null);
+        latestOnError.current?.();
+      });
     return () => {
       cancelled = true;
       if (widgetId.current) window.turnstile?.remove(widgetId.current);

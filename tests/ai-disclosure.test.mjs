@@ -27,5 +27,7 @@ test("archived issues carry machine-readable marking", () => {
 });
 
 test("the homepage tells visitors before they subscribe", () => {
-  assert.match(read("src/app/(site)/page.tsx"), /Daily AI-generated issues/);
+  const home = read("src/app/(site)/page.tsx");
+  assert.match(home, /AI-generated/);
+  assert.ok(home.indexOf("AI-generated") < home.indexOf("<NewsletterForm"));
 });

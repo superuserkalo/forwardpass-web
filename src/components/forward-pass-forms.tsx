@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useTransition, type FormEvent } from "react";
+import { useRef, useState, useTransition, type FormEvent } from "react";
+import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import styles from "./newsletter-form.module.css";
 import {
@@ -22,18 +23,18 @@ function buttonClass() {
 }
 
 export function NewsletterForm() {
-  const [status, setStatus] = useState<"success" | "error" | null>(null);
+  const [status, setStatus] = useState<"success" | "error" | "verifying" | null>(null);
   const [isPending, startTransition] = useTransition();
   const [token, setToken] = useState<string | null>(null);
   const [resetKey, setResetKey] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
+  const queuedEmail = useRef<string | null>(null);
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
+  function subscribe(email: string, verificationToken: string) {
     setStatus(null);
     startTransition(async () => {
       try {
-        await subscribeAction(String(form.get("email")), token ?? "");
+        await subscribeAction(email, verificationToken);
         setStatus("success");
       } catch {
         setStatus("error");
@@ -41,6 +42,34 @@ export function NewsletterForm() {
         setResetKey((key) => key + 1);
       }
     });
+  }
+
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const email = String(new FormData(event.currentTarget).get("email"));
+    setHasStarted(true);
+    if (!token) {
+      queuedEmail.current = email;
+      setStatus("verifying");
+      return;
+    }
+    subscribe(email, token);
+  }
+
+  function onToken(verificationToken: string | null) {
+    setToken(verificationToken);
+    if (verificationToken && queuedEmail.current !== null) {
+      const email = queuedEmail.current;
+      queuedEmail.current = null;
+      subscribe(email, verificationToken);
+    }
+  }
+
+  function onVerificationError() {
+    queuedEmail.current = null;
+    setToken(null);
+    setStatus("error");
+    setHasStarted(false);
   }
 
   if (status === "success") {
@@ -56,17 +85,19 @@ export function NewsletterForm() {
     <form onSubmit={onSubmit} className="mt-8 max-w-2xl" aria-label="Newsletter signup">
       <div className={styles.frame}>
         <span aria-hidden="true" className={styles.shine} />
-        <input name="email" type="email" autoComplete="email" aria-label="Email address" placeholder="Email address" required className={styles.input} />
-        <button type="submit" disabled={isPending} className={styles.button}>
-          {isPending ? "Joining…" : "Join"}
+        <input name="email" type="email" autoComplete="email" aria-label="Email address" placeholder="Email address" required onChange={() => setHasStarted(true)} disabled={isPending || status === "verifying"} className={styles.input} />
+        <button type="submit" disabled={isPending || status === "verifying"} className={styles.button}>
+          {isPending ? "Joining…" : status === "verifying" ? "Verifying…" : "Join"}
           <ArrowRight aria-hidden="true" className="size-4" />
         </button>
       </div>
-      <TurnstileWidget action="signup" onToken={setToken} resetKey={resetKey} />
+      {hasStarted ? <TurnstileWidget action="signup" onToken={onToken} onError={onVerificationError} resetKey={resetKey} /> : null}
       <div className="mt-3 flex justify-between gap-4 text-xs text-muted-foreground">
-        <span>No noise. One issue a day. We promise :)</span>
-        {status === "error" ? <span role="alert">Couldn’t subscribe. Please try again.</span> : null}
+        <span>Free to subscribe. Unsubscribe anytime.</span>
+        <Link href="/privacy" className="underline underline-offset-4 hover:text-foreground">Privacy</Link>
       </div>
+      {status === "error" ? <p className="mt-2 text-xs text-muted-foreground" role="alert">Couldn’t subscribe. Please try again.</p> : null}
+      {status === "verifying" ? <p className="mt-2 text-xs text-muted-foreground" role="status">Checking your browser. Complete the verification if prompted.</p> : null}
     </form>
   );
 }

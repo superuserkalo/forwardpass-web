@@ -51,14 +51,13 @@ export default function Privacy() {
           <li>To send you the daily newsletter you asked for.</li>
           <li>To answer your advertising or sponsorship inquiry, or your contact message.</li>
           <li>
-            To contact you about The Forward Pass and about related Radian products and services that
-            are relevant to people building with AI. These include sponsorship, partnership and product
-            offers. In other words, subscribers and inquiries may be used as business leads for Radian.
+            To include sponsorships and promotional placements within the newsletter. Joining the
+            newsletter does not subscribe you to separate Radian product or sales emails.
           </li>
           <li>To produce aggregate statistics about the audience, such as total subscribers.</li>
         </ul>
         <p>
-          The legal bases are your consent for the newsletter and marketing contact, performance of a
+          The legal bases are your consent for the newsletter, including its sponsorships, performance of a
           contract or pre-contractual steps for advertising inquiries, and our legitimate interest in
           running and growing an independent publication.
         </p>
@@ -69,6 +68,15 @@ export default function Privacy() {
           Data may be processed outside the EU under the relevant standard contractual clauses. We do
           not sell your personal information, and we do not share your individual details with
           advertisers.
+        </p>
+
+        <p>
+          We also use Cloudflare Turnstile to protect forms from bots and abuse, based on our legitimate
+          interest in keeping the service secure. For newsletter signup, the check starts when you enter
+          your email or submit the form. Cloudflare processes technical signals such as your IP address,
+          browser information and site origin, not the email entered in the form. Cloudflare acts as a
+          processor for site protection and as a controller for improving its bot detection, as described
+          in its <a href="https://www.cloudflare.com/turnstile-privacy-policy/">Turnstile Privacy Addendum</a>.
         </p>
 
         <h2>How long we keep it</h2>

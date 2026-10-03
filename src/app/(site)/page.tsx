@@ -60,12 +60,9 @@ export default function Home() {
           }}
         />
         <div className="page-shell relative flex min-h-[calc(100svh-7.5rem)] flex-col justify-center pb-8 pt-28 md:pt-24">
-          <p className="mb-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">Free daily email for people who build with AI</p>
-          <h1 className="font-display max-w-3xl text-4xl leading-[1.06] font-medium tracking-[-0.02em] text-balance sm:text-5xl lg:text-6xl">One issue a day on what matters in AI.</h1>
-          <p className="mt-5 font-mono text-sm uppercase tracking-[0.18em] text-muted-foreground">News · Papers · Agents · Models · Infra</p>
+          <h1 className="font-display whitespace-nowrap text-[1.375rem] leading-tight font-medium tracking-[-0.02em] sm:text-[2.125rem]">Your daily briefing on AI.</h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Model releases, papers worth reading, agents and repos, infrastructure and tools. Researched from primary
-            sources and ranked for people who build with AI.
+            The news, models, papers and tools worth keeping up with. Free, AI-generated and checked against the original sources.
           </p>
           <p className="mt-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
             Daily AI-generated issues. Every fact is checked against its cited source.
