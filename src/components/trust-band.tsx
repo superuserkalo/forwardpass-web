@@ -35,13 +35,13 @@ function Row({ hidden }: { hidden?: boolean }) {
   );
 }
 
-export async function TrustBand() {
-  const sources = await currentSourceCount();
+export async function TrustBand({ heading }: { heading?: string } = {}) {
+  const sources = heading ? null : await currentSourceCount();
   return (
     <section aria-label="Where the issues come from" className="border-t border-border">
       <div className="page-shell pt-6 text-center">
         <p className="text-sm text-muted-foreground sm:text-base">
-          We&apos;ve scanned <ScanCounter /> signals across <RollingCount value={sources} /> sources so you don&apos;t have to.
+          {heading ?? <>We&apos;ve scanned <ScanCounter /> signals across <RollingCount value={sources ?? 0} /> sources so you don&apos;t have to.</>}
         </p>
       </div>
       <div className="marquee-mask overflow-hidden pt-5 pb-6">

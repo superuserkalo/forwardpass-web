@@ -14,13 +14,23 @@ const buttonClass =
 export function PersonalSignup({
   compact = false,
   initialPlan = "personal",
+  plan: selectedPlan,
+  onPlanChange,
+  billingPeriod: selectedBillingPeriod,
+  onBillingPeriodChange,
 }: {
   compact?: boolean;
   initialPlan?: Plan;
+  plan?: Plan;
+  onPlanChange?: (plan: Plan) => void;
+  billingPeriod?: BillingPeriod;
+  onBillingPeriodChange?: (period: BillingPeriod) => void;
 }) {
   const [status, setStatus] = useState<"success" | "error" | null>(null);
-  const [plan, setPlan] = useState<Plan>(initialPlan);
-  const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>("monthly");
+  const [localPlan, setPlan] = useState<Plan>(initialPlan);
+  const plan = selectedPlan ?? localPlan;
+  const [localBillingPeriod, setBillingPeriod] = useState<BillingPeriod>("monthly");
+  const billingPeriod = selectedBillingPeriod ?? localBillingPeriod;
   const [isPending, startTransition] = useTransition();
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -58,7 +68,10 @@ export function PersonalSignup({
             <button
               key={id}
               type="button"
-              onClick={() => setPlan(id)}
+              onClick={() => {
+                setPlan(id);
+                onPlanChange?.(id);
+              }}
               aria-pressed={plan === id}
               className={`px-4 py-3 text-xs transition-colors ${
                 plan === id
@@ -82,7 +95,10 @@ export function PersonalSignup({
               <button
                 key={period}
                 type="button"
-                onClick={() => setBillingPeriod(period)}
+                onClick={() => {
+                  setBillingPeriod(period);
+                  onBillingPeriodChange?.(period);
+                }}
                 aria-pressed={billingPeriod === period}
                 className={`px-4 py-3 text-left text-xs transition-colors ${
                   billingPeriod === period
@@ -91,18 +107,19 @@ export function PersonalSignup({
                 }`}
               >
                 <span className="block font-medium capitalize">{period}</span>
-                <span className="mt-1 block">{price.usd} / {price.eur}</span>
+                <span className="mt-1 block">{price.usd}</span>
               </button>
             );
           })}
         </div>
         <p className="mt-2 text-xs text-muted-foreground">
-          Polar shows the applicable currency and final total at checkout.
+          Prices shown in USD. Checkout applies your regional currency and final total.
         </p>
       </fieldset>
       <div className="grid gap-3">
         <input
           name="email"
+          aria-label="Email address"
           type="email"
           autoComplete="email"
           placeholder="Email address"
@@ -111,6 +128,7 @@ export function PersonalSignup({
         />
         <textarea
           name="interests"
+          aria-label="Your reading brief"
           required
           minLength={10}
           maxLength={500}
