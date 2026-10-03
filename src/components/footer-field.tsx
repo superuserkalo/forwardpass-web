@@ -9,19 +9,16 @@ const SigilField = dynamic(
 );
 
 /**
- * The footer's frame. The links sit above and the glyph wordmark closes on the bottom edge, built
- * from the same scattered characters as the rest of the field.
+ * The footer's frame. The glyph field runs behind the whole footer, top to bottom, with the wordmark
+ * resting along the bottom edge.
  */
 export function FooterField({ children }: { children: ReactNode }) {
   const footerRef = useRef<HTMLElement>(null);
-  const markRef = useRef<HTMLDivElement>(null);
 
   return (
     <footer ref={footerRef} className="relative isolate overflow-hidden border-t border-border">
+      <SigilField bandRef={footerRef} anchor="bottom" />
       <div className="relative">{children}</div>
-      <div ref={markRef} className="relative h-[clamp(5rem,13vw,11rem)] w-full overflow-hidden">
-        <SigilField bandRef={markRef} anchor="bottom" />
-      </div>
     </footer>
   );
 }
