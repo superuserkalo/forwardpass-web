@@ -121,7 +121,7 @@ export function PricingPlans({
       price: PRICE_OPTIONS[plan][billingPeriod].usd,
       billingNote: `Per ${periodLabel}${billingPeriod === "yearly" ? " · save 16%" : ""}`,
       href: plan === "professional" ? paidHref(plan) : "/welcome",
-      cta: plan === "professional" ? "Get Pro" : "Try 14 days free",
+      cta: plan === "professional" ? "Get Professional" : "Try 14 days free",
     },
     {
       id: "enterprise",
@@ -174,7 +174,7 @@ export function PricingPlans({
               {card.id === "individual" && (
                 <PricingSwitch
                   label="Individual plan"
-                  options={[{ value: "personal", label: "Personal" }, { value: "professional", label: "Pro" }]}
+                  options={[{ value: "personal", label: "Personal" }, { value: "professional", label: "Professional" }]}
                   value={plan}
                   onChange={setPlan}
                 />
