@@ -65,12 +65,12 @@ fn fs_main(@location(0) uv: vec2f) -> @location(0) vec4f {
   let band = abs(fract(field * 10.0) - 0.5) * 2.0;
   let width = 0.34 + 0.18 * sin(params.time * 0.15);
   var line = 1.0 - smoothstep(0.0, width, band);
-  line = pow(line, 1.6);
+  line = pow(line, 2.2);
 
-  let fade = 1.0 - 0.45 * smoothstep(0.45, 1.3, length(centered));
+  let fade = 1.0 - 0.55 * smoothstep(0.35, 1.3, length(centered));
   let cell = floor(uv * vec2f(params.ditherX, params.ditherY));
   let threshold = bayer4(u32(cell.x), u32(cell.y));
-  let a = step(threshold, line * fade) * 0.32;
+  let a = step(threshold, line * fade) * 0.17;
   return vec4f(vec3f(0.93) * a, a);
 }
 `;

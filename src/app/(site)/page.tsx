@@ -60,10 +60,15 @@ export default function Home() {
           }}
         />
         <div className="page-shell relative flex min-h-[calc(100svh-7.5rem)] flex-col justify-center pb-8 pt-28 md:pt-24">
-          <p className="mb-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">Daily AI-generated issues for AI builders</p>
-          <h1 className="font-display max-w-5xl text-5xl leading-none font-medium tracking-[-0.02em] sm:text-7xl lg:text-[clamp(3.5rem,9.5vh,6rem)]">What’s changing in AI engineering.</h1>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            The important models, agents, research, infrastructure and tools. Researched and ranked for people who actually build with AI.
+          <p className="mb-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">Free daily email for people who build with AI</p>
+          <h1 className="font-display max-w-3xl text-4xl leading-[1.06] font-medium tracking-[-0.02em] text-balance sm:text-5xl lg:text-6xl">One issue a day on what matters in AI.</h1>
+          <p className="mt-5 font-mono text-sm uppercase tracking-[0.18em] text-muted-foreground">News · Papers · Agents · Models · Infra</p>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Model releases, papers worth reading, agents and repos, infrastructure and tools. Researched from primary
+            sources and ranked for people who build with AI.
+          </p>
+          <p className="mt-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+            Daily AI-generated issues. Every fact is checked against its cited source.
           </p>
           <NewsletterForm />
         </div>
