@@ -140,7 +140,7 @@ export function HeroField() {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 size-full transition-opacity duration-1000"
       style={{
-        opacity: active ? 0.7 : 0,
+        opacity: active ? 1 : 0,
         maskImage: "radial-gradient(165% 155% at 60% 46%, black 55%, transparent 100%)",
         WebkitMaskImage: "radial-gradient(165% 155% at 60% 46%, black 55%, transparent 100%)",
       }}
