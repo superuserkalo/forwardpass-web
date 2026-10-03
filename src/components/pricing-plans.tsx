@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { PersonalSignup } from "@/components/personal-signup";
 import { PRICE_OPTIONS, type BillingPeriod, type Plan } from "@/lib/pricing";
+import styles from "./newsletter-form.module.css";
 
 const TIERS = [
   {
@@ -159,7 +160,8 @@ export function PricingPlans({
 
       <section aria-label="Plans" className="grid gap-3 md:grid-cols-3">
         {cards.map((card) => (
-          <article key={card.id} className={`flex flex-col p-6 lg:p-8 ${card.id === "individual" ? "bg-secondary" : "bg-secondary/45"}`}>
+          <article key={card.id} className={`relative flex flex-col p-6 lg:p-8 ${card.id === "individual" ? "border border-input bg-secondary" : "bg-secondary/45"}`}>
+            {card.id === "individual" && <span aria-hidden="true" className={styles.shine} />}
             <h2 className="text-2xl font-medium tracking-tight">{card.name}</h2>
             <p className="mt-2 min-h-12 text-sm leading-6 text-muted-foreground">{card.description}</p>
             <div className="mt-6">
