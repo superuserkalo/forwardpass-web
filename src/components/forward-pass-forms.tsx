@@ -92,9 +92,13 @@ export function NewsletterForm() {
         </button>
       </div>
       {hasStarted ? <TurnstileWidget action="signup" onToken={onToken} onError={onVerificationError} resetKey={resetKey} /> : null}
-      <div className="mt-3 flex justify-between gap-4 text-xs text-muted-foreground">
+      <div className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-xs text-muted-foreground">
         <span>Free to subscribe. Unsubscribe anytime.</span>
-        <Link href="/privacy" className="underline underline-offset-4 hover:text-foreground">Privacy</Link>
+        <span>
+          <Link href="/privacy" className="underline underline-offset-4 hover:text-foreground">Privacy</Link>
+          {" & "}
+          <Link href="/terms" className="underline underline-offset-4 hover:text-foreground">Terms</Link>
+        </span>
       </div>
       {status === "error" ? <p className="mt-2 text-xs text-muted-foreground" role="alert">Couldn’t subscribe. Please try again.</p> : null}
       {status === "verifying" ? <p className="mt-2 text-xs text-muted-foreground" role="status">Checking your browser. Complete the verification if prompted.</p> : null}
