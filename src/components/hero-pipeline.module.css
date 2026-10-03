@@ -1,0 +1,292 @@
+.pipeline {
+  --row: 2.375rem;
+  display: none;
+}
+
+/* The hero only has room for it beside the copy on wide screens. */
+@media (min-width: 64rem) {
+  .pipeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: clamp(2.5rem, 9vw - 3.5rem, 6.5rem);
+    width: 100%;
+    max-width: 52rem;
+    margin-left: auto;
+    font-family: var(--font-technical);
+    pointer-events: none;
+    container-type: inline-size;
+  }
+}
+
+.feed {
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--background) 90%, transparent);
+}
+
+.eyebrow {
+  padding-top: 1rem;
+  text-align: center;
+  font-size: 0.5625rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0.875rem 1rem 1rem;
+  border-left: 1px solid var(--border);
+}
+
+.stat {
+  border-right: 1px solid var(--border);
+  padding: 0.125rem 0;
+  text-align: center;
+}
+
+.count {
+  display: block;
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.bumped {
+  animation: signal-text 2.6s ease-out;
+}
+
+.label {
+  display: block;
+  margin-top: 0.3125rem;
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.rows {
+  height: calc(var(--row) * var(--rows));
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  mask-image: linear-gradient(#000 40%, transparent 97%);
+}
+
+.advance {
+  animation: advance 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.row {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 2.75rem 2.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 0.625rem;
+  height: var(--row);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1rem;
+  font-size: 0.625rem;
+  color: var(--muted-foreground);
+}
+
+/* The warm band behind a story that has just arrived. */
+.fresh::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--signal) 17%, transparent) 16%,
+    color-mix(in srgb, var(--signal) 17%, transparent) 76%,
+    transparent
+  );
+  animation: tint 2.8s ease-out both;
+}
+
+.fresh .score {
+  animation: signal-text 2.8s ease-out;
+}
+
+.score {
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--foreground) 78%, transparent);
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  border-inline: 0.25rem solid transparent;
+  border-bottom: 0.375rem solid currentColor;
+}
+
+.kind {
+  font-size: 0.5625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.title {
+  overflow: hidden;
+  font-family: var(--font-ui);
+  font-size: 0.78125rem;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: color-mix(in srgb, var(--foreground) 88%, transparent);
+}
+
+.source {
+  display: none;
+  opacity: 0.8;
+}
+
+.channels {
+  display: grid;
+  gap: 1.125rem;
+}
+
+.channel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.node {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--muted-foreground);
+}
+
+.icon,
+.glyph {
+  width: 1rem;
+  height: 1rem;
+}
+
+.glyph {
+  background: currentColor;
+  mask: var(--glyph) center / contain no-repeat;
+}
+
+.name {
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.lit .node {
+  animation: deliver 1.9s ease-out var(--arrive);
+}
+
+.lit .name {
+  animation: deliver-name 1.9s ease-out var(--arrive);
+}
+
+.wires {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.wire,
+.pulse {
+  fill: none;
+}
+
+.wire {
+  stroke: var(--input);
+}
+
+/* One dash, parked before the start of the wire until it is sent down it. */
+.pulse {
+  stroke: var(--signal);
+  stroke-width: 1.5;
+  stroke-dasharray: var(--dash) var(--length);
+  stroke-dashoffset: var(--dash);
+  filter: drop-shadow(0 0 3px var(--signal));
+  animation: travel var(--travel) linear var(--send) forwards;
+}
+
+.port {
+  fill: var(--input);
+  animation: port 1.4s ease-out calc(var(--send) - 250ms);
+}
+
+@container (min-width: 50rem) {
+  .source {
+    display: block;
+  }
+}
+
+/* Icons alone on narrower heroes, so the headlines keep their room. */
+@container (max-width: 38rem) {
+  .name {
+    display: none;
+  }
+}
+
+@container (max-width: 31rem) {
+  .row {
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+  }
+
+  .kind {
+    display: none;
+  }
+
+  .title {
+    font-size: 0.71875rem;
+  }
+}
+
+@keyframes advance {
+  from { transform: translateY(calc(-1 * var(--row))); }
+}
+
+@keyframes tint {
+  0% { opacity: 0; }
+  14%, 58% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes signal-text {
+  0%, 58% { color: var(--signal); }
+}
+
+@keyframes travel {
+  to { stroke-dashoffset: calc(-1 * var(--length)); }
+}
+
+@keyframes port {
+  20%, 60% { fill: var(--signal); }
+}
+
+@keyframes deliver {
+  10%, 50% {
+    border-color: var(--signal);
+    color: var(--signal);
+    box-shadow: 0 0 1.5rem -0.375rem var(--signal);
+  }
+}
+
+@keyframes deliver-name {
+  10%, 50% { color: var(--foreground); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pipeline * { animation: none !important; }
+}

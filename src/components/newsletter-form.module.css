@@ -1,5 +1,5 @@
 .frame {
-  --terminal-caret: #f64906;
+  --terminal-caret: var(--signal);
   position: relative;
   display: flex;
   align-items: center;
