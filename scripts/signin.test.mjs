@@ -77,6 +77,25 @@ test("a second request inside the cooldown sends nothing", async () => {
   assert.equal(sent(calls).length, 0);
 });
 
+test("a recent confirmation link does not block a requested sign-in link", async () => {
+  const recent = new Date(Date.now() - 30_000).toISOString();
+  const { request, calls } = reader({ contact: { id: "c1", properties: {
+    last_link_sent_at: { value: recent }, last_verify_link_sent_at: { value: recent },
+  } } });
+  await request("reader@example.com");
+  assert.equal(sent(calls).length, 1);
+  assert.equal(verifyLinkToken("signin", tokenIn(sent(calls)[0]))?.email, "reader@example.com");
+});
+
+test("sign-in uses its own cooldown even when the overall timestamp is older", async () => {
+  const { request, calls } = reader({ contact: { id: "c1", properties: {
+    last_link_sent_at: { value: new Date(Date.now() - 300_000).toISOString() },
+    last_signin_link_sent_at: { value: new Date(Date.now() - 30_000).toISOString() },
+  } } });
+  await request("reader@example.com");
+  assert.equal(sent(calls).length, 0);
+});
+
 test("after the cooldown a new link is sent and the time is recorded", async () => {
   const old = new Date(Date.now() - 10 * 60_000).toISOString();
   const { request, calls } = reader({

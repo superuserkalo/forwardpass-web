@@ -207,7 +207,7 @@ function OnboardingForm({ email, saved }: OnboardingProps) {
               </h1>
               <p className="mt-5 max-w-xl text-sm leading-7 text-muted-foreground">
                 {result.status === "trial"
-                  ? `Your Personal trial ends ${new Date(result.trialEndsAt ?? "").toLocaleDateString("en", { month: "long", day: "numeric", year: "numeric" })}. No card. No automatic charge. After that, you'll receive the Free issue unless you choose to upgrade.`
+                  ? `Your Personal trial ends ${new Date(result.trialEndsAt ?? "").toLocaleDateString("en", { month: "long", day: "numeric", year: "numeric" })}. MCP, code mode, and 500 free agent credits are included. No card. No automatic charge. After that, you'll receive the Free issue unless you choose to upgrade.`
                   : result.status === "expired"
                     ? "You've already used your Personal trial. You can choose a paid plan from Pricing."
                     : result.status === "active"
@@ -222,6 +222,7 @@ function OnboardingForm({ email, saved }: OnboardingProps) {
                   {profile.topics.join(" / ")}
                 </p>
               </div>
+              {(result.status === "trial" || result.status === "active") && <Link href="/agents" className="mt-6 inline-block text-sm underline underline-offset-4">Connect your AI agent</Link>}
               <div className="mt-9 flex flex-wrap items-center gap-6">
                 <Link href="/" className={buttonClass}>
                   Back to The Forward Pass <ArrowRight className="size-4" />
@@ -559,6 +560,7 @@ function TrialOffer({
               "An issue written to your interests",
               "Ad-free daily reading",
               "Briefing or links-only format",
+              "MCP and code mode with 500 free credits",
             ]}
           />
           <div className="mt-5 border-t border-border pt-4">

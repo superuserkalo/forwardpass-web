@@ -19,15 +19,26 @@ function signup(existing, { lookupError = null, segments = [], topics = [], huma
         return { data: existing, error: lookupError };
       },
       create: async (input) => { calls.push(["create", input]); return { data: { id: "new-contact" }, error: null }; },
-      update: async (input) => { calls.push(["update", input]); return { data: {}, error: null }; },
+      update: async (input) => {
+        calls.push(["update", input]);
+        if (existing && input.properties) {
+          existing.properties = { ...existing.properties, ...Object.fromEntries(Object.entries(input.properties).map(([key, value]) => [key, { value }])) };
+        }
+        return { data: {}, error: null };
+      },
       segments: {
         list: async () => ({ data: { data: segments.map((id) => ({ id })) } }),
         add: async (input) => { calls.push(["segment-add", input]); return {}; },
-        remove: async (input) => { calls.push(["segment-remove", input]); return {}; },
+        remove: async (input) => { calls.push(["segment-remove", input]); segments = segments.filter(id => id !== input.segmentId); return {}; },
       },
       topics: {
         list: async () => ({ data: { data: topics } }),
-        update: async (input) => { calls.push(["topic-update", input]); return {}; },
+        update: async (input) => {
+          calls.push(["topic-update", input]);
+          const updated = new Set(input.topics.map(topic => topic.id));
+          topics = [...topics.filter(topic => !updated.has(topic.id)), ...input.topics];
+          return {};
+        },
       },
     };
     emails = {
@@ -168,6 +179,34 @@ test("a valid unsubscribe link removes only the newsletter and leaves Radian sub
   assert.deepEqual(names(calls), ["get", "topic-update", "segment-remove"]);
   assert.equal(calls[1][1].topics[0].subscription, "opt_out");
   assert.equal(calls[2][1].segmentId, NEWSLETTER_SEGMENT);
+});
+
+test("unsubscribe followed immediately by signup sends a rejoin confirmation without subscribing early", async () => {
+  const { requestUnsubscribe, unsubscribe, submit, calls } = signup({ id: "existing", unsubscribed: false, properties: {} }, registered);
+  await requestUnsubscribe("reader@example.com");
+  const unsubscribeEmail = emails(calls)[0];
+  await unsubscribe(tokenIn(unsubscribeEmail));
+  const writesBeforeSignup = calls.filter(([name]) => ["topic-update", "segment-add", "segment-remove"].includes(name)).length;
+  await submit("reader@example.com");
+  const delivered = emails(calls);
+  assert.equal(delivered.length, 2);
+  assert.equal(verifyLinkToken("unsubscribe", tokenIn(delivered[0]))?.email, "reader@example.com");
+  assert.equal(verifyLinkToken("verify", tokenIn(delivered[1]))?.email, "reader@example.com");
+  assert.equal(verifyLinkToken("signin", tokenIn(delivered[1])), null);
+  assert.equal(calls.filter(([name]) => ["topic-update", "segment-add", "segment-remove"].includes(name)).length, writesBeforeSignup);
+});
+
+test("alternating link purposes cannot bypass either purpose's cooldown", async () => {
+  const { submit, requestUnsubscribe, calls } = signup({ id: "existing", unsubscribed: false, properties: {} }, {
+    segments: [], topics: [{ id: NEWSLETTER_TOPIC, subscription: "opt_out" }],
+  });
+  await submit("reader@example.com");
+  await requestUnsubscribe("reader@example.com");
+  await submit("reader@example.com");
+  await requestUnsubscribe("reader@example.com");
+  assert.equal(emails(calls).length, 2);
+  assert.equal(verifyLinkToken("verify", tokenIn(emails(calls)[0]))?.email, "reader@example.com");
+  assert.equal(verifyLinkToken("unsubscribe", tokenIn(emails(calls)[1]))?.email, "reader@example.com");
 });
 
 test("an email address alone cannot unsubscribe anyone", async () => {

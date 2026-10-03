@@ -32,7 +32,8 @@ export default function Privacy() {
         <h2>What we collect</h2>
         <ul>
           <li>Newsletter: your email address and signup date. If you complete onboarding, we also store your name, role, optional seniority and company, topics, preferred content and format, reading brief, and Personal trial dates to personalize your edition.</li>
-          <li>Agent access: if you create an MCP key, we store its hash, creation date, and the associated email address in Cloudflare R2. Your reading brief can filter agent updates. Search terms are processed to return coverage; we do not save them as account history. You can replace or revoke your key from the agent access page.</li>
+          <li>Chat delivery: if you connect Slack, Discord, Telegram or Microsoft Teams, we store the selected platform, conversation and workspace identifiers, the connecting platform user, your confirmation and delivery settings, and delivery acknowledgements alongside your email account. Slack installation tokens are encrypted. Connection codes expire after ten minutes. A confirmed personal Slack connection also identifies your account for coverage tools in Slackbot, using your existing plan and agent credits. We verify signed caller identity from Slack. Shared channels do not grant members access to the account of the channel owner. Disconnecting your personal Slack destination revokes this account link; pausing daily delivery preserves it.</li>
+          <li>Agent access: if you create an MCP key, we store its hash, creation date, and the associated email address in Cloudflare R2. We keep credit balances, payment and refund identifiers, and any auto-refill settings in Cloudflare Durable Objects to enforce allowances and prevent duplicate charges. Card details stay with Polar. Your reading brief can filter agent updates. Search terms are processed to return coverage; we do not save them as account history. You can replace or revoke your key from the agent access page.</li>
           <li>
             Advertising inquiries: your name, work email, company, company website, what you want to
             promote, and your approximate budget if you share it.
@@ -71,6 +72,13 @@ export default function Privacy() {
         </p>
 
         <p>
+          Connected chat destinations are managed in Cloudflare Durable Objects, with delivery summaries
+          in Cloudflare R2. Your chosen messaging platform receives the digest and the identifiers needed
+          to deliver it. Its own privacy policy applies to messages in your inbox or shared conversation.
+          Shared destinations make the digest visible to members who can access that conversation.
+        </p>
+
+        <p>
           We also use Cloudflare Turnstile to protect forms from bots and abuse, based on our legitimate
           interest in keeping the service secure. For newsletter signup, the check starts when you enter
           your email or submit the form. Cloudflare processes technical signals such as your IP address,
@@ -86,6 +94,13 @@ export default function Privacy() {
         </p>
 
         <h2>Your choices</h2>
+        <p>
+          You can confirm, pause or disconnect each chat destination in your{" "}
+          <Link href="/preferences#delivery">reading brief</Link>. Email and chat delivery are managed
+          separately. Disconnecting stops future chat delivery; it does not delete messages already sent
+          on the messaging platform. Ask us for deletion of retained connection and delivery records using
+          the contact below.
+        </p>
         <p>
           Every issue includes an unsubscribe link, and you can also{" "}
           <Link href="/unsubscribe">unsubscribe here</Link> at any time. You may request access,

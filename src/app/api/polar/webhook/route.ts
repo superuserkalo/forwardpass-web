@@ -3,6 +3,7 @@ import { z } from "zod";
 import { getPolar } from "@/lib/polar";
 import { paidInterestsForCustomerState, paidPlanForCustomerState } from "@/lib/pricing";
 import { syncPaidSubscriber } from "@/lib/subscribers";
+import { reconcileAgentCreditOrder } from "@/lib/agent-billing";
 
 const subscriptionEvent = z.object({
   type: z.enum([
@@ -36,6 +37,13 @@ export async function POST(request: Request): Promise<Response> {
 
   const eventType = z.object({ type: z.string() }).safeParse(payload);
   if (!eventType.success) return new Response("Bad payload", { status: 400 });
+  if (["order.paid", "order.refunded"].includes(eventType.data.type)) {
+    const order = z.object({ data: z.object({ id: z.uuid() }) }).safeParse(payload);
+    if (!order.success) return new Response("Bad payload", { status: 400 });
+    try { await reconcileAgentCreditOrder(order.data.data.id); }
+    catch { return new Response("Credit fulfillment unavailable", { status: 503 }); }
+    return new Response("ok", { status: 200 });
+  }
   if (!eventType.data.type.startsWith("subscription.")) {
     return new Response("ok", { status: 200 });
   }

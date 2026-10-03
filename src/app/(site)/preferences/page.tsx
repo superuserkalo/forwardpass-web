@@ -4,6 +4,8 @@ import { Resend } from "resend";
 import { SignInForm } from "@/components/forward-pass-forms";
 import { InterestsEditor } from "@/components/personal-signup";
 import { preferencesEmail } from "@/lib/preferences-session";
+import { ChatDeliveryPanel } from "@/components/chat-delivery";
+import { loadChatSettings } from "@/lib/chat-client";
 
 export const metadata: Metadata = {
   title: "Your reading brief",
@@ -13,6 +15,7 @@ export const metadata: Metadata = {
 
 export default async function Preferences() {
   const email = await preferencesEmail();
+  const delivery = email ? await loadChatSettings() : null;
   let interests = "";
   if (email) {
     const key = process.env.RESEND_API_KEY;
@@ -31,7 +34,8 @@ export default async function Preferences() {
           <>
             <p className="mt-6 mb-8 text-muted-foreground">Update the topics you want us to follow for {email}.</p>
             <InterestsEditor email={email} initialInterests={interests} />
-            <p className="mt-8 text-sm text-muted-foreground">Professional includes <Link href="/agents" className="text-foreground underline underline-offset-4">agent access via MCP</Link>. Create or revoke a key to connect your agents.</p>
+            {delivery && <ChatDeliveryPanel initial={delivery} />}
+            <p className="mt-8 text-sm text-muted-foreground">The Personal trial and both paid plans include <Link href="/agents" className="text-foreground underline underline-offset-4">agent access via MCP</Link>. Create or revoke a key to connect your agents.</p>
           </>
         ) : (
           <>

@@ -1,15 +1,24 @@
 import { Resend } from "resend";
 import { createLinkToken, type LinkPurpose } from "./link-token";
 
-/** One emailed link per address per window, whichever kind it is. Stops anyone using the forms to mail-bomb a victim. */
+/** Repeated requests for the same link purpose are throttled per address. */
 export const LINK_COOLDOWN_MS = 120_000;
+const LINK_SENT_AT_KEYS: Record<LinkPurpose, string> = {
+  verify: "last_verify_link_sent_at",
+  signin: "last_signin_link_sent_at",
+  unsubscribe: "last_unsubscribe_link_sent_at",
+};
 const LINK_TTL_MS: Record<LinkPurpose, number> = {
   verify: 86_400_000,
   signin: 1_800_000,
   unsubscribe: 90 * 86_400_000,
 };
 
-export type LinkTarget = { id: string; lastLinkSentAt: string | null };
+export type LinkTarget = {
+  id: string;
+  lastLinkSentAt: string | null;
+  lastLinkSentByPurpose?: Partial<Record<LinkPurpose, string>>;
+};
 
 function getResend(): Resend {
   const key = process.env.RESEND_API_KEY;
@@ -22,7 +31,16 @@ export function toLinkTarget(
   properties: Record<string, { value?: unknown } | undefined> | undefined,
 ): LinkTarget {
   const sentAt = properties?.last_link_sent_at?.value;
-  return { id, lastLinkSentAt: typeof sentAt === "string" && sentAt ? sentAt : null };
+  const lastLinkSentByPurpose: Partial<Record<LinkPurpose, string>> = {};
+  for (const purpose of ["verify", "signin", "unsubscribe"] as const) {
+    const value = properties?.[LINK_SENT_AT_KEYS[purpose]]?.value;
+    if (typeof value === "string" && Number.isFinite(Date.parse(value))) lastLinkSentByPurpose[purpose] = value;
+  }
+  return {
+    id,
+    lastLinkSentAt: typeof sentAt === "string" && sentAt ? sentAt : null,
+    ...(Object.keys(lastLinkSentByPurpose).length ? { lastLinkSentByPurpose } : {}),
+  };
 }
 
 export async function linkTarget(email: string): Promise<LinkTarget | null> {
@@ -83,17 +101,22 @@ function linkEmailHtml(purpose: LinkPurpose, url: string): string {
 </div>`;
 }
 
-/** Emails a signed link unless one already went to this address inside the cooldown. Failures are logged, never surfaced, so callers answer identically for every address. */
+/** Emails a signed link unless the same purpose is cooling down. Failures stay private so callers answer identically for every address. */
 export async function sendLinkEmail(purpose: LinkPurpose, email: string, target: LinkTarget): Promise<void> {
   try {
     const now = Date.now();
-    const last = target.lastLinkSentAt ? Date.parse(target.lastLinkSentAt) : Number.NaN;
+    // Legacy contacts keep their previous cooldown until a purpose-specific timestamp is recorded.
+    const sentAt = target.lastLinkSentByPurpose ? target.lastLinkSentByPurpose[purpose] : target.lastLinkSentAt;
+    const last = sentAt ? Date.parse(sentAt) : Number.NaN;
     if (Number.isFinite(last) && now - last < LINK_COOLDOWN_MS) return;
     const resend = getResend();
-    // Reserve the slot before sending so a burst of requests cannot slip several emails through.
+    // Record this purpose's cooldown before sending, retaining the overall timestamp for older code.
     const reserved = await resend.contacts.update({
       id: target.id,
-      properties: { last_link_sent_at: new Date(now).toISOString() },
+      properties: {
+        last_link_sent_at: new Date(now).toISOString(),
+        [LINK_SENT_AT_KEYS[purpose]]: new Date(now).toISOString(),
+      },
     });
     if (reserved.error) throw new Error(reserved.error.message);
     const url = linkUrl(purpose, createLinkToken(purpose, email, now, LINK_TTL_MS[purpose]));
