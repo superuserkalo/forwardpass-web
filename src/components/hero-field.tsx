@@ -65,12 +65,12 @@ fn fs_main(@location(0) uv: vec2f) -> @location(0) vec4f {
   let band = abs(fract(field * 10.0) - 0.5) * 2.0;
   let width = 0.34 + 0.18 * sin(params.time * 0.15);
   var line = 1.0 - smoothstep(0.0, width, band);
-  line = pow(line, 2.2);
+  line = pow(line, 1.65);
 
-  let fade = 1.0 - 0.55 * smoothstep(0.35, 1.3, length(centered));
+  let fade = 1.0 - 0.48 * smoothstep(0.4, 1.3, length(centered));
   let cell = floor(uv * vec2f(params.ditherX, params.ditherY));
   let threshold = bayer4(u32(cell.x), u32(cell.y));
-  let a = step(threshold, line * fade) * 0.17;
+  let a = step(threshold, line * fade) * 0.3;
   return vec4f(vec3f(0.93) * a, a);
 }
 `;
@@ -141,8 +141,8 @@ export function HeroField() {
       className="pointer-events-none absolute inset-0 size-full transition-opacity duration-1000"
       style={{
         opacity: active ? 1 : 0,
-        maskImage: "radial-gradient(150% 130% at 60% 50%, black 45%, transparent 95%)",
-        WebkitMaskImage: "radial-gradient(150% 130% at 60% 50%, black 45%, transparent 95%)",
+        maskImage: "radial-gradient(165% 155% at 60% 46%, black 55%, transparent 100%)",
+        WebkitMaskImage: "radial-gradient(165% 155% at 60% 46%, black 55%, transparent 100%)",
       }}
     />
   );
