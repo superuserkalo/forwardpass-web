@@ -1,0 +1,23 @@
+{
+  "status": 200,
+  "body": {
+    "corrections": [
+      {
+        "signalId": "g-10455c6519178e27",
+        "at": "2026-10-03T11:45:00.000Z",
+        "kind": "retraction",
+        "note": "The lab withdrew the announcement.",
+        "before": null
+      },
+      {
+        "signalId": "g-9d4f7ae812304835",
+        "at": "2026-10-03T11:00:00.000Z",
+        "kind": "correction",
+        "note": "The summary said the model was in preview. The announcement says it is generally available.",
+        "before": {
+          "summary": "Embed 5 is in preview on the Cohere API. It scores 85.8 on ViDoRe V3."
+        }
+      }
+    ]
+  }
+}

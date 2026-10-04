@@ -9,3 +9,7 @@ export const AI_META = { "ai-generated": "true" } as const;
 export const AI_ARTICLE_LABEL = "AI-generated article";
 export const AI_ARTICLE_DISCLOSURE =
   "This article is researched and written by AI models from the sources it cites, and every claim is checked against them. No human edits it before it is published.";
+// Live signals are written by the engine as well: a headline and a short summary, each fact checked against a line quoted from its source.
+export const AI_SIGNAL_LABEL = "AI-generated signal";
+export const AI_SIGNAL_DISCLOSURE =
+  "This signal is written by AI models from the source it cites, and every fact is checked against a line quoted from that source. No human edits it before it is published.";

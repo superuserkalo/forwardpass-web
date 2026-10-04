@@ -1,0 +1,17 @@
+{
+  "status": 200,
+  "body": {
+    "last7days": {
+      "published": 3,
+      "medianLatencyMinutes": 40,
+      "pageVerifiedShare": 0.6666666666666666,
+      "corrections": 2
+    },
+    "last30days": {
+      "published": 3,
+      "medianLatencyMinutes": 40,
+      "pageVerifiedShare": 0.6666666666666666,
+      "corrections": 2
+    }
+  }
+}

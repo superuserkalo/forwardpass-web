@@ -72,6 +72,9 @@ export function SiteHeader() {
             <Link href="/archive" onNavigate={onArchiveNavigate} className="dither-box dither-ghost px-5 py-2.5 text-sm font-medium">
               Archive
             </Link>
+            <Link href="/signals" className="dither-box dither-ghost px-5 py-2.5 text-sm font-medium">
+              Live signals
+            </Link>
             <Link
               href="/advertise"
               className="dither-box dither-solid px-5 py-2.5 text-sm font-medium"
@@ -106,6 +109,9 @@ export function SiteHeader() {
               className="border-b border-border py-5 font-display text-3xl text-foreground"
             >
               Archive
+            </Link>
+            <Link href="/signals" onClick={() => setMenuOpenAt(null)} className="border-b border-border py-5 font-display text-3xl text-foreground">
+              Live signals
             </Link>
             <Link
               href="/advertise"

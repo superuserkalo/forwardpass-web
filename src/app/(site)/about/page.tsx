@@ -100,6 +100,16 @@ export default function About() {
         </ul>
         <p>Pieces written by people carry their author&apos;s name.</p>
 
+        <h2>Live signals</h2>
+        <p>
+          Between issues the same engine publishes <Link href="/signals">live signals</Link>: short items about
+          what labs, repositories and papers have just put out, usually within minutes. Every fact in a
+          signal carries a line quoted from its source that was found word for word in the page, a second
+          model checks the wording against those quotes, and no human edits a signal before it is published.
+          Signals are labelled AI-generated, and every correction or retraction is public in the{" "}
+          <Link href="/signals/corrections">corrections log</Link>.
+        </p>
+
         <h2>Plans</h2>
         <p>
           The general daily issue is free. Personal readers get an issue built around their interests, and
@@ -108,8 +118,8 @@ export default function About() {
 
         <h2>Corrections and contact</h2>
         <p>
-          If an issue gets something wrong, email{" "}
-          <a href="mailto:hello@withradian.com">hello@withradian.com</a> with the issue date and the source.
+          If an issue or a signal gets something wrong, email{" "}
+          <a href="mailto:hello@withradian.com">hello@withradian.com</a> with the issue date or the signal&apos;s address and the source.
           The Forward Pass is published by Kaloyan Gamtchev in Vienna, Austria (see the{" "}
           <Link href="/imprint">imprint</Link>).
         </p>

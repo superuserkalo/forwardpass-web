@@ -1,0 +1,82 @@
+{
+  "status": 200,
+  "body": {
+    "version": 1,
+    "id": "g-9d4f7ae812304835",
+    "url": "https://cohere.com/blog/embed-5",
+    "sources": [
+      {
+        "label": "Cohere",
+        "url": "https://cohere.com/blog/embed-5"
+      },
+      {
+        "label": "Cohere documentation",
+        "url": "https://docs.cohere.com/docs/embed-5"
+      }
+    ],
+    "headline": "Cohere ships Embed 5 with 85.8 on ViDoRe V3",
+    "summary": "Embed 5 is generally available on the Cohere API. It scores 85.8 on ViDoRe V3.",
+    "type": "models",
+    "topics": [
+      "Retrieval"
+    ],
+    "project": "cohere/embed-5",
+    "publisher": "Cohere",
+    "sourcePublishedAt": "2026-10-03T09:40:00.000Z",
+    "firstSeenAt": "2026-10-03T10:00:00.000Z",
+    "publishedAt": "2026-10-03T10:20:00.000Z",
+    "traction": null,
+    "importance": 8,
+    "facts": [
+      {
+        "fact": "Embed 5 scores 85.8 on ViDoRe V3.",
+        "quote": "85.8 on ViDoRe V3",
+        "impact": 3
+      },
+      {
+        "fact": "Embed 5 is generally available on the Cohere API.",
+        "quote": "now generally available",
+        "impact": 5
+      }
+    ],
+    "evidence": {
+      "documentIds": [
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      ],
+      "capturedAt": "2026-10-03T10:10:00.000Z",
+      "basis": "page",
+      "grounding": {
+        "evaluator": "jev",
+        "verdicts": [
+          {
+            "text": "Cohere ships Embed 5 with 85.8 on ViDoRe V3",
+            "verdict": "supported",
+            "supported": 0.97
+          },
+          {
+            "text": "Embed 5 is in preview on the Cohere API.",
+            "verdict": "supported",
+            "supported": 0.9
+          },
+          {
+            "text": "It scores 85.8 on ViDoRe V3.",
+            "verdict": "supported",
+            "supported": 0.96
+          }
+        ]
+      }
+    },
+    "status": "corrected",
+    "corrections": [
+      {
+        "at": "2026-10-03T11:00:00.000Z",
+        "kind": "correction",
+        "note": "The summary said the model was in preview. The announcement says it is generally available.",
+        "before": {
+          "summary": "Embed 5 is in preview on the Cohere API. It scores 85.8 on ViDoRe V3."
+        }
+      }
+    ]
+  }
+}

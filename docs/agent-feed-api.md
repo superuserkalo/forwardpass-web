@@ -11,6 +11,10 @@ token as `Authorization: Bearer <token>` when they have a session.
 | `GET /editorial` | Editorial section and editorial stories in the feed |
 | `GET /editorial/:slug` | `/archive/editorial/<slug>` article pages |
 | `POST /votes` | Upvote buttons (`castVote` in `src/lib/votes.ts`) |
+| `GET /signals?limit=50&type=&before=` | Live signals list at `/signals` and `/signals.xml` (`loadSignals` in `src/lib/signals-client.ts`) |
+| `GET /signals/:id` | A signal's page at `/signals/<id>`: 200 with the record, 410 with the reason when it was retracted |
+| `GET /signals/stats` | The scorecard on `/signals` |
+| `GET /corrections` | The corrections log at `/signals/corrections` |
 
 ## Ids
 
@@ -42,3 +46,17 @@ npm run articles -- publish path/to/piece.md
 ```
 
 See the agent's `docs/reader-api.md` for the front matter fields.
+
+## Live signals
+
+The routes above are public, need no token and are read anonymously by the site, so the answers are the same for everyone.
+They are served by the engine's signals API (`src/api/signals.ts` in the agent repo) and every response carries
+`X-AI-Generated: true`. The site reads them with zod schemas in `src/lib/signals.ts` that refuse a record without a
+quoted fact, and `tests/fixtures/signals/*.json` are what the engine's own handler answered for a small seeded corpus,
+so the tests fail when the site's reading drifts from the engine's. Regenerate them from the agent repo when the
+contract changes.
+
+- A signal has one page, `/signals/<id>`, whatever its headline says, so a correction never moves it.
+- The list, the log and the feed are read fresh on every request (the engine's edge cache answers for a minute). A signal's
+  own page is built once and kept for a minute, and is shown from its last copy when the engine cannot be reached.
+- A retracted signal's page stays up with the reason and is not indexed.

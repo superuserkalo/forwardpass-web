@@ -1,0 +1,52 @@
+{
+  "status": 200,
+  "body": {
+    "version": 1,
+    "id": "g-6a8bf0c8312d34a0",
+    "url": "https://github.com/acme/agent-memory",
+    "sources": [
+      {
+        "label": "Lab",
+        "url": "https://github.com/acme/agent-memory"
+      }
+    ],
+    "headline": "Acme releases an agent memory library",
+    "summary": "Acme released agent-memory 0.1 under the MIT license. It stores conversation state in SQLite.",
+    "type": "repos",
+    "topics": [
+      "Agents",
+      "Open source"
+    ],
+    "project": "cohere/embed-5",
+    "publisher": "GitHub",
+    "sourcePublishedAt": "2026-10-03T10:41:00.000Z",
+    "firstSeenAt": "2026-10-03T10:00:00.000Z",
+    "publishedAt": "2026-10-03T11:00:00.000Z",
+    "traction": "512 GitHub stars",
+    "importance": 5,
+    "facts": [
+      {
+        "fact": "agent-memory 0.1 is released under the MIT license.",
+        "quote": "released under the MIT license",
+        "impact": 3
+      }
+    ],
+    "evidence": {
+      "documentIds": [],
+      "capturedAt": "2026-10-03T10:59:00.000Z",
+      "basis": "feed-summary",
+      "grounding": {
+        "evaluator": "jev",
+        "verdicts": [
+          {
+            "text": "Acme releases an agent memory library",
+            "verdict": "supported",
+            "supported": 0.93
+          }
+        ]
+      }
+    },
+    "status": "live",
+    "corrections": []
+  }
+}

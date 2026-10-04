@@ -31,3 +31,32 @@ test("the homepage tells visitors before they subscribe", () => {
   assert.match(home, /AI-generated/);
   assert.ok(home.indexOf("AI-generated") < home.indexOf("<NewsletterForm"));
 });
+
+// ---- live signals are written by the engine too, so the same rule holds for them ----
+import { AI_SIGNAL_DISCLOSURE, AI_SIGNAL_LABEL } from "../src/lib/ai-disclosure.ts";
+
+const signalPage = read("src/app/(site)/signals/[id]/page.tsx");
+const signalsList = read("src/app/(site)/signals/page.tsx");
+const corrections = read("src/app/(site)/signals/corrections/page.tsx");
+
+test("the signal disclosure says AI wrote it, that the facts are quoted from the source, and that no human edits it", () => {
+  assert.equal(AI_SIGNAL_LABEL, "AI-generated signal");
+  assert.match(AI_SIGNAL_DISCLOSURE, /written by AI models/);
+  assert.match(AI_SIGNAL_DISCLOSURE, /line quoted from that source/);
+  assert.match(AI_SIGNAL_DISCLOSURE, /No human edits it/);
+});
+
+test("a signal's page labels it in the header and gives the full disclosure after the evidence, whether it is live or not", () => {
+  const header = signalPage.indexOf("<span>{AI_SIGNAL_LABEL}</span>");
+  const evidence = signalPage.indexOf("<Evidence view={view} />");
+  const disclosure = signalPage.indexOf("{AI_SIGNAL_DISCLOSURE}");
+  assert.ok(header > 0 && evidence > header && disclosure > evidence, "label, then the evidence, then the disclosure");
+  assert.match(signalPage, /other: AI_META/, "machine-readable marking on a signal");
+  assert.match(signalPage, /const hidden = [^\n]*other: AI_META/, "and on the pages that are not shown");
+});
+
+test("the list and the corrections log carry the marking too, and the list says so before the first signal", () => {
+  assert.match(signalsList, /other: AI_META/);
+  assert.match(corrections, /other: AI_META/);
+  assert.ok(signalsList.indexOf("AI-generated") > 0 && signalsList.indexOf("AI-generated") < signalsList.indexOf("<SignalList"));
+});

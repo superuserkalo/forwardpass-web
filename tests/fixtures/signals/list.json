@@ -1,0 +1,60 @@
+{
+  "status": 200,
+  "body": {
+    "signals": [
+      {
+        "id": "g-7d2c316ad30e36b7",
+        "url": "https://arxiv.org/abs/2610.00001",
+        "headline": "A paper on reasoning accuracy",
+        "summary": "The paper reports higher accuracy on a reasoning benchmark.",
+        "type": "papers",
+        "topics": [
+          "Reasoning"
+        ],
+        "publisher": "arXiv",
+        "publishedAt": "2026-10-03T11:30:00.000Z",
+        "sourcePublishedAt": null,
+        "traction": null,
+        "importance": 6,
+        "status": "live",
+        "evidenceCount": 1
+      },
+      {
+        "id": "g-6a8bf0c8312d34a0",
+        "url": "https://github.com/acme/agent-memory",
+        "headline": "Acme releases an agent memory library",
+        "summary": "Acme released agent-memory 0.1 under the MIT license. It stores conversation state in SQLite.",
+        "type": "repos",
+        "topics": [
+          "Agents",
+          "Open source"
+        ],
+        "publisher": "GitHub",
+        "publishedAt": "2026-10-03T11:00:00.000Z",
+        "sourcePublishedAt": "2026-10-03T10:41:00.000Z",
+        "traction": "512 GitHub stars",
+        "importance": 5,
+        "status": "live",
+        "evidenceCount": 1
+      },
+      {
+        "id": "g-9d4f7ae812304835",
+        "url": "https://cohere.com/blog/embed-5",
+        "headline": "Cohere ships Embed 5 with 85.8 on ViDoRe V3",
+        "summary": "Embed 5 is generally available on the Cohere API. It scores 85.8 on ViDoRe V3.",
+        "type": "models",
+        "topics": [
+          "Retrieval"
+        ],
+        "publisher": "Cohere",
+        "publishedAt": "2026-10-03T10:20:00.000Z",
+        "sourcePublishedAt": "2026-10-03T09:40:00.000Z",
+        "traction": null,
+        "importance": 8,
+        "status": "corrected",
+        "evidenceCount": 2
+      }
+    ],
+    "next": null
+  }
+}
