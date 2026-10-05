@@ -12,7 +12,7 @@ export const metadata: Metadata = pageMetadata({
 
 export default function Imprint() {
   return (
-    <LegalPage eyebrow="Legal" title="Imprint" lede={<p>The Forward Pass is an independent publication about AI engineering.</p>}>
+    <LegalPage active="/imprint" title="Imprint" lede={<p>The Forward Pass is an independent publication about AI engineering.</p>}>
         <h2>Contact</h2>
         <p>
           Email: <Link href="/contact">hello@withradian.com</Link>

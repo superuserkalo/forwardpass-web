@@ -17,7 +17,6 @@ export default async function Unsubscribe({
 
   return (
     <LegalPage
-      eyebrow="Newsletter"
       title="Unsubscribe"
       lede={
         <p>

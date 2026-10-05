@@ -25,7 +25,6 @@ export default function About() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(aboutJsonLd) }} />
       <LegalPage
-        eyebrow="The publication"
         title="About"
         lede={
           <p>

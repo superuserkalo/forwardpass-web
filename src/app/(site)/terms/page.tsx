@@ -13,7 +13,7 @@ export const metadata: Metadata = pageMetadata({
 export default function Terms() {
   return (
     <LegalPage
-      eyebrow="Legal"
+      active="/terms"
       title="Terms of Service"
       updated="3 October 2026"
       lede={

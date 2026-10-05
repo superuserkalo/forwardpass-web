@@ -5,7 +5,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   path: "/privacy",
-  title: "Privacy",
+  title: "Privacy Policy",
   description:
     "How The Forward Pass handles subscriber data, payments, and cookies.",
 });
@@ -13,8 +13,8 @@ export const metadata: Metadata = pageMetadata({
 export default function Privacy() {
   return (
     <LegalPage
-      eyebrow="Legal"
-      title="Privacy"
+      active="/privacy"
+      title="Privacy Policy"
       lede={
         <p>
           The Forward Pass is published by Kaloyan Gamtchev, sole proprietorship (see the{" "}
