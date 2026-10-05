@@ -1,5 +1,7 @@
 # Newsletter signup: EU and Austrian consent/disclosure research
 
+Current code flow and setup are documented in [newsletter and reader accounts](newsletter-and-accounts.md) and [development](development.md). The legal research and unresolved operational evidence below retain their stated date; this update does not revalidate legislation or certify compliance.
+
 Research date: **3 October 2026**. Scope: the free newsletter signup and related privacy disclosures, with a short AI-publication note. Sources are legislation, regulator material, and providers' own documentation fetched using `webfetch`. Repository observations describe the current working tree, including existing uncommitted changes; they are not a live-site or provider-account audit.
 
 ## Subsequent clarification and changes

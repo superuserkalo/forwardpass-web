@@ -1,5 +1,7 @@
 # Forward Pass infrastructure: what to improve after reverse engineering AlphaSignal
 
+> Historical review from 26 September 2026. Its runtime descriptions, baseline results and proposals refer to that checkout. The current engine runs on Cloudflare Workers; see [architecture](../architecture.md) and the [documentation index](../README.md) before applying this report's recommendations.
+
 Reviewed 26 September 2026 against backend commit `d4a9c8d1f1c3961acb491fb592dbda9f6dba01aa` and website commit `057ca32f7c1fbe01d04ddaab7927974a283b8a20`.
 
 **Keep the current infrastructure. Fix the contracts between research, published stories, editions and delivery.** Our captured evidence, claim verification, immutable production artifacts and send ledger are valuable foundations. The largest gaps occur when structured research becomes Markdown, when selection is treated as publication eligibility, and when personalized work is saved only after the entire audience has been processed.

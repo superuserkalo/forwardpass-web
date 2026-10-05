@@ -1,5 +1,7 @@
 # Forward Pass infrastructure handoff
 
+> Historical handoff from 26 September 2026. Its Eve runtime, repository state and proposed changes predate the current Cloudflare Worker implementation. Start with [architecture](../architecture.md) and refresh the source baseline before using this handoff.
+
 Prepared 26 September 2026. Research and analysis are complete. The proposed application changes have not been implemented by this investigation.
 
 ## Objective and first action

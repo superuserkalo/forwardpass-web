@@ -1,134 +1,71 @@
-# The Forward Pass Website
+# The Forward Pass website
 
-The public site for [The Forward Pass](https://theforwardpass.net): a daily intelligence newsletter for people who build with AI.
+The website for [The Forward Pass](https://theforwardpass.net), an AI-generated briefing on AI engineering. This repository contains the public site, reading archive, signals pages, newsletter onboarding, reader preferences, billing integration and agent-access UI.
 
-Next.js (App Router) + Tailwind CSS v4 + Resend. Deploys to Vercel; every push to `main` deploys to production via the Vercel GitHub integration.
+The app uses Next.js 16.3.6 App Router, React 19.2.8, TypeScript and Tailwind CSS v4. Resend stores reader contacts and sends account-link and inquiry emails. Polar handles subscriptions and agent credit purchases. The website targets Vercel. Collection, issue generation, scheduled email/chat delivery, content storage and MCP run in the separate `forwardpass` Cloudflare Workers repository, reached through `FORWARDPASS_AGENT_URL`.
 
-## Getting started
+## Run locally
+
+Use Node.js 22.13 or newer for the documented TypeScript test commands, plus npm.
 
 ```bash
-npm install
-cp .env.example .env.local  # add server-side credentials
+npm ci
+cp .env.example .env.local
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [localhost:3000](http://localhost:3000). With `FORWARDPASS_AGENT_URL` empty, development mode supplies archive and editorial fixtures. Set `FORWARDPASS_DEMO_TIER=free` or `personal` to preview restricted archive states; the default fixture tier is Professional. Fixtures do not provide signup, billing, agent credits or chat connections. Production never uses them.
 
-## Environment
+For real content, configure the Worker origin. Signup and account forms also need Resend, a signing secret and Turnstile credentials. The environment template includes a public production Turnstile site key; replace it with a development key when testing locally. See [development and configuration](docs/development.md).
 
-| Variable | Purpose |
-| --- | --- |
-| `RESEND_API_KEY` | Newsletter signup, contact state, and inquiries |
-| `POLAR_ACCESS_TOKEN`, `POLAR_WEBHOOK_SECRET` | Checkout and verified billing events |
-| `POLAR_PRODUCT_*` | Four Personal/Professional monthly/yearly products |
-| `PREFERENCES_SIGNING_SECRET` | Verify signed reading-brief links from the agent; use the same value in both projects |
+## What is implemented
 
-Segment IDs and sender addresses live in `src/lib/forward-pass.ts`.
+- Newsletter double opt-in, emailed sign-in links, signed unsubscribe links and a 30-day HTTP-only reader session.
+- Onboarding and saved reading briefs, a fixed 14-day Personal trial, subscription checkout and verified Polar webhook reconciliation.
+- An archive with news, topic-based "For you" ordering, editorial articles, individual story pages, images, bookmarks and votes.
+- Public signals pages with source evidence, correction and retraction handling, a scorecard and RSS.
+- Agent key creation, revocation, credit balances, manual credit checkout and optional auto-refill controls in preferences. The Worker implements MCP and code mode.
+- Personal and shared Slack, Discord and Telegram destination controls. The Worker owns provider installation, connection commands and delivery.
+- Public RSS, Markdown copies, sitemap, crawler metadata and `llms.txt`/`llms-full.txt`.
+
+## Current implementation limits
+
+The adjacent Worker currently sends one canonical daily issue to its opted-in email audience. Saving a reading brief and ranking the archive by topics do not establish personalized email generation. Its weekly archive handler currently returns no reader edition, although the website has a Professional weekly UI and pricing copy. See [architecture](docs/architecture.md).
+
+The checked-in Worker configuration enables daily and editorial autopublishing, but disables scheduled signals, the fast collection lane and Polar off-session auto-refill. Website controls depend on the Worker's returned availability. Configuration and dated rollout notes do not prove today's production settings or successful delivery to a particular provider.
 
 ## Routes
 
-| Route          | Purpose                          |
-| -------------- | -------------------------------- |
-| `/`            | Landing page + newsletter signup + advertiser form |
-| `/privacy`     | Privacy policy                   |
-| `/imprint`     | Publisher information            |
-| `/unsubscribe` | Self-serve unsubscribe. An emailed `?token=` link confirms it; an email address alone cannot |
-| `/preferences` | Signed reading-brief editing and billing portal link; offers an emailed sign-in link when signed out |
+| Route | Purpose |
+| --- | --- |
+| `/` | Landing page and newsletter signup |
+| `/welcome` | Confirmed-reader onboarding and Personal trial |
+| `/pricing`, `/agents` | Plan offers, checkout and MCP/credit guide |
+| `/preferences` | Reading brief, billing portal, agent keys/credits and chat delivery |
+| `/preferences/open`, `/preferences/session` | Exchange an emailed token for a reader session |
+| `/unsubscribe` | Request an emailed link or confirm a signed unsubscribe token |
+| `/archive` | News and editorial listings, including the weekly UI |
+| `/archive/daily/<date>`, `/archive/daily/<date>/<story>` | Published issue and individual story |
+| `/archive/editorial/<slug>`, `/archive/weekly/<date>` | Editorial article and weekly reader UI |
+| `/signals`, `/signals/<id>`, `/signals/corrections` | Public signals, evidence and correction log |
+| `/advertise`, `/collaborate`, `/contact` | Inquiry forms, also available through modal routes |
+| `/about`, `/privacy`, `/terms`, `/imprint` | Publication process and legal pages |
+| `/api/polar/webhook` | Verified subscription and credit-order events |
+| `/feed.xml`, `/signals.xml` | Publication and signals RSS |
+| `/llms.txt`, `/llms-full.txt`, `/sitemap.xml`, `/robots.txt` | Crawler and agent discovery |
+| `/archive/daily/<date>.md`, `/archive/daily/<date>/<story>.md`, `/archive/editorial/<slug>.md` | Public Markdown copies via rewrites |
+| `/media/<path>` | Validated proxy for Worker-hosted images |
 
-## Deploy
-
-Connect the GitHub repo to Vercel, set `RESEND_API_KEY` in the project environment, and push to `main`.
-
-## Newsletter onboarding and Personal trial
-
-New newsletter signups use double opt-in: the address is stored in no segment
-and opted out of the newsletter topic, and is emailed a confirmation link. Only
-following that link subscribes it (`joinNewsletter` in `src/lib/newsletter.ts`,
-called from `/preferences/session`), which also opens
-`/welcome`: profile, topics, format, an animated edition preview, and the
-Personal trial offer. Readers can stay on Free. Personal
-is complimentary for 14 days, with no Polar checkout or automatic charge.
-The existing paid checkout remains available on `/pricing`.
-
-Before deploying, register the contact properties in the same Resend account:
+## Checks
 
 ```bash
-node --env-file=.env.local scripts/setup-contact-properties.mjs
-```
-
-The script preserves existing properties and checks their types. It creates
-`interests`, `personal_plan`, `personal_status`, `personal_trial_ends_at`, and
-`onboarding_profile` as strings. Trials store `personal_status=trial` and a fixed
-UTC expiry. Retrying or reopening onboarding does not reset that date. Paid
-`active` subscriptions take precedence. There is no password and no cookie is
-issued at signup: a browser session starts only when the reader opens an emailed
-link, so an email address by itself never authorizes profile edits, archive
-access or a trial. Confirmation links last 24 hours, sign-in links 30 minutes and
-unsubscribe links 90 days. Following one sets a 30-day HTTP-only session cookie
-(a signed preferences token, also accepted by the agent as a Bearer token).
-`/preferences` offers "Email me a link" to recover a lost session. Every form
-answers identically whether or not the address is known, and link emails are
-throttled to one per address every two minutes, tracked in the
-`last_link_sent_at` contact property. Tokens are signed with
-`PREFERENCES_SIGNING_SECRET`, one signing prefix per purpose.
-
-**Bot protection.** The signup, sign-in and unsubscribe-link forms are guarded by
-Cloudflare Turnstile (widget "The Forward Pass forms", managed mode, shown only
-when Cloudflare needs an interaction). `requireHuman` in `src/lib/turnstile.ts`
-runs first in each server action, before any subscriber lookup, and fails closed.
-In production it also checks the token's action and that its hostname is
-`NEXT_PUBLIC_SITE_URL` or its `www.` form. Set `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
-(public) and `TURNSTILE_SECRET_KEY` (from the Cloudflare dashboard, Turnstile) in
-the hosting environment before deploying, or these forms will reject everyone.
-Locally, `.env.local` uses Cloudflare's published always-pass test keys. Preview
-deployments on other hostnames are not registered on the widget, so these forms
-will not work there.
-Draft preferences stay in the current tab's session storage until completion.
-
-**Delivery integration:** the adjacent `forwardpass` agent now stages a daily
-delivery manifest from the same Resend contact properties. It excludes
-unsubscribed contacts and grants Personal only for an active subscription or
-an unexpired trial. Expired trials receive Free. Every staged recipient has
-exactly one daily edition, and delivery requires a separate human approval.
-The agent is not deployed yet, so no scheduled delivery is live. Its emails
-contain 30-day signed links to `/preferences/open`. The browser exchanges the
-fragment for an HTTP-only cookie, then redirects to `/preferences`; the token
-stays out of server URL logs. A submitted email address alone cannot change
-another reader's brief.
-
-Verification:
-
-```bash
-node --experimental-strip-types --test scripts/onboarding.test.mjs
-node --experimental-strip-types --test scripts/pricing.test.mjs
-node --experimental-strip-types --test scripts/preferences.test.mjs
+npm test
+node --experimental-strip-types --test scripts/*.test.mjs
 npm run lint
+npx tsc --noEmit
 npm run build
 ```
 
-Browser verification can run against a local Resend fixture. Never use production
-addresses for a signup test; successful signup sends a welcome email.
+`npm test` runs only `tests/*.test.mjs`. The separate command covers account and billing tests under `scripts/`. `npm run build -- --webpack` selects Webpack when needed; the default uses Turbopack.
 
-## Paid checkout
-
-Polar needs four recurring products: Personal monthly, Personal yearly,
-Professional monthly, and Professional yearly. Configure USD and EUR prices on
-each product, then set their product IDs in the matching
-`POLAR_PRODUCT_*_MONTHLY` and `POLAR_PRODUCT_*_YEARLY` environment variables.
-Also set `POLAR_ACCESS_TOKEN` and `RESEND_API_KEY`. The pricing form sends one
-selected product to a new Polar checkout session, so a dashboard Checkout Link
-is not needed. Polar selects the buyer's applicable currency at checkout.
-
-Set `POLAR_WEBHOOK_SECRET` and register `/api/polar/webhook` as a raw Polar
-webhook endpoint for `subscription.active`, `subscription.updated`,
-`subscription.canceled`, `subscription.uncanceled`, and `subscription.revoked`.
-The endpoint must use the non-redirecting production URL
-`https://theforwardpass.net/api/polar/webhook`. The webhook verifies Polar's
-Standard Webhooks signature, then reads the customer's current Polar state before
-updating their Resend contact. This preserves access during a paid cancellation
-period, handles duplicate deliveries, and gives Professional priority when a
-customer holds both plans. A subscription with no active Polar entitlement
-removes paid access; an existing free or app-managed trial stays unchanged.
-On the first confirmed paid transition, the buyer's checkout reading brief is
-copied from the active subscription metadata to the Resend contact. Readers
-manage their subscription through [Polar's portal](https://polar.sh/the-forward-pass/portal).
+Start with the [documentation index](docs/README.md) for architecture, setup, reader accounts, API, chat delivery and agent credits. Reports under `docs/research/` preserve dated findings and proposals.

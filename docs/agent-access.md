@@ -1,5 +1,9 @@
 # Agent access and credits
 
+Implementation review: 5 October 2026. The protocol, account UI and credit policy below describe the checked-in code. Deployment IDs, provider settings, product registration and acceptance results explicitly dated 3 October are historical evidence, not a fresh production inspection. Provider pricing estimates also retain their original research date.
+
+The current engine is the sibling `forwardpass` Cloudflare Worker. Its checked-in `POLAR_OFF_SESSION_ENABLED` flag is `false`; enable auto-refill only after the required Polar capability and engine secret are configured. The website reads actual availability from the engine. Current setup is in [development and configuration](development.md), and runtime ownership and reader-delivery limitations are in [architecture](architecture.md).
+
 The Cloudflare engine serves `/mcp`, `/agent-access`, and the signed internal `/agent-credit-payment` endpoint. The Vercel website serves `/agents` and receives Polar webhooks at `/api/polar/webhook`.
 
 ## Offer
@@ -46,7 +50,7 @@ Auto-refill is opt-in, uses the selected currency, and buys one pack when total 
 ## Production configuration
 
 1. Deploy the engine with the `AGENT_CODE_LOADER` Worker Loader binding, `AGENT_CREDITS` Durable Object binding and `agent-credits-v1` SQLite migration in `wrangler.jsonc`. Its product ID is already configured there.
-2. `POLAR_PRODUCT_AGENT_CREDITS=4c08dd9f-14b0-4a20-8e8d-ab33d71d9c9e` is configured in the Vercel frontend Production environment and local frontend environment. Keep `FORWARDPASS_AGENT_URL` pointing to the engine and the existing preferences signing secret identical in both runtimes.
+2. Set the website's `POLAR_PRODUCT_AGENT_CREDITS` to the same product ID as the engine. The checked-in Worker uses `4c08dd9f-14b0-4a20-8e8d-ab33d71d9c9e`; the website reads its environment at runtime. This variable is absent from `.env.example`, so add it when enabling credit purchases. Keep `FORWARDPASS_AGENT_URL` pointing to the engine and the preferences signing secret identical in both runtimes.
 3. The existing Polar webhook endpoint now includes `order.paid` and `order.refunded`, preserving all five subscription events. Deploy the updated frontend webhook and `/agents` page before exposing credit checkout to readers.
 4. For auto-refill, Polar must enable `off_session_charges_enabled` for the organization. It was verified **disabled on 2026-10-03**. Once enabled, add `POLAR_ACCESS_TOKEN` as a Worker secret with customer read and order write access, then set the Worker's `POLAR_OFF_SESSION_ENABLED=true`. Until then, the UI offers manual top-ups and says auto-refill is unavailable. The implementation never silently substitutes automatic charges.
 

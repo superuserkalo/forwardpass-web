@@ -1,6 +1,6 @@
 # Forward Pass delivery beyond email
 
-Implementation decision: the user selected Vercel Chat SDK and a simultaneous Slack, Discord, Telegram and Microsoft Teams release for personal and shared destinations. The phased recommendation below is the earlier research recommendation, not the agreed release scope. Current implementation, registration requirements and live acceptance checks are in `/Users/kalo/forwardpass/docs/chat-apps/README.md`. App registration and production delivery remain unverified.
+Current source note, 5 October 2026: the website exposes personal and shared Slack, Discord and Telegram connections. Teams remains in types and backend adapters but is filtered out of new-connection controls. See [chat delivery](../chat-delivery.md) for the current flow and the sibling engine's `docs/chat-apps/` for provider setup. The proposals and unverified registration/delivery statements below describe this report's research date; they are not a current production audit.
 
 Research date: 2026-10-03. Proposal only; no apps registered or messages sent. Platform findings use primary platform documentation and first-party vendor/project sources. Limits and pricing must be checked again during implementation.
 
