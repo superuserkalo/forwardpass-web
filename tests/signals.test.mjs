@@ -6,7 +6,7 @@ import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import {
   ageLabel, correctionsSchema, evidenceView, formatLatency, isSignalId, readSignalLookup, retractionSchema, scorecard, signalHref, signalIdFromParam,
-  lookupHeadline, signalListSchema, signalRecordSchema, signalStatsSchema, signalsMarkdown, signalsPath, sourceGapLabel, typeLabel, utcStamp,
+  lookupHeadline, mcpConfig, signalListSchema, signalRecordSchema, signalStatsSchema, signalsMarkdown, signalsMcpUrl, signalsPath, sourceGapLabel, typeLabel, utcStamp,
 } from "../src/lib/signals.ts";
 import { buildSignalsRss } from "../src/lib/signals-rss.ts";
 
@@ -257,4 +257,35 @@ test("every signal read is anonymous; a page built on request reads fresh and a 
   const page = source("src/app/(site)/signals/[id]/page.tsx");
   assert.match(page, /loadSignals\(\{ limit: 6 \}, \{ fresh: false \}\)/, "and everything it reads is kept with it");
   assert.doesNotMatch(source("src/app/(site)/signals/corrections/page.tsx"), /export const revalidate/, "the log is built on request");
+});
+
+// ---- the free MCP server ----
+
+test("the free MCP server's address is the paid one's sibling, and there is none to show when the engine's address is not known", () => {
+  assert.equal(signalsMcpUrl("https://engine.example/mcp"), "https://engine.example/mcp/signals");
+  assert.equal(signalsMcpUrl("http://localhost:8787/mcp"), "http://localhost:8787/mcp/signals");
+  assert.equal(signalsMcpUrl(null), null);
+  assert.equal(signalsMcpUrl("not an address"), null);
+});
+
+test("the configuration an MCP client takes names the server and its address, and has no key to leak", () => {
+  const text = mcpConfig("https://engine.example/mcp/signals");
+  assert.deepEqual(JSON.parse(text), { mcpServers: { "forward-pass-signals": { type: "http", url: "https://engine.example/mcp/signals" } } });
+  assert.doesNotMatch(text, /authorization|bearer|key|token/i, "no key is needed, so none is asked for");
+  assert.match(text, /\n  "mcpServers"/, "set out to be read");
+});
+
+test("the signals page offers the MCP server where there is an address for it, and the agent guide says it exists", () => {
+  const page = source("src/app/(site)/signals/page.tsx");
+  assert.match(page, /const mcpUrl = signalsMcpUrl\(agentEndpoint\(\)\);/);
+  assert.match(page, /\{mcpUrl && <ForAgents url=\{mcpUrl\} \/>\}/, "nothing is shown that cannot be used");
+  assert.match(page, /\{mcpUrl && <a href="#mcp"/, "and no link to nothing");
+  const section = source("src/components/signals/for-agents.tsx");
+  assert.match(section, /id="mcp"/);
+  for (const tool of ["latest_signals", "get_signal", "list_corrections", "signal_stats"]) assert.ok(section.includes(tool), tool);
+  assert.match(section, /mcpConfig\(url\)/);
+  assert.match(section, /href="\/agents"/, "the paid coverage is one link away");
+  assert.ok(LLMS_TXT.includes("(https://theforwardpass.net/signals#mcp)"));
+  assert.match(LLMS_TXT, /MCP server for the live signals/);
+  assert.match(LLMS_TXT, /get_signal/);
 });

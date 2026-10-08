@@ -2,13 +2,15 @@ import { Rss } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Notice, labelClass } from "@/components/archive/edition-shared";
+import { ForAgents } from "@/components/signals/for-agents";
 import { HowVerified } from "@/components/signals/how-verified";
 import { Scorecard } from "@/components/signals/scorecard";
 import { SignalList } from "@/components/signals/signal-list";
+import { agentEndpoint } from "@/lib/agent-client";
 import { AI_META } from "@/lib/ai-disclosure";
 import { requestTime } from "@/lib/archive-viewer";
 import { FEED_TYPES, SITE_NAME, SITE_URL, organizationJsonLd, pageMetadata, serializeJsonLd } from "@/lib/seo";
-import { SIGNAL_TYPES, signalHref, typeLabel } from "@/lib/signals";
+import { SIGNAL_TYPES, signalHref, signalsMcpUrl, typeLabel } from "@/lib/signals";
 import { loadSignalStats, loadSignals } from "@/lib/signals-client";
 import { cn } from "@/lib/utils";
 
@@ -44,6 +46,7 @@ export default async function SignalsPage({ searchParams }: { searchParams: Sear
   const before = first(params.before);
   const [page, stats] = await Promise.all([loadSignals({ type: type ?? undefined, before }), loadSignalStats()]);
   const now = requestTime();
+  const mcpUrl = signalsMcpUrl(agentEndpoint());
 
   const jsonLd = page ? {
     "@graph": [
@@ -76,6 +79,7 @@ export default async function SignalsPage({ searchParams }: { searchParams: Sear
             <a href="/signals.xml" className="inline-flex items-center gap-2 hover:text-foreground"><Rss className="size-3.5" strokeWidth={1.5} aria-hidden="true" /> RSS feed</a>
             <a href="#how-signals-are-checked" className="hover:text-foreground">How a signal is checked</a>
             <Link href="/signals/corrections" className="hover:text-foreground">Corrections</Link>
+            {mcpUrl && <a href="#mcp" className="hover:text-foreground">For agents</a>}
           </p>
         </header>
 
@@ -113,6 +117,7 @@ export default async function SignalsPage({ searchParams }: { searchParams: Sear
         )}
 
         <HowVerified />
+        {mcpUrl && <ForAgents url={mcpUrl} />}
       </div>
     </main>
   );

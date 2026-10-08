@@ -230,3 +230,15 @@ export function signalsMarkdown(signals: SignalSummary[], site: string): string 
     ...(items.length ? [items.join("\n")] : []),
   ].join("\n\n");
 }
+
+/**
+ * Where the free MCP server for the signals is, given the address of the paid MCP server on the same engine, which the site already
+ * checks is a web address it may show. Nothing when that is not known: a server the page cannot name is not offered.
+ */
+export function signalsMcpUrl(paidEndpoint: string | null): string | null {
+  if (!paidEndpoint) return null;
+  try { return new URL("/mcp/signals", paidEndpoint).toString(); } catch { return null; }
+}
+
+/** What an MCP client takes to add the server: its name and address, and no key, since there is none to give. */
+export const mcpConfig = (url: string): string => JSON.stringify({ mcpServers: { "forward-pass-signals": { type: "http", url } } }, null, 2);

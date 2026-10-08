@@ -21,6 +21,7 @@ Each featured story in a daily issue has its own page at /archive/daily/<date>/<
 - [Live signals](https://theforwardpass.net/signals): The latest checked signals, newest first, with the scorecard and how a signal is checked.
 - [Signals feed](https://theforwardpass.net/signals.xml): RSS feed of the latest signals.
 - [Signal corrections](https://theforwardpass.net/signals/corrections): Every correction and retraction of a signal, with what it said before.
+- [Signals over MCP](https://theforwardpass.net/signals#mcp): A free, read-only MCP server for the live signals, with no key and a limit per caller. Its tools are latest_signals, get_signal, list_corrections and signal_stats; get_signal returns each fact with the quote it was checked against. The signals page shows the server's address.
 - [Editorial archive](https://theforwardpass.net/archive?section=editorial): Deep dives, tutorials and opinion pieces.
 - [Full text](https://theforwardpass.net/llms-full.txt): This guide plus the latest signals, the latest free daily issues and every editorial article in Markdown.
 - [RSS feed](https://theforwardpass.net/feed.xml): Free daily issues and editorial articles, newest first.
