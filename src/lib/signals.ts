@@ -100,8 +100,8 @@ export type StatsWindow = z.infer<typeof statsWindow>;
 
 // ---- what a page says
 
-/** A check that scored at least this was found supported by the quotes; the engine publishes nothing that did not. */
-const SUPPORTED = 0.5;
+/** A check that scored at least this was found supported by the quotes. It is the engine's own line (SIGNAL_GROUNDED), below which it publishes nothing. */
+const SUPPORTED = 0.6;
 
 export type EvidenceView = {
   basis: SignalRecord["evidence"]["basis"];

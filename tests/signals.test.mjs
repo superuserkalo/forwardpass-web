@@ -86,6 +86,9 @@ test("the evidence shown is the record's own: every quote and fact as written, t
   // Facts of equal weight keep the record's order.
   const tied = evidenceView({ ...record, facts: [{ fact: "B.", quote: "b", impact: 2 }, { fact: "A.", quote: "a", impact: 2 }, { fact: "C.", quote: "c", impact: 9 }] }).facts.map(({ quote }) => quote);
   assert.deepEqual(tied, ["c", "b", "a"]);
+  // The line is the engine's: 0.6 is supported, and 0.59 is not.
+  const at = (supported) => evidenceView({ ...record, evidence: { ...record.evidence, grounding: { evaluator: "jev", verdicts: [{ text: "a", verdict: "supported", supported }] } } }).checked;
+  assert.deepEqual([at(0.59), at(0.6)], [{ supported: 0, total: 1 }, { supported: 1, total: 1 }]);
   // A verdict below the line counts as not supported, so a weak check is never shown as a strong one.
   const weak = evidenceView({ ...record, evidence: { ...record.evidence, grounding: { evaluator: "jev", verdicts: [{ text: "a", verdict: "supported", supported: 0.9 }, { text: "b", verdict: "unsupported", supported: 0.2 }] } } });
   assert.deepEqual(weak.checked, { supported: 1, total: 2 });
