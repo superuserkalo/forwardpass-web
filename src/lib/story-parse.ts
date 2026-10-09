@@ -24,7 +24,9 @@ export const FEED_TOPICS = [
   "Audio",
   "Benchmarks",
   "Business",
+  "Chips",
   "Data",
+  "Data centers",
   "Development",
   "GPUs",
   "Image",
@@ -49,7 +51,9 @@ const TOPIC_KEYWORDS: Record<FeedTopic, string[]> = {
   Audio: ["audio", "speech", "voice", "tts", "asr", "transcription"],
   Benchmarks: ["benchmark", "eval", "evaluation", "leaderboard", "state of the art", "sota"],
   Business: ["funding", "acquisition", "revenue", "pricing", "partnership", "enterprise", "valuation", "raises", "billion", "million"],
+  Chips: ["semiconductor", "foundry", "wafer", "tsmc", "hbm", "dram", "nand", "memory price", "memory chip", "packaging", "cowos", "chiplet", "asic", "chipmaker", "ai chip", "chip supply", "export control"],
   Data: ["dataset", "data", "annotation", "corpus", "synthetic data"],
+  "Data centers": ["data center", "datacenter", "data centre", "gigawatt", "megawatt", "power grid", "liquid cooling", "hyperscaler", "colocation", "neocloud"],
   Development: ["developer", "dev tool", "coding", "code assistant", "cli", "typescript", "python", "rust", "ide", "pull request"],
   GPUs: ["gpu", "cuda", "nvidia", "amd", "chip", "h100", "tpu", "accelerator", "silicon"],
   Image: ["image", "vision", "diffusion", "multimodal", "visual", "text-to-image"],
@@ -138,7 +142,7 @@ function summarize(block: string, limit = 220): string {
 
 // The engine marks each featured heading with its stable story id: `<!-- story:s-… -->`.
 const STORY_MARKER = /^<!--\s*story:(s-[a-f0-9]{16})\s*-->$/;
-const LABEL_HEADINGS = new Set(["signals", "quick signals"]);
+const LABEL_HEADINGS = new Set(["signals", "quick signals", "compute"]);
 
 function splitAtHeading(text: string, marker: RegExp): ParsedBlock[] | null {
   const lines = text.split("\n");
