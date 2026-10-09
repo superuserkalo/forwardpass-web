@@ -3,7 +3,8 @@ import { NewsletterForm } from "@/components/forward-pass-forms";
 import { Hero } from "@/components/hero";
 import { HeroPipeline } from "@/components/hero-pipeline";
 import { TrustBand } from "@/components/trust-band";
-import { FEED_TYPES, SITE_DESCRIPTION, SITE_NAME, SITE_URL, organizationJsonLd, serializeJsonLd } from "@/lib/seo";
+import { COVERAGE } from "@/lib/coverage";
+import { FEED_TYPES, OG_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, homeOrganizationJsonLd, organizationJsonLd, serializeJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: { absolute: "The Forward Pass: What's changing in AI engineering" },
@@ -15,25 +16,17 @@ export const metadata: Metadata = {
     title: "The Forward Pass",
     description: "What's changing in AI engineering.",
     type: "website",
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     site: "@forwardpassnews",
+    images: [OG_IMAGE.url],
   },
 };
 
-const COVERAGE: Array<{ name: string; leaves: Array<string> }> = [
-  { name: "models", leaves: ["releases", "benchmarks", "capability_shifts", "multimodal"] },
-  { name: "agents", leaves: ["frameworks", "harnesses", "coding_agents", "tool_use"] },
-  { name: "research", leaves: ["papers_worth_your_evening", "training_methods", "reasoning", "evaluations"] },
-  { name: "infrastructure", leaves: ["serving", "inference", "cost", "scale"] },
-  { name: "tools", leaves: ["what_builders_adopt", "sdks", "debugging", "observability"] },
-  { name: "open_source", leaves: ["weights", "repos", "licences", "datasets"] },
-];
-
-const homeJsonLd = {
+const websiteJsonLd = {
   "@graph": [
-    organizationJsonLd,
     {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
@@ -49,7 +42,8 @@ const homeJsonLd = {
 export default function Home() {
   return (
     <main>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(homeJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(homeOrganizationJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteJsonLd) }} />
       <section id="top" className="relative isolate overflow-hidden">
         <Hero />
         <div

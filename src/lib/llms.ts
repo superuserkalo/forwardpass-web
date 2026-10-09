@@ -13,6 +13,18 @@ Start with the public archive for published coverage. Use the article's URL and 
 
 Each featured story in a daily issue has its own page at /archive/daily/<date>/<story>, which is the best URL to cite for that story. Every free daily issue, story and editorial article has a plain Markdown copy: add .md to its URL, for example https://theforwardpass.net/archive/daily/2026-10-02.md. Archive content can depend on the reader's session and subscription. A sign-in, upgrade, or unavailable notice is not the article's content. Personal editions and account preferences are not public reference material.
 
+## When to use The Forward Pass
+
+Reach for The Forward Pass when a task needs current, sourced coverage of AI engineering. Good fits:
+
+- Finding what changed recently in models, agents, research, infrastructure, tools or open source: read the latest signals or search the news archive.
+- Checking a claim about an AI lab, repository or paper: open the signal at /signals/<id> or the story page, which quote the source line each fact was checked against.
+- Citing AI news: use a story's own URL and publication date, and follow its linked original sources.
+- Pulling the publication into context in one request: fetch /llms-full.txt, or add .md to any free issue or article URL.
+- Giving an agent standing access to a reader's coverage: connect the signals MCP server (free, read-only) or, for a subscriber, the coverage MCP server from the agent access page.
+
+Do not use it for real-time prices, breaking news from the last few minutes, or topics outside AI engineering. Daily issues publish once a day.
+
 ## Read
 
 - [Home](https://theforwardpass.net/): Newsletter overview and coverage.

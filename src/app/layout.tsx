@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Geist, Geist_Mono, Newsreader } from "next/font/google";
-import { FEED_TYPES, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
+import { FEED_TYPES, OG_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -46,10 +46,12 @@ export const metadata: Metadata = {
     description: "What's changing in AI engineering.",
     type: "website",
     locale: "en_US",
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     site: "@forwardpassnews",
+    images: [OG_IMAGE.url],
   },
   other: {
     "darkreader-lock": "",
