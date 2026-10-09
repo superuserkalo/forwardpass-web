@@ -38,19 +38,61 @@ export const PRICING_MARKDOWN = `# ${SITE_NAME} pricing
 
 A free daily issue for everyone. A personal issue written to your interests from ${PRICE_OPTIONS.personal.monthly.usd}/month. Source: ${SITE_URL}/pricing
 
-## Plans
+Prices are in US dollars, with the euro price in brackets. Yearly billing saves 16%. Subscriptions can be cancelled any time from the billing portal.
 
-| Plan | Monthly | Yearly | What it adds |
+## Plans at a glance
+
+| Plan | Monthly | Yearly | Best for |
 | --- | --- | --- | --- |
-| Free | $0 | $0 | The general daily issue, curated AI-engineering sources and full editorial access. Daily issues are sponsored. |
-| Personal | ${PRICE_OPTIONS.personal.monthly.usd} (${PRICE_OPTIONS.personal.monthly.eur}) | ${PRICE_OPTIONS.personal.yearly.usd} (${PRICE_OPTIONS.personal.yearly.eur}) | A daily issue shaped by your interests, ad-free, with an editable brief, a links-only option, MCP and code mode, and 500 agent credits per month. |
-| Professional | ${PRICE_OPTIONS.professional.monthly.usd} (${PRICE_OPTIONS.professional.monthly.eur}) | ${PRICE_OPTIONS.professional.yearly.usd} (${PRICE_OPTIONS.professional.yearly.eur}) | Everything in Personal, plus weekly deep research on your interests, 2,500 agent credits per month and priority support. |
+| Free | $0 | $0 | Following AI engineering with one general daily issue. |
+| Personal | ${PRICE_OPTIONS.personal.monthly.usd} (${PRICE_OPTIONS.personal.monthly.eur}) | ${PRICE_OPTIONS.personal.yearly.usd} (${PRICE_OPTIONS.personal.yearly.eur}) | Readers who want the issue written around their own interests, and an agent that can read the coverage. |
+| Professional | ${PRICE_OPTIONS.professional.monthly.usd} (${PRICE_OPTIONS.professional.monthly.eur}) | ${PRICE_OPTIONS.professional.yearly.usd} (${PRICE_OPTIONS.professional.yearly.eur}) | People who need weekly research on their brief and more agent credits. |
+| Enterprise | Custom | Custom | Organizations that want the data, the audience or the briefing engine. Talk to us at ${SITE_URL}/contact. |
 
-Yearly billing saves 16%. Prices are shown in US dollars with the euro price in brackets.
+## Free
+
+The daily view of AI engineering. $0, free forever; the daily issue is general and sponsored.
+
+- General daily newsletter
+- Curated AI-engineering sources
+- Full editorial access
+- 6-month archive
+
+Join at ${SITE_URL}/welcome.
+
+## Personal
+
+A daily issue shaped by your interests. ${PRICE_OPTIONS.personal.monthly.usd} per month or ${PRICE_OPTIONS.personal.yearly.usd} per year. Everything in Free, plus:
+
+- Your own issue, ad-free
+- An editable brief and a links-only option, or prose
+- MCP and code mode with 500 agent credits per month
+- 12-month archive
+
+Start with the 14-day free trial at ${SITE_URL}/welcome, or subscribe at ${SITE_URL}/pricing?plan=personal.
+
+## Professional
+
+Go deeper and keep your agents informed. ${PRICE_OPTIONS.professional.monthly.usd} per month or ${PRICE_OPTIONS.professional.yearly.usd} per year. Everything in Personal, plus:
+
+- Weekly deep research on your interests
+- 2,000 additional agent credits per month, 2,500 in total
+- 24-month archive
+- Priority support
+
+Subscribe at ${SITE_URL}/pricing?plan=professional.
+
+## Enterprise
+
+The data, reach and engine behind The Forward Pass, tailored to your organization: source-backed AI data and feeds, reach to the AI-engineering audience, the research and briefing engine, API and workflow integrations, and custom delivery and licensing. Contact ${SITE_URL}/contact.
 
 ## Free trial
 
-Personal has a 14-day free trial that needs no payment. The trial includes MCP, code mode and 500 agent credits in total; the credits do not reset monthly. Credit top-ups, 1,000 credits for $5, are available with a paid plan.
+Personal has a 14-day free trial that needs no payment. The trial includes MCP, code mode and 500 agent credits in total. Trial credits do not reset monthly, trial readers cannot buy credits or enable auto-refill, and access ends with the trial.
+
+## Agent credits
+
+One successful get_updates, search_coverage or get_story call costs one credit. Paid Personal includes 500 credits per calendar month and Professional 2,500. Credit top-ups of 1,000 credits for $5 are available with a paid plan, and purchased credits carry forward. Only the human account owner may buy credits. The signals MCP server is a separate, free, read-only server. Details are at ${SITE_URL}/agents.
 
 ## Compare plans
 
@@ -61,5 +103,6 @@ ${COMPARISON_ROWS}
 ## Related
 
 - [Agent access](${SITE_URL}/agents): Read-only MCP keys, credits and code mode for subscribers.
+- [Live signals over MCP](${SITE_URL}/signals#mcp): A free, read-only MCP server for the live signals.
 - [Agent guide](${SITE_URL}/llms.txt): When to use The Forward Pass and how an agent should call it.
 `;

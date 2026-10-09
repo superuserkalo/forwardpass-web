@@ -56,6 +56,19 @@ const periodicalJsonLd = {
   ],
 };
 
+// The paid plans as products, so the prices can be read without the pricing page.
+const planProducts = [
+  { name: "The Forward Pass Personal", description: "A daily issue shaped by your interests, ad-free, with MCP and code mode and 500 agent credits a month.", plan: PRICE_OPTIONS.personal },
+  { name: "The Forward Pass Professional", description: "Personal plus weekly deep research on your interests and 2,500 agent credits a month.", plan: PRICE_OPTIONS.professional },
+].map(({ name, description, plan }) => ({
+  "@type": "Product",
+  name,
+  description,
+  brand: { "@id": organizationJsonLd["@id"] },
+  url: `${SITE_URL}/pricing`,
+  offers: [offer("Monthly", amount(plan.monthly.usd), "P1M"), offer("Yearly", amount(plan.yearly.usd), "P1Y")],
+}));
+
 const websiteJsonLd = {
   "@graph": [
     {
@@ -75,6 +88,9 @@ export default function Home() {
     <main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(homeOrganizationJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(periodicalJsonLd) }} />
+      {planProducts.map((product) => (
+        <script key={product.name} type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(product) }} />
+      ))}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteJsonLd) }} />
       <section id="top" className="relative isolate overflow-hidden">
         <Hero />

@@ -7,10 +7,17 @@ import { signalsMcpUrl } from "@/lib/signals";
 export function GET() {
   const paid = agentEndpoint();
   const free = signalsMcpUrl(paid);
-  const linkset = [
-    ...(free ? [{ anchor: free, "service-doc": [{ href: `${SITE_URL}/signals#mcp`, type: "text/html" }], describedby: [{ href: `${SITE_URL}/llms.txt`, type: "text/plain" }] }] : []),
-    ...(paid ? [{ anchor: paid, "service-doc": [{ href: `${SITE_URL}/agents`, type: "text/html" }], describedby: [{ href: `${SITE_URL}/llms.txt`, type: "text/plain" }] }] : []),
+  const servers = [
+    ...(free ? [{ href: free, doc: `${SITE_URL}/signals#mcp` }] : []),
+    ...(paid ? [{ href: paid, doc: `${SITE_URL}/agents` }] : []),
   ];
+  const guide = [{ href: `${SITE_URL}/llms.txt`, type: "text/plain" }];
+  const linkset = servers.length
+    ? [
+        { anchor: `${SITE_URL}/.well-known/api-catalog`, item: servers.map((server) => ({ href: server.href })) },
+        ...servers.map((server) => ({ anchor: server.href, "service-doc": [{ href: server.doc, type: "text/html" }], describedby: guide })),
+      ]
+    : [];
   return new Response(JSON.stringify({ linkset }, null, 2) + "\n", {
     headers: {
       "Content-Type": 'application/linkset+json; profile="https://www.rfc-editor.org/info/rfc9727"; charset=utf-8',
