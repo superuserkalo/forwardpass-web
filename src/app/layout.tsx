@@ -55,6 +55,8 @@ export const metadata: Metadata = {
   },
   other: {
     "darkreader-lock": "",
+    // An editorial site: pins the agent-readiness report to the content checks, which the scanner otherwise infers and gets wrong.
+    "is-agentic-site-type": "content",
   },
   alternates: { types: FEED_TYPES },
   icons: {
