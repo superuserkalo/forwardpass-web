@@ -142,7 +142,7 @@ function summarize(block: string, limit = 220): string {
 
 // The engine marks each featured heading with its stable story id: `<!-- story:s-… -->`.
 const STORY_MARKER = /^<!--\s*story:(s-[a-f0-9]{16})\s*-->$/;
-const LABEL_HEADINGS = new Set(["signals", "quick signals", "compute"]);
+const LABEL_HEADINGS = new Set(["signals", "quick signals"]);
 
 function splitAtHeading(text: string, marker: RegExp): ParsedBlock[] | null {
   const lines = text.split("\n");
