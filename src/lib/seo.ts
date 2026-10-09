@@ -12,6 +12,7 @@ export const SOCIAL_PROFILES = [
   "https://instagram.com/forwardpassnews",
   "https://www.threads.com/@forwardpassnews",
   "https://www.linkedin.com/company/forwardpassnews",
+  "https://github.com/superuserkalo",
 ];
 
 // RSS autodiscovery. Child metadata replaces the parent's alternates object, so pages spread this in.
