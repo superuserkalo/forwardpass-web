@@ -23,9 +23,8 @@ ${COVERAGE.map(({ name, leaves }) => `- **${name}**: ${leaves.join(", ")}`).join
 - [Full text](${SITE_URL}/llms-full.txt): The guide, latest signals, latest free issues and every editorial article in Markdown.
 `;
 
-export function notFoundMarkdown(path: string): string {
-  return `# Not found
+// The requested path is deliberately not echoed: it is attacker-controlled text in a body that agents read.
+export const NOT_FOUND_MARKDOWN = `# Not found
 
-No page exists at \`${path}\` on ${SITE_NAME}. Start from the [home page](${SITE_URL}/), the [agent guide](${SITE_URL}/llms.txt) or the [sitemap](${SITE_URL}/sitemap.xml) to find what you were looking for.
+No page exists at this address on ${SITE_NAME}. Start from the [home page](${SITE_URL}/), the [agent guide](${SITE_URL}/llms.txt) or the [sitemap](${SITE_URL}/sitemap.xml) to find what you were looking for.
 `;
-}

@@ -1,4 +1,4 @@
-import { HOME_MARKDOWN, notFoundMarkdown } from "@/lib/home-markdown";
+import { HOME_MARKDOWN, NOT_FOUND_MARKDOWN } from "@/lib/home-markdown";
 import { articleMarkdown, issueMarkdown, storyMarkdown, type MarkdownCopy } from "@/lib/markdown-copies";
 import { SITE_URL } from "@/lib/seo";
 
@@ -19,7 +19,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
   const copy = await copyFor(path);
   const headers = { "Content-Type": "text/markdown; charset=utf-8", Vary: "Accept" };
   if (!copy) {
-    return new Response(notFoundMarkdown(`/${path.join("/")}`), { status: 404, headers: { ...headers, "Cache-Control": "public, s-maxage=60" } });
+    return new Response(NOT_FOUND_MARKDOWN, { status: 404, headers: { ...headers, "Cache-Control": "public, s-maxage=60" } });
   }
   return new Response(copy.body, {
     headers: {
