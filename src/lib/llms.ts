@@ -46,6 +46,5 @@ Do not use it for real-time prices, breaking news from the last few minutes, or 
 - [Privacy](https://theforwardpass.net/privacy): How subscriber data is handled.
 - [Imprint](https://theforwardpass.net/imprint): Publisher information.
 - [Sitemap](https://theforwardpass.net/sitemap.xml): XML index of public pages, free daily issues, their stories, editorial articles and the latest signals.
-- [API catalog](https://theforwardpass.net/.well-known/api-catalog): RFC 9727 catalog of the MCP servers, with where each is documented.
 - [Crawler rules](https://theforwardpass.net/robots.txt): Crawl permissions for automated clients.
 `;

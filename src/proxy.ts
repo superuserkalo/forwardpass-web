@@ -2,12 +2,11 @@ import { NextResponse, type NextRequest } from "next/server";
 import { prefersMarkdown } from "@/lib/accept-markdown";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
-// RFC 8288 links from every page to the places an agent starts: the guide, the sitemap, the feed and the API catalog.
+// RFC 8288 links from every page to the places an agent starts: the guide, the sitemap and the feed.
 const LINKS = [
   `<${SITE_URL}/llms.txt>; rel="describedby"; type="text/plain"`,
   `<${SITE_URL}/sitemap.xml>; rel="sitemap"; type="application/xml"`,
   `<${SITE_URL}/feed.xml>; rel="alternate"; type="application/rss+xml"; title="${SITE_NAME}"`,
-  `<${SITE_URL}/.well-known/api-catalog>; rel="api-catalog"`,
 ].join(", ");
 
 // Pages that only exist as HTML: Markdown requests for them get the HTML page rather than a not-found.
