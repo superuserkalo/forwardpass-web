@@ -1,4 +1,5 @@
 import { COVERAGE } from "./coverage";
+import { PLAN_COMPARISON, PRICE_OPTIONS } from "./pricing";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "./seo";
 
 // Markdown copy of the homepage, served when a client asks for Accept: text/markdown at /.
@@ -27,4 +28,38 @@ ${COVERAGE.map(({ name, leaves }) => `- **${name}**: ${leaves.join(", ")}`).join
 export const NOT_FOUND_MARKDOWN = `# Not found
 
 No page exists at this address on ${SITE_NAME}. Start from the [home page](${SITE_URL}/), the [agent guide](${SITE_URL}/llms.txt) or the [sitemap](${SITE_URL}/sitemap.xml) to find what you were looking for.
+`;
+
+const cell = (value: string): string => value.replace(/\|/g, "\\|");
+const COMPARISON_ROWS = PLAN_COMPARISON.map((row) => `| ${row.map(cell).join(" | ")} |`).join("\n");
+
+// Markdown copy of the pricing page, also served at /pricing.md.
+export const PRICING_MARKDOWN = `# ${SITE_NAME} pricing
+
+A free daily issue for everyone. A personal issue written to your interests from ${PRICE_OPTIONS.personal.monthly.usd}/month. Source: ${SITE_URL}/pricing
+
+## Plans
+
+| Plan | Monthly | Yearly | What it adds |
+| --- | --- | --- | --- |
+| Free | $0 | $0 | The general daily issue, curated AI-engineering sources and full editorial access. Daily issues are sponsored. |
+| Personal | ${PRICE_OPTIONS.personal.monthly.usd} (${PRICE_OPTIONS.personal.monthly.eur}) | ${PRICE_OPTIONS.personal.yearly.usd} (${PRICE_OPTIONS.personal.yearly.eur}) | A daily issue shaped by your interests, ad-free, with an editable brief, a links-only option, MCP and code mode, and 500 agent credits per month. |
+| Professional | ${PRICE_OPTIONS.professional.monthly.usd} (${PRICE_OPTIONS.professional.monthly.eur}) | ${PRICE_OPTIONS.professional.yearly.usd} (${PRICE_OPTIONS.professional.yearly.eur}) | Everything in Personal, plus weekly deep research on your interests, 2,500 agent credits per month and priority support. |
+
+Yearly billing saves 16%. Prices are shown in US dollars with the euro price in brackets.
+
+## Free trial
+
+Personal has a 14-day free trial that needs no payment. The trial includes MCP, code mode and 500 agent credits in total; the credits do not reset monthly. Credit top-ups, 1,000 credits for $5, are available with a paid plan.
+
+## Compare plans
+
+| Feature | Free | Personal | Professional |
+| --- | --- | --- | --- |
+${COMPARISON_ROWS}
+
+## Related
+
+- [Agent access](${SITE_URL}/agents): Read-only MCP keys, credits and code mode for subscribers.
+- [Agent guide](${SITE_URL}/llms.txt): When to use The Forward Pass and how an agent should call it.
 `;

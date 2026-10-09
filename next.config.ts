@@ -5,8 +5,10 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react"],
   },
   async rewrites() {
-    // Markdown copies of issues and articles sit next to their HTML pages.
+    // Markdown copies of pages, issues and articles sit next to their HTML pages.
     return [
+      { source: "/index.md", destination: "/md" },
+      { source: "/pricing.md", destination: "/md/pricing" },
       { source: "/archive/:kind/:slug/:story.md", destination: "/markdown/:kind/:slug/:story" },
       { source: "/archive/:kind/:slug.md", destination: "/markdown/:kind/:slug" },
     ];

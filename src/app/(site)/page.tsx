@@ -4,6 +4,7 @@ import { Hero } from "@/components/hero";
 import { HeroPipeline } from "@/components/hero-pipeline";
 import { TrustBand } from "@/components/trust-band";
 import { COVERAGE } from "@/lib/coverage";
+import { PRICE_OPTIONS } from "@/lib/pricing";
 import { FEED_TYPES, OG_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, homeOrganizationJsonLd, organizationJsonLd, serializeJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -25,6 +26,36 @@ export const metadata: Metadata = {
   },
 };
 
+const amount = (price: string): string => price.replace(/[^0-9.]/g, "");
+
+const offer = (name: string, usd: string, billingDuration?: string) => ({
+  "@type": "Offer",
+  name,
+  url: `${SITE_URL}/pricing`,
+  price: usd,
+  priceCurrency: "USD",
+  availability: "https://schema.org/InStock",
+  ...(billingDuration ? { priceSpecification: { "@type": "UnitPriceSpecification", price: usd, priceCurrency: "USD", billingDuration } } : {}),
+});
+
+// The newsletter as a periodical, with what each plan costs.
+const periodicalJsonLd = {
+  "@type": "Periodical",
+  "@id": `${SITE_URL}/#newsletter`,
+  name: SITE_NAME,
+  url: SITE_URL,
+  description: SITE_DESCRIPTION,
+  inLanguage: "en",
+  about: "AI engineering",
+  publisher: { "@id": organizationJsonLd["@id"] },
+  isAccessibleForFree: true,
+  offers: [
+    offer("Free", "0"),
+    offer("Personal", amount(PRICE_OPTIONS.personal.monthly.usd), "P1M"),
+    offer("Professional", amount(PRICE_OPTIONS.professional.monthly.usd), "P1M"),
+  ],
+};
+
 const websiteJsonLd = {
   "@graph": [
     {
@@ -43,6 +74,7 @@ export default function Home() {
   return (
     <main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(homeOrganizationJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(periodicalJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteJsonLd) }} />
       <section id="top" className="relative isolate overflow-hidden">
         <Hero />

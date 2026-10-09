@@ -1,4 +1,4 @@
-import { storyMarkdown } from "@/lib/markdown-copies";
+import { storyMarkdown, markdownDocument } from "@/lib/markdown-copies";
 import { SITE_URL } from "@/lib/seo";
 
 // Served at /archive/daily/<date>/<story>.md through the rewrite in next.config.ts.
@@ -6,7 +6,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ kin
   const { kind, slug, story } = await params;
   const copy = kind === "daily" ? await storyMarkdown(slug, story) : null;
   if (!copy) return new Response("Not found", { status: 404 });
-  return new Response(copy.body, {
+  return new Response(markdownDocument(copy), {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8",
       Link: `<${SITE_URL}${copy.path}>; rel="canonical"`,

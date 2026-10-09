@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { PricingPlans } from "@/components/pricing-plans";
 import { TrustBand } from "@/components/trust-band";
+import { PLAN_COMPARISON } from "@/lib/pricing";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -11,19 +12,6 @@ export const metadata: Metadata = pageMetadata({
   description:
     "A free daily issue for everyone. A personal issue written to your interests from $4.99/month.",
 });
-
-const COMPARE: Array<[string, string, string, string]> = [
-  ["Daily newsletter", "General, sponsored", "Personal, ad-free", "Personal, ad-free"],
-  ["Reading brief", "—", "Editable", "Editable"],
-  ["Editorial access", "Full access", "Full access", "Full access"],
-  ["Deep research", "—", "—", "Weekly, on your interests"],
-  ["MCP + code mode", "—", "Included", "Included"],
-  ["Agent credits", "—", "500 / month", "2,500 / month"],
-  ["Credit top-ups", "—", "1,000 for $5", "1,000 for $5"],
-  ["Issue format", "Standard", "Prose or links-only", "Prose or links-only"],
-  ["Archive", "6 months", "12 months", "24 months"],
-  ["Priority support", "—", "—", "Included"],
-];
 
 export default async function Pricing({
   searchParams,
@@ -64,7 +52,7 @@ export default async function Pricing({
                 </tr>
               </thead>
               <tbody>
-                {COMPARE.map(([label, ...values]) => (
+                {PLAN_COMPARISON.map(([label, ...values]) => (
                   <tr key={label} className="border-b border-border last:border-0">
                     <th scope="row" className="sticky left-0 z-10 bg-background py-5 pr-4 font-normal">{label}</th>
                     {values.map((value, index) => (

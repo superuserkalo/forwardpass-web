@@ -31,6 +31,20 @@ export const PRICE_OPTIONS = {
   Record<BillingPeriod, { usd: string; eur: string; productEnv: string }>
 >;
 
+// Feature rows of the plan comparison, shared by the pricing page and its Markdown copy.
+export const PLAN_COMPARISON: Array<[string, string, string, string]> = [
+  ["Daily newsletter", "General, sponsored", "Personal, ad-free", "Personal, ad-free"],
+  ["Reading brief", "—", "Editable", "Editable"],
+  ["Editorial access", "Full access", "Full access", "Full access"],
+  ["Deep research", "—", "—", "Weekly, on your interests"],
+  ["MCP + code mode", "—", "Included", "Included"],
+  ["Agent credits", "—", "500 / month", "2,500 / month"],
+  ["Credit top-ups", "—", "1,000 for $5", "1,000 for $5"],
+  ["Issue format", "Standard", "Prose or links-only", "Prose or links-only"],
+  ["Archive", "6 months", "12 months", "24 months"],
+  ["Priority support", "—", "—", "Included"],
+];
+
 export function productIdFor(
   plan: Plan,
   billingPeriod: BillingPeriod,

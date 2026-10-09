@@ -1,4 +1,4 @@
-import { articleMarkdown, issueMarkdown } from "@/lib/markdown-copies";
+import { articleMarkdown, issueMarkdown, markdownDocument } from "@/lib/markdown-copies";
 import { SITE_URL } from "@/lib/seo";
 
 // Served at /archive/<kind>/<slug>.md through the rewrite in next.config.ts. The Link header
@@ -7,7 +7,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ kin
   const { kind, slug } = await params;
   const copy = kind === "daily" ? await issueMarkdown(slug) : kind === "editorial" ? await articleMarkdown(slug) : null;
   if (!copy) return new Response("Not found", { status: 404 });
-  return new Response(copy.body, {
+  return new Response(markdownDocument(copy), {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8",
       Link: `<${SITE_URL}${copy.path}>; rel="canonical"`,
