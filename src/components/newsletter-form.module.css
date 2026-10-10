@@ -156,34 +156,43 @@
   .placeholderText { width: 14ch; animation: none; }
   .caret { animation: none; }
 }
-.providerDivider {
+.providerOptions {
   display: flex;
   align-items: center;
-  gap: 18px;
-  margin-block: 24px 16px;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.providerDivider {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  gap: clamp(0px, 2vw, 12px);
   color: var(--muted-foreground);
   font-family: var(--font-technical);
   font-size: 10px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
-.providerDivider > :first-child, .providerDivider > :last-child {
+.providerDivider > :first-child { flex-shrink: 0; }
+
+.providerDivider > :last-child {
   flex: 1;
   height: 1px;
   background: color-mix(in srgb, var(--foreground) 14%, transparent);
 }
 
-.providerOptions { display: flex; justify-content: center; }
-
 .providerButton {
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  width: 13rem;
-  min-height: 54px;
+  gap: 10px;
+  width: 9.25rem;
+  min-height: 44px;
   border: 1px solid var(--border);
   background: rgb(12 12 12 / 0.8);
   color: var(--muted-foreground);
@@ -195,7 +204,7 @@
   transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease;
 }
 
-.providerButton svg { width: 21px; height: 21px; }
+.providerButton svg { width: 18px; height: 18px; }
 .providerButton:hover { color: var(--foreground); border-color: color-mix(in srgb, var(--foreground) 45%, transparent); background: var(--secondary); }
 .providerButton:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
 .providerButton:disabled { cursor: wait; opacity: 0.5; }

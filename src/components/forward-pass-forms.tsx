@@ -32,15 +32,13 @@ function NewsletterButtons() {
 function NewsletterGoogleButton() {
   const { pending } = useFormStatus();
   return (
-    <>
-      <div className={styles.providerDivider}><span aria-hidden="true" /><span>Or continue with</span><span aria-hidden="true" /></div>
-      <div className={styles.providerOptions}>
-        <button type="submit" name="provider" value="google" formNoValidate disabled={pending} className={styles.providerButton}>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.6 12.2c0-.7-.1-1.4-.2-2.1H12v4h5.4a4.6 4.6 0 0 1-2 3c-.9.6-2 1-3.4 1-2.7 0-5-1.8-5.8-4.3a6 6 0 0 1 0-3.7A6.1 6.1 0 0 1 12 5.8c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 12 1.8 10.2 10.2 0 0 0 1.8 12 10.2 10.2 0 0 0 12 22.2c2.7 0 5-.9 6.7-2.5 1.9-1.8 2.9-4.4 2.9-7.5Z" /></svg>
-          {pending ? "Continuing..." : "Google"}
-        </button>
-      </div>
-    </>
+    <div className={styles.providerOptions}>
+      <div className={styles.providerDivider}><span>Or continue with</span><span aria-hidden="true" /></div>
+      <button type="submit" name="provider" value="google" formNoValidate disabled={pending} className={styles.providerButton}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.6 12.2c0-.7-.1-1.4-.2-2.1H12v4h5.4a4.6 4.6 0 0 1-2 3c-.9.6-2 1-3.4 1-2.7 0-5-1.8-5.8-4.3a6 6 0 0 1 0-3.7A6.1 6.1 0 0 1 12 5.8c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 12 1.8 10.2 10.2 0 0 0 1.8 12 10.2 10.2 0 0 0 12 22.2c2.7 0 5-.9 6.7-2.5 1.9-1.8 2.9-4.4 2.9-7.5Z" /></svg>
+        {pending ? "Continuing..." : "Google"}
+      </button>
+    </div>
   );
 }
 
