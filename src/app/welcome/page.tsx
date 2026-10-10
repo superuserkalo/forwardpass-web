@@ -24,7 +24,7 @@ export default async function Welcome() {
         <p className="onboarding-eyebrow">Your daily read, made personal</p>
         <h1 className="onboarding-title">Make it your daily read.</h1>
         <p className="mt-6 text-muted-foreground">
-          Continue with Google or your email, then tell us what you want to read.
+          Continue with Google, GitHub or your email, then tell us what you want to read.
           New readers get 14 days of Personal on us. No password or card needed.
         </p>
         <div className="max-w-md"><AccountForm mode="signup" next="/welcome" /></div>

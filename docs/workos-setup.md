@@ -54,6 +54,27 @@ The repository now combines the authentication, analytics and research changes f
 
 WorkOS handles authentication email with its default sender. Resend continues to handle newsletters. No custom auth-email provider or WorkOS webhook was introduced here.
 
+## GitHub addition on 10 October
+
+The local homepage, account forms and shared callback now support GitHub. The homepage places Google and GitHub in equal columns, shortening their visible labels on narrow forms while keeping the full accessible names. Its footer reads "Free to subscribe. Unsubscribe anytime."
+
+The WorkOS connector confirmed that Forward Pass staging and production had no custom GitHub credentials. GitHub was enabled in staging with WorkOS's default test credentials. The local homepage reached GitHub sign-in with only `user:email`. The staging redirect list now also allows `http://localhost:3001/auth/callback`, while retaining the original port-3000 default. The preview process uses the matching port-3001 callback without changing `.env.local`.
+
+A real staging GitHub callback returned `email_verification_required`. The callback now resumes hosted AuthKit with the email supplied by WorkOS, the original allowed destination and newsletter intent. It recovers these values only from the SDK's encrypted state matched to this browser's verifier cookie. WorkOS continues to manage verification and the new authentication round trip. A live retry reached the hosted form with the email prefilled; the final email-code login was not completed.
+
+The owner created the production GitHub OAuth app and saved its credentials directly in WorkOS on 10 October. The connector confirmed credential `oauth_credential_01M4JTTV8DTF02MW7FR53MS7FK` is valid and enabled, GitHub is enabled in AuthKit, additional scopes are empty and provider token return is disabled. A live check through the existing production `/auth/start` route reached GitHub's "Authorize The Forward Pass" screen with the configured client and callback, requesting only `user:email`. Account authorization and the complete production callback were not performed.
+
+The website's GitHub buttons and callback recovery ship with this addition. The existing production hosted AuthKit already offers GitHub. The credential setup was:
+
+1. In the WorkOS dashboard, select **Forward Pass > Production > Authentication > OAuth providers > GitHub > Manage** and copy its redirect URI.
+2. [Create a GitHub OAuth app](https://github.com/settings/applications/new) named **The Forward Pass**, with homepage `https://theforwardpass.net` and the WorkOS redirect URI as its authorization callback. The app's callback goes to WorkOS, not directly to the website's `/auth/callback`.
+3. Generate the client secret and save it with the client ID directly in the production WorkOS GitHub configuration. Leave additional scopes empty and provider token return disabled. These credentials belong in WorkOS, not the website's environment variables or repository.
+4. Enable GitHub, deploy the website, then verify a production signup, a returning reader and any required email verification before declaring the flow live.
+
+References: [GitHub OAuth setup](https://workos.com/docs/integrations/github-oauth), [authentication errors](https://workos.com/docs/reference/authkit/authentication-errors).
+
+Validation before delivery passed: 18 authentication tests, the existing application and script suites, full ESLint, TypeScript, the production Webpack build and `git diff --check`. The homepage was checked at 320, 390 and 1440 pixels; both provider buttons had equal widths and shared a row without horizontal overflow. Both `/signin` and `/signup` were checked in the local browser and displayed "Continue with GitHub" through their shared account form. These checks do not establish completion of a production account login.
+
 ## Migration behavior
 
 WorkOS identity is matched to the current Resend and Polar identity using the verified, normalized email. Existing preferences, trial dates and paid state are reused. Account creation without newsletter consent creates an opted-out reader contact outside the newsletter segment. Ordinary login preserves existing consent. Signup with explicit newsletter consent can restore newsletter membership.

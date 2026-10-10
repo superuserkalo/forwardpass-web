@@ -41,7 +41,7 @@ export default async function Preferences() {
           </>
         ) : (
           <>
-            <p className="mt-6 text-muted-foreground">Continue with Google or verify your email with a code. Your saved brief will be waiting.</p>
+            <p className="mt-6 text-muted-foreground">Continue with Google, GitHub or an email code. Your saved brief will be waiting.</p>
             <SignInForm />
           </>
         )}

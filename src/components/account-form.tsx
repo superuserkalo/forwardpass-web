@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useFormStatus } from "react-dom";
 import { beginAuthAction } from "@/lib/auth-actions";
+import { GitHubIcon } from "./github-icon";
 
 function AuthButtons() {
   const { pending } = useFormStatus();
@@ -11,6 +12,10 @@ function AuthButtons() {
       <button name="provider" value="google" type="submit" formNoValidate disabled={pending} className="flex h-14 w-full items-center justify-center gap-3 bg-primary text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50">
         <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true"><path fill="currentColor" d="M21.6 12.2c0-.7-.1-1.4-.2-2.1H12v4h5.4a4.6 4.6 0 0 1-2 3c-.9.6-2 1-3.4 1-2.7 0-5-1.8-5.8-4.3a6 6 0 0 1 0-3.7A6.1 6.1 0 0 1 12 5.8c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 12 1.8 10.2 10.2 0 0 0 1.8 12 10.2 10.2 0 0 0 12 22.2c2.7 0 5-.9 6.7-2.5 1.9-1.8 2.9-4.4 2.9-7.5Z" /></svg>
         {pending ? "Continuing..." : "Continue with Google"}
+      </button>
+      <button name="provider" value="github" type="submit" formNoValidate disabled={pending} className="mt-3 flex h-14 w-full items-center justify-center gap-3 border border-border bg-secondary text-sm font-medium transition-colors hover:bg-accent disabled:opacity-50">
+        <GitHubIcon className="size-5" />
+        {pending ? "Continuing..." : "Continue with GitHub"}
       </button>
       <div className="my-7 flex items-center gap-5 font-mono text-xs uppercase tracking-widest text-muted-foreground"><span className="h-px flex-1 bg-border" />or<span className="h-px flex-1 bg-border" /></div>
       <label className="grid gap-3">

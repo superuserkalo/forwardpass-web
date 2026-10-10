@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { AuthenticationException } from "@workos-inc/node";
+import { sealData } from "iron-session";
 import { loadLib } from "./support/load-ts.mjs";
 
 const configured = {
@@ -92,16 +94,93 @@ function authAction() {
   return { ...lib, urls };
 }
 
-test("Google keeps SDK PKCE and state, and sign-in cannot opt readers into email", async () => {
-  const { beginAuthAction, urls } = authAction();
-  const form = new FormData();
-  form.set("provider", "google");
-  form.set("mode", "signin");
-  form.set("newsletter", "on");
-  form.set("next", "//evil.test");
-  await assert.rejects(beginAuthAction(form), /^Error: redirect:https:\/\/api\.workos\.com\/user_management\/authorize\?provider=GoogleOAuth&state=sealed&code_challenge=challenge$/);
-  assert.equal(urls[0][1].returnTo, "/auth/complete");
-  assert.equal(JSON.parse(urls[0][1].state).newsletter, false);
+for (const [provider, oauthProvider] of [["google", "GoogleOAuth"], ["github", "GitHubOAuth"]]) {
+  test(`${provider} keeps SDK PKCE and state, and sign-in cannot opt readers into email`, async () => {
+    const { beginAuthAction, urls } = authAction();
+    const form = new FormData();
+    form.set("provider", provider);
+    form.set("mode", "signin");
+    form.set("newsletter", "on");
+    form.set("next", "//evil.test");
+    await assert.rejects(beginAuthAction(form), { message: `redirect:https://api.workos.com/user_management/authorize?provider=${oauthProvider}&state=sealed&code_challenge=challenge` });
+    assert.equal(urls[0][1].returnTo, "/auth/complete");
+    assert.equal(JSON.parse(urls[0][1].state).newsletter, false);
+  });
+}
+
+for (const newsletter of [false, true]) {
+  test(`GitHub signup preserves the destination and newsletter consent ${newsletter}`, async () => {
+    const { beginAuthAction, urls } = authAction();
+    const form = new FormData();
+    form.set("provider", "github");
+    form.set("mode", "signup");
+    form.set("next", "/pricing?plan=personal&billing=yearly");
+    form.set("email", "invalid unused hint");
+    if (newsletter) form.set("newsletter", "on");
+    await assert.rejects(beginAuthAction(form), { message: "redirect:https://api.workos.com/user_management/authorize?provider=GitHubOAuth&state=sealed&code_challenge=challenge" });
+    assert.equal(urls[0][0], "signup");
+    assert.equal(urls[0][1].loginHint, undefined);
+    assert.equal(urls[0][1].returnTo, "/pricing?plan=personal&billing=yearly");
+    assert.equal(JSON.parse(urls[0][1].state).newsletter, newsletter);
+  });
+}
+
+function authRecovery() {
+  const urls = [];
+  const lib = loadLib("auth-recovery", {
+    env: configured,
+    mocks: {
+      "@workos-inc/node": { AuthenticationException },
+      "@workos-inc/authkit-nextjs": {
+        getSignInUrl: async (options) => { urls.push(options); return "https://forwardpass.authkit.app/verify"; },
+      },
+    },
+  });
+  return { ...lib, urls };
+}
+
+const verificationError = new AuthenticationException(403, {
+  code: "email_verification_required",
+  email: "reader@example.com",
+  pending_authentication_token: "must-not-be-forwarded",
+}, "test");
+const authState = { nonce: "nonce", codeVerifier: "verifier", returnPathname: "/agents", customState: '{"newsletter":true}' };
+
+function callbackRequest(state, cookieValue = state) {
+  return {
+    nextUrl: new URL(`http://localhost:3000/auth/callback?state=${encodeURIComponent(state)}`),
+    cookies: { getAll: () => cookieValue ? [{ name: "wos-auth-verifier-flow", value: cookieValue }] : [] },
+  };
+}
+
+test("social email verification resumes hosted AuthKit with the original destination and consent", async () => {
+  const { emailVerificationUrl, urls } = authRecovery();
+  const state = await sealData(authState, { password: configured.WORKOS_COOKIE_PASSWORD, ttl: 600 });
+  assert.equal(await emailVerificationUrl(verificationError, callbackRequest(state)), "https://forwardpass.authkit.app/verify");
+  assert.equal(urls[0].loginHint, "reader@example.com");
+  assert.equal(urls[0].returnTo, "/agents");
+  assert.equal(urls[0].state, '{"newsletter":true}');
+  assert.ok(!JSON.stringify(urls).includes("must-not-be-forwarded"));
+});
+
+test("email verification rejects missing, mismatched, tampered and expired browser state", async () => {
+  const { emailVerificationUrl, urls } = authRecovery();
+  const state = await sealData(authState, { password: configured.WORKOS_COOKIE_PASSWORD, ttl: 600 });
+  const invalid = await sealData({}, { password: configured.WORKOS_COOKIE_PASSWORD, ttl: 600 });
+  const expired = await sealData(authState, { password: configured.WORKOS_COOKIE_PASSWORD, ttl: -120 });
+  for (const request of [callbackRequest(state, null), callbackRequest(state, "different"), callbackRequest("tampered"), callbackRequest(invalid), callbackRequest(expired)]) {
+    assert.equal(await emailVerificationUrl(verificationError, request), null);
+  }
+  assert.equal(urls.length, 0);
+});
+
+test("email verification sanitizes recovered destinations and leaves unrelated errors alone", async () => {
+  const { emailVerificationUrl, urls } = authRecovery();
+  const state = await sealData({ ...authState, returnPathname: "//evil.test" }, { password: configured.WORKOS_COOKIE_PASSWORD, ttl: 600 });
+  const request = callbackRequest(state);
+  assert.equal(await emailVerificationUrl(new Error("other callback failure"), request), null);
+  await emailVerificationUrl(verificationError, request);
+  assert.equal(urls[0].returnTo, "/auth/complete");
 });
 
 test("email signup forwards a normalized hint and explicit consent to the SDK", async () => {

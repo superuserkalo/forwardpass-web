@@ -21,7 +21,7 @@ export default async function Agents() {
         {!email ? (
           <div className="mt-10 border border-border p-6 md:p-8">
             <h2 className="font-display text-2xl">Sign in to connect.</h2>
-            <p className="mt-3 text-sm leading-6 text-muted-foreground">Continue with Google or an email code, then create your agent key.</p>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">Continue with Google, GitHub or an email code, then create your agent key.</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href="/signin?next=%2Fagents" className="dither-box dither-solid px-5 py-3 text-sm font-medium">Sign in</Link>
               <Link href="/pricing#signup" className="dither-box dither-ghost px-5 py-3 text-sm">Choose a paid plan</Link>

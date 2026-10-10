@@ -2,7 +2,7 @@
 
 The website for [The Forward Pass](https://theforwardpass.net), an AI-generated briefing on AI engineering. This repository contains the public site, reading archive, signals pages, newsletter onboarding, reader preferences, billing integration and agent-access UI.
 
-The app uses Next.js 16.3.6 App Router, React 19.2.8, TypeScript and Tailwind CSS v4. WorkOS AuthKit handles Google and passwordless email authentication. Resend stores reader contacts and sends newsletters, legacy account links and inquiry emails. Polar handles subscriptions and agent credit purchases. The website targets Vercel. Collection, issue generation, scheduled email/chat delivery, content storage and MCP run in the separate `forwardpass` Cloudflare Workers repository, reached through `FORWARDPASS_AGENT_URL`.
+The app uses Next.js 16.3.6 App Router, React 19.2.8, TypeScript and Tailwind CSS v4. WorkOS AuthKit handles Google, GitHub and passwordless email authentication. GitHub is configured in staging and production as described in [WorkOS setup](docs/workos-setup.md). Resend stores reader contacts and sends newsletters, legacy account links and inquiry emails. Polar handles subscriptions and agent credit purchases. The website targets Vercel. Collection, issue generation, scheduled email/chat delivery, content storage and MCP run in the separate `forwardpass` Cloudflare Workers repository, reached through `FORWARDPASS_AGENT_URL`.
 
 ## Run locally
 
@@ -20,7 +20,7 @@ For real content, configure the Worker origin. Account forms need WorkOS and Res
 
 ## What is implemented
 
-- Google and email-code accounts with WorkOS-managed sessions; newsletter consent is applied after verified authentication. Previously issued reader and unsubscribe links remain supported.
+- Google, GitHub and email-code accounts with WorkOS-managed sessions; newsletter consent is applied after verified authentication. Social logins that require email verification resume hosted AuthKit. Previously issued reader and unsubscribe links remain supported.
 - Onboarding and saved reading briefs, a fixed 14-day Personal trial, subscription checkout and verified Polar webhook reconciliation.
 - An archive with news, topic-based "For you" ordering, editorial articles, individual story pages, images, bookmarks and votes.
 - Public signals pages with source evidence, correction and retraction handling, a scorecard and RSS.
@@ -39,7 +39,7 @@ The checked-in Worker configuration enables daily and editorial autopublishing, 
 | Route | Purpose |
 | --- | --- |
 | `/` | Landing page and newsletter signup |
-| `/signup`, `/signin` | Google or passwordless email account entry |
+| `/signup`, `/signin` | Google, GitHub or passwordless email account entry |
 | `/auth/start`, `/auth/callback`, `/auth/complete` | Start AuthKit, exchange authorization codes and resume onboarding/account access |
 | `/welcome` | Confirmed-reader onboarding and Personal trial |
 | `/pricing`, `/agents` | Plan offers, checkout and MCP/credit guide |

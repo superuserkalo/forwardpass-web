@@ -157,9 +157,24 @@
   .caret { animation: none; }
 }
 .providerOptions {
+  container-type: inline-size;
   display: grid;
   gap: 8px;
   margin-top: 8px;
+}
+
+.providerButtons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.providerPrefix {
+  display: none;
+}
+
+@container (min-width: 480px) {
+  .providerPrefix { display: inline; }
 }
 
 .providerDivider {
@@ -186,6 +201,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  min-width: 0;
   width: 100%;
   min-height: 52px;
   border: 1px solid var(--border);

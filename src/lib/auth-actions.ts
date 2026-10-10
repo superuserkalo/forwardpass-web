@@ -10,7 +10,8 @@ import { preferencesCookieName } from "./preferences-token";
 export async function beginAuthAction(form: FormData): Promise<void> {
   const mode = form.get("mode") === "signup" ? "signup" : "signin";
   if (!workosConfigured()) redirect(`/${mode}?error=unavailable`);
-  const provider = form.get("provider") === "google" ? "google" : "email";
+  const requestedProvider = form.get("provider");
+  const provider = requestedProvider === "google" || requestedProvider === "github" ? requestedProvider : "email";
   const email = provider === "email" ? z.email().max(254).parse(String(form.get("email")).trim().toLowerCase()) : undefined;
   const options = {
     loginHint: email,
@@ -18,10 +19,10 @@ export async function beginAuthAction(form: FormData): Promise<void> {
     state: JSON.stringify({ newsletter: mode === "signup" && form.get("newsletter") === "on" }),
   };
   const url = new URL(await (mode === "signup" ? getSignUpUrl(options) : getSignInUrl(options)));
-  // Keep AuthKit's sealed state and PKCE verifier. WorkOS handles Google OAuth
+  // Keep AuthKit's sealed state and PKCE verifier. WorkOS handles social OAuth
   // and uses the same callback/session exchange as hosted email authentication.
-  if (provider === "google") {
-    url.searchParams.set("provider", "GoogleOAuth");
+  if (provider !== "email") {
+    url.searchParams.set("provider", provider === "github" ? "GitHubOAuth" : "GoogleOAuth");
     url.searchParams.delete("screen_hint");
   }
   redirect(url.toString());
