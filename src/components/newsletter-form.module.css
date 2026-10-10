@@ -157,18 +157,15 @@
   .caret { animation: none; }
 }
 .providerOptions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 12px;
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .providerDivider {
   display: flex;
-  flex: 1;
-  min-width: 0;
   align-items: center;
-  gap: clamp(0px, 2vw, 12px);
+  gap: 12px;
   color: var(--muted-foreground);
   font-family: var(--font-technical);
   font-size: 10px;
@@ -177,9 +174,7 @@
   white-space: nowrap;
 }
 
-.providerDivider > :first-child { flex-shrink: 0; }
-
-.providerDivider > :last-child {
+.providerDivider > :first-child, .providerDivider > :last-child {
   flex: 1;
   height: 1px;
   background: color-mix(in srgb, var(--foreground) 14%, transparent);
@@ -191,8 +186,8 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  width: 9.25rem;
-  min-height: 44px;
+  width: 100%;
+  min-height: 52px;
   border: 1px solid var(--border);
   background: rgb(12 12 12 / 0.8);
   color: var(--muted-foreground);
