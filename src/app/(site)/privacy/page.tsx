@@ -111,6 +111,13 @@ export default function Privacy() {
 
         <h2>Cookies</h2>
         <p>
+          We use Vercel Web Analytics to measure page views, referral sources and actions such as
+          starting newsletter signup, opening checkout and sending an inquiry. It does not use cookies.
+          We remove query parameters and URL fragments before sending events, exclude authentication
+          exchange pages, and do not include email addresses, reading briefs or message contents in
+          analytics events.
+        </p>
+        <p>
           This site does not use advertising or tracking cookies. Only what is needed to serve the page
           is used.
         </p>

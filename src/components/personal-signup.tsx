@@ -4,6 +4,8 @@ import { useState, useTransition, type FormEvent } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { startCheckoutAction, updateInterestsAction } from "@/lib/personal-actions";
 import { PRICE_OPTIONS, type BillingPeriod, type Plan } from "@/lib/pricing";
+import { AccountForm } from "./account-form";
+import { trackConversion } from "@/lib/analytics-events";
 
 const inputClass =
   "flex h-14 w-full border border-input bg-transparent px-4 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-ring disabled:cursor-not-allowed disabled:opacity-50";
@@ -18,6 +20,7 @@ export function PersonalSignup({
   onPlanChange,
   billingPeriod: selectedBillingPeriod,
   onBillingPeriodChange,
+  email = null,
 }: {
   compact?: boolean;
   initialPlan?: Plan;
@@ -25,6 +28,7 @@ export function PersonalSignup({
   onPlanChange?: (plan: Plan) => void;
   billingPeriod?: BillingPeriod;
   onBillingPeriodChange?: (period: BillingPeriod) => void;
+  email?: string | null;
 }) {
   const [status, setStatus] = useState<"success" | "error" | null>(null);
   const [localPlan, setPlan] = useState<Plan>(initialPlan);
@@ -37,20 +41,24 @@ export function PersonalSignup({
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     setStatus(null);
+    trackConversion("checkout_started", { plan, billing_period: billingPeriod });
     startTransition(async () => {
       try {
         const { url } = await startCheckoutAction({
-          email: String(form.get("email")),
           interests: String(form.get("interests")),
           plan,
           billingPeriod,
         });
+        trackConversion("checkout_created", { plan, billing_period: billingPeriod });
         window.location.href = url;
       } catch {
+        trackConversion("checkout_failed", { plan, billing_period: billingPeriod });
         setStatus("error");
       }
     });
   }
+
+  if (!email) return <AccountForm mode="signup" next={`/pricing?plan=${plan}&billing=${billingPeriod}#signup`} />;
 
   return (
     <form onSubmit={onSubmit} className="w-full" aria-label="Personal newsletter signup">
@@ -118,12 +126,11 @@ export function PersonalSignup({
       </fieldset>
       <div className="grid gap-3">
         <input
-          name="email"
           aria-label="Email address"
           type="email"
           autoComplete="email"
-          placeholder="Email address"
-          required
+          value={email}
+          readOnly
           className={inputClass}
         />
         <textarea

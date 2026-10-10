@@ -2,7 +2,7 @@
 
 The website for [The Forward Pass](https://theforwardpass.net), an AI-generated briefing on AI engineering. This repository contains the public site, reading archive, signals pages, newsletter onboarding, reader preferences, billing integration and agent-access UI.
 
-The app uses Next.js 16.3.6 App Router, React 19.2.8, TypeScript and Tailwind CSS v4. Resend stores reader contacts and sends account-link and inquiry emails. Polar handles subscriptions and agent credit purchases. The website targets Vercel. Collection, issue generation, scheduled email/chat delivery, content storage and MCP run in the separate `forwardpass` Cloudflare Workers repository, reached through `FORWARDPASS_AGENT_URL`.
+The app uses Next.js 16.3.6 App Router, React 19.2.8, TypeScript and Tailwind CSS v4. WorkOS AuthKit handles Google and passwordless email authentication. Resend stores reader contacts and sends newsletters, legacy account links and inquiry emails. Polar handles subscriptions and agent credit purchases. The website targets Vercel. Collection, issue generation, scheduled email/chat delivery, content storage and MCP run in the separate `forwardpass` Cloudflare Workers repository, reached through `FORWARDPASS_AGENT_URL`.
 
 ## Run locally
 
@@ -16,11 +16,11 @@ npm run dev
 
 Open [localhost:3000](http://localhost:3000). With `FORWARDPASS_AGENT_URL` empty, development mode supplies archive and editorial fixtures. Set `FORWARDPASS_DEMO_TIER=free` or `personal` to preview restricted archive states; the default fixture tier is Professional. Fixtures do not provide signup, billing, agent credits or chat connections. Production never uses them.
 
-For real content, configure the Worker origin. Signup and account forms also need Resend, a signing secret and Turnstile credentials. The environment template includes a public production Turnstile site key; replace it with a development key when testing locally. See [development and configuration](docs/development.md).
+For real content, configure the Worker origin. Account forms need WorkOS and Resend credentials; authenticated Worker requests also need the shared signing secret. Contact and unsubscribe-link requests use Turnstile. The environment template includes a public production Turnstile site key; replace it with a development key when testing locally. See [development and configuration](docs/development.md) and [WorkOS setup](docs/workos-setup.md).
 
 ## What is implemented
 
-- Newsletter double opt-in, emailed sign-in links, signed unsubscribe links and a 30-day HTTP-only reader session.
+- Google and email-code accounts with WorkOS-managed sessions; newsletter consent is applied after verified authentication. Previously issued reader and unsubscribe links remain supported.
 - Onboarding and saved reading briefs, a fixed 14-day Personal trial, subscription checkout and verified Polar webhook reconciliation.
 - An archive with news, topic-based "For you" ordering, editorial articles, individual story pages, images, bookmarks and votes.
 - Public signals pages with source evidence, correction and retraction handling, a scorecard and RSS.
@@ -39,10 +39,12 @@ The checked-in Worker configuration enables daily and editorial autopublishing, 
 | Route | Purpose |
 | --- | --- |
 | `/` | Landing page and newsletter signup |
+| `/signup`, `/signin` | Google or passwordless email account entry |
+| `/auth/start`, `/auth/callback`, `/auth/complete` | Start AuthKit, exchange authorization codes and resume onboarding/account access |
 | `/welcome` | Confirmed-reader onboarding and Personal trial |
 | `/pricing`, `/agents` | Plan offers, checkout and MCP/credit guide |
 | `/preferences` | Reading brief, billing portal, agent keys/credits and chat delivery |
-| `/preferences/open`, `/preferences/session` | Exchange an emailed token for a reader session |
+| `/preferences/open`, `/preferences/session` | Exchange an existing emailed token for a legacy reader session |
 | `/unsubscribe` | Request an emailed link or confirm a signed unsubscribe token |
 | `/archive` | News and editorial listings, including the weekly UI |
 | `/archive/daily/<date>`, `/archive/daily/<date>/<story>` | Published issue and individual story |

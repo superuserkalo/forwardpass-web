@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Geist, Geist_Mono, Newsreader } from "next/font/google";
+import { WebAnalytics } from "@/components/web-analytics";
 import { FEED_TYPES, OG_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
@@ -79,6 +80,7 @@ export default function RootLayout({
       <body>
         {children}
         {modal}
+        <WebAnalytics />
       </body>
     </html>
   );

@@ -19,10 +19,13 @@ Before changing Next.js code, read the relevant guide shipped in `node_modules/n
 | Variable | Consumer and purpose |
 | --- | --- |
 | `RESEND_API_KEY` | Contacts, account-link emails, reading briefs, paid status and inquiries |
+| `WORKOS_API_KEY`, `WORKOS_CLIENT_ID` | Matching WorkOS environment credentials, server only |
+| `WORKOS_COOKIE_PASSWORD` | At least 32 random characters; encrypts managed sessions and auth state |
+| `NEXT_PUBLIC_WORKOS_REDIRECT_URI` | Registered callback, `http://localhost:3000/auth/callback` locally and `https://theforwardpass.net/auth/callback` in production |
 | `PREFERENCES_SIGNING_SECRET` | At least 32 characters; signs email links, reader sessions and internal credit fulfillment. Must match the engine |
 | `FORWARDPASS_AGENT_URL` | Engine origin for content, agent management, credits and chat. HTTPS required outside loopback development |
 | `NEXT_PUBLIC_SITE_URL` | Account-email origin and additional production Turnstile hostname checks; use `http://localhost:3000` for local email links |
-| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Public widget key for signup, sign-in, unsubscribe-link requests and contact forms |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Public widget key for legacy signup/sign-in, unsubscribe-link requests and contact forms |
 | `TURNSTILE_SECRET_KEY` | Server verification; protected forms fail closed when missing or invalid |
 | `POLAR_ACCESS_TOKEN` | Checkout, customer-state reconciliation and credit orders |
 | `POLAR_WEBHOOK_SECRET` | Standard Webhooks verification at `/api/polar/webhook` |
@@ -44,6 +47,8 @@ Fixtures activate only when `NODE_ENV` is `development` and `FORWARDPASS_AGENT_U
 To connect a local engine, run its `npm run dev` in the sibling repository and set this website's engine URL to the loopback URL printed by Wrangler. Use matching signing secrets for authenticated integration. The engine needs its own bindings and secrets; website variables alone do not configure it.
 
 ## Account and payment setup
+
+Configure WorkOS using [WorkOS setup](workos-setup.md). All four WorkOS variables must be present before new authentication is available. WorkOS sends the authentication codes; Resend remains the reader/contact and newsletter service. The shared signing secret still authorizes server-to-Worker requests and existing email links.
 
 Register contact properties before onboarding and account links:
 
@@ -79,7 +84,7 @@ npm run build
 
 `npm test` covers only `tests/`. The separate `scripts/` suite covers signup, sessions, onboarding, billing and other library behavior using mocked dependencies and TypeScript loading. `npm run build -- --webpack` selects Webpack explicitly. `npm run start` serves a completed production build. Production builds do not activate fixtures and may read public engine content.
 
-Browser acceptance includes confirmation/sign-in redirects, expired links, archive restrictions, standalone and modal inquiry pages, evidence/correction pages and provider connections. Use controlled inboxes for email actions; real submissions can send email or create contacts.
+Browser acceptance includes Google and email-code callbacks, sign-out, returning-reader state, explicit newsletter consent, checkout identity, legacy/expired links, archive restrictions, standalone and modal inquiry pages, evidence/correction pages and provider connections. Use a separate WorkOS staging environment and controlled inboxes for email actions; real submissions can send email or create contacts.
 
 ## Deploy
 

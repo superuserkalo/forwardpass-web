@@ -46,8 +46,8 @@ export async function upsertSubscriber(subscriber: Subscriber): Promise<void> {
     return;
   }
 
-  // Checkout is unauthenticated. A submitted email alone must not edit an
-  // existing contact; the billing webhook updates its entitlement after payment.
+  // Starting checkout preserves an existing reader's brief and entitlement.
+  // The billing webhook updates paid access after payment.
 }
 
 export async function syncPaidSubscriber(

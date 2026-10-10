@@ -8,7 +8,7 @@ export function BrandLockup({ className }: { className?: string }) {
       className={`inline-flex items-center gap-3 md:gap-3.5 ${className ?? ""}`}
       aria-label="The Forward Pass home"
     >
-      <Image src="/logo.png" alt="" width={40} height={40} className="size-8 md:size-10" priority />
+      <Image src="/logo-mark.svg" alt="" width={44} height={34} className="h-auto w-10 md:w-11" preload />
       <span className="wordmark text-lg md:text-2xl">THE FORWARD PASS</span>
     </Link>
   );

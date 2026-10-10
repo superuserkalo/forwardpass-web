@@ -12,7 +12,7 @@ function getResend(): Resend {
 
 /**
  * Subscribes an address to the newsletter. Call it only after the owner proved
- * the inbox by following an emailed confirmation link. It is deliberately not
+ * the inbox through verified authentication or an emailed confirmation link. It is deliberately not
  * exported from a "use server" file, which would make it callable by anyone.
  * Safe to repeat.
  */

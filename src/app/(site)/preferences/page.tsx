@@ -6,6 +6,7 @@ import { InterestsEditor } from "@/components/personal-signup";
 import { preferencesEmail } from "@/lib/preferences-session";
 import { ChatDeliveryPanel } from "@/components/chat-delivery";
 import { loadChatSettings } from "@/lib/chat-client";
+import { signOutAction } from "@/lib/auth-actions";
 
 export const metadata: Metadata = {
   title: "Your reading brief",
@@ -36,10 +37,11 @@ export default async function Preferences() {
             <InterestsEditor email={email} initialInterests={interests} />
             {delivery && <ChatDeliveryPanel initial={delivery} />}
             <p className="mt-8 text-sm text-muted-foreground">The Personal trial and both paid plans include <Link href="/agents" className="text-foreground underline underline-offset-4">agent access via MCP</Link>. Create or revoke a key to connect your agents.</p>
+            <form action={signOutAction} className="mt-6"><button type="submit" className="text-sm underline underline-offset-4">Sign out</button></form>
           </>
         ) : (
           <>
-            <p className="mt-6 text-muted-foreground">Enter your email and we’ll send you a link to open your reading brief on this device.</p>
+            <p className="mt-6 text-muted-foreground">Continue with Google or verify your email with a code. Your saved brief will be waiting.</p>
             <SignInForm />
           </>
         )}

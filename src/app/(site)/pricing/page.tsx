@@ -5,6 +5,7 @@ import { PricingPlans } from "@/components/pricing-plans";
 import { TrustBand } from "@/components/trust-band";
 import { PLAN_COMPARISON } from "@/lib/pricing";
 import { pageMetadata } from "@/lib/seo";
+import { preferencesEmail } from "@/lib/preferences-session";
 
 export const metadata: Metadata = pageMetadata({
   path: "/pricing",
@@ -19,6 +20,7 @@ export default async function Pricing({
   searchParams: Promise<{ plan?: string; billing?: string }>;
 }) {
   const params = await searchParams;
+  const email = await preferencesEmail();
   const initialPlan = params.plan === "professional" ? "professional" : "personal";
   const initialBillingPeriod = params.billing === "yearly" ? "yearly" : "monthly";
 
@@ -26,6 +28,7 @@ export default async function Pricing({
     <main id="top" className="page-shell pb-20 md:pb-28">
       <div className="mx-auto max-w-6xl">
         <PricingPlans
+          email={email}
           key={`${initialPlan}-${initialBillingPeriod}`}
           initialPlan={initialPlan}
           initialBillingPeriod={initialBillingPeriod}

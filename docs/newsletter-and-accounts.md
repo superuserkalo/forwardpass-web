@@ -4,9 +4,15 @@ This guide describes current code behavior. The [signup compliance report](newsl
 
 ## Signup and identity
 
-`subscribeAction` checks Turnstile before reading contacts. A new address becomes an unconfirmed Resend contact outside the newsletter segment and opted out of the newsletter topic. A confirmation email proves inbox ownership; submitting an address does not subscribe it or authorize profile edits.
+The current forms call `beginAuthAction` and use WorkOS AuthKit for Google or passwordless email codes. The SDK owns PKCE, callback verification, encrypted HTTP-only session cookies and refresh. Password authentication is disabled in staging and production. The production authentication release is live; see [WorkOS setup](workos-setup.md) for configuration and acceptance-check status.
 
-Existing subscribed readers receive a sign-in link instead. Signup, sign-in and unsubscribe-link requests return the same success response regardless of whether the address is known. Email delivery runs after the response and failures stay out of that response.
+The callback requires a verified email and matches the existing Resend reader by that email. Signing in does not reset briefs, trial dates, paid status or newsletter opt-outs. A new account without newsletter consent creates a contact outside the newsletter segment, opted out of its topic. The newsletter form expresses subscription intent; the standalone signup form has an unchecked newsletter choice. Intent travels inside the SDK's sealed state and is applied only after authentication.
+
+Return destinations are restricted to onboarding, preferences, agents, pricing and the account completion route. The selected pricing plan survives the redirect. Checkout takes its email from the authenticated session rather than accepting an editable customer identity from the browser. Polar and the Worker retain their existing email-based customer identifiers. Changing a WorkOS account email does not migrate old Resend or Polar data automatically.
+
+## Existing links during migration
+
+Previously issued links and the legacy `forwardpass-preferences` cookie remain supported. The old Turnstile-protected signup and sign-in actions are retained for in-flight clients; new forms use WorkOS. Legacy signup creates an unconfirmed Resend contact and sends a verification email. Existing subscribed readers receive a sign-in link. These legacy requests return a generic response, and delivery runs after the response.
 
 | Link | Lifetime | Result |
 | --- | --- | --- |
@@ -21,15 +27,15 @@ Confirmation and sign-in URLs use `/preferences/open#token=…`. The browser sub
 
 ## Newsletter consent and unsubscribe
 
-Confirmation calls `joinNewsletter` before issuing the session. It opts into the newsletter topic and joins the newsletter segment. Repeated confirmation is supported. Unsubscribe opts out of that topic and removes that segment, preserving unrelated topic/segment membership.
+Verified WorkOS signup with explicit consent, or a legacy confirmation link, calls `joinNewsletter`. It opts into the newsletter topic and joins the newsletter segment. Repeated confirmation is supported. Unsubscribe opts out of that topic and removes that segment, preserving unrelated topic/segment membership. Ordinary sign-in never re-subscribes an opted-out reader.
 
 An email address on `/unsubscribe` only requests a signed email link. It never unsubscribes the address directly. Current daily email footer links open this email-prefilled request flow. Engine delivery stages opted-in segment members and rechecks consent before sending.
 
-Turnstile protects signup, sign-in, unsubscribe-link requests and the contact form. Advertising inquiries have separate validation and an advertiser segment. An advertising inquiry is not newsletter consent.
+WorkOS manages the new authentication flow. Turnstile still protects legacy signup/sign-in actions, unsubscribe-link requests and the contact form. Advertising inquiries have separate validation and an advertiser segment. An advertising inquiry is not newsletter consent.
 
 ## Onboarding and trial
 
-`/welcome` requires an emailed reader session. Onboarding saves `onboarding_profile` and `interests`; incomplete UI drafts remain in the current tab's session storage. Starting Personal saves `personal_plan`, `personal_status=trial` and `personal_trial_ends_at` with a fixed 14-day UTC expiry. Reopening or retrying onboarding does not extend the trial. An active paid subscription takes precedence.
+`/welcome` requires a verified reader session and offers Google or email authentication when signed out. Onboarding saves `onboarding_profile` and `interests`; incomplete UI drafts remain in the current tab's session storage. Starting Personal saves `personal_plan`, `personal_status=trial` and `personal_trial_ends_at` with a fixed 14-day UTC expiry. Reopening or retrying onboarding does not extend the trial. An active paid subscription takes precedence.
 
 Free remains available. The trial creates no Polar subscription and makes no automatic charge. It includes Personal archive access and 500 total trial agent credits. Trial credits do not reset monthly; trials cannot buy credit packs or enable auto-refill.
 

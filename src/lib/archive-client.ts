@@ -1,6 +1,5 @@
-import { cookies } from "next/headers";
 import { z } from "zod";
-import { preferencesCookieName, verifyPreferencesToken } from "./preferences-token";
+import { preferencesBearer } from "./preferences-session";
 
 const archiveIndexSchema = z.object({
   tier: z.enum(["free", "personal", "professional"]),
@@ -45,9 +44,9 @@ export async function archiveRequest(path: string, init?: RequestInit, access: A
   if (base.protocol !== "https:" && !(base.protocol === "http:" && ["localhost", "127.0.0.1"].includes(base.hostname))) {
     throw new Error("FORWARDPASS_AGENT_URL must use HTTPS outside local development.");
   }
-  const token = access.anonymous ? undefined : (await cookies()).get(preferencesCookieName)?.value;
+  const token = access.anonymous ? null : await preferencesBearer();
   const headers = new Headers(init?.headers);
-  if (token && verifyPreferencesToken(token)) headers.set("Authorization", `Bearer ${token}`);
+  if (token) headers.set("Authorization", `Bearer ${token}`);
   try {
     // Callers that opt into Next.js revalidation (public, cacheable reads) must not be forced to no-store.
     return await fetch(new URL(path, base), { ...(init?.next ? {} : { cache: "no-store" as const }), ...init, headers });

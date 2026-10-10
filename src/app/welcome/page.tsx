@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { preferencesEmail } from "@/lib/preferences-session";
 import { loadOnboardingState } from "@/lib/onboarding-state";
 import { OnboardingFlow } from "@/components/onboarding-flow";
-import { NewsletterForm } from "@/components/forward-pass-forms";
+import { AccountForm } from "@/components/account-form";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
@@ -22,12 +22,12 @@ export default async function Welcome() {
     <main className="page-shell min-h-[70vh] pb-24 pt-32 md:pb-36 md:pt-44">
       <div className="max-w-2xl">
         <p className="onboarding-eyebrow">Your daily read, made personal</p>
-        <h1 className="onboarding-title">Start with your inbox.</h1>
+        <h1 className="onboarding-title">Make it your daily read.</h1>
         <p className="mt-6 text-muted-foreground">
-          Join The Forward Pass, confirm your email, then tell us what you want
-          to read. New subscribers get 14 days of Personal on us. No card needed.
+          Continue with Google or your email, then tell us what you want to read.
+          New readers get 14 days of Personal on us. No password or card needed.
         </p>
-        <NewsletterForm />
+        <div className="max-w-md"><AccountForm mode="signup" next="/welcome" /></div>
       </div>
     </main>
     <SiteFooter />

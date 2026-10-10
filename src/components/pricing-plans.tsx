@@ -6,6 +6,7 @@ import { ChevronDown } from "lucide-react";
 import { PersonalSignup } from "@/components/personal-signup";
 import { PRICE_OPTIONS, type BillingPeriod, type Plan } from "@/lib/pricing";
 import styles from "./newsletter-form.module.css";
+import { trackConversion } from "@/lib/analytics-events";
 
 const TIERS = [
   {
@@ -81,11 +82,13 @@ export function PricingPlans({
   initialBillingPeriod,
   showSignup,
   children,
+  email,
 }: {
   initialPlan: Plan;
   initialBillingPeriod: BillingPeriod;
   showSignup: boolean;
   children: ReactNode;
+  email?: string | null;
 }) {
   const [billingPeriod, setBillingPeriod] = useState(initialBillingPeriod);
   const [plan, setPlan] = useState(initialPlan);
@@ -191,6 +194,10 @@ export function PricingPlans({
             </ul>
             <Link
               href={card.href}
+              onClick={() => trackConversion("pricing_cta_clicked", {
+                plan: card.id === "individual" ? plan : card.id === "free" ? "free" : "enterprise",
+                ...(card.id === "individual" ? { billing_period: billingPeriod } : {}),
+              })}
               className={`inline-flex min-h-11 items-center justify-center px-4 py-3 text-sm font-medium transition-colors active:scale-[0.98] ${focusClass} ${card.id === "individual" ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-accent/70 hover:bg-accent"}`}
             >
               {card.cta}
@@ -224,7 +231,7 @@ export function PricingPlans({
               Or subscribe below. Cancel any time from your billing portal.
             </p>
           </div>
-          <PersonalSignup plan={plan} onPlanChange={setPlan} billingPeriod={billingPeriod} onBillingPeriodChange={setBillingPeriod} />
+          <PersonalSignup email={email} plan={plan} onPlanChange={setPlan} billingPeriod={billingPeriod} onBillingPeriodChange={setBillingPeriod} />
         </div>
       </details>
     </>

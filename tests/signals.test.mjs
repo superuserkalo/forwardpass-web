@@ -226,7 +226,9 @@ test("the agent guide, the sitemap, the header and the footer all lead to the si
   assert.match(LLMS_TXT, /word for word/);
   assert.match(source("src/app/sitemap.ts"), /"\/signals", "\/signals\/corrections"/);
   assert.match(source("src/app/sitemap.ts"), /loadRecentSignals\(SIGNAL_PAGES\)/);
-  assert.equal((source("src/components/site-header.tsx").match(/href="\/signals"/g) ?? []).length, 2, "desktop and mobile menus");
+  const header = source("src/components/site-header.tsx");
+  assert.match(header, /href: "\/signals"/, "signals is in the shared navigation");
+  assert.equal((header.match(/navigation\.map\(/g) ?? []).length, 2, "desktop and mobile menus render the shared navigation");
   assert.match(source("src/components/site-footer.tsx"), /href: "\/signals"/);
   assert.match(source("src/app/llms-full.txt/route.ts"), /signalsMarkdown\(signals\.signals, SITE_URL\)/);
 });

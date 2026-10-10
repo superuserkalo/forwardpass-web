@@ -1,17 +1,19 @@
 "use client";
 
-import { useRef, useState, useTransition, type FormEvent } from "react";
+import { useState, useTransition, type FormEvent } from "react";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import styles from "./newsletter-form.module.css";
+import { trackConversion } from "@/lib/analytics-events";
 import {
   advertisingInquiryAction,
   contactAction,
   requestUnsubscribeLinkAction,
-  subscribeAction,
   unsubscribeAction,
 } from "@/lib/forward-pass";
-import { requestSignInLinkAction } from "@/lib/signin-actions";
+import { beginAuthAction } from "@/lib/auth-actions";
+import { AccountForm } from "./account-form";
+import { useFormStatus } from "react-dom";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 
 function inputClass() {
@@ -22,143 +24,50 @@ function buttonClass() {
   return "inline-flex h-14 shrink-0 items-center justify-center gap-2 whitespace-nowrap bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50";
 }
 
-export function NewsletterForm({ animatePlaceholder = false }: { animatePlaceholder?: boolean }) {
-  const [status, setStatus] = useState<"success" | "error" | "verifying" | null>(null);
-  const [isPending, startTransition] = useTransition();
-  const [token, setToken] = useState<string | null>(null);
-  const [resetKey, setResetKey] = useState(0);
-  const [hasStarted, setHasStarted] = useState(false);
-  const queuedEmail = useRef<string | null>(null);
+function NewsletterButtons() {
+  const { pending } = useFormStatus();
+  return <button type="submit" name="provider" value="email" disabled={pending} className={styles.button}>{pending ? "Continuing..." : "Join"}<ArrowRight aria-hidden="true" className="size-4" /></button>;
+}
 
-  function subscribe(email: string, verificationToken: string) {
-    setStatus(null);
-    startTransition(async () => {
-      try {
-        await subscribeAction(email, verificationToken);
-        setStatus("success");
-      } catch {
-        setStatus("error");
-        setToken(null);
-        setResetKey((key) => key + 1);
-      }
-    });
-  }
-
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const email = String(new FormData(event.currentTarget).get("email"));
-    setHasStarted(true);
-    if (!token) {
-      queuedEmail.current = email;
-      setStatus("verifying");
-      return;
-    }
-    subscribe(email, token);
-  }
-
-  function onToken(verificationToken: string | null) {
-    setToken(verificationToken);
-    if (verificationToken && queuedEmail.current !== null) {
-      const email = queuedEmail.current;
-      queuedEmail.current = null;
-      subscribe(email, verificationToken);
-    }
-  }
-
-  function onVerificationError() {
-    queuedEmail.current = null;
-    setToken(null);
-    setStatus("error");
-    setHasStarted(false);
-  }
-
-  if (status === "success") {
-    return (
-      <div className="flex min-h-14 items-center gap-3 border-y border-border py-4 font-mono text-sm" role="status">
-        <Check className="size-4" aria-hidden="true" />
-        Almost there. Check your inbox and confirm your email to join the list.
-      </div>
-    );
-  }
-
+function NewsletterGoogleButton() {
+  const { pending } = useFormStatus();
   return (
-    <form onSubmit={onSubmit} className="mt-8 max-w-2xl" aria-label="Newsletter signup">
+    <>
+      <div className={styles.providerDivider}><span aria-hidden="true" /><span>Or continue with</span><span aria-hidden="true" /></div>
+      <div className={styles.providerOptions}>
+        <button type="submit" name="provider" value="google" formNoValidate disabled={pending} className={styles.providerButton}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.6 12.2c0-.7-.1-1.4-.2-2.1H12v4h5.4a4.6 4.6 0 0 1-2 3c-.9.6-2 1-3.4 1-2.7 0-5-1.8-5.8-4.3a6 6 0 0 1 0-3.7A6.1 6.1 0 0 1 12 5.8c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 12 1.8 10.2 10.2 0 0 0 1.8 12 10.2 10.2 0 0 0 12 22.2c2.7 0 5-.9 6.7-2.5 1.9-1.8 2.9-4.4 2.9-7.5Z" /></svg>
+          {pending ? "Continuing..." : "Google"}
+        </button>
+      </div>
+    </>
+  );
+}
+
+export function NewsletterForm({ animatePlaceholder = false }: { animatePlaceholder?: boolean }) {
+  return (
+    <form action={beginAuthAction} onSubmit={() => trackConversion("newsletter_signup_started")} className="mt-8 max-w-2xl" aria-label="Newsletter signup">
+      <input type="hidden" name="mode" value="signup" />
+      <input type="hidden" name="newsletter" value="on" />
       <div className={styles.frame}>
         <span aria-hidden="true" className={styles.shine} />
         <div className={styles.field}>
-          <input name="email" type="email" autoComplete="email" aria-label="Email address" placeholder={animatePlaceholder ? "your@email.com" : "Email address"} required onChange={() => setHasStarted(true)} disabled={isPending || status === "verifying"} className={`${styles.input} ${animatePlaceholder ? styles.terminalInput : ""}`} />
-          {animatePlaceholder ? (
-            <span aria-hidden="true" className={styles.placeholder}>
-              <span className={styles.placeholderText}>your@email.com</span>
-              <span className={styles.caret} />
-            </span>
-          ) : null}
+          <input name="email" type="email" autoComplete="email" aria-label="Email address" placeholder={animatePlaceholder ? "your@email.com" : "Email address"} required maxLength={254} className={`${styles.input} ${animatePlaceholder ? styles.terminalInput : ""}`} />
+          {animatePlaceholder && <span aria-hidden="true" className={styles.placeholder}><span className={styles.placeholderText}>your@email.com</span><span className={styles.caret} /></span>}
         </div>
-        <button type="submit" disabled={isPending || status === "verifying"} className={styles.button}>
-          {isPending ? "Joining…" : status === "verifying" ? "Verifying…" : "Join"}
-          <ArrowRight aria-hidden="true" className="size-4" />
-        </button>
+        <NewsletterButtons />
       </div>
-      {hasStarted ? <TurnstileWidget action="signup" onToken={onToken} onError={onVerificationError} resetKey={resetKey} /> : null}
+      <NewsletterGoogleButton />
       <div className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-xs text-muted-foreground">
-        <span>Free to subscribe. Unsubscribe anytime.</span>
-        <span>
-          <Link href="/privacy" className="underline underline-offset-4 hover:text-foreground">Privacy</Link>
-          {" & "}
-          <Link href="/terms" className="underline underline-offset-4 hover:text-foreground">Terms</Link>
-        </span>
+        <span>Free to subscribe. No password. Unsubscribe anytime.</span>
+        <span><Link href="/privacy" className="underline underline-offset-4 hover:text-foreground">Privacy</Link>{" & "}<Link href="/terms" className="underline underline-offset-4 hover:text-foreground">Terms</Link></span>
       </div>
-      {status === "error" ? <p className="mt-2 text-xs text-muted-foreground" role="alert">Couldn’t subscribe. Please try again.</p> : null}
-      {status === "verifying" ? <p className="mt-2 text-xs text-muted-foreground" role="status">Checking your browser. Complete the verification if prompted.</p> : null}
     </form>
   );
 }
 
-/** Asks for an emailed link. The answer is the same for every address, so it never confirms who is subscribed. */
 export function SignInForm() {
-  const [status, setStatus] = useState<"success" | "error" | null>(null);
-  const [isPending, startTransition] = useTransition();
-  const [token, setToken] = useState<string | null>(null);
-  const [resetKey, setResetKey] = useState(0);
-
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    setStatus(null);
-    startTransition(async () => {
-      try {
-        await requestSignInLinkAction(String(form.get("email")), token ?? "");
-        setStatus("success");
-      } catch {
-        setStatus("error");
-        setToken(null);
-        setResetKey((key) => key + 1);
-      }
-    });
-  }
-
-  if (status === "success") {
-    return (
-      <div className="mt-8 flex min-h-14 items-center gap-3 border-y border-border py-4 text-sm" role="status">
-        <Check className="size-4" aria-hidden="true" />
-        If that address is subscribed, a sign-in link is on its way. It works for 30 minutes.
-      </div>
-    );
-  }
-
-  return (
-    <form onSubmit={onSubmit} className="mt-8" aria-label="Email me a sign-in link">
-      <div className="flex flex-col gap-2 sm:flex-row">
-        <input name="email" type="email" autoComplete="email" aria-label="Email address" placeholder="Email address" required className={inputClass()} />
-        <button type="submit" disabled={isPending} className={buttonClass()}>
-          {isPending ? "Sending…" : "Email me a link"}
-          <ArrowRight aria-hidden="true" className="size-4" />
-        </button>
-      </div>
-      <TurnstileWidget action="signin" onToken={setToken} resetKey={resetKey} />
-      {status === "error" ? <p className="mt-3 text-xs" role="alert">Couldn’t send the link. Please try again.</p> : null}
-    </form>
-  );
+  return <AccountForm />;
 }
 
 export function UnsubscribeForm({ initialEmail, token }: { initialEmail?: string; token?: string }) {
@@ -260,6 +169,7 @@ export function AdvertisingForm() {
           budget: String(form.get("budget") ?? ""),
         });
         target.reset();
+        trackConversion("advertising_inquiry_submitted");
         setStatus("success");
       } catch {
         setStatus("error");
@@ -311,6 +221,7 @@ export function ContactForm() {
           { name: String(form.get("name")), email: String(form.get("email")), message: String(form.get("message")) },
           token ?? "",
         );
+        trackConversion("contact_submitted");
         setStatus("success");
       } catch {
         setStatus("error");
