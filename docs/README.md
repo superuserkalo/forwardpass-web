@@ -26,3 +26,5 @@ Files under `research/` preserve findings and evidence from their stated dates:
 - [Infrastructure evidence](research/forwardpass-infra-evidence/README.md) and [AlphaSignal evidence](research/alphasignal-system-evidence/README.md).
 
 Refresh historical assumptions against source before using them for new work.
+
+- [Consumer hardware coverage and infrastructure review, 15 October 2026](research/consumer-hardware-review-2026-10-15.md): consumer chips, VRAM, live source probes, editorial smoke, production verification and remaining operational gaps.

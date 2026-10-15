@@ -1,6 +1,6 @@
 # Architecture
 
-Source review date: 5 October 2026; authentication updated on 9 October. The website and engine are separate applications.
+Source review date: 5 October 2026; authentication updated on 9 October; compute coverage and edition flags rechecked on 15 October. The website and engine are separate applications.
 
 ## Runtime ownership
 
@@ -39,8 +39,8 @@ Current configuration sets `FORWARDPASS_AUTOPUBLISH` and `FORWARDPASS_EDITORIAL_
 
 ## Gaps between the offer and current implementation
 
-- Engine `src/delivery/deliver.ts` renders the saved canonical `IssueV2` for the opted-in audience, with recipient-specific account links. It does not generate a separate daily email from each saved reading brief. The website's "For you" feed orders existing stories by reader topics.
-- The website has weekly listings and a weekly edition route, and pricing describes Professional weekly research. The engine's weekly archive handler currently returns 404 after Professional authorization, with "No weekly edition for this reader". The public Sunday editorial deep dive is a separate article.
+- Engine `src/delivery/deliver.ts` supports personal editions behind `FORWARDPASS_PERSONAL_EDITIONS_ENABLED`. Verified production settings on 15 October left it disabled, so the opted-in audience receives the canonical daily issue with recipient-specific account links. The website's "For you" feed orders existing stories by reader topics.
+- The engine has a weekly research workflow and archive reader, but `FORWARDPASS_WEEKLY_ENABLED` was disabled in the verified production settings on 15 October. Pricing describes Professional weekly research. The public Sunday editorial deep dive is a separate article.
 - Signals pages and APIs exist, but the checked-in flag disables scheduled signal publication. A page or successful fixture test does not prove the pipeline is enabled.
 - The frontend exposes Slack, Discord and Telegram according to backend availability. Teams remains in types and adapters but is filtered out of new-connection controls. A configured adapter does not prove delivery.
 - Auto-refill code exists but the checked-in Worker flag disables it. Manual credit purchases require product configuration and an active paid subscription.
@@ -59,3 +59,7 @@ Current configuration sets `FORWARDPASS_AUTOPUBLISH` and `FORWARDPASS_EDITORIAL_
 | Chat | `chat-client.ts`, `chat-actions.ts`, `chat-delivery.tsx` |
 
 Library names are under `src/lib`; component names are under `src/components`. The `(site)` route group does not add a URL segment. `@modal` supplies parallel and intercepted advertising, collaboration and contact routes. Keep standalone and modal versions aligned.
+
+## Consumer chip coverage
+
+The engine's existing compute path now includes consumer GPUs, CPUs, NPUs, VRAM/GDDR, unified memory, prices, supply and measured local inference. Stories keep the existing Chips topic and structured story contract. The website's topic fallback recognizes these hardware terms, and the homepage and Markdown copy share the coverage list in `coverage.ts`. Read the [15 October review](research/consumer-hardware-review-2026-10-15.md) for source probes, tests and the limits of the live check.

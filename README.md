@@ -30,9 +30,13 @@ For real content, configure the Worker origin. Account forms need WorkOS and Res
 
 ## Current implementation limits
 
-The adjacent Worker currently sends one canonical daily issue to its opted-in email audience. Saving a reading brief and ranking the archive by topics do not establish personalized email generation. Its weekly archive handler currently returns no reader edition, although the website has a Professional weekly UI and pricing copy. See [architecture](docs/architecture.md).
+The adjacent Worker sends one canonical daily issue to its opted-in email audience while its personal-edition flag is off. Personal and weekly workflows exist behind separate flags; verified production settings on 15 October 2026 left both disabled. Saving a reading brief and ranking the archive by topics do not establish personalized email delivery. See [architecture](docs/architecture.md).
 
 The checked-in Worker configuration enables daily and editorial autopublishing, but disables scheduled signals, the fast collection lane and Polar off-session auto-refill. Website controls depend on the Worker's returned availability. Configuration and dated rollout notes do not prove today's production settings or successful delivery to a particular provider.
+
+## Chip and memory coverage
+
+The daily briefing includes consumer chips and GPUs, VRAM/GDDR, system and unified memory, CPUs, NPUs and local-inference hardware alongside data-center compute. Readers can follow the existing Chips topic. The engine classifies and ranks these stories; gaming-only reviews, retail deals and peripherals stay outside compute coverage. The homepage and its Markdown copy share their coverage list. See the [coverage and infrastructure review](docs/research/consumer-hardware-review-2026-10-15.md).
 
 ## Routes
 

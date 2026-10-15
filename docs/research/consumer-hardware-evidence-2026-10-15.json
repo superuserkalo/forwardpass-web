@@ -1,0 +1,282 @@
+{
+  "checkedAt": "2026-10-15T13:36:47.064Z",
+  "sourceFeeds": [
+    {
+      "url": "https://www.apple.com/newsroom/rss-feed.rss",
+      "streamId": "catalog-7e621a3a0d505d36",
+      "section": "Newsroom announcements",
+      "status": "ok",
+      "itemCount": 20,
+      "newCount": 7,
+      "invalidCount": 0,
+      "bytes": 18817,
+      "backfillLimited": false,
+      "possiblyTruncated": false
+    },
+    {
+      "url": "https://www.techpowerup.com/rss/news",
+      "streamId": "catalog-e8f857f61f4dee88",
+      "section": "Hardware news RSS",
+      "status": "ok",
+      "itemCount": 125,
+      "newCount": 91,
+      "invalidCount": 0,
+      "bytes": 345333,
+      "backfillLimited": false,
+      "possiblyTruncated": false
+    }
+  ],
+  "production": {
+    "collection": {
+      "key": "collection/runs/2026-10-15/12.json",
+      "at": "2026-10-15T12:00:48.000Z",
+      "items": 529,
+      "health": {
+        "ok": 532,
+        "unchanged": 397,
+        "not-due": 40,
+        "partial": 11,
+        "reference": 5,
+        "permission-required": 33,
+        "failed": 19,
+        "delegated": 1
+      }
+    },
+    "hardwareSources": [
+      {
+        "url": "https://developer.nvidia.com/blog/rss",
+        "streamId": "catalog-6997498aafe8fe01",
+        "status": "unchanged",
+        "section": "Developer technical blog",
+        "itemCount": 0,
+        "newCount": 0,
+        "invalidCount": 0,
+        "bytes": 0,
+        "backfillLimited": false,
+        "possiblyTruncated": false
+      },
+      {
+        "url": "https://www.intel.com/content/www/us/en/newsroom/home.html",
+        "streamId": "catalog-a6905861f36ad8f9",
+        "status": "ok",
+        "section": "Intel Newsroom",
+        "itemCount": 149,
+        "newCount": 0,
+        "invalidCount": 0,
+        "bytes": 551990,
+        "backfillLimited": false,
+        "possiblyTruncated": false
+      },
+      {
+        "url": "https://research.nvidia.com/rss.xml",
+        "streamId": "catalog-5caca3978e86a553",
+        "status": "ok",
+        "section": "Research publications",
+        "itemCount": 10,
+        "newCount": 0,
+        "invalidCount": 0,
+        "bytes": 21150,
+        "backfillLimited": false,
+        "possiblyTruncated": false
+      },
+      {
+        "url": "https://www.intel.com/content/www/us/en/developer/articles/release-notes/oneapi-base-toolkit.html",
+        "streamId": "catalog-f0aa5ea0f45a28c1",
+        "status": "ok",
+        "section": "oneAPI Base Toolkit release notes",
+        "itemCount": 28,
+        "newCount": 0,
+        "invalidCount": 0,
+        "bytes": 210897,
+        "backfillLimited": false,
+        "possiblyTruncated": false
+      },
+      {
+        "url": "https://chipsandcheese.com/feed/",
+        "streamId": "catalog-dcf6789803e4f5c4",
+        "status": "ok",
+        "section": "Article archive",
+        "itemCount": 20,
+        "newCount": 0,
+        "invalidCount": 0,
+        "bytes": 1672361,
+        "backfillLimited": false,
+        "possiblyTruncated": false
+      },
+      {
+        "url": "https://blogs.nvidia.com/feed/",
+        "streamId": "catalog-219951b2c406ee4b",
+        "status": "ok",
+        "section": "Corporate and product blog",
+        "itemCount": 18,
+        "newCount": 1,
+        "invalidCount": 0,
+        "bytes": 304212,
+        "backfillLimited": false,
+        "possiblyTruncated": false
+      },
+      {
+        "url": "https://chipsandcheese.com/feed",
+        "streamId": "catalog-e6476be25934d4c6",
+        "status": "ok",
+        "section": "Article RSS",
+        "itemCount": 20,
+        "newCount": 0,
+        "invalidCount": 0,
+        "bytes": 1672361,
+        "backfillLimited": false,
+        "possiblyTruncated": false
+      },
+      {
+        "url": "https://nvidianews.nvidia.com/releases.xml",
+        "streamId": "catalog-acdee1dafe9bd64c",
+        "status": "ok",
+        "section": "Newsroom releases",
+        "itemCount": 20,
+        "newCount": 1,
+        "invalidCount": 0,
+        "bytes": 63448,
+        "backfillLimited": false,
+        "possiblyTruncated": false
+      },
+      {
+        "url": "https://newsroom.amd.com/rss.xml",
+        "streamId": "catalog-e68ee729c7694717",
+        "status": "ok",
+        "section": "Company announcements",
+        "itemCount": 30,
+        "newCount": 0,
+        "invalidCount": 0,
+        "bytes": 32149,
+        "backfillLimited": false,
+        "possiblyTruncated": false
+      },
+      {
+        "url": "https://www.tomshardware.com/feeds.xml",
+        "streamId": "catalog-92686c4979c09925",
+        "status": "ok",
+        "section": "News feed",
+        "itemCount": 50,
+        "newCount": 7,
+        "invalidCount": 0,
+        "bytes": 1039557,
+        "backfillLimited": false,
+        "possiblyTruncated": false
+      },
+      {
+        "url": "https://rocm.blogs.amd.com/blog/atom.xml",
+        "streamId": "catalog-cbd688fee1c6a6b1",
+        "status": "unchanged",
+        "section": "ROCm engineering blog",
+        "itemCount": 0,
+        "newCount": 0,
+        "invalidCount": 0,
+        "bytes": 0,
+        "backfillLimited": false,
+        "possiblyTruncated": false
+      },
+      {
+        "url": "https://rocm.docs.amd.com/en/latest/about/release-notes.html",
+        "streamId": "catalog-5617e8b9f4682798",
+        "status": "unchanged",
+        "section": "ROCm Core SDK release notes",
+        "itemCount": 0,
+        "newCount": 0,
+        "invalidCount": 0,
+        "bytes": 0,
+        "backfillLimited": false,
+        "possiblyTruncated": false
+      },
+      {
+        "url": "https://www.qualcomm.com/news/onq",
+        "streamId": "catalog-13b4bec4f327d1b8",
+        "status": "ok",
+        "section": "OnQ blog",
+        "itemCount": 31,
+        "newCount": 0,
+        "invalidCount": 0,
+        "bytes": 343544,
+        "backfillLimited": false,
+        "possiblyTruncated": false,
+        "via": "browser"
+      },
+      {
+        "url": "https://www.qualcomm.com/news",
+        "streamId": "catalog-894adcee548be17c",
+        "status": "ok",
+        "section": "Newsroom",
+        "itemCount": 15,
+        "newCount": 0,
+        "invalidCount": 0,
+        "bytes": 305731,
+        "backfillLimited": false,
+        "possiblyTruncated": false,
+        "via": "browser"
+      },
+      {
+        "url": "https://www.qualcomm.com/research/artificial-intelligence/papers",
+        "streamId": "catalog-2e2216578bc5dacf",
+        "status": "ok",
+        "section": "AI research papers",
+        "itemCount": 12,
+        "newCount": 0,
+        "invalidCount": 0,
+        "bytes": 1229910,
+        "backfillLimited": false,
+        "possiblyTruncated": false,
+        "via": "browser"
+      }
+    ],
+    "publication": {
+      "version": 2,
+      "kind": "daily",
+      "date": "2026-10-15",
+      "publishedAt": "2026-10-15T05:37:38.682Z"
+    },
+    "delivery": {
+      "recipients": 21,
+      "sent": 21,
+      "failed": 0,
+      "needsReconciliation": 0,
+      "completedAt": "2026-10-15T05:38:58.667Z"
+    }
+  },
+  "replay": {
+    "days": [
+      "2026-10-13",
+      "2026-10-14",
+      "2026-10-15"
+    ],
+    "uniqueCandidates": 2187,
+    "before": 128,
+    "after": 128,
+    "newlyEligible": 0,
+    "examples": []
+  },
+  "newFeedItems": {
+    "total": 98,
+    "compute": 15,
+    "newlyEligible": [
+      {
+        "title": "(PR) AMD Introduces Its Next Ryzen AI Halo Developer Platform With Ryzen AI Max+ PRO 495",
+        "url": "https://www.techpowerup.com/353621/amd-introduces-its-next-ryzen-ai-halo-developer-platform-with-ryzen-ai-max-pro-495"
+      },
+      {
+        "title": "NVIDIA RTX 5060 Ti 16 GB Price Hikes Put Entry-Level GPU Above $1,200 in Japan",
+        "url": "https://www.techpowerup.com/353735/nvidia-rtx-5060-ti-16-gb-price-hikes-put-entry-level-gpu-above-usd-1-200-in-japan"
+      },
+      {
+        "title": "(PR) Sapphire Officially Unveils NITRO+ AMD Radeon RX 9070 XT Valor Mortis Edition",
+        "url": "https://www.techpowerup.com/353667/sapphire-officially-unveils-nitro-amd-radeon-rx-9070-xt-valor-mortis-edition"
+      },
+      {
+        "title": "(PR) Biostar Introduces the BIWCL-PAT Industrial Motherboard for Edge Computing and AIoT Applications",
+        "url": "https://www.techpowerup.com/353665/biostar-introduces-the-biwcl-pat-industrial-motherboard-for-edge-computing-and-aiot-applications"
+      },
+      {
+        "title": "NVIDIA RTX 5080 24 GB Reportedly Planned For Q1 2027, but Board Partners Are Still in the Dark",
+        "url": "https://www.techpowerup.com/353640/nvidia-rtx-5080-24-gb-reportedly-planned-for-q1-2027-but-board-partners-are-still-in-the-dark"
+      }
+    ]
+  }
+}

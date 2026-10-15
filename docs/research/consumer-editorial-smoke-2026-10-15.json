@@ -1,0 +1,227 @@
+{
+  "at": "2026-10-15T13:38:44.967Z",
+  "scope": "Live triage, source capture, quote verification, fact ranking, signal writing and local email rendering. No publication or email send. This is one representative story, not a full daily-issue quality evaluation.",
+  "triaged": [
+    {
+      "title": "(PR) AMD Introduces Its Next Ryzen AI Halo Developer Platform With Ryzen AI Max+ PRO 495",
+      "id": "c0",
+      "keep": true,
+      "importance": 8,
+      "section": "compute",
+      "angle": "Ryzen AI Max+ PRO 495 platform supports up to 192 GB unified memory and 300-billion-parameter models locally.",
+      "topics": [
+        "Chips",
+        "LLMs"
+      ]
+    },
+    {
+      "title": "NVIDIA RTX 5060 Ti 16 GB Price Hikes Put Entry-Level GPU Above $1,200 in Japan",
+      "id": "c1",
+      "keep": true,
+      "importance": 5,
+      "section": "compute",
+      "angle": "Japanese retailer listings put the RTX 5060 Ti 16 GB above $1,200.",
+      "topics": [
+        "Chips"
+      ]
+    },
+    {
+      "title": "(PR) Bolt Graphics Achieves Silicon Bring-up of Zeus Test Chip, Opens Taipei Office",
+      "id": "c2",
+      "keep": true,
+      "importance": 4,
+      "section": "compute",
+      "angle": "Bolt Graphics brought up its Zeus test chip ahead of a commercial GPU planned for general availability in 2027.",
+      "topics": [
+        "Chips"
+      ]
+    },
+    {
+      "title": "(PR) d-Matrix Announces Squadron Compute Clusters for AI Inference at Data Center Scale",
+      "id": "c3",
+      "keep": true,
+      "importance": 6,
+      "section": "compute",
+      "angle": "d-Matrix announced multi-rack inference clusters delivering megawatts of compute for data-center-scale deployments.",
+      "topics": [
+        "Chips",
+        "Data centers"
+      ]
+    },
+    {
+      "title": "(PR) Marvell Unveils Second-generation Structera X, Industry-first Six-channel CXL 3.2 Memory Expanders for AI Inference",
+      "id": "c4",
+      "keep": true,
+      "importance": 6,
+      "section": "compute",
+      "angle": "Marvell launched six-channel CXL 3.2 memory expanders for AI inference systems.",
+      "topics": [
+        "Chips",
+        "Data centers"
+      ]
+    },
+    {
+      "title": "(PR) Astera Labs Unveils Orion: A Compute-Agnostic Rack-Scale Architecture",
+      "id": "c5",
+      "keep": true,
+      "importance": 5,
+      "section": "compute",
+      "angle": "Astera Labs introduced a modular rack-scale reference design that lets customers choose their GPUs and CPUs.",
+      "topics": [
+        "Chips",
+        "Data centers"
+      ]
+    },
+    {
+      "title": "Microsoft Releases Maia 300 Compute Processor for Azure Cloud",
+      "id": "c6",
+      "keep": true,
+      "importance": 9,
+      "section": "compute",
+      "angle": "Microsoft says Maia 300 will scale to multi-gigawatt deployments as Azure’s primary inference processor.",
+      "topics": [
+        "Chips",
+        "Data centers"
+      ]
+    },
+    {
+      "title": "(PR) KIOXIA Introduces Direct Liquid Cooling Support for Enterprise SSDs",
+      "id": "c7",
+      "keep": true,
+      "importance": 4,
+      "section": "compute",
+      "angle": "Kioxia added direct-liquid-cooling models to its CM9 enterprise SSD lineup.",
+      "topics": [
+        "Chips",
+        "Data centers"
+      ]
+    },
+    {
+      "title": "GlobalFoundries to Operate Two New Semiconductor Fabs in New York",
+      "id": "c8",
+      "keep": true,
+      "importance": 8,
+      "section": "compute",
+      "angle": "A U.S.-Japan initiative of up to $21 billion plans two new fabs at GlobalFoundries’ New York site, with about $10 billion for the first.",
+      "topics": [
+        "Chips",
+        "Data centers"
+      ]
+    },
+    {
+      "title": "(PR) IBM and Siemens Collaborate on Research to Advance Nanostack Architecture",
+      "id": "c9",
+      "keep": true,
+      "importance": 4,
+      "section": "compute",
+      "angle": "IBM and Siemens are collaborating on research to advance IBM’s nanostack transistor architecture.",
+      "topics": [
+        "Chips"
+      ]
+    },
+    {
+      "title": "ASML Shipments to China Surge to 23% of System Sales in Q3 2026",
+      "id": "c10",
+      "keep": true,
+      "importance": 7,
+      "section": "compute",
+      "angle": "China accounted for 23% of ASML system sales in Q3 2026; the company reported €11.7 billion in revenue.",
+      "topics": [
+        "Chips"
+      ]
+    },
+    {
+      "title": "(PR) Sapphire Officially Unveils NITRO+ AMD Radeon RX 9070 XT Valor Mortis Edition",
+      "id": "c11",
+      "keep": false,
+      "importance": 2,
+      "section": "compute",
+      "angle": "Sapphire unveiled a Ghostrunner-themed Radeon RX 9070 XT edition.",
+      "topics": [
+        "Chips"
+      ]
+    },
+    {
+      "title": "(PR) Biostar Introduces the BIWCL-PAT Industrial Motherboard for Edge Computing and AIoT Applications",
+      "id": "c12",
+      "keep": false,
+      "importance": 3,
+      "section": "compute",
+      "angle": "Biostar introduced an industrial motherboard based on Intel Core Series 3 processors.",
+      "topics": [
+        "Chips"
+      ]
+    },
+    {
+      "title": "GlobalFoundries Returns to Advanced-Node Race With 7 nm-Class FDX Fusion",
+      "id": "c13",
+      "keep": true,
+      "importance": 6,
+      "section": "compute",
+      "angle": "GlobalFoundries announced 7 nm-class FDX Fusion technology, signaling a return to the advanced-node race.",
+      "topics": [
+        "Chips"
+      ]
+    },
+    {
+      "title": "NVIDIA RTX 5080 24 GB Reportedly Planned For Q1 2027, but Board Partners Are Still in the Dark",
+      "id": "c14",
+      "keep": true,
+      "importance": 5,
+      "section": "compute",
+      "angle": "An unconfirmed report says NVIDIA may plan a 24 GB RTX 5080 for Q1 2027 amid changes to RTX 5090 chip allocation.",
+      "topics": [
+        "Chips"
+      ]
+    }
+  ],
+  "story": {
+    "headline": "NVIDIA RTX 5060 Ti 16 GB listings reportedly start at ¥139,800 (about $882) in Japan",
+    "url": "https://www.techpowerup.com/353735/nvidia-rtx-5060-ti-16-gb-price-hikes-put-entry-level-gpu-above-usd-1-200-in-japan",
+    "topics": [
+      "Chips"
+    ],
+    "traction": "Reported · techpowerup.com",
+    "verifiedFacts": 6,
+    "droppedFacts": 0,
+    "captureFallback": false
+  },
+  "usage": [
+    {
+      "step": "triage",
+      "model": "openai/gpt-6-luna",
+      "ms": 18817,
+      "inputTokens": 3573,
+      "outputTokens": 1387,
+      "cost": 0.00114005
+    },
+    {
+      "step": "facts",
+      "model": "openai/gpt-6-luna",
+      "ms": 12741,
+      "inputTokens": 2872,
+      "outputTokens": 1275,
+      "cost": 0.000996425
+    },
+    {
+      "step": "impact",
+      "model": "typesafe-ai/jev",
+      "ms": 403,
+      "inputTokens": 1810,
+      "outputTokens": 88,
+      "cost": 0.00007602
+    },
+    {
+      "step": "signals",
+      "model": "openai/gpt-6.1-sol",
+      "ms": 7897,
+      "inputTokens": 1598,
+      "outputTokens": 336,
+      "cost": 0.0073535
+    }
+  ],
+  "rendered": {
+    "htmlBytes": 5969,
+    "textBytes": 600
+  }
+}

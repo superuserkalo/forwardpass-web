@@ -70,6 +70,9 @@ const TOPIC_KEYWORDS: Record<FeedTopic, string[]> = {
   "Vibe coding": ["vibe coding", "vibe-coding", "cursor", "windsurf", "bolt", "lovable", "replit"],
 };
 
+// Hardware names match words: "NPU" must not classify an API's "input" as chip news.
+const CONSUMER_CHIP_TERMS = /\b(?:VRAM|GDDR\d\w*|DDR5|GPU memory|graphics memory|unified memory|memory bandwidth|GeForce|RTX ?\d{4}|Radeon|Intel Arc|Intel Core|Ryzen|Snapdragon|Neural Engine|NPUs?|consumer chips?)\b/i;
+
 const IMAGE_PATTERN = /!\[[^\]]*]\((https?:\/\/[^)\s]+)\)/g;
 const LINK_PATTERN = /(?<!!)\[[^\]]*]\((https?:\/\/[^)\s]+)[^)]*\)/g;
 
@@ -111,7 +114,7 @@ export function sourceNameFromUrl(url: string): string {
 export function matchTopics(text: string): FeedTopic[] {
   const haystack = text.toLowerCase();
   return FEED_TOPICS.filter((topic) =>
-    TOPIC_KEYWORDS[topic].some((keyword) => haystack.includes(keyword)),
+    (topic === "Chips" && CONSUMER_CHIP_TERMS.test(text)) || TOPIC_KEYWORDS[topic].some((keyword) => haystack.includes(keyword)),
   );
 }
 
