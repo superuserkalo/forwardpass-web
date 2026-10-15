@@ -278,5 +278,50 @@
         "url": "https://www.techpowerup.com/353640/nvidia-rtx-5080-24-gb-reportedly-planned-for-q1-2027-but-board-partners-are-still-in-the-dark"
       }
     ]
+  },
+  "deployedCollection": {
+    "workerVersion": "2ad79743-46de-4c64-b1a9-9c9925345dd7",
+    "workflow": "collect-manual-1792071792070",
+    "completedAt": "2026-10-15T13:43:56.848Z",
+    "snapshot": "collection/runs/2026-10-15/13.json",
+    "collectedAt": "2026-10-15T13:43:13.127Z",
+    "items": 542,
+    "newHardwareFeeds": [
+      {
+        "url": "https://www.apple.com/newsroom/rss-feed.rss",
+        "streamId": "catalog-7e621a3a0d505d36",
+        "status": "ok",
+        "section": "Newsroom announcements",
+        "itemCount": 20,
+        "newCount": 7,
+        "invalidCount": 0,
+        "bytes": 18817,
+        "backfillLimited": false,
+        "possiblyTruncated": false
+      },
+      {
+        "url": "https://www.techpowerup.com/rss/news",
+        "streamId": "catalog-e8f857f61f4dee88",
+        "status": "ok",
+        "section": "Hardware news RSS",
+        "itemCount": 125,
+        "newCount": 90,
+        "invalidCount": 0,
+        "bytes": 345333,
+        "backfillLimited": false,
+        "possiblyTruncated": false
+      }
+    ]
+  },
+  "websiteDeployment": {
+    "commit": "a79fde392e1f6f68e955edae27951843aeaabb75",
+    "deployment": "dpl_5JYQjvvhHeBfa7V7qV34twmBTFHE",
+    "state": "READY",
+    "livePage": "https://theforwardpass.net/",
+    "observedCoverage": [
+      "consumer_chips",
+      "gpu_memory"
+    ],
+    "observedSourceCount": 1042
   }
 }
